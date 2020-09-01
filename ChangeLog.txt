@@ -34,6 +34,8 @@ Broker:
   subscription) against another topic filter (an ACL).
 - Performance: reduce memory allocations when sending packets.
 - The `allow_duplicate_messages` now defaults to `true`.
+- Return protocol error if a client attemps to subscribe to a shared
+  subscription and also sets no-local.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

@@ -25,6 +25,7 @@ tests = [
     (1, './01-connect-uname-pwd-no-flag.py'),
     (2, './01-connect-zero-length-id.py'),
 
+    (1, './02-shared-nolocal.py'),
     (1, './02-shared-qos0-v5.py'),
     (1, './02-subhier-crash.py'),
     (1, './02-subpub-b2c-topic-alias.py'),
