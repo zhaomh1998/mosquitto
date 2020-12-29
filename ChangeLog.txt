@@ -25,6 +25,9 @@ Apps:
 - Perform stricter parsing of input username in mosquitto_passwd. Closes
   #570126 (Eclipse bugzilla).
 
+Build:
+- Enable epoll support in CMake builds.
+
 
 1.6.12 - 2020-08-19
 ===================

@@ -21,6 +21,7 @@ if (WIN32)
 endif (WIN32)
 
 include(GNUInstallDirs)
+include(CheckSymbolExists)
 
 option(WITH_BUNDLED_DEPS "Build with bundled dependencies?" ON)
 option(WITH_TLS
@@ -88,6 +89,11 @@ if (WITH_DLT)
 	pkg_check_modules(DLT "automotive-dlt >= 2.11")
 	add_definitions("-DWITH_DLT")
 endif (WITH_DLT)
+
+check_symbol_exists(epoll_create "sys/epoll.h" HAVE_EPOLL)
+if (HAVE_EPOLL)
+	add_definitions("-DWITH_EPOLL")
+endif (HAVE_EPOLL)
 
 # ========================================
 # Include projects
