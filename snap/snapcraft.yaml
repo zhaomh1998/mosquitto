@@ -57,6 +57,7 @@ parts:
     make-parameters: ["prefix=/usr", "WITH_WEBSOCKETS=yes", "WITH_ADNS=yes", "CFLAGS=-Wall -ggdb -O2 -I$SNAPCRAFT_STAGE -D_GNU_SOURCE"]
     source: https://github.com/eclipse/mosquitto
     source-type: git
+    source-branch: 1.6.x
 
     build-packages:
       - libssl-dev
