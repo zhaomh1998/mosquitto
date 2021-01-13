@@ -215,6 +215,10 @@ int packet__write(struct mosquitto *mosq)
 	if(!mosq) return MOSQ_ERR_INVAL;
 	if(mosq->sock == INVALID_SOCKET) return MOSQ_ERR_NO_CONN;
 
+#ifdef WITH_BROKER
+	mux__add_out(mosq);
+#endif
+
 	pthread_mutex_lock(&mosq->current_out_packet_mutex);
 	pthread_mutex_lock(&mosq->out_packet_mutex);
 	if(mosq->out_packet && !mosq->current_out_packet){
@@ -294,6 +298,8 @@ int packet__write(struct mosquitto *mosq)
 			mosquitto__free(packet);
 			return MOSQ_ERR_SUCCESS;
 #endif
+		}else if(((packet->command)&0xF0) == CMD_PUBLISH){
+			G_PUB_MSGS_SENT_INC(1);
 		}
 
 		/* Free data and reset values */
@@ -312,6 +318,9 @@ int packet__write(struct mosquitto *mosq)
 
 #ifdef WITH_BROKER
 		mosq->next_msg_out = db.now_s + mosq->keepalive;
+		if(mosq->current_out_packet == NULL){
+			mux__remove_out(mosq);
+		}
 #else
 		pthread_mutex_lock(&mosq->msgtime_mutex);
 		mosq->next_msg_out = mosquitto_time() + mosq->keepalive;

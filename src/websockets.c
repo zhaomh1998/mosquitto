@@ -188,7 +188,6 @@ static int callback_mqtt(
 				if(mosq->sock != INVALID_SOCKET){
 					HASH_DELETE(hh_sock, db.contexts_by_sock, mosq);
 					mosq->sock = INVALID_SOCKET;
-					mosq->pollfd_index = -1;
 					mux__delete(mosq);
 				}
 				mosq->wsi = NULL;
@@ -333,7 +332,7 @@ static int callback_mqtt(
 						mosq->in_packet.remaining_length += (byte & 127) * mosq->in_packet.remaining_mult;
 						mosq->in_packet.remaining_mult *= 128;
 					}while((byte & 128) != 0);
-					mosq->in_packet.remaining_count = (int8_t)(mosq->in_packet.remaining_count -1);
+					mosq->in_packet.remaining_count = (int8_t)(mosq->in_packet.remaining_count * -1);
 
 					if(mosq->in_packet.remaining_length > 0){
 						mosq->in_packet.payload = mosquitto__malloc(mosq->in_packet.remaining_length*sizeof(uint8_t));
@@ -606,16 +605,44 @@ static int callback_http(
 			break;
 
 		case LWS_CALLBACK_ADD_POLL_FD:
-		case LWS_CALLBACK_DEL_POLL_FD:
-		case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
 			HASH_FIND(hh_sock, db.contexts_by_sock, &pollargs->fd, sizeof(pollargs->fd), mosq);
 			if(mosq){
-				if(pollargs->events & POLLOUT){
+				if(pollargs->events & LWS_POLLOUT){
 					mux__add_out(mosq);
 					mosq->ws_want_write = true;
 				}else{
 					mux__remove_out(mosq);
 				}
+			}else{
+				if(pollargs->events & POLLIN){
+					/* Assume this is a new listener */
+					listeners__add_websockets(lws_get_context(wsi), pollargs->fd);
+				}
+			}
+			break;
+
+		case LWS_CALLBACK_DEL_POLL_FD:
+			HASH_FIND(hh_sock, db.contexts_by_sock, &pollargs->fd, sizeof(pollargs->fd), mosq);
+			if(mosq){
+				mux__delete(mosq);
+			}else{
+				return 1;
+			}
+			break;
+
+		case LWS_CALLBACK_CHANGE_MODE_POLL_FD:
+			HASH_FIND(hh_sock, db.contexts_by_sock, &pollargs->fd, sizeof(pollargs->fd), mosq);
+			if(mosq){
+				if(pollargs->events & LWS_POLLHUP){
+					return 1;
+				}else if(pollargs->events & LWS_POLLOUT){
+					mux__add_out(mosq);
+					mosq->ws_want_write = true;
+				}else{
+					mux__remove_out(mosq);
+				}
+			}else{
+				return 1;
 			}
 			break;
 
@@ -641,7 +668,7 @@ static void log_wrap(int level, const char *line)
 	log__printf(NULL, MOSQ_LOG_WEBSOCKETS, "%s", l);
 }
 
-struct lws_context *mosq_websockets_init(struct mosquitto__listener *listener, const struct mosquitto__config *conf)
+void mosq_websockets_init(struct mosquitto__listener *listener, const struct mosquitto__config *conf)
 {
 	struct lws_context_creation_info info;
 	struct lws_protocols *p;
@@ -655,7 +682,7 @@ struct lws_context *mosq_websockets_init(struct mosquitto__listener *listener, c
 	p = mosquitto__calloc(protocol_count+1, sizeof(struct lws_protocols));
 	if(!p){
 		log__printf(NULL, MOSQ_LOG_ERR, "Out of memory.");
-		return NULL;
+		return;
 	}
 	for(i=0; protocols[i].name; i++){
 		p[i].name = protocols[i].name;
@@ -694,7 +721,7 @@ struct lws_context *mosq_websockets_init(struct mosquitto__listener *listener, c
 	if(!user){
 		mosquitto__free(p);
 		log__printf(NULL, MOSQ_LOG_ERR, "Out of memory.");
-		return NULL;
+		return;
 	}
 
 	if(listener->http_dir){
@@ -707,9 +734,10 @@ struct lws_context *mosq_websockets_init(struct mosquitto__listener *listener, c
 			mosquitto__free(user);
 			mosquitto__free(p);
 			log__printf(NULL, MOSQ_LOG_ERR, "Error: Unable to open http dir \"%s\".", listener->http_dir);
-			return NULL;
+			return;
 		}
 	}
+	user->listener = listener;
 
 	info.user = user;
 	info.pt_serv_buf_size = WS_SERV_BUF_SIZE;
@@ -718,7 +746,9 @@ struct lws_context *mosq_websockets_init(struct mosquitto__listener *listener, c
 	lws_set_log_level(conf->websockets_log_level, log_wrap);
 
 	log__printf(NULL, MOSQ_LOG_INFO, "Opening websockets listen socket on port %d.", listener->port);
-	return lws_create_context(&info);
+	listener->ws_in_init = true;
+	listener->ws_context = lws_create_context(&info);
+	listener->ws_in_init = false;
 }
 
 

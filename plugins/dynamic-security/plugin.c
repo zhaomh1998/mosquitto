@@ -18,7 +18,7 @@ Contributors:
 
 #include "config.h"
 
-#include <cJSON.h>
+#include <cjson/cJSON.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,6 +40,8 @@ struct dynsec__acl_default_access default_access = {false, false, false, false};
 void dynsec__command_reply(cJSON *j_responses, struct mosquitto *context, const char *command, const char *error, const char *correlation_data)
 {
 	cJSON *j_response;
+
+	UNUSED(context);
 
 	j_response = cJSON_CreateObject();
 	if(j_response == NULL) return;
@@ -81,6 +83,9 @@ static int dynsec_control_callback(int event, void *event_data, void *userdata)
 	struct mosquitto_evt_control *ed = event_data;
 	cJSON *tree, *commands;
 	cJSON *j_response_tree, *j_responses;
+
+	UNUSED(event);
+	UNUSED(userdata);
 
 	/* Create object for responses */
 	j_response_tree = cJSON_CreateObject();
@@ -173,6 +178,8 @@ int dynsec__process_get_default_acl_access(cJSON *j_responses, struct mosquitto 
 {
 	cJSON *tree, *jtmp, *j_data, *j_acls, *j_acl;
 	const char *admin_clientid, *admin_username;
+
+	UNUSED(command);
 
 	tree = cJSON_CreateObject();
 	if(tree == NULL){
@@ -346,16 +353,17 @@ static int dynsec__config_load(void)
 	char *json_str;
 	cJSON *tree;
 
-	/* Save to file */
-	fptr = fopen(config_file, "rt");
+	/* Load from file */
+	fptr = fopen(config_file, "rb");
 	if(fptr == NULL){
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error loading Dynamic security plugin config: File is not readable - check permissions.\n");
 		return 1;
 	}
 
 	fseek(fptr, 0, SEEK_END);
 	flen_l = ftell(fptr);
 	if(flen_l < 0){
-		mosquitto_log_printf(MOSQ_LOG_WARNING, "Error loading Dynamic security plugin config: %s\n", strerror(errno));
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error loading Dynamic security plugin config: %s\n", strerror(errno));
 		fclose(fptr);
 		return 1;
 	}else if(flen_l == 0){
@@ -366,10 +374,12 @@ static int dynsec__config_load(void)
 	fseek(fptr, 0, SEEK_SET);
 	json_str = mosquitto_calloc(flen+1, sizeof(char));
 	if(json_str == NULL){
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error: Out of memory.");
 		fclose(fptr);
 		return 1;
 	}
 	if(fread(json_str, 1, flen, fptr) != flen){
+		mosquitto_log_printf(MOSQ_LOG_WARNING, "Error loading Dynamic security plugin config: Unable to read file contents.\n");
 		mosquitto_free(json_str);
 		fclose(fptr);
 		return 1;
@@ -379,6 +389,7 @@ static int dynsec__config_load(void)
 	tree = cJSON_Parse(json_str);
 	mosquitto_free(json_str);
 	if(tree == NULL){
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error loading Dynamic security plugin config: File is not valid JSON.\n");
 		return 1;
 	}
 
@@ -422,6 +433,7 @@ void dynsec__config_save(void)
 	json_str = cJSON_Print(tree);
 	if(json_str == NULL){
 		cJSON_Delete(tree);
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error saving Dynamic security plugin config: Out of memory.\n");
 		return;
 	}
 	cJSON_Delete(tree);
@@ -432,6 +444,7 @@ void dynsec__config_save(void)
 	file_path = mosquitto_malloc(file_path_len);
 	if(file_path == NULL){
 		mosquitto_free(json_str);
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error saving Dynamic security plugin config: Out of memory.\n");
 		return;
 	}
 	snprintf(file_path, file_path_len, "%s.new", config_file);
@@ -440,6 +453,7 @@ void dynsec__config_save(void)
 	if(fptr == NULL){
 		mosquitto_free(json_str);
 		mosquitto_free(file_path);
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error saving Dynamic security plugin config: File is not writable - check permissions.\n");
 		return;
 	}
 	fwrite(json_str, 1, json_str_len, fptr);
@@ -457,6 +471,8 @@ void dynsec__config_save(void)
 int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, struct mosquitto_opt *options, int option_count)
 {
 	int i;
+
+	UNUSED(user_data);
 
 	for(i=0; i<option_count; i++){
 		if(!strcasecmp(options[i].key, "config_file")){
@@ -484,6 +500,10 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 
 int mosquitto_plugin_cleanup(void *user_data, struct mosquitto_opt *options, int option_count)
 {
+	UNUSED(user_data);
+	UNUSED(options);
+	UNUSED(option_count);
+
 	if(plg_id){
 		mosquitto_callback_unregister(plg_id, MOSQ_EVT_CONTROL, dynsec_control_callback, "$CONTROL/dynamic-security/v1");
 		mosquitto_callback_unregister(plg_id, MOSQ_EVT_BASIC_AUTH, dynsec_auth__basic_auth_callback, NULL);

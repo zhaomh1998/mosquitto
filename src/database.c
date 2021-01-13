@@ -50,6 +50,9 @@ bool db__ready_for_flight(struct mosquitto_msg_data *msgs, int qos)
 		 * There is no queueing option, unless the client is offline and
 		 * queue_qos0_messages is enabled.
 		 */
+		if(db.config->max_queued_messages == 0 && db.config->max_inflight_bytes == 0){
+			return true;
+		}
 		valid_bytes = msgs->msg_bytes - db.config->max_inflight_bytes < db.config->max_queued_bytes;
 		valid_count = msgs->msg_count - msgs->inflight_maximum < db.config->max_queued_messages;
 
@@ -87,8 +90,8 @@ bool db__ready_for_queue(struct mosquitto *context, int qos, struct mosquitto_ms
 {
 	int source_count;
 	int adjust_count;
-	unsigned long source_bytes;
-	unsigned long adjust_bytes = db.config->max_inflight_bytes;
+	size_t source_bytes;
+	size_t adjust_bytes = db.config->max_inflight_bytes;
 	bool valid_bytes;
 	bool valid_count;
 
@@ -145,10 +148,10 @@ int db__open(struct mosquitto__config *config)
 
 	db.subs = NULL;
 
-	subhier = sub__add_hier_entry(NULL, &db.subs, "", strlen(""));
+	subhier = sub__add_hier_entry(NULL, &db.subs, "", 0);
 	if(!subhier) return MOSQ_ERR_NOMEM;
 
-	subhier = sub__add_hier_entry(NULL, &db.subs, "$SYS", strlen("$SYS"));
+	subhier = sub__add_hier_entry(NULL, &db.subs, "$SYS", (uint16_t)strlen("$SYS"));
 	if(!subhier) return MOSQ_ERR_NOMEM;
 
 	retain__init();
@@ -308,6 +311,8 @@ static void db__message_remove(struct mosquitto_msg_data *msg_data, struct mosqu
 void db__message_dequeue_first(struct mosquitto *context, struct mosquitto_msg_data *msg_data)
 {
 	struct mosquitto_client_msg *msg;
+
+	UNUSED(context);
 
 	msg = msg_data->queued;
 	DL_DELETE(msg_data->queued, msg);

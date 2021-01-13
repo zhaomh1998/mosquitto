@@ -18,6 +18,7 @@ Contributors:
 
 #include "config.h"
 
+#include <ctype.h>
 #include <errno.h>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
@@ -240,6 +241,10 @@ static int pwfile_iterate(FILE *fptr, FILE *ftmp,
  * ====================================================================== */
 static int delete_pwuser_cb(FILE *fptr, FILE *ftmp, const char *username, const char *password, const char *line, struct cb_helper *helper)
 {
+	UNUSED(fptr);
+	UNUSED(password);
+	UNUSED(line);
+
 	if(strcmp(username, helper->username)){
 		/* If this isn't the username to delete, write it to the new file */
 		fprintf(ftmp, "%s", line);
@@ -273,7 +278,14 @@ int delete_pwuser(FILE *fptr, FILE *ftmp, const char *username)
  * ====================================================================== */
 static int update_file_cb(FILE *fptr, FILE *ftmp, const char *username, const char *password, const char *line, struct cb_helper *helper)
 {
-	return output_new_password(ftmp, username, password, helper->iterations);
+	UNUSED(fptr);
+	UNUSED(line);
+
+	if(helper){
+		return output_new_password(ftmp, username, password, helper->iterations);
+	}else{
+		return output_new_password(ftmp, username, password, PW_DEFAULT_ITERATIONS);
+	}
 }
 
 int update_file(FILE *fptr, FILE *ftmp)
@@ -288,6 +300,9 @@ int update_file(FILE *fptr, FILE *ftmp)
 static int update_pwuser_cb(FILE *fptr, FILE *ftmp, const char *username, const char *password, const char *line, struct cb_helper *helper)
 {
 	int rc = 0;
+
+	UNUSED(fptr);
+	UNUSED(password);
 
 	if(strcmp(username, helper->username)){
 		/* If this isn't the matching user, then writing out the exiting line */
@@ -372,6 +387,32 @@ void handle_sigint(int signal)
 	UNUSED(signal);
 
 	exit(0);
+}
+
+
+static bool is_username_valid(const char *username)
+{
+	int i;
+	size_t slen;
+
+	if(username){
+		slen = strlen(username);
+		if(slen > 65535){
+			fprintf(stderr, "Error: Username must be less than 65536 characters long.\n");
+			return false;
+		}
+		for(i=0; i<slen; i++){
+			if(iscntrl(username[i])){
+				fprintf(stderr, "Error: Username must not contain control characters.\n");
+				return false;
+			}
+		}
+		if(strchr(username, ':')){
+			fprintf(stderr, "Error: Username must not contain the ':' character.\n");
+			return false;
+		}
+	}
+	return true;
 }
 
 int main(int argc, char *argv[])
@@ -501,7 +542,7 @@ int main(int argc, char *argv[])
 	}else if(batch_mode == true && idx+3 == argc){
 		password_file_tmp = argv[idx];
 		username = argv[idx+1];
-		password_cmd = argv[idx+1];
+		password_cmd = argv[idx+2];
 	}else if(batch_mode == false && idx+2 == argc){
 		password_file_tmp = argv[idx];
 		username = argv[idx+1];
@@ -510,15 +551,8 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	if(username){
-		if(strlen(username) > 65535){
-			fprintf(stderr, "Error: Username must be less than 65536 characters long.\n");
-			return 1;
-		}
-		if(strchr(username, ':')){
-			fprintf(stderr, "Error: Username must not contain the ':' character.\n");
-			return 1;
-		}
+	if(!is_username_valid(username)){
+		return 1;
 	}
 	if(password_cmd && strlen(password_cmd) > 65535){
 		fprintf(stderr, "Error: Password must be less than 65536 characters long.\n");

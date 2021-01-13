@@ -393,9 +393,6 @@ static int net__try_connect_tcp(const char *host, uint16_t port, mosq_sock_t *so
 	struct addrinfo *ainfo_bind, *rp_bind;
 	int s;
 	int rc = MOSQ_ERR_SUCCESS;
-#ifdef WIN32
-	uint32_t val = 1;
-#endif
 
 	ainfo_bind = NULL;
 
@@ -715,6 +712,10 @@ static int net__init_ssl_ctx(struct mosquitto *mosq)
 			return MOSQ_ERR_INVAL;
 		}
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+		/* Allow use of DHE ciphers */
+		SSL_CTX_set_dh_auto(mosq->ssl_ctx, 1);
+#endif
 		/* Disable compression */
 		SSL_CTX_set_options(mosq->ssl_ctx, SSL_OP_NO_COMPRESSION);
 
@@ -991,7 +992,7 @@ ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 #endif
 }
 
-ssize_t net__write(struct mosquitto *mosq, void *buf, size_t count)
+ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 {
 #ifdef WITH_TLS
 	int ret;

@@ -661,10 +661,14 @@ int config__read(struct mosquitto__config *config, bool reload)
 		}
 		mosquitto__free(config->persistence_filepath);
 		if(config->persistence_location && strlen(config->persistence_location)){
-			len = strlen(config->persistence_location) + strlen(config->persistence_file) + 1;
+			len = strlen(config->persistence_location) + strlen(config->persistence_file) + 2;
 			config->persistence_filepath = mosquitto__malloc(len);
 			if(!config->persistence_filepath) return MOSQ_ERR_NOMEM;
-			snprintf(config->persistence_filepath, len, "%s%s", config->persistence_location, config->persistence_file);
+#ifdef WIN32
+			snprintf(config->persistence_filepath, len, "%s\\%s", config->persistence_location, config->persistence_file);
+#else
+			snprintf(config->persistence_filepath, len, "%s/%s", config->persistence_location, config->persistence_file);
+#endif
 		}else{
 			config->persistence_filepath = mosquitto__strdup(config->persistence_file);
 			if(!config->persistence_filepath) return MOSQ_ERR_NOMEM;
@@ -1820,7 +1824,6 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 						}else if(!strcmp(token, "websockets")){
 #ifdef WITH_WEBSOCKETS
 							cur_listener->protocol = mp_websockets;
-							config->have_websockets_listener = true;
 #else
 							log__printf(NULL, MOSQ_LOG_ERR, "Error: Websockets support not available.");
 							return MOSQ_ERR_INVAL;
@@ -2043,7 +2046,7 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 						token = strtok_r(NULL, " ", &saveptr);
 						if(token){
 							if (token[0] == '#'){
-								strtok_r(NULL, "", &saveptr);
+								(void)strtok_r(NULL, "", &saveptr);
 							}
 							qos = (uint8_t)atoi(token);
 							if(qos > 2){
@@ -2056,7 +2059,7 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 								if(!strcmp(token, "\"\"") || token[0] == '#'){
 									local_prefix = NULL;
 									if (token[0] == '#'){
-										strtok_r(NULL, "", &saveptr);
+										(void)strtok_r(NULL, "", &saveptr);
 									}
 								}else{
 									local_prefix = token;
@@ -2271,7 +2274,7 @@ static int config__check(struct mosquitto__config *config)
 				if(!config->listeners[i].security_options.auto_id_prefix){
 					return MOSQ_ERR_NOMEM;
 				}
-				config->listeners[i].security_options.auto_id_prefix_len = strlen("auto-");
+				config->listeners[i].security_options.auto_id_prefix_len = (uint16_t)strlen("auto-");
 			}
 		}
 	}else{
@@ -2280,7 +2283,7 @@ static int config__check(struct mosquitto__config *config)
 			if(!config->security_options.auto_id_prefix){
 				return MOSQ_ERR_NOMEM;
 			}
-			config->security_options.auto_id_prefix_len = strlen("auto-");
+			config->security_options.auto_id_prefix_len = (uint16_t)strlen("auto-");
 		}
 	}
 

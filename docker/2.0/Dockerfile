@@ -3,11 +3,13 @@ FROM alpine:3.12
 LABEL maintainer="Roger Light <roger@atchoo.org>" \
     description="Eclipse Mosquitto MQTT Broker"
 
-ENV VERSION=2.0.0 \
-    DOWNLOAD_SHA256=ab89ddba508131b82c274f5697b03e6a067ac89cc2af4ac59dc124ac135d95a4 \
+ENV VERSION=2.0.5 \
+    DOWNLOAD_SHA256=67eaeb4160e5793715c017f53c4f42808d76129b7ad131d765a6a23792e58d5d \
     GPG_KEYS=A0D6EEA1DCAE49A635A3B2F0779B22DFB3E717B7 \
     LWS_VERSION=2.4.2 \
-    CJSON_VERSION=1.7.14
+    LWS_SHA256=73012d7fcf428dedccc816e83a63a01462e27819d5537b8e0d0c7264bfacfad6 \
+    CJSON_VERSION=1.7.14 \
+    CJSON_SHA256=fb50a663eefdc76bafa80c82bc045af13b1363e8f45cec8b442007aef6a41343
 
 RUN set -x && \
     apk --no-cache add --virtual build-deps \
@@ -17,6 +19,7 @@ RUN set -x && \
         libressl-dev \
         util-linux-dev && \
     wget https://github.com/warmcat/libwebsockets/archive/v${LWS_VERSION}.tar.gz -O /tmp/lws.tar.gz && \
+    echo "$LWS_SHA256  /tmp/lws.tar.gz" | sha256sum -c - && \
     mkdir -p /build/lws && \
     tar --strip=1 -xf /tmp/lws.tar.gz -C /build/lws && \
     rm /tmp/lws.tar.gz && \
@@ -35,6 +38,7 @@ RUN set -x && \
     make -j "$(nproc)" && \
     rm -rf /root/.cmake && \
     wget https://github.com/DaveGamble/cJSON/archive/v${CJSON_VERSION}.tar.gz -O /tmp/cjson.tar.gz && \
+    echo "$CJSON_SHA256  /tmp/cjson.tar.gz" | sha256sum -c - && \
     mkdir -p /build/cjson && \
     tar --strip=1 -xf /tmp/cjson.tar.gz -C /build/cjson && \
     rm /tmp/cjson.tar.gz && \
@@ -70,14 +74,14 @@ RUN set -x && \
     tar --strip=1 -xf /tmp/mosq.tar.gz -C /build/mosq && \
     rm /tmp/mosq.tar.gz && \
     make -C /build/mosq -j "$(nproc)" \
-        CFLAGS="-Wall -O2 -I/build/lws/include -I/build/cjson" \
+        CFLAGS="-Wall -O2 -I/build/lws/include -I/build" \
         LDFLAGS="-L/build/lws/lib -L/build/cjson" \
         WITH_ADNS=no \
         WITH_DOCS=no \
         WITH_SHARED_LIBRARIES=yes \
         WITH_SRV=no \
         WITH_STRIP=yes \
-		WITH_TLS_PSK=no \
+        WITH_TLS_PSK=no \
         WITH_WEBSOCKETS=yes \
         prefix=/usr \
         binary && \

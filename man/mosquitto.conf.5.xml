@@ -824,8 +824,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 				<term><option>persistence_location</option> <replaceable>path</replaceable></term>
 				<listitem>
 					<para>The path where the persistence database should be
-						stored. Must end in a trailing slash. If not given,
-						then the current directory is used.</para>
+						stored. If not given, then the current directory is used.</para>
 
 					<para>This option applies globally.</para>
 
@@ -869,7 +868,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 					<para>If mosquitto is being automatically started by an
 						init script it will usually be required to write a pid
 						file. This should then be configured as e.g.
-						/var/run/mosquitto.pid</para>
+						/var/run/mosquitto/mosquitto.pid</para>
 					<para>Not reloaded on reload signal.</para>
 				</listitem>
 			</varlistentry>
@@ -1036,21 +1035,13 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 							<option>bind_address</option> option but is useful
 							when an interface has multiple addresses or the
 							address may change.</para>
-						<para>It is valid to use this option together with
+						<para>If used at the same time as the
 							<option>bind_address</option> for the default
 							listener, or the <replaceable>bind
-								address/host</replaceable> part of the
-							<option>listener</option> definition.  Care should
-							be taken to ensure that the address being bound to
-							is on the interface being bound to.  If you set the
-							<option>bind_interface</option> to be
-							<replaceable>eth0</replaceable>, and
-							<option>bind_address</option> to
-							<replaceable>127.0.0.1</replaceable>, then the
-							broker will start correctly but you will be unable
-							to connect.</para>
-						<para>This option is currently only available on
-							Linux, and requires elevated privileges.</para>
+							address/host</replaceable> part of the
+							<option>listener</option>, then <option>bind_interface</option>
+							will take priority.</para>
+						<para>This option is not available on Windows.</para>
 						<para>Not reloaded on reload signal.</para>
 					</listitem>
 				</varlistentry>

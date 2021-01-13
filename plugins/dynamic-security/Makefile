@@ -3,8 +3,7 @@ include ../../config.mk
 .PHONY : all binary check clean reallyclean test install uninstall
 
 PLUGIN_NAME=mosquitto_dynamic_security
-LOCAL_CPPFLAGS=-I/usr/include/cjson -I/usr/local/include/cjson -I../../src/
-LOCAL_LDFLAGS=-L/usr/local/lib
+LOCAL_CPPFLAGS=-I../../src/
 
 OBJS=	\
 		acl.o \
@@ -33,7 +32,7 @@ all : ${ALL_DEPS}
 binary : ${PLUGIN_NAME}.so
 
 ${PLUGIN_NAME}.so : ${OBJS}
-	${CROSS_COMPILE}${CC} $(PLUGIN_LDFLAGS) $(LOCAL_LDFLAGS) -fPIC -shared $^ -o $@ -lcjson
+	${CROSS_COMPILE}${CC} $(PLUGIN_LDFLAGS) -fPIC -shared $^ -o $@ -lcjson
 
 acl.o : acl.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
@@ -75,9 +74,13 @@ clean:
 check: test
 test:
 
-install: ${PLUGIN_NAME}.so
-	$(INSTALL) -d "${DESTDIR}$(prefix)/lib"
-	$(INSTALL) ${STRIP_OPTS} ${PLUGIN_NAME}.so "${DESTDIR}${prefix}/lib/${PLUGIN_NAME}.so"
+install: all
+ifeq ($(WITH_CJSON),yes)
+ifeq ($(WITH_TLS),yes)
+	$(INSTALL) -d "${DESTDIR}$(libdir)"
+	$(INSTALL) ${STRIP_OPTS} ${PLUGIN_NAME}.so "${DESTDIR}${libdir}/${PLUGIN_NAME}.so"
+endif
+endif
 
 uninstall :
-	-rm -f "${DESTDIR}${prefix}/lib/${PLUGIN_NAME}.so"
+	-rm -f "${DESTDIR}${libdir}/${PLUGIN_NAME}.so"
