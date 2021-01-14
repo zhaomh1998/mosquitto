@@ -213,11 +213,13 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 	pthread_mutex_init(&mosq->mid_mutex, NULL);
 	mosq->thread_id = pthread_self();
 #endif
-	/* This must be after pthread_mutex_init(), otherwise the log mutex may be
-	 * used before being initialised. */
-	if(net__socketpair(&mosq->sockpairR, &mosq->sockpairW)){
-		log__printf(mosq, MOSQ_LOG_WARNING,
-				"Warning: Unable to open socket pair, outgoing publish commands may be delayed.");
+	if(mosq->disable_socketpair == false){
+		/* This must be after pthread_mutex_init(), otherwise the log mutex may be
+		* used before being initialised. */
+		if(net__socketpair(&mosq->sockpairR, &mosq->sockpairW)){
+			log__printf(mosq, MOSQ_LOG_WARNING,
+					"Warning: Unable to open socket pair, outgoing publish commands may be delayed.");
+		}
 	}
 
 	return MOSQ_ERR_SUCCESS;

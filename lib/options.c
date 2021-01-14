@@ -416,6 +416,10 @@ int mosquitto_int_option(struct mosquitto *mosq, enum mosq_opt_t option, int val
 	if(!mosq) return MOSQ_ERR_INVAL;
 
 	switch(option){
+		case MOSQ_OPT_DISABLE_SOCKETPAIR:
+			mosq->disable_socketpair = (bool)value;
+			break;
+
 		case MOSQ_OPT_PROTOCOL_VERSION:
 			if(value == MQTT_PROTOCOL_V31){
 				mosq->protocol = mosq_p_mqtt31;

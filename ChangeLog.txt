@@ -1,3 +1,13 @@
+2.1.0 - 2021-xx-xx
+==================
+
+Client library:
+- Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
+  feature that allows the network thread to be woken from select() by another
+  thread when e.g.  mosquitto_publish() is called. This reduces the number of
+  sockets used by each client by two.
+
+
 2.0.6 - 2021-01-xx
 ==================
 

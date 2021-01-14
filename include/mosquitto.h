@@ -138,6 +138,7 @@ enum mosq_opt_t {
 	MOSQ_OPT_TCP_NODELAY = 11,
 	MOSQ_OPT_BIND_ADDRESS = 12,
 	MOSQ_OPT_TLS_USE_OS_CERTS = 13,
+	MOSQ_OPT_DISABLE_SOCKETPAIR = 14,
 };
 
 
@@ -1540,6 +1541,14 @@ libmosq_EXPORT int mosquitto_opts_set(struct mosquitto *mosq, enum mosq_opt_t op
  *	MOSQ_OPT_TLS_USE_OS_CERTS - Set to 1 to instruct the client to load and
  *	          trust OS provided CA certificates for use with TLS connections.
  *	          Set to 0 (the default) to only use manually specified CA certs.
+ *
+ *	MOSQ_OPT_DISABLE_SOCKETPAIR - By default, each client connected will create
+ *            an internal pair of connected sockets to allow the network thread
+ *            to be notified and woken up if another thread calls
+ *            <mosquitto_publish> or other similar command. If you are
+ *            operating with an external loop, this is not necessary and
+ *            consumes an extra two sockets per client. Set this option to 1 to
+ *            disable the use of the socket pair.
  */
 libmosq_EXPORT int mosquitto_int_option(struct mosquitto *mosq, enum mosq_opt_t option, int value);
 
