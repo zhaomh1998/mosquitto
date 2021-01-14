@@ -65,6 +65,7 @@ enum mosquitto_plugin_event {
 	MOSQ_EVT_PSK_KEY = 8,
 	MOSQ_EVT_TICK = 9,
 	MOSQ_EVT_DISCONNECT = 10,
+	MOSQ_EVT_CONNECT = 11,
 };
 
 /* Data for the MOSQ_EVT_RELOAD event */
@@ -162,6 +163,13 @@ struct mosquitto_evt_tick {
 	void *future2[4];
 };
 
+/* Data for the MOSQ_EVT_CONNECT event */
+struct mosquitto_evt_connect {
+	void *future;
+	struct mosquitto *client;
+	void *future2[4];
+};
+
 /* Data for the MOSQ_EVT_DISCONNECT event */
 struct mosquitto_evt_disconnect {
 	void *future;
@@ -185,15 +193,40 @@ typedef struct mosquitto_plugin_id_t mosquitto_plugin_id_t;
  *  identifier - the plugin identifier, as provided by <mosquitto_plugin_init>.
  *  event - the event to register a callback for. Can be one of:
  *          * MOSQ_EVT_RELOAD
+ *              Called when the broker is sent a signal indicating it should
+ *              reload its configuration.
  *          * MOSQ_EVT_ACL_CHECK
+ *              Called when a publish/subscribe/unsubscribe command is received
+ *              and the broker wants to check when the client is allowed to carry
+ *              out this command.
  *          * MOSQ_EVT_BASIC_AUTH
+ *              Called when a client connects to the broker, to allow the
+ *              username/password/clientid to be authenticated.
  *          * MOSQ_EVT_EXT_AUTH_START
+ *              Called when an MQTT v5 client connects, if it is using extended
+ *              authentication.
  *          * MOSQ_EVT_EXT_AUTH_CONTINUE
+ *              Called when an MQTT v5 client connects, if it is using extended
+ *              authentication.
  *          * MOSQ_EVT_CONTROL
+ *              Called on receipt of a $CONTROL message that the plugin has
+ *              registered for.
  *          * MOSQ_EVT_MESSAGE
+ *              Called for each PUBLISH message after it has been received and
+ *              authorised, but before it is sent to subscribing clients. The
+ *              contents of the message can be modified.
  *          * MOSQ_EVT_PSK_KEY
+ *              Called when a client connects with TLS-PSK and the broker needs
+ *              the PSK information.
  *          * MOSQ_EVT_TICK
+ *              Called periodically in the event loop. At the moment this
+ *              occurs at a regular frequency, but this should not be relied
+ *              upon.
  *          * MOSQ_EVT_DISCONNECT
+ *              Called when a client disconnects from the broker.
+ *          * MOSQ_EVT_CONNECT
+ *              Called when a client has successfully connected to the broker,
+ *              i.e. has been authenticated.
  *  cb_func - the callback function
  *  event_data - event specific data
  *
@@ -229,6 +262,7 @@ mosq_EXPORT int mosquitto_callback_register(
  *          * MOSQ_EVT_PSK_KEY
  *          * MOSQ_EVT_TICK
  *          * MOSQ_EVT_DISCONNECT
+ *          * MOSQ_EVT_CONNECT
  *  cb_func - the callback function
  *  event_data - event specific data
  *

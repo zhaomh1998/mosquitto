@@ -283,6 +283,10 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 	rc = db__message_write_queued_out(context);
 	if(rc) return rc;
 	rc = db__message_write_inflight_out_all(context);
+
+	if(rc == MOSQ_ERR_SUCCESS){
+		plugin__handle_connect(context);
+	}
 	return rc;
 error:
 	free(auth_data_out);

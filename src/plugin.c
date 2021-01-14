@@ -103,6 +103,29 @@ int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__auth
 }
 
 
+void plugin__handle_connect(struct mosquitto *context)
+{
+	struct mosquitto_evt_connect event_data;
+	struct mosquitto__callback *cb_base;
+	struct mosquitto__security_options *opts;
+
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return;
+		}
+		opts = &context->listener->security_options;
+	}else{
+		opts = &db.config->security_options;
+	}
+	memset(&event_data, 0, sizeof(event_data));
+
+	event_data.client = context;
+	DL_FOREACH(opts->plugin_callbacks.connect, cb_base){
+		cb_base->cb(MOSQ_EVT_CONNECT, &event_data, cb_base->userdata);
+	}
+}
+
+
 void plugin__handle_disconnect(struct mosquitto *context, int reason)
 {
 	struct mosquitto_evt_disconnect event_data;
@@ -116,8 +139,8 @@ void plugin__handle_disconnect(struct mosquitto *context, int reason)
 		opts = &context->listener->security_options;
 	}else{
 		opts = &db.config->security_options;
-		memset(&event_data, 0, sizeof(event_data));
 	}
+	memset(&event_data, 0, sizeof(event_data));
 
 	event_data.client = context;
 	event_data.reason = reason;
@@ -243,6 +266,9 @@ int mosquitto_callback_register(
 			break;
 		case MOSQ_EVT_DISCONNECT:
 			cb_base = &security_options->plugin_callbacks.disconnect;
+			break;
+		case MOSQ_EVT_CONNECT:
+			cb_base = &security_options->plugin_callbacks.connect;
 			break;
 		default:
 			return MOSQ_ERR_NOT_SUPPORTED;

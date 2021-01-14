@@ -1,6 +1,11 @@
 2.1.0 - 2021-xx-xx
 ==================
 
+Broker:
+- Add MOSQ_EVT_CONNECT, to allow plugins to know when a client has
+  successfully authenticated to the broker.
+- Add connection-state example plugin to demonstrate MOSQ_EVT_CONNECT.
+
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
   feature that allows the network thread to be woken from select() by another

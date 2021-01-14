@@ -150,6 +150,7 @@ struct plugin__callbacks{
 	struct mosquitto__callback *tick;
 	struct mosquitto__callback *acl_check;
 	struct mosquitto__callback *basic_auth;
+	struct mosquitto__callback *connect;
 	struct mosquitto__callback *control;
 	struct mosquitto__callback *disconnect;
 	struct mosquitto__callback *ext_auth_continue;
@@ -762,6 +763,7 @@ void listeners__add_websockets(struct lws_context *ws_context, mosq_sock_t fd);
  * Plugin related functions
  * ============================================================ */
 int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__auth_plugin *plugin, struct mosquitto_opt *auth_options, int auth_option_count, void *lib);
+void plugin__handle_connect(struct mosquitto *context);
 void plugin__handle_disconnect(struct mosquitto *context, int reason);
 int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store *stored);
 void LIB_ERROR(void);

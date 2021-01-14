@@ -7,6 +7,12 @@ This is a fully functioning plugin that implements authentication and access
 control, with configuration via a $CONTROL topic. See the readme in
 dynamic-security for more information.
 
+## Connection state
+This is an **example** plugin to demonstrate the use of the connect and
+disconnect events. It publishes messages to
+$SYS/broker/connection/client/<client id>/state for every client that connects
+to the broker, to indicate the connection state of that client.
+
 ## Message timestamp
 This is an **example** plugin to demonstrate how it is possible to attach MQTT v5 properties to messages after they have been received, and before they are sent on to subscribers.
 
