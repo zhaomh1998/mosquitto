@@ -1146,6 +1146,29 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge and/or TLS-PSK support not available.");
 #endif
+				}else if(!strcmp(token, "bridge_reload_type")){
+#ifdef WITH_BRIDGE
+					if(!cur_bridge){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
+						return MOSQ_ERR_INVAL;
+					}
+					token = strtok_r(NULL, " ", &saveptr);
+					if(token){
+						if(!strcmp(token, "lazy")){
+							cur_bridge->reload_type = brt_lazy;
+						}else if(!strcmp(token, "immediate")){
+							cur_bridge->reload_type = brt_immediate;
+						}else{
+							log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge_reload_type value in configuration (%s).", token);
+							return MOSQ_ERR_INVAL;
+						}
+					}else{
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Empty bridge_reload_type value in configuration.");
+						return MOSQ_ERR_INVAL;
+					}
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
+#endif
 				}else if(!strcmp(token, "bridge_tls_version")){
 #if defined(WITH_BRIDGE) && defined(WITH_TLS)
 					if(!cur_bridge){
@@ -1936,29 +1959,6 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 						}
 					}else{
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Empty start_type value in configuration.");
-						return MOSQ_ERR_INVAL;
-					}
-#else
-					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
-#endif
-				}else if(!strcmp(token, "reload_type")){
-#ifdef WITH_BRIDGE
-					if(!cur_bridge){
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
-						return MOSQ_ERR_INVAL;
-					}
-					token = strtok_r(NULL, " ", &saveptr);
-					if(token){
-						if(!strcmp(token, "lazy")){
-							cur_bridge->reload_type = brt_lazy;
-						}else if(!strcmp(token, "immediate")){
-							cur_bridge->reload_type = brt_immediate;
-						}else{
-							log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid reload_type value in configuration (%s).", token);
-							return MOSQ_ERR_INVAL;
-						}
-					}else{
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: Empty reload_type value in configuration.");
 						return MOSQ_ERR_INVAL;
 					}
 #else
