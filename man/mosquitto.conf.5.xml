@@ -2042,7 +2042,7 @@ topic clients/total in 0 test/mosquitto/org/ $SYS/broker/
 					<listitem>
 						<para>If you change bridge options in the configuration file,
 						those configuration changes are applied during a bridge
-						reconnection. The <option>bridge_reload_type<option> option
+						reconnection. The <option>bridge_reload_type</option> option
 						determines when that reconnection happens, and can be set to either
 						<replaceable>lazy</replaceable> or <replaceable>immediate</replaceable>.</para>
 
