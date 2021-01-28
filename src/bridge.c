@@ -26,6 +26,7 @@ Contributors:
 #ifndef WIN32
 #include <netdb.h>
 #include <sys/socket.h>
+#include <netinet/tcp.h>
 #else
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -156,6 +157,37 @@ void bridge__start_all(void)
 
 		db.config->bridges[i] = NULL;
 	}
+}
+
+int bridge__set_tcp_keepalive(struct mosquitto *context)
+{
+	unsigned int idle = context->bridge->tcp_keepalive_idle;
+	unsigned int interval = context->bridge->tcp_keepalive_interval;
+	unsigned int counter = context->bridge->tcp_keepalive_counter;
+
+	if (idle == 0 || interval == 0 || counter == 0) return MOSQ_ERR_SUCCESS;
+
+	unsigned int enabled = 1;
+
+	bool ret;
+
+#ifdef WIN32
+	ret =
+		setsockopt(context->sock, SOL_SOCKET, SO_KEEPALIVE, (char *)&enabled, sizeof(enabled)) ||
+		setsockopt(context->sock, IPPROTO_TCP, TCP_KEEPIDLE, (char *)&idle, sizeof(idle)) ||
+		setsockopt(context->sock, IPPROTO_TCP, TCP_KEEPINTVL, (char *)&interval, sizeof(interval)) ||
+		setsockopt(context->sock, IPPROTO_TCP, TCP_KEEPCNT, (char *)&counter, sizeof(counter));
+#else
+	ret =
+		setsockopt(context->sock, SOL_SOCKET, SO_KEEPALIVE, (const void*)&enabled, sizeof(enabled)) ||
+		setsockopt(context->sock, IPPROTO_TCP, TCP_KEEPIDLE, (const void*)&idle, sizeof(idle)) ||
+		setsockopt(context->sock, IPPROTO_TCP, TCP_KEEPINTVL, (const void*)&interval, sizeof(interval)) ||
+		setsockopt(context->sock, IPPROTO_TCP, TCP_KEEPCNT, (const void*)&counter, sizeof(counter));
+#endif
+
+	if (ret) return MOSQ_ERR_UNKNOWN;
+
+	return MOSQ_ERR_SUCCESS;
 }
 
 #if defined(__GLIBC__) && defined(WITH_ADNS)
@@ -326,6 +358,8 @@ int bridge__connect_step3(struct mosquitto *context)
 		context->bridge->primary_retry = db.now_s + 5;
 	}
 
+	if (bridge__set_tcp_keepalive(context) != MOSQ_ERR_SUCCESS) return MOSQ_ERR_UNKNOWN;
+
 	rc = send__connect(context, context->keepalive, context->clean_start, NULL);
 	if(rc == MOSQ_ERR_SUCCESS){
 		bridge__backoff_reset(context);
@@ -466,6 +500,8 @@ int bridge__connect(struct mosquitto *context)
 	}
 
 	HASH_ADD(hh_sock, db.contexts_by_sock, sock, sizeof(context->sock), context);
+
+	if (bridge__set_tcp_keepalive(context) != MOSQ_ERR_SUCCESS) return MOSQ_ERR_UNKNOWN;
 
 	rc2 = send__connect(context, context->keepalive, context->clean_start, NULL);
 	if(rc2 == MOSQ_ERR_SUCCESS){

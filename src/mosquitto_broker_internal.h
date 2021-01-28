@@ -519,6 +519,9 @@ struct mosquitto__bridge{
 	bool clean_start;
 	int8_t clean_start_local;
 	uint16_t keepalive;
+	unsigned int tcp_keepalive_idle;
+	unsigned int tcp_keepalive_interval;
+	unsigned int tcp_keepalive_counter;
 	struct mosquitto__bridge_topic *topics;
 	int topic_count;
 	bool topic_remapping;
