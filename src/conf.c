@@ -1169,6 +1169,36 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
 #endif
+				}else if(!strcmp(token, "bridge_tcp_keepalive")){
+#ifdef WITH_BRIDGE
+					if(!cur_bridge){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
+						return MOSQ_ERR_INVAL;
+					}
+
+					if(conf__parse_int(&token, "bridge_tcp_keepalive_idle", &tmp_int, &saveptr)) return MOSQ_ERR_INVAL;
+					if(tmp_int <= 0) {
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: invalid TCP keepalive idle value.");
+						return MOSQ_ERR_INVAL;
+					}
+					cur_bridge->tcp_keepalive_idle = (unsigned int)tmp_int;
+
+					if(conf__parse_int(&token, "bridge_tcp_keepalive_interval", &tmp_int, &saveptr)) return MOSQ_ERR_INVAL;
+					if(tmp_int <= 0) {
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: invalid TCP keepalive interval value.");
+						return MOSQ_ERR_INVAL;
+					}
+					cur_bridge->tcp_keepalive_interval = (unsigned int)tmp_int;
+
+					if(conf__parse_int(&token, "bridge_tcp_keepalive_counter", &tmp_int, &saveptr)) return MOSQ_ERR_INVAL;
+					if(tmp_int <= 0) {
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: invalid TCP keepalive counter value.");
+						return MOSQ_ERR_INVAL;
+					}
+					cur_bridge->tcp_keepalive_counter = (unsigned int)tmp_int;
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
+#endif
 				}else if(!strcmp(token, "bridge_tls_version")){
 #if defined(WITH_BRIDGE) && defined(WITH_TLS)
 					if(!cur_bridge){
@@ -1400,36 +1430,6 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 						tmp_int = 5;
 					}
 					cur_bridge->keepalive = (uint16_t)tmp_int;
-#else
-					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
-#endif
-				}else if(!strcmp(token, "tcp_keepalive")){
-#ifdef WITH_BRIDGE
-					if(!cur_bridge){
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
-						return MOSQ_ERR_INVAL;
-					}
-
-					if(conf__parse_int(&token, "tcp_keepalive_idle", &tmp_int, &saveptr)) return MOSQ_ERR_INVAL;
-					if(tmp_int <= 0) {
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: invalid TCP keepalive idle value.");
-						return MOSQ_ERR_INVAL;
-					}
-					cur_bridge->tcp_keepalive_idle = (unsigned int)tmp_int;
-
-					if(conf__parse_int(&token, "tcp_keepalive_interval", &tmp_int, &saveptr)) return MOSQ_ERR_INVAL;
-					if(tmp_int <= 0) {
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: invalid TCP keepalive interval value.");
-						return MOSQ_ERR_INVAL;
-					}
-					cur_bridge->tcp_keepalive_interval = (unsigned int)tmp_int;
-
-					if(conf__parse_int(&token, "tcp_keepalive_counter", &tmp_int, &saveptr)) return MOSQ_ERR_INVAL;
-					if(tmp_int <= 0) {
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: invalid TCP keepalive counter value.");
-						return MOSQ_ERR_INVAL;
-					}
-					cur_bridge->tcp_keepalive_counter = (unsigned int)tmp_int;
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
 #endif

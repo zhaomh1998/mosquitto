@@ -1578,6 +1578,23 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 						<replaceable>mqttv311</replaceable>.</para>
 				</listitem>
 			</varlistentry>
+
+			<varlistentry>
+				<term><option>bridge_tcp_keepalive</option> <replaceable>idle</replaceable> <replaceable>interval</replaceable> <replaceable>counter</replaceable></term>
+				<listitem>
+                    <para>
+                        Set TCP keepalive parameters for this bridge connection.
+                        Use this option to allow you to set a long MQTT
+                        keepalive value, whilst still being able to detect the
+                        connection dropping in a reasonable time.
+					</para>
+					<para>
+                        This may be useful when bridging to services that bill
+                        for PINGREQ messages.
+					</para>
+					<para>Disabled by default.</para>
+				</listitem>
+			</varlistentry>
 			<varlistentry>
 				<term><option>cleansession</option> [ true | false ]</term>
 				<listitem>
