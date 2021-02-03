@@ -19,6 +19,7 @@ Client library:
 Clients:
 - mosquitto_sub will now quit with an error if the %U option is used on
   Windows, rather than just quitting. Closes #1908.
+- Fix config files truncating options after the first space. Closes #2059.
 
 Apps:
 - Perform stricter parsing of input username in mosquitto_passwd. Closes
