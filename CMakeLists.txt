@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.0)
 cmake_policy(SET CMP0042 NEW)
 
 project(mosquitto)
-set (VERSION 2.0.5)
+set (VERSION 2.0.7)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 
@@ -99,12 +99,15 @@ if (WITH_DLT)
 	add_definitions("-DWITH_DLT")
 endif (WITH_DLT)
 
-FIND_PACKAGE(cJSON)
-if (CJSON_FOUND)
-	message(STATUS ${CJSON_FOUND})
-else (CJSON_FOUND)
-	message(STATUS "Optional dependency cJSON not found. Some features will be disabled.")
-endif(CJSON_FOUND)
+option(WITH_CJSON "Build with cJSON support (required for dynamic security plugin and useful for mosquitto_sub)?" ON)
+if (WITH_CJSON)
+    FIND_PACKAGE(cJSON)
+    if (CJSON_FOUND)
+	    message(STATUS ${CJSON_FOUND})
+    else (CJSON_FOUND)
+	    message(STATUS "Optional dependency cJSON not found. Some features will be disabled.")
+    endif(CJSON_FOUND)
+endif()
 
 # ========================================
 # Include projects
