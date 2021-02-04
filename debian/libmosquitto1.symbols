@@ -6,3 +6,6 @@ libmosquitto.so.1 libmosquitto1 #MINVER#
  (symver)MOSQ_1.4 1.4
  (symver)MOSQ_1.5 1.5
  (symver)MOSQ_1.6 1.6
+ (symver)MOSQ_1.6 1.6
+ (symver)MOSQ_1.6 1.6
+ (symver)MOSQ_1.7 2.0

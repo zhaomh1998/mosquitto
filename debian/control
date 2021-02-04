@@ -4,14 +4,14 @@ Priority: optional
 Maintainer: Roger A. Light <roger@atchoo.org>
 Build-Depends: debhelper-compat (= 12),
                cmake,
+               libcjson-dev,
+               libdlt-dev,
                libssl-dev (>=1.0.0),
                libsystemd-dev,
                libwebsockets-dev,
-               libdlt-dev,
                libwrap0-dev,
                pkg-config,
-               uthash-dev (>=2.1.0),
-               uuid-dev
+               uthash-dev (>=2.1.0)
 Standards-Version: 4.5.0
 Homepage: https://mosquitto.org/
 Vcs-Git: https://github.com/eclipse/mosquitto
@@ -21,7 +21,8 @@ Package: mosquitto
 Architecture: any
 Multi-Arch: foreign
 Depends: adduser (>= 3.10),
-         libuuid1,
+         libcjson1,
+         libmosquitto1 (= ${binary:Version}),
          lsb-base (>=4.1+Debian3),
          ${misc:Depends},
          ${shlibs:Depends}

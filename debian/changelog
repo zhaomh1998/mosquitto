@@ -1,3 +1,20 @@
+mosquitto (2.0.7-1) unstable; urgency=medium
+
+  * New upstream release.
+  * License has changed from EPL-1.0 OR EDL-1.0 to EPL-2.0 OR EDL-1.0.
+  * New dependency, libcjson
+  * Remove install-protocol.patch, this has been fixed upstreamed.
+  * pid file moved to /var/run/mosquitto/mosquitto.pid because mosquitto is no
+    longer root when it tries to create that file.
+
+ -- Roger A. Light <roger@atchoo.org>  Thu, 4 Feb 2020 23:27:31 +0000
+
+mosquitto (1.6.12-1) unstable; urgency=medium
+
+    * New upstream release.
+
+ -- Roger A. Light <roger@atchoo.org>  Wed, 19 Aug 2020 15:24:26 +0100
+
 mosquitto (1.6.11-1) unstable; urgency=medium
 
   * New upstream release.
