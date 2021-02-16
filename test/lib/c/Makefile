@@ -7,6 +7,7 @@ SRC = \
 	01-con-discon-success.c \
 	01-keepalive-pingreq.c \
 	01-no-clean-session.c \
+	01-pre-connect-callback.c \
 	01-server-keepalive-pingreq.c \
 	01-unpwd-set.c \
 	01-will-set.c \

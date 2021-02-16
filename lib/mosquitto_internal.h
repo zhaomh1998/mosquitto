@@ -310,6 +310,7 @@ struct mosquitto {
 	bool in_callback;
 	struct mosquitto_msg_data msgs_in;
 	struct mosquitto_msg_data msgs_out;
+	void (*on_pre_connect)(struct mosquitto *, void *userdata);
 	void (*on_connect)(struct mosquitto *, void *userdata, int rc);
 	void (*on_connect_with_flags)(struct mosquitto *, void *userdata, int rc, int flags);
 	void (*on_connect_v5)(struct mosquitto *, void *userdata, int rc, int flags, const mosquitto_property *props);

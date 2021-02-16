@@ -27,6 +27,7 @@ c : test-compile
 	./01-keepalive-pingreq.py $@/01-keepalive-pingreq.test
 	./01-no-clean-session.py $@/01-no-clean-session.test
 	./01-server-keepalive-pingreq.py $@/01-server-keepalive-pingreq.test
+	./01-pre-connect-callback.py $@/01-pre-connect-callback.test
 	./01-unpwd-set.py $@/01-unpwd-set.test
 	./01-will-set.py $@/01-will-set.test
 	./01-will-unpwd-set.py $@/01-will-unpwd-set.test

@@ -1935,6 +1935,9 @@ libmosq_EXPORT void *mosquitto_ssl_get(struct mosquitto *mosq);
  *        the MQTT protocol version in use.
  *        For MQTT v5.0, look at section 3.2.2.2 Connect Reason code: https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html
  *        For MQTT v3.1.1, look at section 3.2.2.3 Connect Return code: http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
+ *
+ * See Also:
+ *  <mosquitto_pre_connect_callback_set>
  */
 libmosq_EXPORT void mosquitto_connect_callback_set(struct mosquitto *mosq, void (*on_connect)(struct mosquitto *, void *, int));
 
@@ -1957,6 +1960,9 @@ libmosq_EXPORT void mosquitto_connect_callback_set(struct mosquitto *mosq, void 
  *        For MQTT v5.0, look at section 3.2.2.2 Connect Reason code: https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html
  *        For MQTT v3.1.1, look at section 3.2.2.3 Connect Return code: http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
  *  flags - the connect flags.
+ *
+ * See Also:
+ *  <mosquitto_pre_connect_callback_set>
  */
 libmosq_EXPORT void mosquitto_connect_with_flags_callback_set(struct mosquitto *mosq, void (*on_connect)(struct mosquitto *, void *, int, int));
 
@@ -1985,8 +1991,29 @@ libmosq_EXPORT void mosquitto_connect_with_flags_callback_set(struct mosquitto *
  *  flags - the connect flags.
  *  props - list of MQTT 5 properties, or NULL
  *
+ * See Also:
+ *  <mosquitto_pre_connect_callback_set>
  */
 libmosq_EXPORT void mosquitto_connect_v5_callback_set(struct mosquitto *mosq, void (*on_connect)(struct mosquitto *, void *, int, int, const mosquitto_property *props));
+
+/*
+ * Function: mosquitto_pre_connect_callback_set
+ *
+ * Set the pre-connect callback. The pre-connect callback is called just before an attempt is made to connect to the broker. This may be useful if you are using <mosquitto_loop_start>, or
+ * <mosquitto_loop_forever>, because when your client disconnects the library
+ * will by default automatically reconnect. Using the pre-connect callback
+ * allows you to set usernames, passwords, and TLS related parameters.
+ *
+ * Parameters:
+ *  mosq -           a valid mosquitto instance.
+ *  on_pre_connect - a callback function in the following form:
+ *                   void callback(struct mosquitto *mosq, void *obj)
+ *
+ * Callback Parameters:
+ *  mosq - the mosquitto instance making the callback.
+ *  obj - the user data provided in <mosquitto_new>
+ */
+libmosq_EXPORT void mosquitto_pre_connect_callback_set(struct mosquitto *mosq, void (*on_pre_connect)(struct mosquitto *, void *));
 
 /*
  * Function: mosquitto_disconnect_callback_set

@@ -195,6 +195,14 @@ static int mosquitto__reconnect(struct mosquitto *mosq, bool blocking)
         net__socket_close(mosq); //close socket
     }
 
+	pthread_mutex_lock(&mosq->callback_mutex);
+	if(mosq->on_pre_connect){
+		mosq->in_callback = true;
+		mosq->on_pre_connect(mosq, mosq->userdata);
+		mosq->in_callback = false;
+	}
+	pthread_mutex_unlock(&mosq->callback_mutex);
+
 #ifdef WITH_SOCKS
 	if(mosq->socks5_host){
 		rc = net__socket_connect(mosq, mosq->socks5_host, mosq->socks5_port, mosq->bind_address, blocking);

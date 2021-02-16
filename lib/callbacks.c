@@ -43,6 +43,13 @@ void mosquitto_connect_v5_callback_set(struct mosquitto *mosq, void (*on_connect
 	pthread_mutex_unlock(&mosq->callback_mutex);
 }
 
+void mosquitto_pre_connect_callback_set(struct mosquitto *mosq, void (*on_pre_connect)(struct mosquitto *, void *))
+{
+	pthread_mutex_lock(&mosq->callback_mutex);
+	mosq->on_pre_connect = on_pre_connect;
+	pthread_mutex_unlock(&mosq->callback_mutex);
+}
+
 void mosquitto_disconnect_callback_set(struct mosquitto *mosq, void (*on_disconnect)(struct mosquitto *, void *, int))
 {
 	pthread_mutex_lock(&mosq->callback_mutex);
