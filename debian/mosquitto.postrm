@@ -15,6 +15,10 @@ case "$1" in
 		if [ -d /var/log/mosquitto ]; then
 			rmdir --ignore-fail-on-non-empty /var/log/mosquitto
 		fi
+		rm -f /run/mosquitto/mosquitto.pid
+		if [ -d /run/mosquitto ]; then
+			rmdir --ignore-fail-on-non-empty /run/mosquitto
+		fi
         APP_PROFILE="usr.sbin.mosquitto"
         rm -f /etc/apparmor.d/disable/$APP_PROFILE >/dev/null 2>&1 || true
 	;;

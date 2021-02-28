@@ -1,3 +1,22 @@
+mosquitto (2.0.8-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Roger A. Light <roger@atchoo.org>  Thu, 25 Feb 2021 18:56:57 +0000
+
+mosquitto (2.0.7-3) unstable; urgency=medium
+
+  * Change all paths `/var/run` to `/run` to avoid installing through a
+    symlink.
+
+ -- Roger A. Light <roger@atchoo.org>  Tue, 09 Feb 2021 09:31:09 +0000
+
+mosquitto (2.0.7-2) unstable; urgency=medium
+
+  * Add new xsltproc and docbook-xsl dependencies needed to build manpages.
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Mon, 08 Feb 2021 21:55:11 +0100
+
 mosquitto (2.0.7-1) unstable; urgency=medium
 
   * New upstream release.
@@ -7,7 +26,7 @@ mosquitto (2.0.7-1) unstable; urgency=medium
   * pid file moved to /var/run/mosquitto/mosquitto.pid because mosquitto is no
     longer root when it tries to create that file.
 
- -- Roger A. Light <roger@atchoo.org>  Thu, 4 Feb 2020 23:27:31 +0000
+ -- Roger A. Light <roger@atchoo.org>  Thu, 4 Feb 2021 23:27:31 +0000
 
 mosquitto (1.6.12-1) unstable; urgency=medium
 

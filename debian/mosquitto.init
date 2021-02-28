@@ -20,7 +20,7 @@
 
 set -e
 
-PIDFILE=/var/run/mosquitto/mosquitto.pid
+PIDFILE=/run/mosquitto/mosquitto.pid
 DAEMON=/usr/sbin/mosquitto
 
 # /etc/init.d/mosquitto: start and stop the mosquitto MQTT message broker
