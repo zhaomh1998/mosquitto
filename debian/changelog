@@ -1,3 +1,10 @@
+mosquitto (2.0.8-2) unstable; urgency=medium
+
+  * Remove debian-config.patch, this is already handled with
+    debian/mosquitto.conf
+
+ -- Roger A. Light <roger@atchoo.org>  Sun, 28 Feb 2021 23:22:57 +0000
+
 mosquitto (2.0.8-1) unstable; urgency=medium
 
   * New upstream release.
