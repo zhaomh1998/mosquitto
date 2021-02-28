@@ -2,6 +2,8 @@ mosquitto (2.0.8-2) unstable; urgency=medium
 
   * Remove debian-config.patch, this is already handled with
     debian/mosquitto.conf
+  * Per policy, packages shouldn't contain directories in /run. This means
+    /run/mosquitto should be created at boot time. Closes #983429.
 
  -- Roger A. Light <roger@atchoo.org>  Sun, 28 Feb 2021 23:22:57 +0000
 

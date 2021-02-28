@@ -1,3 +1,2 @@
 var/lib/mosquitto
 var/log/mosquitto
-/run/mosquitto

@@ -44,6 +44,8 @@ case "$1" in
 	    exit 1
 	fi
 	log_daemon_msg "Starting network daemon:" "mosquitto"
+	mkdir -m 740 -p /run/mosquitto
+	chown mosquitto: /run/mosquitto
 	if start-stop-daemon --start --quiet --oknodo --background  --make-pidfile --pidfile ${PIDFILE} --exec ${DAEMON} -- -c /etc/mosquitto/mosquitto.conf ; then
 	    log_end_msg 0
 	else
