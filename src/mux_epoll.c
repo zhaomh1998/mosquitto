@@ -21,48 +21,15 @@ Contributors:
 
 #ifdef WITH_EPOLL
 
-#ifndef WIN32
-#  define _GNU_SOURCE
-#endif
-
-#include <assert.h>
-#ifndef WIN32
-#ifdef WITH_EPOLL
-#include <sys/epoll.h>
 #define MAX_EVENTS 1000
-#endif
-#include <poll.h>
-#include <unistd.h>
-#else
-#include <process.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#endif
+#define _GNU_SOURCE
 
-#include <errno.h>
 #include <signal.h>
-#include <stdio.h>
-#include <string.h>
-#ifndef WIN32
-#  include <sys/socket.h>
-#endif
-#include <time.h>
-
-#ifdef WITH_WEBSOCKETS
-#  include <libwebsockets.h>
-#endif
+#include <sys/epoll.h>
 
 #include "mosquitto_broker_internal.h"
-#include "memory_mosq.h"
 #include "packet_mosq.h"
-#include "send_mosq.h"
-#include "sys_tree.h"
-#include "time_mosq.h"
 #include "util_mosq.h"
-
-#ifdef WIN32
-#  error "epoll not supported on WIN32"
-#endif
 
 static void loop_handle_reads_writes(struct mosquitto *context, uint32_t events);
 
@@ -74,14 +41,12 @@ int mux_epoll__init(struct mosquitto__listener_sock *listensock, int listensock_
 	struct epoll_event ev;
 	int i;
 
-#ifndef WIN32
 	sigemptyset(&my_sigblock);
 	sigaddset(&my_sigblock, SIGINT);
 	sigaddset(&my_sigblock, SIGTERM);
 	sigaddset(&my_sigblock, SIGUSR1);
 	sigaddset(&my_sigblock, SIGUSR2);
 	sigaddset(&my_sigblock, SIGHUP);
-#endif
 
 	memset(&ep_events, 0, sizeof(struct epoll_event)*MAX_EVENTS);
 
