@@ -481,7 +481,13 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef WIN32
-	_setmaxstdio(2048);
+	if(_setmaxstdio(8192) != 8192){
+		/* Old limit was 2048 */
+		if(_setmaxstdio(2048) != 2048){
+			log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Unable to increase maximum allowed connections. This session may be limited to 512 connections.");
+		}
+	}
+
 #endif
 
 	memset(&db, 0, sizeof(struct mosquitto_db));

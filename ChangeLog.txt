@@ -7,6 +7,8 @@ Broker:
 - Add connection-state example plugin to demonstrate MOSQ_EVT_CONNECT.
 - Plugins on non-Windows platforms now no longer make their symbols globally
   available, which means they are self contained.
+- Increase maximum connection count on Windows from 2048 to 8192 where
+  supported. Closes #2122.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
