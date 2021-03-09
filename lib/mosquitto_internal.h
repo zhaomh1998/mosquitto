@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
  
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -190,8 +190,8 @@ struct mosquitto_msg_data{
 #ifdef WITH_BROKER
 	struct mosquitto_client_msg *inflight;
 	struct mosquitto_client_msg *queued;
-	unsigned long msg_bytes;
-	unsigned long msg_bytes12;
+	long msg_bytes;
+	long msg_bytes12;
 	int msg_count;
 	int msg_count12;
 #else

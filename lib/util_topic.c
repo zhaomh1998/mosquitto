@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
 
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -54,6 +54,11 @@ int mosquitto_pub_topic_check(const char *str)
 #ifdef WITH_BROKER
 	int hier_count = 0;
 #endif
+
+	if(str == NULL){
+		return MOSQ_ERR_INVAL;
+	}
+
 	while(str && str[0]){
 		if(str[0] == '+' || str[0] == '#'){
 			return MOSQ_ERR_INVAL;
@@ -81,7 +86,9 @@ int mosquitto_pub_topic_check2(const char *str, size_t len)
 	int hier_count = 0;
 #endif
 
-	if(len > 65535) return MOSQ_ERR_INVAL;
+	if(str == NULL || len > 65535){
+		return MOSQ_ERR_INVAL;
+	}
 
 	for(i=0; i<len; i++){
 		if(str[i] == '+' || str[i] == '#'){
@@ -115,7 +122,11 @@ int mosquitto_sub_topic_check(const char *str)
 	int hier_count = 0;
 #endif
 
-	while(str && str[0]){
+	if(str == NULL){
+		return MOSQ_ERR_INVAL;
+	}
+
+	while(str[0]){
 		if(str[0] == '+'){
 			if((c != '\0' && c != '/') || (str[1] != '\0' && str[1] != '/')){
 				return MOSQ_ERR_INVAL;
@@ -150,7 +161,9 @@ int mosquitto_sub_topic_check2(const char *str, size_t len)
 	int hier_count = 0;
 #endif
 
-	if(len > 65535) return MOSQ_ERR_INVAL;
+	if(str == NULL || len > 65535){
+		return MOSQ_ERR_INVAL;
+	}
 
 	for(i=0; i<len; i++){
 		if(str[i] == '+'){

@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
 
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -83,7 +83,10 @@ int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **
 	assert(split_topics);
 
 	HASH_FIND(hh, db.retains, split_topics[0], strlen(split_topics[0]), retainhier);
-	if(retainhier == NULL) return MOSQ_ERR_NOT_FOUND;
+	if(retainhier == NULL){
+		retainhier = retain__add_hier_entry(NULL, &db.retains, split_topics[0], (uint16_t)strlen(split_topics[0]));
+		if(!retainhier) return MOSQ_ERR_NOMEM;
+	}
 
 	for(i=0; split_topics[i] != NULL; i++){
 		slen = strlen(split_topics[i]);

@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
  
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -37,6 +37,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <time.h>
 
 struct mosquitto;
 typedef struct mqtt5__property mosquitto_property;
@@ -158,8 +159,8 @@ struct mosquitto_evt_tick {
 	void *future;
 	long now_ns;
 	long next_ns;
-	int now_s;
-	int next_s;
+	time_t now_s;
+	time_t next_s;
 	void *future2[4];
 };
 

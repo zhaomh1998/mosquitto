@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
  
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -22,8 +22,10 @@ Contributors:
 #include <stdio.h>
 #include <sys/types.h>
 
-#if defined(WITH_MEMORY_TRACKING) && defined(WITH_BROKER) && defined(__GLIBC__)
-#define REAL_WITH_MEMORY_TRACKING
+#if defined(WITH_MEMORY_TRACKING) && defined(WITH_BROKER)
+#  if defined(__APPLE__) || defined(__FreeBSD__) || defined(__GLIBC__)
+#    define REAL_WITH_MEMORY_TRACKING
+#  endif
 #endif
 
 void *mosquitto__calloc(size_t nmemb, size_t size);

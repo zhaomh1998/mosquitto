@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
  
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -53,7 +53,7 @@ bool db__ready_for_flight(struct mosquitto_msg_data *msgs, int qos)
 		if(db.config->max_queued_messages == 0 && db.config->max_inflight_bytes == 0){
 			return true;
 		}
-		valid_bytes = msgs->msg_bytes - db.config->max_inflight_bytes < db.config->max_queued_bytes;
+		valid_bytes = ((msgs->msg_bytes - (ssize_t)db.config->max_inflight_bytes) < (ssize_t)db.config->max_queued_bytes);
 		valid_count = msgs->msg_count - msgs->inflight_maximum < db.config->max_queued_messages;
 
 		if(db.config->max_queued_messages == 0){
@@ -90,8 +90,8 @@ bool db__ready_for_queue(struct mosquitto *context, int qos, struct mosquitto_ms
 {
 	int source_count;
 	int adjust_count;
-	size_t source_bytes;
-	size_t adjust_bytes = db.config->max_inflight_bytes;
+	long source_bytes;
+	ssize_t adjust_bytes = (ssize_t)db.config->max_inflight_bytes;
 	bool valid_bytes;
 	bool valid_count;
 

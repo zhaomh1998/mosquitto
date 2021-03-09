@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
  
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -182,6 +182,8 @@ int mosquitto_security_cleanup_default(bool reload)
 			if(db.config->listeners[i].security_options.pid){
 				mosquitto_callback_unregister(db.config->listeners[i].security_options.pid,
 						MOSQ_EVT_BASIC_AUTH, mosquitto_unpwd_check_default, NULL);
+				mosquitto_callback_unregister(db.config->listeners[i].security_options.pid,
+						MOSQ_EVT_ACL_CHECK, mosquitto_acl_check_default, NULL);
 
 				mosquitto__free(db.config->listeners[i].security_options.pid);
 			}
@@ -190,6 +192,8 @@ int mosquitto_security_cleanup_default(bool reload)
 		if(db.config->security_options.pid){
 			mosquitto_callback_unregister(db.config->security_options.pid,
 					MOSQ_EVT_BASIC_AUTH, mosquitto_unpwd_check_default, NULL);
+			mosquitto_callback_unregister(db.config->security_options.pid,
+					MOSQ_EVT_ACL_CHECK, mosquitto_acl_check_default, NULL);
 
 			mosquitto__free(db.config->security_options.pid);
 		}
@@ -367,7 +371,7 @@ static int mosquitto_acl_check_default(int event, void *event_data, void *userda
 	char *local_acl;
 	struct mosquitto__acl *acl_root;
 	bool result;
-	int i;
+	size_t i;
 	size_t len, tlen, clen, ulen;
 	char *s;
 	struct mosquitto__security_options *security_opts = NULL;

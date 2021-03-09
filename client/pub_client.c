@@ -10,7 +10,7 @@ The Eclipse Public License is available at
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
  
-SPDX-License-Identifier: EPL-2.0 OR EDL-1.0
+SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
@@ -275,7 +275,7 @@ int pub_stdin_line_loop(struct mosquitto *mosq)
 					break;
 				}else{
 					line_buf_len += 1024;
-					pos += 1023;
+					pos += read_len-1;
 					read_len = 1024;
 					buf2 = realloc(line_buf, (size_t )line_buf_len);
 					if(!buf2){

@@ -3,8 +3,8 @@ FROM alpine:3.12
 LABEL maintainer="Roger Light <roger@atchoo.org>" \
     description="Eclipse Mosquitto MQTT Broker"
 
-ENV VERSION=2.0.5 \
-    DOWNLOAD_SHA256=67eaeb4160e5793715c017f53c4f42808d76129b7ad131d765a6a23792e58d5d \
+ENV VERSION=2.0.8 \
+    DOWNLOAD_SHA256=b15da8fc4edcb91d554e1259e220ea0173ef639ceaa4b465e06feb7e125b84bf \
     GPG_KEYS=A0D6EEA1DCAE49A635A3B2F0779B22DFB3E717B7 \
     LWS_VERSION=2.4.2 \
     LWS_SHA256=73012d7fcf428dedccc816e83a63a01462e27819d5537b8e0d0c7264bfacfad6 \
@@ -106,7 +106,7 @@ RUN set -x && \
 VOLUME ["/mosquitto/data", "/mosquitto/log"]
 
 # Set up the entry point script and default command
-COPY docker-entrypoint.sh /
+COPY docker-entrypoint.sh mosquitto-no-auth.conf /
 EXPOSE 1883
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/sbin/mosquitto", "-c", "/mosquitto/config/mosquitto.conf"]
