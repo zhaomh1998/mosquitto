@@ -182,7 +182,7 @@ struct mosquitto__security_options {
 	mosquitto_plugin_id_t *pid; /* For registering as a "plugin" */
 };
 
-#ifdef WITH_EPOLL
+#if defined(WITH_EPOLL) || defined(WITH_KQUEUE)
 enum struct_ident{
 	id_invalid = 0,
 	id_listener = 1,
@@ -238,7 +238,7 @@ struct mosquitto__listener {
 
 
 struct mosquitto__listener_sock{
-#ifdef WITH_EPOLL
+#if defined(WITH_EPOLL) || defined(WITH_KQUEUE)
 	/* This *must* be the first element in the struct. */
 	int ident;
 #endif
@@ -469,6 +469,9 @@ struct mosquitto_db{
 	struct mosquitto *ll_for_free;
 #ifdef WITH_EPOLL
 	int epollfd;
+#endif
+#ifdef WITH_KQUEUE
+	int kqueuefd;
 #endif
 	struct mosquitto_message_v5 *plugin_msgs;
 };

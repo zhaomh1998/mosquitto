@@ -24,6 +24,7 @@ if(APPLE)
 endif(APPLE)
 
 include(GNUInstallDirs)
+include(CheckIncludeFiles)
 
 option(WITH_BUNDLED_DEPS "Build with bundled dependencies?" ON)
 option(WITH_TLS

@@ -229,7 +229,7 @@ int listeners__start_single_mqtt(struct mosquitto__listener *listener)
 		}
 		listensock[listensock_index].sock = listener->socks[i];
 		listensock[listensock_index].listener = listener;
-#ifdef WITH_EPOLL
+#if defined(WITH_EPOLL) || defined(WITH_KQUEUE)
 		listensock[listensock_index].ident = id_listener;
 #endif
 		listensock_index++;
@@ -268,7 +268,7 @@ void listeners__add_websockets(struct lws_context *ws_context, mosq_sock_t fd)
 
 	listensock[listensock_index].sock = fd;
 	listensock[listensock_index].listener = listener;
-#ifdef WITH_EPOLL
+#if defined(WITH_EPOLL) || defined(WITH_KQUEUE)
 	listensock[listensock_index].ident = id_listener_ws;
 #endif
 	listensock_index++;

@@ -26,6 +26,7 @@ Contributors:
 #ifndef WIN32
 #include <netdb.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <netinet/tcp.h>
 #else
 #include <winsock2.h>

@@ -40,7 +40,7 @@ struct mosquitto *context__init(mosq_sock_t sock)
 	context = mosquitto__calloc(1, sizeof(struct mosquitto));
 	if(!context) return NULL;
 	
-#ifdef WITH_EPOLL
+#if defined(WITH_EPOLL) || defined(WITH_KQUEUE)
 	context->ident = id_client;
 #else
 	context->pollfd_index = -1;

@@ -207,7 +207,7 @@ struct mosquitto_msg_data{
 
 
 struct mosquitto {
-#if defined(WITH_BROKER) && defined(WITH_EPOLL)
+#if defined(WITH_BROKER) && (defined(WITH_EPOLL) || defined(WITH_KQUEUE))
 	/* This *must* be the first element in the struct. */
 	int ident;
 #endif
@@ -352,7 +352,13 @@ struct mosquitto {
 	struct session_expiry_list *expiry_list_item;
 	uint16_t remote_port;
 #endif
+#ifdef WITH_EPOLL
 	uint32_t events;
+#elif defined(WITH_KQUEUE)
+	short events;
+#else
+	uint32_t events;
+#endif
 };
 
 #define STREMPTY(str) (str[0] == '\0')

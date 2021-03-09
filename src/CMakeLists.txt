@@ -32,7 +32,7 @@ set (MOSQ_SRCS
 	mosquitto.c
 	../include/mosquitto_broker.h mosquitto_broker_internal.h
 	../lib/misc_mosq.c ../lib/misc_mosq.h
-	mux.c mux.h mux_epoll.c mux_poll.c
+	mux.c mux.h mux_epoll.c mux_kqueue.c mux_poll.c
 	net.c
 	../lib/net_mosq_ocsp.c ../lib/net_mosq.c ../lib/net_mosq.h
 	../lib/packet_datatypes.c
@@ -72,6 +72,10 @@ set (MOSQ_SRCS
 	will_delay.c
 	../lib/will_mosq.c ../lib/will_mosq.h)
 
+CHECK_INCLUDE_FILES(sys/event.h HAVE_SYS_EVENT_H)
+if (HAVE_SYS_EVENT_H)
+	add_definitions("-DWITH_KQUEUE")
+endif (HAVE_SYS_EVENT_H)
 
 if (WITH_BUNDLED_DEPS)
 	include_directories(${mosquitto_SOURCE_DIR} ${mosquitto_SOURCE_DIR}/deps)

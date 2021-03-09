@@ -18,7 +18,7 @@ Contributors:
 
 #include "config.h"
 
-#ifndef WITH_EPOLL
+#if !defined(WITH_EPOLL) && !defined(WITH_KQUEUE)
 
 #ifndef WIN32
 #  define _GNU_SOURCE

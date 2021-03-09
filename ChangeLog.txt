@@ -9,6 +9,7 @@ Broker:
   available, which means they are self contained.
 - Increase maximum connection count on Windows from 2048 to 8192 where
   supported. Closes #2122.
+- Add kqueue support.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
