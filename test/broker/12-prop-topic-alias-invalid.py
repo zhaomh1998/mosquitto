@@ -5,11 +5,11 @@
 
 from mosq_test_helper import *
 
-def do_test(value):
+def do_test(start_broker, value):
     rc = 1
 
     keepalive = 10
-    connect_packet = mosq_test.gen_connect("test", proto_ver=5, keepalive=keepalive)
+    connect_packet = mosq_test.gen_connect("12-topic-alias-invalid", proto_ver=5, keepalive=keepalive)
     connack_packet = mosq_test.gen_connack(rc=0, proto_ver=5)
 
     props = mqtt5_props.gen_uint16_prop(mqtt5_props.PROP_TOPIC_ALIAS, value)
@@ -17,7 +17,8 @@ def do_test(value):
 
     disconnect_packet = mosq_test.gen_disconnect(reason_code=mqtt5_rc.MQTT_RC_TOPIC_ALIAS_INVALID, proto_ver=5)
     port = mosq_test.get_port()
-    broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
+    if start_broker:
+        broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
 
     try:
         sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
@@ -27,13 +28,19 @@ def do_test(value):
     except mosq_test.TestError:
         pass
     finally:
-        broker.terminate()
-        broker.wait()
-        (stdo, stde) = broker.communicate()
-        if rc:
-            print(stde.decode('utf-8'))
-            exit(rc)
+        if start_broker:
+            broker.terminate()
+            broker.wait()
+            (stdo, stde) = broker.communicate()
+            if rc:
+                print(stde.decode('utf-8'))
+                exit(rc)
+        else:
+            return rc
 
 
-do_test(11)
+def all_tests(start_broker=False):
+    return do_test(start_broker, 11)
 
+if __name__ == '__main__':
+    all_tests(True)

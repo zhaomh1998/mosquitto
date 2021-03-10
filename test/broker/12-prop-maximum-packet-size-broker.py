@@ -17,11 +17,11 @@ write_config(conf_file, port)
 rc = 1
 
 keepalive = 10
-connect_packet = mosq_test.gen_connect("test", proto_ver=5, keepalive=keepalive)
+connect_packet = mosq_test.gen_connect("12-max-packet-broker", proto_ver=5, keepalive=keepalive)
 props = mqtt5_props.gen_uint32_prop(mqtt5_props.PROP_MAXIMUM_PACKET_SIZE, 30)
 connack_packet = mosq_test.gen_connack(rc=0, proto_ver=5, properties=props)
 
-publish_packet = mosq_test.gen_publish("test/topic", qos=0, payload="0123456789012345678901234567890", proto_ver=5)
+publish_packet = mosq_test.gen_publish("12/max/packet/size/broker/test/topic", qos=0, payload="0123456789012345678901234567890", proto_ver=5)
 disconnect_packet = mosq_test.gen_disconnect(reason_code=149, proto_ver=5)
 
 broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port, use_conf=True)

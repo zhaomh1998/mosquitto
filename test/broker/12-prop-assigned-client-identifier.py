@@ -6,9 +6,7 @@
 from mosq_test_helper import *
 
 
-
-
-def do_test(clean_start):
+def do_test(start_broker, clean_start):
     rc = 1
     keepalive = 10
     connect_packet = mosq_test.gen_connect(None, proto_ver=5, keepalive=keepalive, clean_session=clean_start)
@@ -22,7 +20,8 @@ def do_test(clean_start):
     disconnect_server_packet = mosq_test.gen_disconnect(proto_ver=5, reason_code=130)
 
     port = mosq_test.get_port()
-    broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
+    if start_broker:
+        broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
 
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,15 +39,25 @@ def do_test(clean_start):
     except mosq_test.TestError:
         pass
     finally:
-        broker.terminate()
-        broker.wait()
-        (stdo, stde) = broker.communicate()
-        if rc:
-            print(stde.decode('utf-8'))
-            exit(rc)
+        if start_broker:
+            broker.terminate()
+            broker.wait()
+            (stdo, stde) = broker.communicate()
+            if rc:
+                print(stde.decode('utf-8'))
+                exit(rc)
+        else:
+            return rc
 
 
-do_test(True)
-do_test(False)
-exit(0)
+def all_tests(start_broker=False):
+    rc = do_test(start_broker, True)
+    if rc:
+        return rc;
+    rc = do_test(start_broker, False)
+    if rc:
+        return rc;
+    return 0
 
+if __name__ == '__main__':
+    all_tests(True)

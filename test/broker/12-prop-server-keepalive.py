@@ -20,7 +20,7 @@ write_config(conf_file, port)
 rc = 1
 
 keepalive = 61
-connect_packet = mosq_test.gen_connect("test", proto_ver=5, keepalive=keepalive)
+connect_packet = mosq_test.gen_connect("12-server-keepalive", proto_ver=5, keepalive=keepalive)
 
 props = mqtt5_props.gen_uint16_prop(mqtt5_props.PROP_SERVER_KEEP_ALIVE, 60)
 connack_packet = mosq_test.gen_connack(rc=0, proto_ver=5, properties=props)
@@ -42,4 +42,3 @@ finally:
         print(stde.decode('utf-8'))
 
 exit(rc)
-

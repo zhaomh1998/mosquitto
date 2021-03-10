@@ -19,7 +19,7 @@ class TestError(Exception):
     def __init__(self, message="Mismatched packets"):
         self.message = message
 
-def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False):
+def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False, collect_output=True):
     global vg_index
     global vg_logfiles
 
@@ -48,7 +48,10 @@ def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False):
 
     #print(port)
     #print(cmd)
-    broker = subprocess.Popen(cmd, stderr=subprocess.PIPE)
+    if collect_output:
+        broker = subprocess.Popen(cmd, stderr=subprocess.PIPE)
+    else:
+        broker = subprocess.Popen(cmd, stderr=subprocess.DEVNULL)
     for i in range(0, 20):
         time.sleep(delay)
         c = None

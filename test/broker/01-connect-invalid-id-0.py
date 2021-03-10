@@ -4,7 +4,7 @@
 # MQTT V3.1 only - zero length is invalid.
 from mosq_test_helper import *
 
-def do_test(proto_ver):
+def do_test(start_broker, proto_ver):
     rc = 1
     keepalive = 10
     connect_packet = mosq_test.gen_connect("", keepalive=keepalive, proto_ver=proto_ver)
@@ -14,7 +14,8 @@ def do_test(proto_ver):
         connack_packet = mosq_test.gen_connack(rc=0, proto_ver=proto_ver, properties=None)
 
     port = mosq_test.get_port()
-    broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
+    if start_broker:
+        broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
 
     try:
         sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
@@ -23,15 +24,28 @@ def do_test(proto_ver):
     except mosq_test.TestError:
         pass
     finally:
-        broker.terminate()
-        broker.wait()
-        (stdo, stde) = broker.communicate()
-        if rc:
-            print(stde.decode('utf-8'))
-            print("proto_ver=%d" % (proto_ver))
-            exit(rc)
+        if start_broker:
+            broker.terminate()
+            broker.wait()
+            (stdo, stde) = broker.communicate()
+            if rc:
+                print(stde.decode('utf-8'))
+                print("proto_ver=%d" % (proto_ver))
+                exit(rc)
+        else:
+            return rc
 
 
-do_test(proto_ver=3)
-do_test(proto_ver=4)
-exit(0)
+def all_tests(start_broker=False):
+    rc = do_test(start_broker, proto_ver=3)
+    if rc:
+        print("proto_ver=3")
+        return rc;
+    rc = do_test(start_broker, proto_ver=4)
+    if rc:
+        print("proto_ver=4")
+        return rc;
+    return 0
+
+if __name__ == '__main__':
+    all_tests(True)

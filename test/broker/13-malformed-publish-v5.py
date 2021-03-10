@@ -20,7 +20,7 @@ def do_test(publish_packet, reason_code, error_string):
     rc = 1
 
     keepalive = 10
-    connect_packet = mosq_test.gen_connect("test", proto_ver=5, keepalive=keepalive)
+    connect_packet = mosq_test.gen_connect("13-malformed-publish-v5", proto_ver=5, keepalive=keepalive)
 
     connack_props = mqtt5_props.gen_uint16_prop(mqtt5_props.PROP_TOPIC_ALIAS_MAXIMUM, 10)
     connack_props += mqtt5_props.gen_byte_prop(mqtt5_props.PROP_RETAIN_AVAILABLE, 0)
