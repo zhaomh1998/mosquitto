@@ -58,6 +58,11 @@ Contributors:
 
 static void bridge__backoff_step(struct mosquitto *context);
 static void bridge__backoff_reset(struct mosquitto *context);
+#if defined(__GLIBC__) && defined(WITH_ADNS)
+static int bridge__connect_step1(struct mosquitto *context);
+static int bridge__connect_step2(struct mosquitto *context);
+#endif
+static void bridge__packet_cleanup(struct mosquitto *context);
 
 static struct mosquitto *bridge__new(struct mosquitto__bridge *bridge)
 {
@@ -192,7 +197,7 @@ int bridge__set_tcp_keepalive(struct mosquitto *context)
 }
 
 #if defined(__GLIBC__) && defined(WITH_ADNS)
-int bridge__connect_step1(struct mosquitto *context)
+static int bridge__connect_step1(struct mosquitto *context)
 {
 	int rc;
 	char *notification_topic;
@@ -307,7 +312,7 @@ int bridge__connect_step1(struct mosquitto *context)
 }
 
 
-int bridge__connect_step2(struct mosquitto *context)
+static int bridge__connect_step2(struct mosquitto *context)
 {
 	int rc;
 
@@ -678,6 +683,18 @@ void bridge__reload(void)
 	}
 }
 
+void bridge__db_cleanup(void)
+{
+	int i;
+
+	for(i=0; i<db.bridge_count; i++){
+		if(db.bridges[i]){
+			context__cleanup(db.bridges[i], true);
+		}
+	}
+	mosquitto__free(db.bridges);
+}
+
 
 void bridge__cleanup(struct mosquitto *context)
 {
@@ -751,7 +768,7 @@ void bridge__cleanup(struct mosquitto *context)
 }
 
 
-void bridge__packet_cleanup(struct mosquitto *context)
+static void bridge__packet_cleanup(struct mosquitto *context)
 {
 	struct mosquitto__packet *packet;
 	if(!context) return;
