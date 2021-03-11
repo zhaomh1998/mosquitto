@@ -1,3 +1,25 @@
+1.5.11 - 2021-02-04
+===================
+
+Security:
+- If an empty or invalid CA file was provided to the client library for
+  verifying the remote broker, then the initial connection would fail but
+  subsequent connections would succeed without verifying the remote broker
+  certificate. Closes #2130.
+- If an empty or invalid CA file was provided to the broker for verifying the
+  remote broker for an outgoing bridge connection then the initial connection
+  would fail but subsequent connections would succeed without verifying the
+  remote broker certificate. Closes #2130.
+
+Broker:
+- Fix encrypted bridge connections incorrectly connecting when `bridge_cafile`
+  is empty or invalid. Closes #2130.
+
+Client library:
+- Fix encrypted connections incorrectly connecting when the CA file passed to
+  `mosquitto_tls_set()` is empty or invalid. Closes #2130.
+
+
 1.5.10 - 2020-08-19
 ===================
 
