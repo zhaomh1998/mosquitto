@@ -18,6 +18,7 @@ Broker:
 Client library:
 - Fix encrypted connections incorrectly connecting when the CA file passed to
   `mosquitto_tls_set()` is empty or invalid. Closes #2130.
+- Fix connections retrying very rapidly in some situations.
 
 Clients:
 - Fix possible loss of data in `mosquitto_pub -l` when sending multiple long

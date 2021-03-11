@@ -209,6 +209,15 @@ static int interruptible_sleep(struct mosquitto *mosq, unsigned long reconnect_d
 #else
 	local_timeout.tv_usec = 0;
 #endif
+
+#ifndef WIN32
+	if(read(mosq->sockpairR, &pairbuf, 1) == 0){
+	}
+#else
+	recv(mosq->sockpairR, &pairbuf, 1, 0);
+#endif
+
+
 	FD_ZERO(&readfds);
 	maxfd = 0;
 	if(mosq->sockpairR != INVALID_SOCKET){
