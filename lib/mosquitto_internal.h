@@ -307,7 +307,6 @@ struct mosquitto {
 	char *socks5_password;
 #  endif
 	void *userdata;
-	bool in_callback;
 	struct mosquitto_msg_data msgs_in;
 	struct mosquitto_msg_data msgs_out;
 	void (*on_pre_connect)(struct mosquitto *, void *userdata);
@@ -327,11 +326,12 @@ struct mosquitto {
 	void (*on_log)(struct mosquitto *, void *userdata, int level, const char *str);
 	/*void (*on_error)();*/
 	char *host;
-	uint16_t port;
 	char *bind_address;
 	unsigned int reconnects;
 	unsigned int reconnect_delay;
 	unsigned int reconnect_delay_max;
+	int callback_depth;
+	uint16_t port;
 	bool reconnect_exponential_backoff;
 	bool disable_socketpair;
 	char threaded;

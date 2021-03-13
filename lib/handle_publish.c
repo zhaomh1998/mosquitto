@@ -21,6 +21,7 @@ Contributors:
 #include <assert.h>
 #include <string.h>
 
+#include "callbacks.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
 #include "logging_mosq.h"
@@ -118,36 +119,14 @@ int handle__publish(struct mosquitto *mosq)
 	message->timestamp = mosquitto_time();
 	switch(message->msg.qos){
 		case 0:
-			pthread_mutex_lock(&mosq->callback_mutex);
-			if(mosq->on_message){
-				mosq->in_callback = true;
-				mosq->on_message(mosq, mosq->userdata, &message->msg);
-				mosq->in_callback = false;
-			}
-			if(mosq->on_message_v5){
-				mosq->in_callback = true;
-				mosq->on_message_v5(mosq, mosq->userdata, &message->msg, properties);
-				mosq->in_callback = false;
-			}
-			pthread_mutex_unlock(&mosq->callback_mutex);
+			callback__on_message(mosq, &message->msg, properties);
 			message__cleanup(&message);
 			mosquitto_property_free_all(&properties);
 			return MOSQ_ERR_SUCCESS;
 		case 1:
 			util__decrement_receive_quota(mosq);
 			rc = send__puback(mosq, mid, 0, NULL);
-			pthread_mutex_lock(&mosq->callback_mutex);
-			if(mosq->on_message){
-				mosq->in_callback = true;
-				mosq->on_message(mosq, mosq->userdata, &message->msg);
-				mosq->in_callback = false;
-			}
-			if(mosq->on_message_v5){
-				mosq->in_callback = true;
-				mosq->on_message_v5(mosq, mosq->userdata, &message->msg, properties);
-				mosq->in_callback = false;
-			}
-			pthread_mutex_unlock(&mosq->callback_mutex);
+			callback__on_message(mosq, &message->msg, properties);
 			message__cleanup(&message);
 			mosquitto_property_free_all(&properties);
 			return rc;

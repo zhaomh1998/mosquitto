@@ -45,6 +45,8 @@ Contributors:
 
 #ifdef WITH_BROKER
 #include "mosquitto_broker_internal.h"
+#else
+#  include "callbacks.h"
 #endif
 
 #include "mosquitto.h"
@@ -113,18 +115,7 @@ int mosquitto__check_keepalive(struct mosquitto *mosq)
 			}else{
 				rc = MOSQ_ERR_KEEPALIVE;
 			}
-			pthread_mutex_lock(&mosq->callback_mutex);
-			if(mosq->on_disconnect){
-				mosq->in_callback = true;
-				mosq->on_disconnect(mosq, mosq->userdata, rc);
-				mosq->in_callback = false;
-			}
-			if(mosq->on_disconnect_v5){
-				mosq->in_callback = true;
-				mosq->on_disconnect_v5(mosq, mosq->userdata, rc, NULL);
-				mosq->in_callback = false;
-			}
-			pthread_mutex_unlock(&mosq->callback_mutex);
+			callback__on_disconnect(mosq, rc, NULL);
 
 			return rc;
 #endif

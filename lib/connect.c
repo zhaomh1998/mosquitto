@@ -20,6 +20,7 @@ Contributors:
 
 #include <string.h>
 
+#include "callbacks.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
 #include "logging_mosq.h"
@@ -195,13 +196,7 @@ static int mosquitto__reconnect(struct mosquitto *mosq, bool blocking)
         net__socket_close(mosq); //close socket
     }
 
-	pthread_mutex_lock(&mosq->callback_mutex);
-	if(mosq->on_pre_connect){
-		mosq->in_callback = true;
-		mosq->on_pre_connect(mosq, mosq->userdata);
-		mosq->in_callback = false;
-	}
-	pthread_mutex_unlock(&mosq->callback_mutex);
+	callback__on_pre_connect(mosq);
 
 #ifdef WITH_SOCKS
 	if(mosq->socks5_host){
@@ -291,18 +286,7 @@ void do_client_disconnect(struct mosquitto *mosq, int reason_code, const mosquit
 	mosq->next_msg_out = mosquitto_time() + mosq->keepalive;
 	pthread_mutex_unlock(&mosq->msgtime_mutex);
 
-	pthread_mutex_lock(&mosq->callback_mutex);
-	if(mosq->on_disconnect){
-		mosq->in_callback = true;
-		mosq->on_disconnect(mosq, mosq->userdata, reason_code);
-		mosq->in_callback = false;
-	}
-	if(mosq->on_disconnect_v5){
-		mosq->in_callback = true;
-		mosq->on_disconnect_v5(mosq, mosq->userdata, reason_code, properties);
-		mosq->in_callback = false;
-	}
-	pthread_mutex_unlock(&mosq->callback_mutex);
+	callback__on_disconnect(mosq, reason_code, properties);
 	pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 }
 

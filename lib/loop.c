@@ -24,6 +24,7 @@ Contributors:
 #include <time.h>
 #endif
 
+#include "callbacks.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
 #include "net_mosq.h"
@@ -342,18 +343,7 @@ static int mosquitto__loop_rc_handle(struct mosquitto *mosq, int rc)
 		if(state == mosq_cs_disconnecting || state == mosq_cs_disconnected){
 			rc = MOSQ_ERR_SUCCESS;
 		}
-		pthread_mutex_lock(&mosq->callback_mutex);
-		if(mosq->on_disconnect){
-			mosq->in_callback = true;
-			mosq->on_disconnect(mosq, mosq->userdata, rc);
-			mosq->in_callback = false;
-		}
-		if(mosq->on_disconnect_v5){
-			mosq->in_callback = true;
-			mosq->on_disconnect_v5(mosq, mosq->userdata, rc, NULL);
-			mosq->in_callback = false;
-		}
-		pthread_mutex_unlock(&mosq->callback_mutex);
+		callback__on_disconnect(mosq, rc, NULL);
 	}
 	return rc;
 }

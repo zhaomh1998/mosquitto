@@ -18,6 +18,8 @@ Client library:
   sockets used by each client by two.
 - Add `on_pre_connect()` callback to allow clients to update
   username/password/TLS parameters before an automatic reconnection.
+- Callbacks no longer block other callbacks, and can be set from within a
+  callback. Closes #2127.
 
 
 2.0.9 - 2021-03-xx

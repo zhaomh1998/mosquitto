@@ -26,6 +26,7 @@ Contributors:
 #  include "mosquitto_broker_internal.h"
 #endif
 
+#include "callbacks.h"
 #include "mosquitto.h"
 #include "logging_mosq.h"
 #include "memory_mosq.h"
@@ -69,18 +70,7 @@ int handle__unsuback(struct mosquitto *mosq)
 	/* Immediately free, we don't do anything with Reason String or User Property at the moment */
 	mosquitto_property_free_all(&properties);
 #else
-	pthread_mutex_lock(&mosq->callback_mutex);
-	if(mosq->on_unsubscribe){
-		mosq->in_callback = true;
-		mosq->on_unsubscribe(mosq, mosq->userdata, mid);
-		mosq->in_callback = false;
-	}
-	if(mosq->on_unsubscribe_v5){
-		mosq->in_callback = true;
-		mosq->on_unsubscribe_v5(mosq, mosq->userdata, mid, properties);
-		mosq->in_callback = false;
-	}
-	pthread_mutex_unlock(&mosq->callback_mutex);
+	callback__on_unsubscribe(mosq, mid, properties);
 	mosquitto_property_free_all(&properties);
 #endif
 

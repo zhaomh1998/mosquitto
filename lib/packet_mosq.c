@@ -31,6 +31,7 @@ Contributors:
 #  include "read_handle.h"
 #endif
 
+#include "callbacks.h"
 #include "memory_mosq.h"
 #include "mqtt_protocol.h"
 #include "net_mosq.h"
@@ -182,7 +183,7 @@ int packet__queue(struct mosquitto *mosq, struct mosquitto__packet *packet)
 #endif
 	}
 
-	if(mosq->in_callback == false && mosq->threaded == mosq_ts_none){
+	if(mosq->callback_depth == 0 && mosq->threaded == mosq_ts_none){
 		return packet__write(mosq);
 	}else{
 		return MOSQ_ERR_SUCCESS;
@@ -280,20 +281,7 @@ int packet__write(struct mosquitto *mosq)
 		if(((packet->command)&0xF6) == CMD_PUBLISH){
 			G_PUB_MSGS_SENT_INC(1);
 #ifndef WITH_BROKER
-			pthread_mutex_lock(&mosq->callback_mutex);
-			if(mosq->on_publish){
-				/* This is a QoS=0 message */
-				mosq->in_callback = true;
-				mosq->on_publish(mosq, mosq->userdata, packet->mid);
-				mosq->in_callback = false;
-			}
-			if(mosq->on_publish_v5){
-				/* This is a QoS=0 message */
-				mosq->in_callback = true;
-				mosq->on_publish_v5(mosq, mosq->userdata, packet->mid, 0, NULL);
-				mosq->in_callback = false;
-			}
-			pthread_mutex_unlock(&mosq->callback_mutex);
+			callback__on_publish(mosq, packet->mid, 0, NULL);
 		}else if(((packet->command)&0xF0) == CMD_DISCONNECT){
 			do_client_disconnect(mosq, MOSQ_ERR_SUCCESS, NULL);
 			packet__cleanup(packet);

@@ -26,6 +26,7 @@ Contributors:
 #  include "mosquitto_broker_internal.h"
 #endif
 
+#include "callbacks.h"
 #include "mosquitto.h"
 #include "logging_mosq.h"
 #include "memory_mosq.h"
@@ -90,18 +91,7 @@ int handle__pubackcomp(struct mosquitto *mosq, const char *type)
 	rc = message__delete(mosq, mid, mosq_md_out, qos);
 	if(rc == MOSQ_ERR_SUCCESS){
 		/* Only inform the client the message has been sent once. */
-		pthread_mutex_lock(&mosq->callback_mutex);
-		if(mosq->on_publish){
-			mosq->in_callback = true;
-			mosq->on_publish(mosq, mosq->userdata, mid);
-			mosq->in_callback = false;
-		}
-		if(mosq->on_publish_v5){
-			mosq->in_callback = true;
-			mosq->on_publish_v5(mosq, mosq->userdata, mid, reason_code, properties);
-			mosq->in_callback = false;
-		}
-		pthread_mutex_unlock(&mosq->callback_mutex);
+		callback__on_publish(mosq, mid, reason_code, properties);
 		mosquitto_property_free_all(&properties);
 	}else if(rc != MOSQ_ERR_NOT_FOUND){
 		return rc;
