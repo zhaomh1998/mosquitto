@@ -186,3 +186,9 @@ void db__msg_store_ref_inc(struct mosquitto_msg_store *store)
 	store->ref_count++;
 }
 
+void callback__on_disconnect(struct mosquitto *mosq, int rc, const mosquitto_property *props)
+{
+	UNUSED(mosq);
+	UNUSED(rc);
+	UNUSED(props);
+}

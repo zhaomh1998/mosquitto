@@ -36,3 +36,9 @@ int send__pingreq(struct mosquitto *mosq)
 	return MOSQ_ERR_SUCCESS;
 }
 
+void callback__on_disconnect(struct mosquitto *mosq, int rc, const mosquitto_property *props)
+{
+	UNUSED(mosq);
+	UNUSED(rc);
+	UNUSED(props);
+}

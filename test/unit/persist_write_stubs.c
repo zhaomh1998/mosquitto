@@ -113,3 +113,10 @@ int send__pubrel(struct mosquitto *mosq, uint16_t mid, const mosquitto_property 
 
 	return MOSQ_ERR_SUCCESS;
 }
+
+void callback__on_disconnect(struct mosquitto *mosq, int rc, const mosquitto_property *props)
+{
+	UNUSED(mosq);
+	UNUSED(rc);
+	UNUSED(props);
+}
