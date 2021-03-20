@@ -116,7 +116,6 @@ int handle__publish(struct mosquitto *mosq)
 			message->msg.mid, message->msg.topic,
 			(long)message->msg.payloadlen);
 
-	message->timestamp = mosquitto_time();
 	switch(message->msg.qos){
 		case 0:
 			callback__on_message(mosq, &message->msg, properties);

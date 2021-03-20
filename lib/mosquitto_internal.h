@@ -166,7 +166,6 @@ struct mosquitto_message_all{
 	struct mosquitto_message_all *next;
 	struct mosquitto_message_all *prev;
 	mosquitto_property *properties;
-	time_t timestamp;
 	enum mosquitto_msg_state state;
 	bool dup;
 	struct mosquitto_message msg;

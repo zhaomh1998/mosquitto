@@ -147,7 +147,6 @@ void message__reconnect_reset(struct mosquitto *mosq)
 	mosq->msgs_in.queue_len = 0;
 	DL_FOREACH_SAFE(mosq->msgs_in.inflight, message, tmp){
 		mosq->msgs_in.queue_len++;
-		message->timestamp = 0;
 		if(message->msg.qos != 2){
 			DL_DELETE(mosq->msgs_in.inflight, message);
 			message__cleanup(&message);
@@ -166,7 +165,6 @@ void message__reconnect_reset(struct mosquitto *mosq)
 	DL_FOREACH_SAFE(mosq->msgs_out.inflight, message, tmp){
 		mosq->msgs_out.queue_len++;
 
-		message->timestamp = 0;
 		if(mosq->msgs_out.inflight_quota != 0){
 			util__decrement_send_quota(mosq);
 			if(message->msg.qos == 1){
@@ -276,7 +274,6 @@ int message__remove(struct mosquitto *mosq, uint16_t mid, enum mosquitto_msg_dir
 void message__retry_check(struct mosquitto *mosq)
 {
 	struct mosquitto_message_all *msg;
-	time_t now = mosquitto_time();
 	assert(mosq);
 
 #ifdef WITH_THREADING
@@ -287,18 +284,15 @@ void message__retry_check(struct mosquitto *mosq)
 		switch(msg->state){
 			case mosq_ms_publish_qos1:
 			case mosq_ms_publish_qos2:
-				msg->timestamp = now;
 				msg->dup = true;
 				send__publish(mosq, (uint16_t)msg->msg.mid, msg->msg.topic, (uint32_t)msg->msg.payloadlen, msg->msg.payload, (uint8_t)msg->msg.qos, msg->msg.retain, msg->dup, msg->properties, NULL, 0);
 				break;
 			case mosq_ms_wait_for_pubrel:
-				msg->timestamp = now;
 				msg->dup = true;
 				send__pubrec(mosq, (uint16_t)msg->msg.mid, 0, NULL);
 				break;
 			case mosq_ms_resend_pubrel:
 			case mosq_ms_wait_for_pubcomp:
-				msg->timestamp = now;
 				msg->dup = true;
 				send__pubrel(mosq, (uint16_t)msg->msg.mid, NULL);
 				break;
@@ -331,7 +325,6 @@ int message__out_update(struct mosquitto *mosq, uint16_t mid, enum mosquitto_msg
 				return MOSQ_ERR_PROTOCOL;
 			}
 			message->state = state;
-			message->timestamp = mosquitto_time();
 			pthread_mutex_unlock(&mosq->msgs_out.mutex);
 			return MOSQ_ERR_SUCCESS;
 		}

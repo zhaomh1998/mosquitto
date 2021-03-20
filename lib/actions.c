@@ -127,7 +127,6 @@ int mosquitto_publish_v5(struct mosquitto *mosq, int *mid, const char *topic, in
 		}
 
 		message->next = NULL;
-		message->timestamp = mosquitto_time();
 		message->msg.mid = local_mid;
 		if(topic){
 			message->msg.topic = mosquitto__strdup(topic);
