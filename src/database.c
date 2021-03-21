@@ -550,6 +550,8 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 
 	if(dir == mosq_md_out && msg->qos > 0){
 		util__decrement_send_quota(context);
+	}else if(dir == mosq_md_in && msg->qos > 0){
+		util__decrement_receive_quota(context);
 	}
 
 	if(dir == mosq_md_out && update){

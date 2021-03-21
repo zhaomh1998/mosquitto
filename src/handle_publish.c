@@ -286,6 +286,12 @@ int handle__publish(struct mosquitto *context)
 		db__message_store_find(context, msg->source_mid, &stored);
 	}
 	if(!stored){
+		if(msg->qos > 0 && context->msgs_in.inflight_quota == 0){
+			/* Client isn't allowed any more incoming messages, so fail early */
+			db__msg_store_free(msg);
+			return MOSQ_ERR_RECEIVE_MAXIMUM_EXCEEDED;
+		}
+
 		if(msg->qos == 0
 				|| db__ready_for_flight(&context->msgs_in, msg->qos)
 				|| db__ready_for_queue(context, msg->qos, &context->msgs_in)){

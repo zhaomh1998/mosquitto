@@ -10,6 +10,7 @@ Broker:
 - Increase maximum connection count on Windows from 2048 to 8192 where
   supported. Closes #2122.
 - Add kqueue support.
+- Enforce receive maximum on MQTT v5.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

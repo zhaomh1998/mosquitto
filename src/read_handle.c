@@ -89,6 +89,8 @@ int handle__packet(struct mosquitto *context)
 			send__disconnect(context, MQTT_RC_RETAIN_NOT_SUPPORTED, NULL);
 		}else if(rc == MOSQ_ERR_TOPIC_ALIAS_INVALID){
 			send__disconnect(context, MQTT_RC_TOPIC_ALIAS_INVALID, NULL);
+		}else if(rc == MOSQ_ERR_RECEIVE_MAXIMUM_EXCEEDED){
+			send__disconnect(context, MQTT_RC_RECEIVE_MAXIMUM_EXCEEDED, NULL);
 		}else if(rc == MOSQ_ERR_UNKNOWN || rc == MOSQ_ERR_NOMEM){
 			send__disconnect(context, MQTT_RC_UNSPECIFIED, NULL);
 		}

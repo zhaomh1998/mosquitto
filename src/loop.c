@@ -362,6 +362,9 @@ void do_disconnect(struct mosquitto *context, int reason)
 					case MOSQ_ERR_ERRNO:
 						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected: %s.", id, strerror(errno));
 						break;
+					case MOSQ_ERR_RECEIVE_MAXIMUM_EXCEEDED:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected due to exceeding the receive maximum.", id);
+						break;
 					default:
 						log__printf(NULL, MOSQ_LOG_NOTICE, "Bad socket read/write on client %s: %s", id, mosquitto_strerror(reason));
 						break;
