@@ -24,6 +24,7 @@ tests = [
 
     '02-shared-qos0-v5',
     '02-subhier-crash',
+    '02-subpub-b2c-topic-alias',
     '02-subpub-qos0-long-topic',
     '02-subpub-qos0-retain-as-publish',
     '02-subpub-qos0-send-retain',

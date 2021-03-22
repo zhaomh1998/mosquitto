@@ -28,6 +28,7 @@ Contributors:
 #  define G_PUB_BYTES_SENT_INC(A)
 #endif
 
+#include "alias_mosq.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
 #include "logging_mosq.h"
@@ -132,8 +133,26 @@ int send__real_publish(struct mosquitto *mosq, uint16_t mid, const char *topic, 
 	unsigned int proplen = 0, varbytes;
 	int rc;
 	mosquitto_property expiry_prop;
+#ifdef WITH_BROKER
+	mosquitto_property topic_alias_prop;
+	uint16_t topic_alias = 0;
+#endif
 
 	assert(mosq);
+
+#ifdef WITH_BROKER
+	if(mosq->protocol == mosq_p_mqtt5){
+		if(alias__find_by_topic(mosq, ALIAS_DIR_L2R, topic, &topic_alias) == MOSQ_ERR_SUCCESS){
+			/* If we have an existing alias, no need to send the topic */
+			topic = NULL;
+		}else{
+			/* Try to add a new alias - if this succeeds, topic_alias will be
+			 * set to the new alias but we still need to send the topic. If it
+			 * fails, topic_alias will be set to 0. */
+			alias__add_l2r(mosq, topic, &topic_alias);
+		}
+	}
+#endif
 
 	if(topic){
 		packetlen = 2+(unsigned int)strlen(topic) + payloadlen;
@@ -153,6 +172,16 @@ int send__real_publish(struct mosquitto *mosq, uint16_t mid, const char *topic, 
 
 			proplen += property__get_length_all(&expiry_prop);
 		}
+#ifdef WITH_BROKER
+		if(topic_alias != 0){
+			topic_alias_prop.next = NULL;
+			topic_alias_prop.value.i16 = topic_alias;
+			topic_alias_prop.identifier = MQTT_PROP_TOPIC_ALIAS;
+			topic_alias_prop.client_generated = false;
+
+			proplen += property__get_length_all(&topic_alias_prop);
+		}
+#endif
 
 		varbytes = packet__varint_bytes(proplen);
 		if(varbytes > 4){
@@ -201,6 +230,11 @@ int send__real_publish(struct mosquitto *mosq, uint16_t mid, const char *topic, 
 		if(expiry_interval > 0){
 			property__write_all(packet, &expiry_prop, false);
 		}
+#ifdef WITH_BROKER
+		if(topic_alias != 0){
+			property__write_all(packet, &topic_alias_prop, false);
+		}
+#endif
 	}
 
 	/* Payload */

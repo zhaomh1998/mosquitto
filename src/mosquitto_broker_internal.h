@@ -208,6 +208,7 @@ struct mosquitto__listener {
 	bool use_username_as_clientid;
 	uint8_t max_qos;
 	uint16_t max_topic_alias;
+	uint16_t max_topic_alias_broker;
 #ifdef WITH_TLS
 	char *cafile;
 	char *capath;
@@ -555,6 +556,7 @@ struct mosquitto__bridge{
 	bool initial_notification_done;
 	bool outgoing_retain;
 	enum mosquitto_bridge_reload_type reload_type;
+	uint16_t max_topic_alias;
 #ifdef WITH_TLS
 	bool tls_insecure;
 	bool tls_ocsp_required;

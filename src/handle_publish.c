@@ -177,13 +177,13 @@ int handle__publish(struct mosquitto *context)
 		return MOSQ_ERR_TOPIC_ALIAS_INVALID;
 	}else if(topic_alias > 0){
 		if(msg->topic){
-			rc = alias__add(context, msg->topic, (uint16_t)topic_alias);
+			rc = alias__add_r2l(context, msg->topic, (uint16_t)topic_alias);
 			if(rc){
 				db__msg_store_free(msg);
 				return rc;
 			}
 		}else{
-			rc = alias__find(context, &msg->topic, (uint16_t)topic_alias);
+			rc = alias__find_by_alias(context, ALIAS_DIR_R2L, (uint16_t)topic_alias, &msg->topic);
 			if(rc){
 				db__msg_store_free(msg);
 				return MOSQ_ERR_PROTOCOL;

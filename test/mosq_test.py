@@ -89,7 +89,16 @@ def expect_packet(sock, name, expected):
     else:
         rlen = 1
 
-    packet_recvd = sock.recv(rlen)
+    packet_recvd = b""
+    try:
+        while len(packet_recvd) < rlen:
+            data = sock.recv(rlen-len(packet_recvd))
+            if len(data) == 0:
+                break
+            packet_recvd += data
+    except socket.timeout:
+        pass
+
     if packet_matches(name, packet_recvd, expected):
         return True
     else:

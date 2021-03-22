@@ -4,6 +4,7 @@ include ../config.mk
 
 MOSQ_OBJS=mosquitto.o \
 		  actions.o \
+		  alias_mosq.o \
 		  callbacks.o \
 		  connect.o \
 		  handle_auth.o \
@@ -102,6 +103,9 @@ mosquitto.o : mosquitto.c ../include/mosquitto.h mosquitto_internal.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 actions.o : actions.c ../include/mosquitto.h mosquitto_internal.h
+	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
+
+alias_mosq.o : alias_mosq.c alias_mosq.h ../include/mosquitto.h mosquitto_internal.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 callbacks.o : callbacks.c ../include/mosquitto.h mosquitto_internal.h

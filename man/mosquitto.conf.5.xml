@@ -1112,12 +1112,43 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 					</listitem>
 				</varlistentry>
 				<varlistentry>
+					<term><option>max_topic_alias_broker</option> <replaceable>number</replaceable></term>
+					<listitem>
+						<para>When publishing to MQTT v5 clients, Mosquitto can
+						create topic aliases on a first come first serve basis,
+						i.e. the topics that are published to a client first have
+						aliases created. This option controls the number of aliases
+						per client. It applies per listener.</para>
+
+						<para>Note that this behaviour is not guaranteed to remain
+						the same. It is possible that future versions introduce
+						mechanisms for controlling which topics receive aliases.
+						</para>
+
+						<para>This option sets the maximum number topic aliases
+						that Mosquitto will create for an MQTT v5 client,
+						even if the client allows more.</para>
+
+						<para>For example, if the client sets
+						topic-alias-maximum to 100 and this option is set to
+						10, the broker will create at most 10 topic aliases.
+						Likewise, if the client sets topic-alias-maximum to
+						20 and this option is set to 100, then the broker
+						will create at most 20 topic aliases.</para>
+
+						<para>Defaults to 10. Maximum of 65535. Set to 0 to
+						disable broker to client topic aliases completely.
+						</para>
+						<para>Not reloaded on reload signal.</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
 					<term><option>max_topic_alias</option> <replaceable>number</replaceable></term>
 					<listitem>
 						<para>This option sets the maximum number topic aliases
 							that an MQTT v5 client is allowed to create. This option
 							applies per listener. Defaults to 10. Set to 0 to
-							disallow topic aliases. The maximum value possible is 65535.</para>
+							disallow topic aliases from clients. The maximum value possible is 65535.</para>
 						<para>Not reloaded on reload signal.</para>
 					</listitem>
 				</varlistentry>
@@ -1563,6 +1594,16 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 						smaller of the two limits will be used. Set to 0 for
 						"unlimited".
 					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>bridge_max_topic_alias</option> <replaceable>value</replaceable></term>
+				<listitem>
+					<para>If the bridge is using MQTT v5, this option sets the
+					maximum number of topic aliases that the bridge will
+					allow the remote broker to configure. Defaults to 10,
+					maximum of 65535. Set to 0 to disable incoming topic
+					aliases completely.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>

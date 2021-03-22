@@ -21,6 +21,7 @@ Contributors:
 #include <assert.h>
 #include <string.h>
 
+#include "alias_mosq.h"
 #include "callbacks.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
@@ -43,6 +44,7 @@ int handle__publish(struct mosquitto *mosq)
 	uint16_t mid = 0;
 	uint16_t slen;
 	mosquitto_property *properties = NULL;
+	uint16_t topic_alias = 0;
 
 	assert(mosq);
 
@@ -64,7 +66,7 @@ int handle__publish(struct mosquitto *mosq)
 		message__cleanup(&message);
 		return rc;
 	}
-	if(!slen){
+	if(mosq->protocol != mosq_p_mqtt5 && slen == 0){
 		message__cleanup(&message);
 		return MOSQ_ERR_PROTOCOL;
 	}
@@ -93,6 +95,32 @@ int handle__publish(struct mosquitto *mosq)
 	if(mosq->protocol == mosq_p_mqtt5){
 		rc = property__read_all(CMD_PUBLISH, &mosq->in_packet, &properties);
 		if(rc) return rc;
+
+		mosquitto_property_read_int16(properties, MQTT_PROP_TOPIC_ALIAS, &topic_alias, false);
+		if(topic_alias != 0){
+			if(message->msg.topic){
+				/* Set a new topic alias */
+				if(alias__add_r2l(mosq, message->msg.topic, topic_alias)){
+					message__cleanup(&message);
+					mosquitto_property_free_all(&properties);
+					return MOSQ_ERR_NOMEM;
+				}
+			}else{
+				/* Retrieve an existing topic alias */
+				mosquitto__free(message->msg.topic);
+				if(alias__find_by_alias(mosq, ALIAS_DIR_R2L, topic_alias, &message->msg.topic)){
+					message__cleanup(&message);
+					mosquitto_property_free_all(&properties);
+					return MOSQ_ERR_PROTOCOL;
+				}
+			}
+		}
+	}
+	/* If we haven't got a topic at this point, it's a protocol error. */
+	if(topic_alias == 0 && message->msg.topic == NULL){
+		message__cleanup(&message);
+		mosquitto_property_free_all(&properties);
+		return MOSQ_ERR_PROTOCOL;
 	}
 
 	message->msg.payloadlen = (int)(mosq->in_packet.remaining_length - mosq->in_packet.pos);

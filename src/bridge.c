@@ -340,6 +340,7 @@ int bridge__connect_step2(struct mosquitto *context)
 int bridge__connect_step3(struct mosquitto *context)
 {
 	int rc;
+	mosquitto_property topic_alias_max, *topic_alias_max_prop = NULL;
 
 	rc = net__socket_connect_step3(context, context->bridge->addresses[context->bridge->cur_address].address);
 	if(rc > 0){
@@ -361,7 +362,15 @@ int bridge__connect_step3(struct mosquitto *context)
 
 	if (bridge__set_tcp_keepalive(context) != MOSQ_ERR_SUCCESS) return MOSQ_ERR_UNKNOWN;
 
-	rc = send__connect(context, context->keepalive, context->clean_start, NULL);
+	if(context->bridge->max_topic_alias != 0){
+		topic_alias_max.next = NULL;
+		topic_alias_max.value.i16 = context->bridge->max_topic_alias;
+		topic_alias_max.identifier = MQTT_PROP_TOPIC_ALIAS_MAXIMUM;
+		topic_alias_max.client_generated = false;
+		topic_alias_max_prop = &topic_alias_max;
+	}
+
+	rc = send__connect(context, context->keepalive, context->clean_start, topic_alias_max_prop);
 	if(rc == MOSQ_ERR_SUCCESS){
 		bridge__backoff_reset(context);
 		return MOSQ_ERR_SUCCESS;
@@ -390,6 +399,7 @@ int bridge__connect(struct mosquitto *context)
 	size_t notification_topic_len;
 	uint8_t notification_payload;
 	uint8_t qos;
+	mosquitto_property topic_alias_max, *topic_alias_max_prop = NULL;
 
 	if(!context || !context->bridge) return MOSQ_ERR_INVAL;
 
@@ -504,7 +514,15 @@ int bridge__connect(struct mosquitto *context)
 
 	if (bridge__set_tcp_keepalive(context) != MOSQ_ERR_SUCCESS) return MOSQ_ERR_UNKNOWN;
 
-	rc2 = send__connect(context, context->keepalive, context->clean_start, NULL);
+	if(context->bridge->max_topic_alias){
+		topic_alias_max.next = NULL;
+		topic_alias_max.value.i16 = context->bridge->max_topic_alias;
+		topic_alias_max.identifier = MQTT_PROP_TOPIC_ALIAS_MAXIMUM;
+		topic_alias_max.client_generated = false;
+		topic_alias_max_prop = &topic_alias_max;
+	}
+
+	rc2 = send__connect(context, context->keepalive, context->clean_start, topic_alias_max_prop);
 	if(rc2 == MOSQ_ERR_SUCCESS){
 		bridge__backoff_reset(context);
 		return rc;

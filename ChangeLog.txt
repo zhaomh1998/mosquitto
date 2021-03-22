@@ -2,6 +2,10 @@
 ==================
 
 Broker:
+- Add support for broker created topic aliases. Topics are allocated on a
+  first come first serve basis.
+- Add support for bridges to allow remote brokers to create topic aliases when
+  running in MQTT v5 mode.
 - Add MOSQ_EVT_CONNECT, to allow plugins to know when a client has
   successfully authenticated to the broker.
 - Add connection-state example plugin to demonstrate MOSQ_EVT_CONNECT.
@@ -21,6 +25,7 @@ Client library:
   username/password/TLS parameters before an automatic reconnection.
 - Callbacks no longer block other callbacks, and can be set from within a
   callback. Closes #2127.
+- Add support for MQTT v5 broker to client topic aliases.
 
 
 2.0.9 - 2021-03-xx

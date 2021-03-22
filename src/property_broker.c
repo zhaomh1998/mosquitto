@@ -49,6 +49,12 @@ int property__process_connect(struct mosquitto *context, mosquitto_property **pr
 				return MOSQ_ERR_PROTOCOL;
 			}
 			context->maximum_packet_size = p->value.i32;
+		}else if(p->identifier == MQTT_PROP_TOPIC_ALIAS_MAXIMUM){
+			if(p->value.i16 > context->listener->max_topic_alias_broker){
+				context->alias_max_l2r = context->listener->max_topic_alias_broker;
+			}else{
+				context->alias_max_l2r = p->value.i16;
+			}
 		}
 		p = p->next;
 	}

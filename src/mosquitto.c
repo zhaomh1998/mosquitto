@@ -184,6 +184,7 @@ void listener__set_defaults(struct mosquitto__listener *listener)
 	listener->max_connections = -1;
 	listener->max_qos = 2;
 	listener->max_topic_alias = 10;
+	listener->max_topic_alias_broker = 10;
 }
 
 

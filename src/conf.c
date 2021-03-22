@@ -497,6 +497,7 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 		config->listeners[config->listener_count-1].use_username_as_clientid = config->default_listener.use_username_as_clientid;
 		config->listeners[config->listener_count-1].max_qos = config->default_listener.max_qos;
 		config->listeners[config->listener_count-1].max_topic_alias = config->default_listener.max_topic_alias;
+		config->listeners[config->listener_count-1].max_topic_alias_broker = config->default_listener.max_topic_alias_broker;
 #ifdef WITH_TLS
 		config->listeners[config->listener_count-1].tls_version = config->default_listener.tls_version;
 		config->listeners[config->listener_count-1].tls_engine = config->default_listener.tls_engine;
@@ -1081,6 +1082,22 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
 #endif
+				}else if(!strcmp(token, "bridge_max_topic_alias")){
+#ifdef WITH_BRIDGE
+					if(!cur_bridge){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
+						return MOSQ_ERR_INVAL;
+					}
+					if(conf__parse_int(&token, "bridge_max_topic_alias", &tmp_int, &saveptr)) return MOSQ_ERR_INVAL;
+
+					if(tmp_int < 0 || tmp_int > UINT16_MAX){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: bridge_max_topic_alias must be > 0 and <= 65535.");
+						return MOSQ_ERR_INVAL;
+					}
+					cur_bridge->max_topic_alias = (uint16_t)tmp_int;
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
+#endif
 				}else if(!strcmp(token, "bridge_outgoing_retain")){
 #if defined(WITH_BRIDGE)
 					if(!cur_bridge){
@@ -1340,6 +1357,7 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 						cur_bridge->outgoing_retain = true;
 						cur_bridge->clean_start_local = -1;
 						cur_bridge->reload_type = brt_lazy;
+						cur_bridge->max_topic_alias = 10;
 					}else{
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Empty connection value in configuration.");
 						return MOSQ_ERR_INVAL;
@@ -2164,6 +2182,20 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 						cur_listener->max_topic_alias = (uint16_t)tmp_int;
 					}else{
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Empty max_topic_alias value in configuration.");
+						return MOSQ_ERR_INVAL;
+					}
+				}else if(!strcmp(token, "max_topic_alias_broker")){
+					if(reload) continue; /* Listeners not valid for reloading. */
+					token = strtok_r(NULL, " ", &saveptr);
+					if(token){
+						tmp_int = atoi(token);
+						if(tmp_int < 0 || tmp_int > UINT16_MAX){
+							log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid max_topic_alias_broker value in configuration.");
+							return MOSQ_ERR_INVAL;
+						}
+						cur_listener->max_topic_alias_broker = (uint16_t)tmp_int;
+					}else{
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Empty max_topic_alias_broker value in configuration.");
 						return MOSQ_ERR_INVAL;
 					}
 				}else if(!strcmp(token, "try_private")){

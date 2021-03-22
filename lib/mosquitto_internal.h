@@ -137,6 +137,9 @@ enum mosquitto__transport {
 	mosq_t_sctp = 3
 };
 
+/* Alias direction - local <-> remote */
+#define ALIAS_DIR_L2R 1
+#define ALIAS_DIR_R2L 2
 
 struct mosquitto__alias{
 	char *topic;
@@ -233,9 +236,12 @@ struct mosquitto {
 	struct mosquitto__packet *current_out_packet;
 	struct mosquitto__packet *out_packet;
 	struct mosquitto_message_all *will;
-	struct mosquitto__alias *aliases;
+	struct mosquitto__alias *aliases_l2r;
+	struct mosquitto__alias *aliases_r2l;
 	struct will_delay_list *will_delay_entry;
-	int alias_count;
+	uint16_t alias_count_l2r;
+	uint16_t alias_count_r2l;
+	uint16_t alias_max_l2r;
 	uint32_t will_delay_interval;
 	time_t will_delay_time;
 #ifdef WITH_TLS
