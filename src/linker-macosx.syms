@@ -12,6 +12,7 @@ _mosquitto_client_protocol
 _mosquitto_client_protocol_version
 _mosquitto_client_sub_count
 _mosquitto_client_username
+_mosquitto_complete_basic_auth
 _mosquitto_free
 _mosquitto_kick_client_by_clientid
 _mosquitto_kick_client_by_username

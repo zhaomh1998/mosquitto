@@ -445,6 +445,7 @@ struct mosquitto_db{
 	struct mosquitto__retainhier *retains;
 	struct mosquitto *contexts_by_id;
 	struct mosquitto *contexts_by_sock;
+	struct mosquitto *contexts_by_id_delayed_auth;
 	struct mosquitto *contexts_for_free;
 #ifdef WITH_BRIDGE
 	struct mosquitto **bridges;

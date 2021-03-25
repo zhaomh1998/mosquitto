@@ -592,4 +592,29 @@ mosq_EXPORT int mosquitto_broker_publish_copy(
 }
 #endif
 
+/* Function: mosquitto_complete_basic_auth
+ *
+ * Complete a delayed authentication request.
+ *
+ * Useful for plugins that subscribe to the MOSQ_EVT_BASIC_AUTH event. If your
+ * plugin makes authentication requests that are not "instant", in particular
+ * if they communicate with an external service, then instead of blocking for a
+ * reply and returning MOSQ_ERR_SUCCESS or MOSQ_ERR_AUTH, the plugin can return
+ * MOSQ_ERR_AUTH_DELAYED. This means that the plugin is promising to tell the
+ * broker the authentication result in the future. Once the plugin has an
+ * answer, it should call `mosquitto_complete_basic_auth()` passing the client
+ * id and the result.
+ *
+ * Result:
+ *  MOSQ_ERR_SUCCESS - the client successfully authenticated
+ *  MOSQ_ERR_AUTH - the client authentication failed
+ *
+ * Other error codes can be used if more appropriate, and the client connection
+ * will still be rejected, e.g. MOSQ_ERR_NOMEM.
+ *
+ * The plugin may use extra threads to handle the authentication requests, but
+ * the call to `mosquitto_complete_basic_auth()` must happen in the main
+ * mosquitto thread. Using the MOSQ_EVT_TICK event for this is suggested.
+ */
+void mosquitto_complete_basic_auth(const char *client_id, int result);
 #endif

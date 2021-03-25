@@ -85,6 +85,7 @@ extern "C" {
 
 /* Error values */
 enum mosq_err_t {
+	MOSQ_ERR_AUTH_DELAYED = -5,
 	MOSQ_ERR_AUTH_CONTINUE = -4,
 	MOSQ_ERR_NO_SUBSCRIBERS = -3,
 	MOSQ_ERR_SUB_EXISTS = -2,

@@ -27,6 +27,7 @@ Contributors:
 #include "util_mosq.h"
 #include "utlist.h"
 #include "lib_load.h"
+#include "will_mosq.h"
 
 
 static bool check_callback_exists(struct mosquitto__callback *cb_base, MOSQ_FUNC_generic_callback cb_func)
@@ -344,4 +345,29 @@ int mosquitto_callback_unregister(
 	}
 
 	return remove_callback(cb_base, cb_func);
+}
+
+void mosquitto_complete_basic_auth(const char *client_id, int result)
+{
+	struct mosquitto *context;
+
+	if(client_id == NULL) return;
+
+	HASH_FIND(hh_id, db.contexts_by_id_delayed_auth, client_id, strlen(client_id), context);
+	if(context){
+		HASH_DELETE(hh_id, db.contexts_by_id_delayed_auth, context);
+		if(result == MOSQ_ERR_SUCCESS){
+			connect__on_authorised(context, NULL, 0);
+		}else{
+			if(context->protocol == mosq_p_mqtt5){
+				send__connack(context, 0, MQTT_RC_NOT_AUTHORIZED, NULL);
+			}else{
+				send__connack(context, 0, CONNACK_REFUSED_NOT_AUTHORIZED, NULL);
+			}
+			context->clean_start = true;
+			context->session_expiry_interval = 0;
+			will__clear(context);
+			do_disconnect(context, MOSQ_ERR_AUTH);
+		}
+	}
 }

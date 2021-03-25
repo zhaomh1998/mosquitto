@@ -3,6 +3,7 @@ DIRS= \
 		auth-by-ip \
 		client-properties \
 		connection-state \
+		delayed-auth \
 		message-timestamp \
 		payload-modification
 

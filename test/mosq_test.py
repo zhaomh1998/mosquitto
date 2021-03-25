@@ -274,8 +274,15 @@ def to_string(packet):
         return s
     elif cmd == 0x20:
         # CONNACK
-        (cmd, rl, resv, rc) = struct.unpack('!BBBB', packet)
-        return "CONNACK, rl="+str(rl)+", res="+str(resv)+", rc="+str(rc)
+        if len(packet) == 4:
+            (cmd, rl, resv, rc) = struct.unpack('!BBBB', packet)
+            return "CONNACK, rl="+str(rl)+", res="+str(resv)+", rc="+str(rc)
+        elif len(packet) == 5:
+            (cmd, rl, flags, reason_code, proplen) = struct.unpack('!BBBBB', packet)
+            return "CONNACK, rl="+str(rl)+", flags="+str(flags)+", rc="+str(reason_code)+", proplen="+str(proplen)
+        else:
+            return "CONNACK, (not decoded)"
+
     elif cmd == 0x30:
         # PUBLISH
         dup = (packet0 & 0x08)>>3

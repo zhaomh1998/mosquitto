@@ -406,6 +406,7 @@ int handle__connect(struct mosquitto *context)
 	uint8_t protocol_version;
 	uint8_t connect_flags;
 	char *client_id = NULL;
+	struct mosquitto *found_context;
 	struct mosquitto_message_all *will_struct = NULL;
 	uint8_t will, will_retain, will_qos, clean_start;
 	uint8_t username_flag, password_flag;
@@ -627,6 +628,13 @@ int handle__connect(struct mosquitto *context)
 			rc = MOSQ_ERR_AUTH;
 			goto handle_connect_error;
 		}
+	}
+
+	/* Check for an existing delayed auth check, reject if present */
+	HASH_FIND(hh_id, db.contexts_by_id_delayed_auth, client_id, strlen(client_id), found_context);
+	if(found_context){
+		rc = MOSQ_ERR_UNKNOWN;
+		goto handle_connect_error;
 	}
 
 	if(will){
@@ -889,7 +897,7 @@ int handle__connect(struct mosquitto *context)
 #endif
 		{
 			rc = mosquitto_unpwd_check(context);
-			if(rc != MOSQ_ERR_SUCCESS){
+			if(rc != MOSQ_ERR_SUCCESS && rc != MOSQ_ERR_AUTH_DELAYED){
 				/* We must have context->id == NULL here so we don't later try and
 				* remove the client from the by_id hash table */
 				mosquitto__free(context->id);
@@ -897,6 +905,11 @@ int handle__connect(struct mosquitto *context)
 			}
 			switch(rc){
 				case MOSQ_ERR_SUCCESS:
+					break;
+				case MOSQ_ERR_AUTH_DELAYED:
+					mosquitto__set_state(context, mosq_cs_delayed_auth);
+					HASH_ADD_KEYPTR(hh_id, db.contexts_by_id_delayed_auth, context->id, strlen(context->id), context);
+					return MOSQ_ERR_SUCCESS;
 					break;
 				case MOSQ_ERR_AUTH:
 					if(context->protocol == mosq_p_mqtt5){

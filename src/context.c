@@ -69,8 +69,8 @@ struct mosquitto *context__init(void)
 	mosquitto__set_state(context, mosq_cs_new);
 	context->sock = INVALID_SOCKET;
 	context->last_msg_in = db.now_s;
-	context->next_msg_out = db.now_s + 60;
-	context->keepalive = 60; /* Default to 60s */
+	context->next_msg_out = db.now_s + 20;
+	context->keepalive = 20; /* Default to 20s */
 	context->clean_start = true;
 	context->id = NULL;
 	context->last_mid = 0;
@@ -294,6 +294,11 @@ void context__remove_from_by_id(struct mosquitto *context)
 	struct mosquitto *context_found;
 
 	if(context->removed_from_by_id == false && context->id){
+		HASH_FIND(hh_id, db.contexts_by_id_delayed_auth, context->id, strlen(context->id), context_found);
+		if(context_found){
+			HASH_DELETE(hh_id, db.contexts_by_id_delayed_auth, context_found);
+		}
+
 		HASH_FIND(hh_id, db.contexts_by_id, context->id, strlen(context->id), context_found);
 		if(context_found){
 			HASH_DELETE(hh_id, db.contexts_by_id, context_found);

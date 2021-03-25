@@ -26,6 +26,14 @@ disconnect events. It publishes messages to
 $SYS/broker/connection/client/<client id>/state for every client that connects
 to the broker, to indicate the connection state of that client.
 
+## Examples / Deferred authentication
+This is an **example** plugin to demonstrate how a plugin can carry out
+delayed basic authentication. This method should be used where the plugin
+sends an authentication request to an external server so that if there is a
+delay in getting a response it does not block the broker. The plugin may spawn
+extra threads to handle the authentication requests, but the call to
+`mosquitto_complete_basic_auth()` must happen in the main Mosquitto thread.
+
 ## Examples / Message timestamp
 This is an **example** plugin to demonstrate how it is possible to attach MQTT
 v5 properties to messages after they have been received, and before they are
