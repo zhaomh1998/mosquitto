@@ -1,8 +1,9 @@
-include ../../config.mk
+include ../../../config.mk
 
 .PHONY : all binary check clean reallyclean test install uninstall
 
-PLUGIN_NAME=add_properties
+PLUGIN_NAME=mosquitto_connection_state
+PLUGIN_CFLAGS+=-I../../../include -I../../../
 
 all : binary
 

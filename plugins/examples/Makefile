@@ -1,6 +1,10 @@
 DIRS= \
-		dynamic-security \
-		examples
+		add-properties \
+		auth-by-ip \
+		client-properties \
+		connection-state \
+		message-timestamp \
+		payload-modification
 
 .PHONY : all binary check clean reallyclean test install uninstall
 

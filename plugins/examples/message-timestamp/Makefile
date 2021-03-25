@@ -1,8 +1,9 @@
-include ../../config.mk
+include ../../../config.mk
 
 .PHONY : all binary check clean reallyclean test install uninstall
 
-PLUGIN_NAME=printf_example
+PLUGIN_NAME=mosquitto_message_timestamp
+PLUGIN_CFLAGS+=-I../../../include -I../../../
 
 all : binary
 
