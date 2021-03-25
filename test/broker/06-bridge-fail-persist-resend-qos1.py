@@ -18,6 +18,7 @@ def write_config(filename, port1, port2, protocol_version):
         f.write("restart_timeout 5\n")
         f.write("try_private false\n")
         f.write("bridge_protocol_version %s\n" % (protocol_version))
+        f.write("bridge_max_topic_alias 0\n")
 
 
 

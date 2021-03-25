@@ -19,6 +19,7 @@ def write_config(filename, port1, port2, protocol_version):
         f.write("notifications false\n")
         f.write("restart_timeout 5\n")
         f.write("bridge_protocol_version %s\n" % (protocol_version))
+        f.write("bridge_max_topic_alias 0\n")
 
 
 def inner_test(bridge, sock, proto_ver):

@@ -53,6 +53,7 @@ def write_config_edge(filename, persistence_file, remote_port, listen_port, prot
         if lcs is not None:
             f.write("local_cleansession %s\n" % ("true" if lcs else "false"))
         f.write("bridge_protocol_version %s\n" % (protocol_version))
+        f.write("bridge_max_topic_alias 0\n")
 
 
 # this is our "B" broker

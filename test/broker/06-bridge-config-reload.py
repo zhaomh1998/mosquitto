@@ -17,7 +17,8 @@ def write_config(filename, port1, port2, subtopic, reload_immediate=False):
         f.write("notifications false\n")
         f.write("restart_timeout 1\n")
         if reload_immediate:
-            f.write("bridge_reload_type immediate")
+            f.write("bridge_reload_type immediate\n")
+        f.write("bridge_max_topic_alias 0\n")
 
 
 def accept_new_connection(sock):

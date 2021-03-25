@@ -14,6 +14,7 @@ def write_config(filename, port1, port2, protocol_version):
         f.write("topic bridge/# out 1\n")
         f.write("notifications false\n")
         f.write("bridge_attempt_unsubscribe false\n")
+        f.write("bridge_max_topic_alias 0\n")
         f.write("bridge_protocol_version %s\n" % (protocol_version))
 
 def do_test(proto_ver):

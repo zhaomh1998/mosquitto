@@ -23,6 +23,7 @@ def write_config2(filename, persistence_file, port1, port2, protocol_version):
         f.write("notifications false\n")
         f.write("bridge_attempt_unsubscribe false\n")
         f.write("bridge_protocol_version %s\n" % (protocol_version))
+        f.write("bridge_max_topic_alias 0\n")
         f.write("persistence true\n")
         f.write("persistence_file %s\n" % (persistence_file))
 

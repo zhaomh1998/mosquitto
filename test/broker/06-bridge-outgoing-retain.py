@@ -17,6 +17,7 @@ def write_config(filename, port1, port2, protocol_version, outgoing_retain):
         f.write("restart_timeout 5\n")
         f.write("bridge_protocol_version %s\n" %(protocol_version))
         f.write("bridge_outgoing_retain %s\n" %(outgoing_retain))
+        f.write("bridge_max_topic_alias 0\n")
 
 def do_test(proto_ver, outgoing_retain):
     if proto_ver == 4:
