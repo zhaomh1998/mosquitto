@@ -28,7 +28,8 @@ def do_test(start_broker):
     disconnect2_packet = mosq_test.gen_disconnect(proto_ver=5, properties=props)
 
     port = mosq_test.get_port()
-    broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
+    if start_broker:
+        broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port)
 
     try:
         # Connect client with wildly different session expiry, this should impact
