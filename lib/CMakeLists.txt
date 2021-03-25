@@ -15,6 +15,7 @@ endif (WITH_BUNDLED_DEPS)
 
 set(C_SRC
 	actions.c
+	alias_mosq.c alias_mosq.h
 	callbacks.c
 	connect.c
 	handle_auth.c
