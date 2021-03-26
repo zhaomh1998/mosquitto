@@ -991,7 +991,6 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 #endif
 				}else if(!strcmp(token, "bridge_bind_address")){
 #if defined(WITH_BRIDGE) && defined(WITH_TLS)
-					if(reload) continue; /* FIXME */
 					if(!cur_bridge){
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
 						return MOSQ_ERR_INVAL;
