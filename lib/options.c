@@ -231,13 +231,19 @@ int mosquitto_tls_opts_set(struct mosquitto *mosq, int cert_reqs, const char *tl
 		mosq->tls_version = mosquitto__strdup("tlsv1.2");
 		if(!mosq->tls_version) return MOSQ_ERR_NOMEM;
 	}
-	if(ciphers){
-		mosq->tls_ciphers = mosquitto__strdup(ciphers);
-		if(!mosq->tls_ciphers) return MOSQ_ERR_NOMEM;
-	}else{
-		mosq->tls_ciphers = NULL;
-	}
 
+	mosq->tls_ciphers = NULL;
+	mosq->tls_13_ciphers = NULL;
+
+	if(ciphers){
+		if(!strcasecmp(tls_version, "tlsv1.3")){
+			mosq->tls_13_ciphers = mosquitto__strdup(ciphers);
+			if(!mosq->tls_13_ciphers) return MOSQ_ERR_NOMEM;
+		}else{
+			mosq->tls_ciphers = mosquitto__strdup(ciphers);
+			if(!mosq->tls_ciphers) return MOSQ_ERR_NOMEM;
+		}
+	}
 
 	return MOSQ_ERR_SUCCESS;
 #else

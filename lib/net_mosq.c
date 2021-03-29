@@ -760,6 +760,17 @@ static int net__init_ssl_ctx(struct mosquitto *mosq)
 				return MOSQ_ERR_TLS;
 			}
 		}
+
+#if OPENSSL_VERSION_NUMBER >= 0x10101000 && !defined(LIBRESSL_VERSION_NUMBER)
+		if(mosq->tls_13_ciphers){
+			ret = SSL_CTX_set_ciphersuites(mosq->ssl_ctx, mosq->tls_13_ciphers);
+			if(ret == 0){
+				log__printf(NULL, MOSQ_LOG_ERR, "Error: Unable to set TLS 1.3 ciphersuites. Check cipher_tls13 list \"%s\".", mosq->tls_13_ciphers);
+				return MOSQ_ERR_TLS;
+			}
+		}
+#endif
+
 		if(mosq->tls_cafile || mosq->tls_capath || mosq->tls_use_os_certs){
 			ret = net__tls_load_ca(mosq);
 			if(ret != MOSQ_ERR_SUCCESS){
