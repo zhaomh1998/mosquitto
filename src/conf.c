@@ -989,6 +989,26 @@ int config__read_file_core(struct mosquitto__config *config, bool reload, struct
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge and/or TLS support not available.");
 #endif
+				}else if(!strcmp(token, "bridge_ciphers")){
+#if defined(WITH_BRIDGE) && defined(WITH_TLS)
+					if(!cur_bridge){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
+						return MOSQ_ERR_INVAL;
+					}
+					if(conf__parse_string(&token, "bridge_ciphers", &cur_bridge->tls_ciphers, &saveptr)) return MOSQ_ERR_INVAL;
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge and/or TLS support not available.");
+#endif
+				}else if(!strcmp(token, "bridge_ciphers_tls1.3")){
+#if defined(WITH_BRIDGE) && defined(WITH_TLS)
+					if(!cur_bridge){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
+						return MOSQ_ERR_INVAL;
+					}
+					if(conf__parse_string(&token, "bridge_ciphers_tls1.3", &cur_bridge->tls_13_ciphers, &saveptr)) return MOSQ_ERR_INVAL;
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge and/or TLS support not available.");
+#endif
 				}else if(!strcmp(token, "bridge_bind_address")){
 #if defined(WITH_BRIDGE) && defined(WITH_TLS)
 					if(reload) continue; /* FIXME */
