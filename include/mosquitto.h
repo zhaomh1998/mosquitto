@@ -165,6 +165,9 @@ typedef struct mqtt5__property mosquitto_property;
  *	libmosquitto provides thread safe operation, with the exception of
  *	<mosquitto_lib_init> which is not thread safe.
  *
+ *	If the library has been compiled without thread support it is *not*
+ *	guaranteed to be thread safe.
+ *
  *	If your application uses threads you must use <mosquitto_threaded_set> to
  *	tell the library this is the case, otherwise it makes some optimisations
  *	for the single threaded case that may result in unexpected behaviour for
