@@ -24,6 +24,7 @@ Contributors:
 #define MAX_EVENTS 1000
 #define _GNU_SOURCE
 
+#include <errno.h>
 #include <signal.h>
 #include <sys/epoll.h>
 
