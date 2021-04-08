@@ -1,6 +1,11 @@
 2.0.11 - 2021-xx-xx
 ===================
 
+Broker:
+- Fix possible crash having just upgraded from 1.6 if `per_listener_settings
+  true` is set, and a SIGHUP is sent to the broker before a client has
+  reconnected to the broker. Closes #2167.
+
 Clients:
 - If sending mosquitto_sub output to a pipe, mosquitto_sub will now detect
   that the pipe has closed and disconnect. Closes #2164.
