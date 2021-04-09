@@ -27,6 +27,9 @@ Client library:
   callback. Closes #2127.
 - Add support for MQTT v5 broker to client topic aliases.
 
+Clients:
+- Add `-o` option for all clients loading options from a specific file.
+
 
 2.0.9 - 2021-03-xx
 ==================

@@ -430,6 +430,7 @@ void print_usage(void)
 #endif
 	printf("                     [--property command identifier value]\n");
 	printf("                     [-D command identifier value]\n");
+	printf("                     [-o options-file]\n");
 	printf("       mosquitto_pub --help\n\n");
 	printf(" -A : bind the outgoing socket to this host/ip address. Use to control which interface\n");
 	printf("      the client communicates over.\n");
@@ -452,6 +453,8 @@ void print_usage(void)
 	printf(" -m : message payload to send.\n");
 	printf(" -M : the maximum inflight messages for QoS 1/2..\n");
 	printf(" -n : send a null (zero length) message.\n");
+	printf(" -o : provide options in a file rather than on the command line.\n");
+	printf("      See the Options section of https://mosquitto.org/man/mosquitto_pub-1.html\n");
 	printf(" -p : network port to connect to. Defaults to 1883 for plain MQTT and 8883 for MQTT over TLS.\n");
 	printf(" -P : provide a password\n");
 	printf(" -q : quality of service level to use for all messages. Defaults to 0.\n");

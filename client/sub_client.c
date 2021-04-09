@@ -230,6 +230,7 @@ void print_usage(void)
 	printf("                     [--proxy socks-url]\n");
 #endif
 	printf("                     [-D command identifier value]\n");
+	printf("                     [-o options-file]\n");
 	printf("       mosquitto_sub --help\n\n");
 	printf(" -A : bind the outgoing socket to this host/ip address. Use to control which interface\n");
 	printf("      the client communicates over.\n");
@@ -251,6 +252,8 @@ void print_usage(void)
 	printf(" -L : specify user, password, hostname, port and topic as a URL in the form:\n");
 	printf("      mqtt(s)://[username[:password]@]host[:port]/topic\n");
 	printf(" -N : do not add an end of line character when printing the payload.\n");
+	printf(" -o : provide options in a file rather than on the command line.\n");
+	printf("      See the Options section of https://mosquitto.org/man/mosquitto_pub-1.html\n");
 	printf(" -p : network port to connect to. Defaults to 1883 for plain MQTT and 8883 for MQTT over TLS.\n");
 	printf(" -P : provide a password\n");
 	printf(" -q : quality of service level to use for the subscription. Defaults to 0.\n");

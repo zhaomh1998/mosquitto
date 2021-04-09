@@ -265,7 +265,31 @@ void client_config_cleanup(struct mosq_config *cfg)
 	mosquitto_property_free_all(&cfg->unsubscribe_props);
 	mosquitto_property_free_all(&cfg->disconnect_props);
 	mosquitto_property_free_all(&cfg->will_props);
+	free(cfg->options_file);
 }
+
+/* Find if there is "-o" in the options */
+static int client_config_options_file(struct mosq_config *cfg, int argc, char *argv[])
+{
+	int i;
+
+	for(i=1; i<argc; i++){
+		if(!strcmp(argv[i], "-o")){
+			if(cfg->options_file){
+				fprintf(stderr, "Error: Duplicate -o argument given.\n\n");
+				return 1;
+			}
+			if(i==argc-1){
+				fprintf(stderr, "Error: -o argument given but no options file specified.\n\n");
+				return 1;
+			}else{
+				cfg->options_file = strdup(argv[i+1]);
+			}
+		}
+	}
+	return 0;
+}
+
 
 int client_config_load(struct mosq_config *cfg, int pub_or_sub, int argc, char *argv[])
 {
@@ -286,94 +310,104 @@ int client_config_load(struct mosq_config *cfg, int pub_or_sub, int argc, char *
 
 	init_config(cfg, pub_or_sub);
 
+	if(client_config_options_file(cfg, argc, argv)){
+		return 1;
+	}
+
+	if(cfg->options_file == NULL){
 	/* Default config file */
 #ifndef WIN32
-	env = getenv("XDG_CONFIG_HOME");
-	if(env){
-		len = strlen(env) + strlen("/mosquitto_pub") + 1;
-		loc = malloc(len);
-		if(!loc){
-			err_printf(cfg, "Error: Out of memory.\n");
-			return 1;
-		}
-		if(pub_or_sub == CLIENT_PUB){
-			snprintf(loc, len, "%s/mosquitto_pub", env);
-		}else if(pub_or_sub == CLIENT_SUB){
-			snprintf(loc, len, "%s/mosquitto_sub", env);
-		}else{
-			snprintf(loc, len, "%s/mosquitto_rr", env);
-		}
-		loc[len-1] = '\0';
-	}else{
-		env = getenv("HOME");
+		env = getenv("XDG_CONFIG_HOME");
 		if(env){
-			len = strlen(env) + strlen("/.config/mosquitto_pub") + 1;
+			len = strlen(env) + strlen("/mosquitto_pub") + 1;
 			loc = malloc(len);
 			if(!loc){
 				err_printf(cfg, "Error: Out of memory.\n");
 				return 1;
 			}
 			if(pub_or_sub == CLIENT_PUB){
-				snprintf(loc, len, "%s/.config/mosquitto_pub", env);
+				snprintf(loc, len, "%s/mosquitto_pub", env);
 			}else if(pub_or_sub == CLIENT_SUB){
-				snprintf(loc, len, "%s/.config/mosquitto_sub", env);
+				snprintf(loc, len, "%s/mosquitto_sub", env);
 			}else{
-				snprintf(loc, len, "%s/.config/mosquitto_rr", env);
+				snprintf(loc, len, "%s/mosquitto_rr", env);
 			}
 			loc[len-1] = '\0';
+		}else{
+			env = getenv("HOME");
+			if(env){
+				len = strlen(env) + strlen("/.config/mosquitto_pub") + 1;
+				loc = malloc(len);
+				if(!loc){
+					err_printf(cfg, "Error: Out of memory.\n");
+					return 1;
+				}
+				if(pub_or_sub == CLIENT_PUB){
+					snprintf(loc, len, "%s/.config/mosquitto_pub", env);
+				}else if(pub_or_sub == CLIENT_SUB){
+					snprintf(loc, len, "%s/.config/mosquitto_sub", env);
+				}else{
+					snprintf(loc, len, "%s/.config/mosquitto_rr", env);
+				}
+				loc[len-1] = '\0';
+			}
 		}
-	}
 
 #else
-	rc = GetEnvironmentVariable("USERPROFILE", env, 1024);
-	if(rc > 0 && rc < 1024){
-		len = strlen(env) + strlen("\\mosquitto_pub.conf") + 1;
-		loc = malloc(len);
-		if(!loc){
-			err_printf(cfg, "Error: Out of memory.\n");
-			return 1;
-		}
-		if(pub_or_sub == CLIENT_PUB){
-			snprintf(loc, len, "%s\\mosquitto_pub.conf", env);
-		}else if(pub_or_sub == CLIENT_SUB){
-			snprintf(loc, len, "%s\\mosquitto_sub.conf", env);
-		}else{
-			snprintf(loc, len, "%s\\mosquitto_rr.conf", env);
-		}
+		rc = GetEnvironmentVariable("USERPROFILE", env, 1024);
+		if(rc > 0 && rc < 1024){
+			len = strlen(env) + strlen("\\mosquitto_pub.conf") + 1;
+			loc = malloc(len);
+			if(!loc){
+				err_printf(cfg, "Error: Out of memory.\n");
+				return 1;
+			}
+			if(pub_or_sub == CLIENT_PUB){
+				snprintf(loc, len, "%s\\mosquitto_pub.conf", env);
+			}else if(pub_or_sub == CLIENT_SUB){
+				snprintf(loc, len, "%s\\mosquitto_sub.conf", env);
+			}else{
+				snprintf(loc, len, "%s\\mosquitto_rr.conf", env);
+			}
 		loc[len-1] = '\0';
-	}
+		}
 #endif
+	}
 
-	if(loc){
+	if(cfg->options_file){
+		fptr = fopen(cfg->options_file, "rt");
+	}else if(loc){
 		fptr = fopen(loc, "rt");
-		if(fptr){
-			while(fgets(line, 1024, fptr)){
-				if(line[0] == '#') continue; /* Comments */
+		free(loc);
+	}else{
+		return 1;
+	}
+	if(fptr){
+		while(fgets(line, 1024, fptr)){
+			if(line[0] == '#') continue; /* Comments */
 
-				while(line[strlen(line)-1] == 10 || line[strlen(line)-1] == 13){
-					line[strlen(line)-1] = 0;
+			while(line[strlen(line)-1] == 10 || line[strlen(line)-1] == 13){
+				line[strlen(line)-1] = 0;
+			}
+			/* All offset by one "args" here, because real argc/argv has
+			 * program name as the first entry. */
+			args[1] = strtok(line, " ");
+			if(args[1]){
+				args[2] = strtok(NULL, "");
+				if(args[2]){
+					count = 3;
+				}else{
+					count = 2;
 				}
-				/* All offset by one "args" here, because real argc/argv has
-				 * program name as the first entry. */
-				args[1] = strtok(line, " ");
-				if(args[1]){
-					args[2] = strtok(NULL, "");
-					if(args[2]){
-						count = 3;
-					}else{
-						count = 2;
-					}
-					rc = client_config_line_proc(cfg, pub_or_sub, count, args);
-					if(rc){
-						fclose(fptr);
-						free(loc);
-						return rc;
-					}
+				rc = client_config_line_proc(cfg, pub_or_sub, count, args);
+				if(rc){
+					fclose(fptr);
+					free(loc);
+					return rc;
 				}
 			}
-			fclose(fptr);
 		}
-		free(loc);
+		fclose(fptr);
 	}
 
 	/* Deal with real argc/argv */
@@ -518,6 +552,7 @@ int cfg_add_topic(struct mosq_config *cfg, int type, char *topic, const char *ar
 	}
 	return 0;
 }
+
 
 /* Process a tokenised single line from a file or set of real argc/argv */
 int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, char *argv[])
@@ -841,6 +876,14 @@ int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, c
 				goto unknown_option;
 			}
 			cfg->eol = false;
+		}else if(!strcmp(argv[i], "-o")){
+			if(i==argc-1){
+				fprintf(stderr, "Error: -o argument given but no options file specified.\n\n");
+				return 1;
+			}else{
+				/* Already handled */
+			}
+			i++;
 		}else if(!strcmp(argv[i], "-p") || !strcmp(argv[i], "--port")){
 			if(i==argc-1){
 				fprintf(stderr, "Error: -p argument given but no port specified.\n\n");

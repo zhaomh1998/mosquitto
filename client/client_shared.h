@@ -126,6 +126,7 @@ struct mosq_config {
 	bool have_topic_alias; /* pub */
 	char *response_topic; /* rr */
 	bool tcp_nodelay;
+	char *options_file;
 };
 
 int client_config_load(struct mosq_config *config, int pub_or_sub, int argc, char *argv[]);

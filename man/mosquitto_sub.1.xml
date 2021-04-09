@@ -129,19 +129,41 @@
 
 	<refsect1>
 		<title>Options</title>
-		<para>The options below may be given on the command line, but may also
-			be placed in a config file located at
+		<para>
+			There are three ways to provide options to mosquitto_sub: the
+			default config file, a specified config file, or options on
+			the command line.
+		</para>
+		<para>
+			The default config file is located at
 			<option>$XDG_CONFIG_HOME/mosquitto_sub</option> or
-			<option>$HOME/.config/mosquitto_sub</option> with one pair of
-			<option>-option <replaceable>value</replaceable></option>
-			per line. The values in the config file will be used as defaults
-			and can be overridden by using the command line. The exceptions to
-			this are <option>-t</option> and <option>-T</option>, which if
-			given in the config file will not be overridden. Note also that
-			currently some options cannot be negated, e.g.
-			<option>-S</option>. Config file lines that have a
+			<option>$HOME/.config/mosquitto_sub</option> on POSIX systems, or
+			<option>%USERPROFILE%\mosquitto_sub</option> on Windows.
+		</para>
+		<para>
+			A config file can be specified on the command line using
+			<option>-o <replaceable>config-file</replaceable></option>.
+			If the <option>-o</option> option is used, the default config
+			file will not be loaded.
+		</para>
+		<para>
+			In both cases, the contents of the config file should consist of
+			options, one per line in the format:
+			<option>-option <replaceable>value</replaceable></option>. If
+			options are also specified on the command line, those
+			options will override the same options set in the config
+			file. The exceptions to this are the message type options, of which
+			only one can be specified. Note also that currently some options
+			cannot be negated, e.g. <option>-S</option>. Config file lines that have a
 			<option>#</option> as the first character are treated as comments
-			and not processed any further.</para>
+			and not processed any further.
+		</para>
+		<para>
+			It is suggested that config files are primarily used for
+			authentication purposes. Use of a config file allows you to
+			authenticate without the need to show the username and password
+			on the command line.
+		</para>
 		<variablelist>
 			<varlistentry>
 				<term><option>-A</option></term>
