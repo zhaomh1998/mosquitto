@@ -26,7 +26,7 @@
 		mosquitto. This file can reside anywhere as long as mosquitto can read
 		it. By default, mosquitto does not need a configuration file and will
 		use the default values listed below. See
-		<citerefentry><refentrytitle>mosquitto</refentrytitle><manvolnum>8</manvolnum></citerefentry>
+		<citerefentry><refentrytitle><link xlink:href="mosquitto-8.html">mosquitto</link></refentrytitle><manvolnum>8</manvolnum></citerefentry>
 		for information on how to load a configuration file.</para>
 	</refsect1>
 
@@ -737,7 +737,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 					<para>Set the path to a password file. If defined, the
 						contents of the file are used to control client access
 						to the broker. The file can be created using the
-						<citerefentry><refentrytitle>mosquitto_passwd</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+						<citerefentry><refentrytitle><link xlink:href="mosquitto_passwd-1.html">mosquitto_passwd</link></refentrytitle><manvolnum>1</manvolnum></citerefentry>
 						utility. If mosquitto is compiled without TLS support
 						(it is recommended that TLS support is included), then
 						the password file should be a text file with each line
@@ -765,7 +765,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 						Clients that are already connected will not be
 						affected.</para>
 					<para>See also
-						<citerefentry><refentrytitle>mosquitto_passwd</refentrytitle><manvolnum>1</manvolnum></citerefentry> and
+						<citerefentry><refentrytitle><link xlink:href="mosquitto_passwd-1.html">mosquitto_passwd</link></refentrytitle><manvolnum>1</manvolnum></citerefentry> and
 						<ulink url="https://mosquitto.org/documentation/dynamic-security/"/>
 					</para>
 				</listitem>
@@ -1107,7 +1107,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 							to have "unlimited" connections. Note that other
 							limits may be imposed that are outside the control
 							of mosquitto.  See e.g.
-							<citerefentry><refentrytitle>limits.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>.</para>
+							<citerefentry><refentrytitle><link xlink:href="http://linux.die.net/man/5/limits.conf">limits.conf</link></refentrytitle></citerefentry>.</para>
 						<para>Not reloaded on reload signal.</para>
 					</listitem>
 				</varlistentry>
