@@ -861,6 +861,8 @@ int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, c
 			i++;
 		}else if(!strcmp(argv[i], "--nodelay")){
 			cfg->tcp_nodelay = true;
+		}else if(!strcmp(argv[i], "--no-tls")){
+			cfg->no_tls = true;
 		}else if(!strcmp(argv[i], "-n") || !strcmp(argv[i], "--null-message")){
 			if(pub_or_sub == CLIENT_SUB){
 				goto unknown_option;
@@ -1271,9 +1273,71 @@ unknown_option:
 	return 1;
 }
 
+
+#ifdef WITH_TLS
+static int client_tls_opts_set(struct mosquitto *mosq, struct mosq_config *cfg)
+{
+	int rc;
+
+	if(cfg->no_tls){
+		return MOSQ_ERR_SUCCESS;
+	}
+
+	if(cfg->cafile || cfg->capath){
+		rc = mosquitto_tls_set(mosq, cfg->cafile, cfg->capath, cfg->certfile, cfg->keyfile, NULL);
+		if(rc){
+			if(rc == MOSQ_ERR_INVAL){
+				err_printf(cfg, "Error: Problem setting TLS options: File not found.\n");
+			}else{
+				err_printf(cfg, "Error: Problem setting TLS options: %s.\n", mosquitto_strerror(rc));
+			}
+			return 1;
+		}
+	}else if(cfg->port == 8883){
+		mosquitto_int_option(mosq, MOSQ_OPT_TLS_USE_OS_CERTS, 1);
+	}
+	if(cfg->tls_use_os_certs){
+		mosquitto_int_option(mosq, MOSQ_OPT_TLS_USE_OS_CERTS, 1);
+	}
+
+	if(cfg->insecure && mosquitto_tls_insecure_set(mosq, true)){
+		err_printf(cfg, "Error: Problem setting TLS insecure option.\n");
+		return 1;
+	}
+	if(cfg->tls_engine && mosquitto_string_option(mosq, MOSQ_OPT_TLS_ENGINE, cfg->tls_engine)){
+		err_printf(cfg, "Error: Problem setting TLS engine, is %s a valid engine?\n", cfg->tls_engine);
+		return 1;
+	}
+	if(cfg->keyform && mosquitto_string_option(mosq, MOSQ_OPT_TLS_KEYFORM, cfg->keyform)){
+		err_printf(cfg, "Error: Problem setting key form, it must be one of 'pem' or 'engine'.\n");
+		return 1;
+	}
+	if(cfg->tls_engine_kpass_sha1 && mosquitto_string_option(mosq, MOSQ_OPT_TLS_ENGINE_KPASS_SHA1, cfg->tls_engine_kpass_sha1)){
+		err_printf(cfg, "Error: Problem setting TLS engine key pass sha, is it a 40 character hex string?\n");
+		return 1;
+	}
+	if(cfg->tls_alpn && mosquitto_string_option(mosq, MOSQ_OPT_TLS_ALPN, cfg->tls_alpn)){
+		err_printf(cfg, "Error: Problem setting TLS ALPN protocol.\n");
+		return 1;
+	}
+#  ifdef FINAL_WITH_TLS_PSK
+	if(cfg->psk && mosquitto_tls_psk_set(mosq, cfg->psk, cfg->psk_identity, NULL)){
+		err_printf(cfg, "Error: Problem setting TLS-PSK options.\n");
+		return 1;
+	}
+#  endif
+	if((cfg->tls_version || cfg->ciphers) && mosquitto_tls_opts_set(mosq, 1, cfg->tls_version, cfg->ciphers)){
+		err_printf(cfg, "Error: Problem setting TLS options, check the options are valid.\n");
+		return 1;
+	}
+	return MOSQ_ERR_SUCCESS;
+}
+#endif
+
+
 int client_opts_set(struct mosquitto *mosq, struct mosq_config *cfg)
 {
-#if defined(WITH_TLS) || defined(WITH_SOCKS)
+#if defined(WITH_SOCKS)
 	int rc;
 #endif
 
@@ -1295,58 +1359,7 @@ int client_opts_set(struct mosquitto *mosq, struct mosq_config *cfg)
 		return 1;
 	}
 #ifdef WITH_TLS
-	if(cfg->cafile || cfg->capath){
-		rc = mosquitto_tls_set(mosq, cfg->cafile, cfg->capath, cfg->certfile, cfg->keyfile, NULL);
-		if(rc){
-			if(rc == MOSQ_ERR_INVAL){
-				err_printf(cfg, "Error: Problem setting TLS options: File not found.\n");
-			}else{
-				err_printf(cfg, "Error: Problem setting TLS options: %s.\n", mosquitto_strerror(rc));
-			}
-			mosquitto_lib_cleanup();
-			return 1;
-		}
-	}else if(cfg->port == 8883){
-		mosquitto_int_option(mosq, MOSQ_OPT_TLS_USE_OS_CERTS, 1);
-	}
-	if(cfg->tls_use_os_certs){
-		mosquitto_int_option(mosq, MOSQ_OPT_TLS_USE_OS_CERTS, 1);
-	}
-
-	if(cfg->insecure && mosquitto_tls_insecure_set(mosq, true)){
-		err_printf(cfg, "Error: Problem setting TLS insecure option.\n");
-		mosquitto_lib_cleanup();
-		return 1;
-	}
-	if(cfg->tls_engine && mosquitto_string_option(mosq, MOSQ_OPT_TLS_ENGINE, cfg->tls_engine)){
-		err_printf(cfg, "Error: Problem setting TLS engine, is %s a valid engine?\n", cfg->tls_engine);
-		mosquitto_lib_cleanup();
-		return 1;
-	}
-	if(cfg->keyform && mosquitto_string_option(mosq, MOSQ_OPT_TLS_KEYFORM, cfg->keyform)){
-		err_printf(cfg, "Error: Problem setting key form, it must be one of 'pem' or 'engine'.\n");
-		mosquitto_lib_cleanup();
-		return 1;
-	}
-	if(cfg->tls_engine_kpass_sha1 && mosquitto_string_option(mosq, MOSQ_OPT_TLS_ENGINE_KPASS_SHA1, cfg->tls_engine_kpass_sha1)){
-		err_printf(cfg, "Error: Problem setting TLS engine key pass sha, is it a 40 character hex string?\n");
-		mosquitto_lib_cleanup();
-		return 1;
-	}
-	if(cfg->tls_alpn && mosquitto_string_option(mosq, MOSQ_OPT_TLS_ALPN, cfg->tls_alpn)){
-		err_printf(cfg, "Error: Problem setting TLS ALPN protocol.\n");
-		mosquitto_lib_cleanup();
-		return 1;
-	}
-#  ifdef FINAL_WITH_TLS_PSK
-	if(cfg->psk && mosquitto_tls_psk_set(mosq, cfg->psk, cfg->psk_identity, NULL)){
-		err_printf(cfg, "Error: Problem setting TLS-PSK options.\n");
-		mosquitto_lib_cleanup();
-		return 1;
-	}
-#  endif
-	if((cfg->tls_version || cfg->ciphers) && mosquitto_tls_opts_set(mosq, 1, cfg->tls_version, cfg->ciphers)){
-		err_printf(cfg, "Error: Problem setting TLS options, check the options are valid.\n");
+	if(client_tls_opts_set(mosq, cfg)){
 		mosquitto_lib_cleanup();
 		return 1;
 	}

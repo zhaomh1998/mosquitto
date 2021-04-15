@@ -211,6 +211,7 @@ void print_usage(void)
 	printf("                    [-d] [-N] [--quiet] [-v]\n");
 	printf("                    [--will-topic [--will-payload payload] [--will-qos qos] [--will-retain]]\n");
 #ifdef WITH_TLS
+	printf("                    [--no-tls]\n");
 	printf("                    [{--cafile file | --capath dir} [--cert file] [--key file]\n");
 	printf("                      [--ciphers ciphers] [--insecure]\n");
 	printf("                      [--tls-alpn protocol]\n");

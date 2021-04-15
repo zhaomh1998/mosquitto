@@ -29,6 +29,10 @@ Client library:
 
 Clients:
 - Add `-o` option for all clients loading options from a specific file.
+- Add `--no-tls` option for all clients which disables all TLS options for
+  that instance. This is useful for negating TLS options provided in a config
+  file, or to disable the automatic use of TLS when using port 8883.
+  Closes #2180.
 
 
 2.0.9 - 2021-03-xx

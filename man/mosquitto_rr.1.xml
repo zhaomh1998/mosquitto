@@ -63,6 +63,7 @@
 				<arg><option>--will-qos</option> <replaceable>qos</replaceable></arg>
 				<arg><option>--will-retain</option></arg>
 			</arg>
+			<arg><option>--no-tls</option></arg>
 			<group>
 				<arg>
 					<group choice='req'>
@@ -153,9 +154,12 @@
 			options will override the same options set in the config
 			file. The exceptions to this are the message type options, of which
 			only one can be specified. Note also that currently some options
-			cannot be negated, e.g. <option>-S</option>. Config file lines that have a
-			<option>#</option> as the first character are treated as comments
-			and not processed any further.
+			cannot be negated, e.g. <option>-S</option>. TLS encryption options
+			can be negated with the <option>--no-tls</option> option.
+		</para>
+		<para>
+			Config file lines that have a <option>#</option> as the first
+			character are treated as comments and not processed any further.
 		</para>
 		<para>
 			It is suggested that config files are primarily used for
@@ -432,12 +436,29 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
+				<term><option>--no-tls</option></term>
+				<listitem>
+                    <para>
+                        Disable all use of TLS encryption. This is useful if you
+                        specify TLS options in a configuration file but want to
+                        disable those options. It also stops the automatic use
+                        of TLS when connecting to port 8883.
+                    </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
 				<term><option>-p</option></term>
 				<term><option>--port</option></term>
 				<listitem>
-					<para>Connect to the port specified. If not given, the
-						default of 1883 for plain MQTT or 8883 for MQTT over
-						TLS will be used.</para>
+                    <para>
+                        Connect to the port specified. If not given, the
+                        default of 1883 for plain MQTT or 8883 for MQTT over
+                        TLS will be used.
+                    </para>
+					<para>
+						See the <option>--no-tls</option> if you want to use
+						port 8883 without TLS.
+                    </para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
