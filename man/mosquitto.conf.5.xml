@@ -120,7 +120,7 @@
 						&lt;topic&gt; includes a space character) - if not
 						given then the access is read/write.  &lt;topic&gt; can
 						contain the + or # wildcards as in
-						subscriptions. The "deny" option can used to explicity
+						subscriptions. The "deny" option can used to explicitly
 						deny access to a topic that would otherwise be granted
 						by a broader read/write/readwrite statement. Any "deny"
 						topics are handled before topics that grant read/write access.</para>
@@ -1119,7 +1119,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 							used. Set to 0 or 1 to limit to those QoS values.
 							This makes use of an MQTT v5 feature to notify
 							clients of the limitation. MQTT v3.1.1 clients will
-							not be aware of the limitation. Clients publshing
+							not be aware of the limitation. Clients publishing
 							to this listener with a too-high QoS will be
 							disconnected.</para>
 						<para>Not reloaded on reload signal.</para>
