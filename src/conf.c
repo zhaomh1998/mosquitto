@@ -2028,15 +2028,16 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 #endif
 				}else if(!strcmp(token, "topic")){
 #ifdef WITH_BRIDGE
+					char *topic = NULL;
+					enum mosquitto__bridge_direction direction = bd_out;
+					uint8_t qos = 0;
+					char *local_prefix = NULL, *remote_prefix = NULL;
+
 					if(reload) continue; /* FIXME */
 					if(!cur_bridge){
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid bridge configuration.");
 						return MOSQ_ERR_INVAL;
 					}
-					char *topic = NULL;
-					enum mosquitto__bridge_direction direction = bd_out;
-					uint8_t qos = 0;
-					char *local_prefix = NULL, *remote_prefix = NULL;
 
 					token = strtok_r(NULL, " ", &saveptr);
 					if(token){

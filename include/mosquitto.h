@@ -49,7 +49,7 @@ extern "C" {
 #  define libmosq_EXPORT
 #endif
 
-#if defined(_MSC_VER) && _MSC_VER < 1900
+#if defined(_MSC_VER) && _MSC_VER < 1900 && !defined(bool)
 #	ifndef __cplusplus
 #		define bool char
 #		define true 1
