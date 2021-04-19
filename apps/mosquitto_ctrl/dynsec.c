@@ -391,7 +391,7 @@ static void dynsec__payload_callback(struct mosq_ctrl *ctrl, long payloadlen, co
 	UNUSED(payloadlen);
 	tree = cJSON_Parse(payload);
 #else
-	tree = cJSON_ParseWithLength(payload, payloadlen);
+	tree = cJSON_ParseWithLength(payload, (size_t)payloadlen);
 #endif
 	if(tree == NULL){
 		fprintf(stderr, "Error: Payload not JSON.\n");

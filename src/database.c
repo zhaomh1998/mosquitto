@@ -63,7 +63,7 @@ bool db__ready_for_flight(struct mosquitto_msg_data *msgs, int qos)
 			return valid_count;
 		}
 	}else{
-		valid_bytes = msgs->msg_bytes12 < db.config->max_inflight_bytes;
+		valid_bytes = (ssize_t)msgs->msg_bytes12 < (ssize_t)db.config->max_inflight_bytes;
 		valid_count = msgs->inflight_quota > 0;
 
 		if(msgs->inflight_maximum == 0){
@@ -102,7 +102,7 @@ bool db__ready_for_queue(struct mosquitto *context, int qos, struct mosquitto_ms
 	if(qos == 0){
 		return false; /* This case is handled in db__ready_for_flight() */
 	}else{
-		source_bytes = msg_data->msg_bytes12;
+		source_bytes = (ssize_t)msg_data->msg_bytes12;
 		source_count = msg_data->msg_count12;
 	}
 	adjust_count = msg_data->inflight_maximum;
@@ -113,7 +113,7 @@ bool db__ready_for_queue(struct mosquitto *context, int qos, struct mosquitto_ms
 		adjust_count = 0;
 	}
 
-	valid_bytes = source_bytes - adjust_bytes < db.config->max_queued_bytes;
+	valid_bytes = (source_bytes - (ssize_t)adjust_bytes) < (ssize_t)db.config->max_queued_bytes;
 	valid_count = source_count - adjust_count < db.config->max_queued_messages;
 
 	if(db.config->max_queued_bytes == 0){
