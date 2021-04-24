@@ -764,11 +764,19 @@ int mux__cleanup(void);
 /* ============================================================
  * Listener related functions
  * ============================================================ */
+extern struct mosquitto__listener_sock *listensock;
+extern int listensock_count;
+
 void listener__set_defaults(struct mosquitto__listener *listener);
 void listeners__reload_all_certificates(void);
 #ifdef WITH_WEBSOCKETS
 void listeners__add_websockets(struct lws_context *ws_context, mosq_sock_t fd);
 #endif
+int listeners__add_local(const char *host, uint16_t port);
+int listeners__start(void);
+int listeners__start_local_only(void);
+int listeners__start_single_mqtt(struct mosquitto__listener *listener);
+void listeners__stop(void);
 
 /* ============================================================
  * Plugin related functions
@@ -873,4 +881,3 @@ void xtreport(void);
 #endif
 
 #endif
-

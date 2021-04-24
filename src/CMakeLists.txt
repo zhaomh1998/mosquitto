@@ -25,6 +25,7 @@ set (MOSQ_SRCS
 	handle_unsubscribe.c
 	keepalive.c
 	lib_load.h
+	listeners.c
 	logging.c
 	loop.c
 	../lib/memory_mosq.c ../lib/memory_mosq.h
