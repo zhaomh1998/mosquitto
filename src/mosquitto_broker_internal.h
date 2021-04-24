@@ -34,6 +34,7 @@ Contributors:
 #include "mosquitto_broker.h"
 #include "mosquitto_plugin.h"
 #include "mosquitto.h"
+#include "logging_mosq.h"
 #include "password_mosq.h"
 #include "tls_mosq.h"
 #include "uthash.h"
@@ -660,6 +661,7 @@ int persist__restore(void);
 int db__message_count(int *count);
 int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state expect_state, int qos);
 int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_direction dir, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, mosquitto_property *properties, bool update);
+int db__message_remove_incoming(struct mosquitto* context, uint16_t mid);
 int db__message_release_incoming(struct mosquitto *context, uint16_t mid);
 int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state state, int qos);
 void db__message_dequeue_first(struct mosquitto *context, struct mosquitto_msg_data *msg_data);
@@ -726,7 +728,6 @@ int control__unregister_callback(struct mosquitto__security_options *opts, MOSQ_
  * ============================================================ */
 int log__init(struct mosquitto__config *config);
 int log__close(struct mosquitto__config *config);
-int log__printf(struct mosquitto *mosq, unsigned int level, const char *fmt, ...) __attribute__((format(printf, 3, 4)));
 void log__internal(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 
 /* ============================================================
@@ -772,10 +773,7 @@ void listeners__reload_all_certificates(void);
 #ifdef WITH_WEBSOCKETS
 void listeners__add_websockets(struct lws_context *ws_context, mosq_sock_t fd);
 #endif
-int listeners__add_local(const char *host, uint16_t port);
 int listeners__start(void);
-int listeners__start_local_only(void);
-int listeners__start_single_mqtt(struct mosquitto__listener *listener);
 void listeners__stop(void);
 
 /* ============================================================
@@ -844,6 +842,16 @@ void session_expiry__remove(struct mosquitto *context);
 void session_expiry__remove_all(void);
 void session_expiry__check(void);
 void session_expiry__send_all(void);
+
+/* ============================================================
+ * Signals
+ * ============================================================ */
+void handle_sigint(int signal);
+void handle_sigusr1(int signal);
+void handle_sigusr2(int signal);
+#ifdef SIGHUP
+void handle_sighup(int signal);
+#endif
 
 /* ============================================================
  * Window service and signal related functions

@@ -82,7 +82,7 @@ int handle__connack(struct mosquitto *mosq)
 	mosquitto_property_read_int32(properties, MQTT_PROP_MAXIMUM_PACKET_SIZE, &mosq->maximum_packet_size, false);
 
 	mosq->msgs_out.inflight_quota = mosq->msgs_out.inflight_maximum;
-	message__reconnect_reset(mosq);
+	message__reconnect_reset(mosq, true);
 
 	log__printf(mosq, MOSQ_LOG_DEBUG, "Client %s received CONNACK (%d)", mosq->id, reason_code);
 	if(reason_code == MQTT_RC_SUCCESS){

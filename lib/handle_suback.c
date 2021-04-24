@@ -32,6 +32,7 @@ Contributors:
 #include "mqtt_protocol.h"
 #include "packet_mosq.h"
 #include "property_mosq.h"
+#include "read_handle.h"
 #include "util_mosq.h"
 
 

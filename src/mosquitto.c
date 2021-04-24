@@ -73,13 +73,6 @@ int allow_severity = LOG_INFO;
 int deny_severity = LOG_INFO;
 #endif
 
-void handle_sigint(int signal);
-void handle_sigusr1(int signal);
-void handle_sigusr2(int signal);
-#ifdef SIGHUP
-void handle_sighup(int signal);
-#endif
-
 /* mosquitto shouldn't run as root.
  * This function will attempt to change to an unprivileged user and group if
  * running as root. The user is given in config->user.
@@ -145,7 +138,7 @@ int drop_privileges(struct mosquitto__config *config)
 	return MOSQ_ERR_SUCCESS;
 }
 
-void mosquitto__daemonise(void)
+static void mosquitto__daemonise(void)
 {
 #ifndef WIN32
 	char *err;
@@ -193,7 +186,7 @@ void signal__setup(void)
 }
 
 
-int pid__write(void)
+static int pid__write(void)
 {
 	FILE *pid;
 

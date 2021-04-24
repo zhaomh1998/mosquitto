@@ -40,7 +40,7 @@ int handle__connack(struct mosquitto *context)
 	uint8_t retain_available;
 	uint8_t max_qos = 255;
 
-	if(!context){
+	if(context == NULL || context->bridge == NULL){
 		return MOSQ_ERR_INVAL;
 	}
 	log__printf(NULL, MOSQ_LOG_DEBUG, "Received CONNACK on connection %s.", context->id);

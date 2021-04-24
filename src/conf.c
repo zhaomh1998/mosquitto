@@ -539,7 +539,7 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 	return config__check(config);
 }
 
-void config__copy(struct mosquitto__config *src, struct mosquitto__config *dest)
+static void config__copy(struct mosquitto__config *src, struct mosquitto__config *dest)
 {
 	int i;
 
@@ -748,7 +748,7 @@ int config__read(struct mosquitto__config *config, bool reload)
 }
 
 
-int config__read_file_core(struct mosquitto__config *config, bool reload, struct config_recurse *cr, int level, int *lineno, FILE *fptr, char **buf, int *buflen)
+static int config__read_file_core(struct mosquitto__config *config, bool reload, struct config_recurse *cr, int level, int *lineno, FILE *fptr, char **buf, int *buflen)
 {
 	int rc;
 	char *token;

@@ -285,6 +285,18 @@ int handle__publish(struct mosquitto *context)
 	if(msg->qos > 0){
 		db__message_store_find(context, msg->source_mid, &stored);
 	}
+
+	if(stored && msg->source_mid != 0 &&
+			(stored->qos != msg->qos
+			 || stored->payloadlen != msg->payloadlen
+			 || strcmp(stored->topic, msg->topic)
+			 || memcmp(stored->payload, msg->payload, msg->payloadlen) )){
+
+		log__printf(NULL, MOSQ_LOG_WARNING, "Reused message ID %u from %s detected. Clearing from storage.", msg->source_mid, context->id);
+		db__message_remove_incoming(context, msg->source_mid);
+		stored = NULL;
+	}
+
 	if(!stored){
 		if(msg->qos > 0 && context->msgs_in.inflight_quota == 0){
 			/* Client isn't allowed any more incoming messages, so fail early */
