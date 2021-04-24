@@ -211,6 +211,36 @@ int pid__write(void)
 }
 
 
+void report_features(void)
+{
+#ifdef WITH_BRIDGE
+	log__printf(NULL, MOSQ_LOG_INFO, "Bridge support available.");
+#else
+	log__printf(NULL, MOSQ_LOG_INFO, "Bridge support NOT available.");
+#endif
+#ifdef WITH_PERSISTENCE
+	log__printf(NULL, MOSQ_LOG_INFO, "Persistence support available.");
+#else
+	log__printf(NULL, MOSQ_LOG_INFO, "Persistence support NOT available.");
+#endif
+#ifdef WITH_TLS
+	log__printf(NULL, MOSQ_LOG_INFO, "TLS support available.");
+#else
+	log__printf(NULL, MOSQ_LOG_INFO, "TLS support NOT available.");
+#endif
+#ifdef FINAL_WITH_TLS_PSK
+	log__printf(NULL, MOSQ_LOG_INFO, "TLS-PSK support available.");
+#else
+	log__printf(NULL, MOSQ_LOG_INFO, "TLS-PSK support NOT available.");
+#endif
+#ifdef WITH_WEBSOCKETS
+	log__printf(NULL, MOSQ_LOG_INFO, "Websockets support available.");
+#else
+	log__printf(NULL, MOSQ_LOG_INFO, "Websockets support NOT available.");
+#endif
+}
+
+
 int main(int argc, char *argv[])
 {
 	struct mosquitto__config config;
@@ -301,6 +331,7 @@ int main(int argc, char *argv[])
 	}else{
 		log__printf(NULL, MOSQ_LOG_INFO, "Using default config.");
 	}
+	report_features();
 
 	rc = mosquitto_security_module_init();
 	if(rc) return rc;
