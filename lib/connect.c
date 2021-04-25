@@ -192,7 +192,7 @@ static int mosquitto__reconnect(struct mosquitto *mosq, bool blocking)
 	message__reconnect_reset(mosq, false);
 
 	if(mosq->sock != INVALID_SOCKET){
-        net__socket_close(mosq); //close socket
+        net__socket_close(mosq);
     }
 
 #ifdef WITH_SOCKS

@@ -456,7 +456,7 @@ int packet__read(struct mosquitto *mosq)
 			return MOSQ_ERR_OVERSIZE_PACKET;
 		}
 #else
-		// FIXME - client case for incoming message received from broker too large
+		/* FIXME - client case for incoming message received from broker too large */
 #endif
 		if(mosq->in_packet.remaining_length > 0){
 			mosq->in_packet.payload = mosquitto__malloc(mosq->in_packet.remaining_length*sizeof(uint8_t));

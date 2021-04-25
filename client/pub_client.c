@@ -182,7 +182,7 @@ void my_connect_callback(struct mosquitto *mosq, void *obj, int result, int flag
 			}else{
 				err_printf(&cfg, "Connection error: %s\n", mosquitto_connack_string(result));
 			}
-			// let the loop know that this is an unrecoverable connection
+			/* let the loop know that this is an unrecoverable connection */
 			status = STATUS_NOHOPE;
 		}
 	}

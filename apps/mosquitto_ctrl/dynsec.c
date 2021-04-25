@@ -440,7 +440,7 @@ static void dynsec__payload_callback(struct mosq_ctrl *ctrl, long payloadlen, co
 		}else if(!strcasecmp(j_command->valuestring, "getAnonymousGroup")){
 			print_anonymous_group(j_response);
 		}else{
-			//fprintf(stderr, "%s: Success\n", j_command->valuestring);
+			/* fprintf(stderr, "%s: Success\n", j_command->valuestring); */
 		}
 	}
 	cJSON_Delete(tree);
