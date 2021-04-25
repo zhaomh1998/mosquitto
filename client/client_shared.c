@@ -756,8 +756,9 @@ int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, c
 
 				tmp = strchr(url, '@');
 				if(tmp) {
+					char *colon;
 					*tmp++ = 0;
-					char *colon = strchr(url, ':');
+					colon = strchr(url, ':');
 					if(colon) {
 						*colon = 0;
 						cfg->password = strdup(colon + 1);
