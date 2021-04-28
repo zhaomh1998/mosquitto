@@ -274,7 +274,9 @@ int mosquitto_callback_unregister(
 	struct mosquitto__callback **cb_base = NULL;
 	struct mosquitto__security_options *security_options;
 
-	if(cb_func == NULL) return MOSQ_ERR_INVAL;
+	if(identifier == NULL || cb_func == NULL){
+		return MOSQ_ERR_INVAL;
+	}
 
 	if(identifier->listener == NULL){
 		security_options = &db.config->security_options;
