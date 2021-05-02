@@ -61,7 +61,7 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 
 	FD_ZERO(&readfds);
 	FD_ZERO(&writefds);
-	if(mosq->sock != INVALID_SOCKET){
+	if(net__is_connected(mosq)){
 		maxfd = mosq->sock;
 		FD_SET(mosq->sock, &readfds);
 		pthread_mutex_lock(&mosq->current_out_packet_mutex);
@@ -147,7 +147,7 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 			return MOSQ_ERR_ERRNO;
 		}
 	}else{
-		if(mosq->sock != INVALID_SOCKET){
+		if(net__is_connected(mosq)){
 			if(FD_ISSET(mosq->sock, &readfds)){
 				rc = mosquitto_loop_read(mosq, max_packets);
 				if(rc || mosq->sock == INVALID_SOCKET){
@@ -164,10 +164,12 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 				/* Fake write possible, to stimulate output write even though
 				 * we didn't ask for it, because at that point the publish or
 				 * other command wasn't present. */
-				if(mosq->sock != INVALID_SOCKET)
+				if(net__is_connected(mosq)){
 					FD_SET(mosq->sock, &writefds);
+				}
 			}
-			if(mosq->sock != INVALID_SOCKET && FD_ISSET(mosq->sock, &writefds)){
+			
+			if(net__is_connected(mosq) && FD_ISSET(mosq->sock, &writefds)){
 #ifdef WITH_TLS
 				if(mosq->want_connect){
 					rc = net__socket_connect_tls(mosq);
@@ -176,7 +178,7 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 #endif
 				{
 					rc = mosquitto_loop_write(mosq, max_packets);
-					if(rc || mosq->sock == INVALID_SOCKET){
+					if(rc || !net__is_connected(mosq)){
 						return rc;
 					}
 				}
@@ -333,7 +335,7 @@ int mosquitto_loop_forever(struct mosquitto *mosq, int timeout, int max_packets)
 int mosquitto_loop_misc(struct mosquitto *mosq)
 {
 	if(!mosq) return MOSQ_ERR_INVAL;
-	if(mosq->sock == INVALID_SOCKET) return MOSQ_ERR_NO_CONN;
+	if(!net__is_connected(mosq)) return MOSQ_ERR_NO_CONN;
 
 	return mosquitto__check_keepalive(mosq);
 }
@@ -410,4 +412,3 @@ int mosquitto_loop_write(struct mosquitto *mosq, int max_packets)
 	}
 	return rc;
 }
-

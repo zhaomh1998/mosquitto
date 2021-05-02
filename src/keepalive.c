@@ -42,7 +42,7 @@ void keepalive__check(void)
 
 		/* FIXME - this needs replacing with something more efficient */
 		HASH_ITER(hh_sock, db.contexts_by_sock, context, ctxt_tmp){
-			if(context->sock != INVALID_SOCKET){
+			if(net__is_connected(context)){
 				/* Local bridges never time out in this fashion. */
 				if(!(context->keepalive)
 						|| context->bridge

@@ -118,7 +118,7 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 	HASH_FIND(hh_id, db.contexts_by_id, context->id, strlen(context->id), found_context);
 	if(found_context){
 		/* Found a matching client */
-		if(found_context->sock == INVALID_SOCKET){
+		if(!net__is_connected(found_context)){
 			/* Client is reconnecting after a disconnect */
 			/* FIXME - does anything need to be done here? */
 		}else{

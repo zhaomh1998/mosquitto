@@ -254,7 +254,7 @@ void mosquitto__destroy(struct mosquitto *mosq)
 		pthread_mutex_destroy(&mosq->mid_mutex);
 	}
 #endif
-	if(mosq->sock != INVALID_SOCKET){
+	if(net__is_connected(mosq)){
 		net__socket_close(mosq);
 	}
 	message__cleanup_all(mosq);

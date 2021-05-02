@@ -72,6 +72,12 @@ int acl__find_acls(struct mosquitto *context)
 #endif
 
 
+bool net__is_connected(struct mosquitto *mosq)
+{
+	UNUSED(mosq);
+	return false;
+}
+
 int send__publish(struct mosquitto *mosq, uint16_t mid, const char *topic, uint32_t payloadlen, const void *payload, uint8_t qos, bool retain, bool dup, const mosquitto_property *cmsg_props, const mosquitto_property *store_props, uint32_t expiry_interval)
 {
 	UNUSED(mosq);

@@ -21,6 +21,12 @@ time_t mosquitto_time(void)
 	return 123;
 }
 
+bool net__is_connected(struct mosquitto *mosq)
+{
+	UNUSED(mosq);
+	return false;
+}
+
 int net__socket_close(struct mosquitto_db *db, struct mosquitto *mosq)
 {
 	UNUSED(db);

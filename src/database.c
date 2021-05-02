@@ -108,7 +108,7 @@ bool db__ready_for_queue(struct mosquitto *context, int qos, struct mosquitto_ms
 	adjust_count = msg_data->inflight_maximum;
 
 	/* nothing in flight for offline clients */
-	if(context->sock == INVALID_SOCKET){
+	if(!net__is_connected(context)){
 		adjust_bytes = 0;
 		adjust_count = 0;
 	}
@@ -409,7 +409,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 			}
 		}
 	}
-	if(context->sock == INVALID_SOCKET){
+	if(!net__is_connected(context)){
 		/* Client is not connected only queue messages with QoS>0. */
 		if(qos == 0 && !db.config->queue_qos0_messages){
 			if(!context->bridge){
@@ -428,7 +428,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 		}
 	}
 
-	if(context->sock != INVALID_SOCKET){
+	if(net__is_connected(context)){
 		if(db__ready_for_flight(msg_data, qos)){
 			if(dir == mosq_md_out){
 				switch(qos){
@@ -541,7 +541,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	}
 #ifdef WITH_BRIDGE
 	if(context->bridge && context->bridge->start_type == bst_lazy
-			&& context->sock == INVALID_SOCKET
+			&& !net__is_connected(context)
 			&& context->msgs_out.msg_count >= context->bridge->threshold){
 
 		context->bridge->lazy_reconnect = true;
@@ -1077,7 +1077,7 @@ int db__message_write_inflight_out_all(struct mosquitto *context)
 	struct mosquitto_client_msg *tail, *tmp;
 	int rc;
 
-	if(context->state != mosq_cs_active || context->sock == INVALID_SOCKET){
+	if(context->state != mosq_cs_active || !net__is_connected(context)){
 		return MOSQ_ERR_SUCCESS;
 	}
 
@@ -1095,7 +1095,7 @@ int db__message_write_inflight_out_latest(struct mosquitto *context)
 	int rc;
 
 	if(context->state != mosq_cs_active
-			|| context->sock == INVALID_SOCKET
+			|| !net__is_connected(context)
 			|| context->msgs_out.inflight == NULL){
 
 		return MOSQ_ERR_SUCCESS;

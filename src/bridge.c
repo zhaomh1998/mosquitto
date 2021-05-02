@@ -888,7 +888,7 @@ void bridge_check(void)
 
 		context = db.bridges[i];
 
-		if(context->sock != INVALID_SOCKET){
+		if(net__is_connected(context)){
 			mosquitto__check_keepalive(context);
 			bridge_check_pending(context);
 
@@ -935,9 +935,7 @@ void bridge_check(void)
 			}
 		}
 
-
-
-		if(context->sock == INVALID_SOCKET){
+		if(!net__is_connected(context)){
 			if(reload_if_needed(context)) continue;
 
 			/* Want to try to restart the bridge connection */

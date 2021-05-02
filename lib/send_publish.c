@@ -55,11 +55,7 @@ int send__publish(struct mosquitto *mosq, uint16_t mid, const char *topic, uint3
 #endif
 	assert(mosq);
 
-#if defined(WITH_BROKER) && defined(WITH_WEBSOCKETS)
-	if(mosq->sock == INVALID_SOCKET && !mosq->wsi) return MOSQ_ERR_NO_CONN;
-#else
-	if(mosq->sock == INVALID_SOCKET) return MOSQ_ERR_NO_CONN;
-#endif
+	if(!net__is_connected(mosq)) return MOSQ_ERR_NO_CONN;
 
 	if(!mosq->retain_available){
 		retain = false;

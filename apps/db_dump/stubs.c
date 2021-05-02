@@ -72,6 +72,12 @@ int mux__remove_out(struct mosquitto *mosq)
 	return 0;
 }
 
+bool net__is_connected(struct mosquitto *mosq)
+{
+	UNUSED(mosq);
+	return false;
+}
+
 ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 {
 	UNUSED(mosq);

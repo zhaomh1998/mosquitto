@@ -214,7 +214,7 @@ int packet__write(struct mosquitto *mosq)
 	enum mosquitto_client_state state;
 
 	if(!mosq) return MOSQ_ERR_INVAL;
-	if(mosq->sock == INVALID_SOCKET) return MOSQ_ERR_NO_CONN;
+	if(!net__is_connected(mosq)) return MOSQ_ERR_NO_CONN;
 
 	pthread_mutex_lock(&mosq->current_out_packet_mutex);
 	pthread_mutex_lock(&mosq->out_packet_mutex);
@@ -332,7 +332,7 @@ int packet__read(struct mosquitto *mosq)
 	if(!mosq){
 		return MOSQ_ERR_INVAL;
 	}
-	if(mosq->sock == INVALID_SOCKET){
+	if(!net__is_connected(mosq)){
 		return MOSQ_ERR_NO_CONN;
 	}
 
