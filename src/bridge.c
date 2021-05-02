@@ -161,17 +161,15 @@ void bridge__start_all(void)
 	}
 }
 
-int bridge__set_tcp_keepalive(struct mosquitto *context)
+static int bridge__set_tcp_keepalive(struct mosquitto *context)
 {
 	unsigned int idle = context->bridge->tcp_keepalive_idle;
 	unsigned int interval = context->bridge->tcp_keepalive_interval;
 	unsigned int counter = context->bridge->tcp_keepalive_counter;
+	unsigned int enabled = 1;
+	bool ret;
 
 	if (idle == 0 || interval == 0 || counter == 0) return MOSQ_ERR_SUCCESS;
-
-	unsigned int enabled = 1;
-
-	bool ret;
 
 #ifdef WIN32
 	ret =

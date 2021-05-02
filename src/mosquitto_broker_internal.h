@@ -765,8 +765,8 @@ int mux__cleanup(void);
 /* ============================================================
  * Listener related functions
  * ============================================================ */
-extern struct mosquitto__listener_sock *listensock;
-extern int listensock_count;
+extern struct mosquitto__listener_sock *g_listensock;
+extern int g_listensock_count;
 
 void listener__set_defaults(struct mosquitto__listener *listener);
 void listeners__reload_all_certificates(void);

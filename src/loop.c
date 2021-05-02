@@ -60,7 +60,7 @@ extern bool flag_reload;
 extern bool flag_db_backup;
 #endif
 extern bool flag_tree_print;
-extern int run;
+extern int g_run;
 
 #if defined(WITH_WEBSOCKETS) && LWS_LIBRARY_VERSION_NUMBER == 3002000
 void lws__sul_callback(struct lws_sorted_usec_list *l)
@@ -190,7 +190,7 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 	if(rc) return rc;
 #endif
 
-	while(run){
+	while(g_run){
 		queue_plugin_msgs();
 		context__free_disused();
 #ifdef WITH_SYS_TREE

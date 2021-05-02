@@ -36,7 +36,7 @@ extern bool flag_db_backup;
 #endif
 extern bool flag_reload;
 extern bool flag_tree_print;
-extern int run;
+extern int g_run;
 
 #ifdef SIGHUP
 /* Signal handler for SIGHUP - flag a config reload. */
@@ -53,7 +53,7 @@ void handle_sigint(int signal)
 {
 	UNUSED(signal);
 
-	run = 0;
+	g_run = 0;
 }
 
 /* Signal handler for SIGUSR1 - backup the db. */

@@ -19,6 +19,7 @@ Contributors:
 #include "config.h"
 #include <pthread.h>
 
+#include "callbacks.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
 

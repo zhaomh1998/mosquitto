@@ -58,15 +58,15 @@ Contributors:
 
 struct mosquitto_db db;
 
-struct mosquitto__listener_sock *listensock = NULL;
-int listensock_count = 0;
+struct mosquitto__listener_sock *g_listensock = NULL;
+int g_listensock_count = 0;
 
 bool flag_reload = false;
 #ifdef WITH_PERSISTENCE
 bool flag_db_backup = false;
 #endif
 bool flag_tree_print = false;
-int run;
+int g_run = 0;
 #ifdef WITH_WRAP
 #include <syslog.h>
 int allow_severity = LOG_INFO;
@@ -168,7 +168,7 @@ static void mosquitto__daemonise(void)
 }
 
 
-void signal__setup(void)
+static void signal__setup(void)
 {
 	signal(SIGINT, handle_sigint);
 	signal(SIGTERM, handle_sigint);
@@ -204,7 +204,7 @@ static int pid__write(void)
 }
 
 
-void report_features(void)
+static void report_features(void)
 {
 #ifdef WITH_BRIDGE
 	log__printf(NULL, MOSQ_LOG_INFO, "Bridge support available.");
@@ -360,8 +360,8 @@ int main(int argc, char *argv[])
 	sd_notify(0, "READY=1");
 #endif
 
-	run = 1;
-	rc = mosquitto_main_loop(listensock, listensock_count);
+	g_run = 1;
+	rc = mosquitto_main_loop(g_listensock, g_listensock_count);
 
 	log__printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s terminating", VERSION);
 

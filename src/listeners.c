@@ -22,6 +22,7 @@ Contributors:
 #include "mosquitto_broker_internal.h"
 
 static int listensock_index = 0;
+extern int g_run;
 
 void listener__set_defaults(struct mosquitto__listener *listener)
 {
@@ -64,21 +65,21 @@ static int listeners__start_single_mqtt(struct mosquitto__listener *listener)
 	if(net__socket_listen(listener)){
 		return 1;
 	}
-	listensock_count += listener->sock_count;
-	listensock_new = mosquitto__realloc(listensock, sizeof(struct mosquitto__listener_sock)*(size_t)listensock_count);
+	g_listensock_count += listener->sock_count;
+	listensock_new = mosquitto__realloc(g_listensock, sizeof(struct mosquitto__listener_sock)*(size_t)g_listensock_count);
 	if(!listensock_new){
 		return 1;
 	}
-	listensock = listensock_new;
+	g_listensock = listensock_new;
 
 	for(i=0; i<listener->sock_count; i++){
 		if(listener->socks[i] == INVALID_SOCKET){
 			return 1;
 		}
-		listensock[listensock_index].sock = listener->socks[i];
-		listensock[listensock_index].listener = listener;
+		g_listensock[listensock_index].sock = listener->socks[i];
+		g_listensock[listensock_index].listener = listener;
 #if defined(WITH_EPOLL) || defined(WITH_KQUEUE)
-		listensock[listensock_index].ident = id_listener;
+		g_listensock[listensock_index].ident = id_listener;
 #endif
 		listensock_index++;
 	}
@@ -94,7 +95,7 @@ void listeners__add_websockets(struct lws_context *ws_context, mosq_sock_t fd)
 	struct mosquitto__listener_sock *listensock_new;
 
 	/* Don't add more listeners after we've started the main loop */
-	if(run || ws_context == NULL) return;
+	if(g_run || ws_context == NULL) return;
 
 	/* Find context */
 	for(i=0; i<db.config->listener_count; i++){
@@ -107,17 +108,17 @@ void listeners__add_websockets(struct lws_context *ws_context, mosq_sock_t fd)
 		return;
 	}
 
-	listensock_count++;
-	listensock_new = mosquitto__realloc(listensock, sizeof(struct mosquitto__listener_sock)*(size_t)listensock_count);
+	g_listensock_count++;
+	listensock_new = mosquitto__realloc(g_listensock, sizeof(struct mosquitto__listener_sock)*(size_t)g_listensock_count);
 	if(!listensock_new){
 		return;
 	}
-	listensock = listensock_new;
+	g_listensock = listensock_new;
 
-	listensock[listensock_index].sock = fd;
-	listensock[listensock_index].listener = listener;
+	g_listensock[listensock_index].sock = fd;
+	g_listensock[listensock_index].listener = listener;
 #if defined(WITH_EPOLL) || defined(WITH_KQUEUE)
-	listensock[listensock_index].ident = id_listener_ws;
+	g_listensock[listensock_index].ident = id_listener_ws;
 #endif
 	listensock_index++;
 }
@@ -190,7 +191,7 @@ int listeners__start(void)
 {
 	int i;
 
-	listensock_count = 0;
+	g_listensock_count = 0;
 
 	if(db.config->listener_count == 0){
 		if(listeners__start_local_only()){
@@ -222,7 +223,7 @@ int listeners__start(void)
 #endif
 		}
 	}
-	if(listensock == NULL){
+	if(g_listensock == NULL){
 		log__printf(NULL, MOSQ_LOG_ERR, "Error: Unable to start any listening sockets, exiting.");
 		return 1;
 	}
@@ -248,10 +249,11 @@ void listeners__stop(void)
 #endif
 	}
 
-	for(i=0; i<listensock_count; i++){
-		if(listensock[i].sock != INVALID_SOCKET){
-			COMPAT_CLOSE(listensock[i].sock);
+	for(i=0; i<g_listensock_count; i++){
+		if(g_listensock[i].sock != INVALID_SOCKET){
+			COMPAT_CLOSE(g_listensock[i].sock);
 		}
 	}
-	mosquitto__free(listensock);
+	mosquitto__free(g_listensock);
+	g_listensock = NULL;
 }

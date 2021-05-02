@@ -49,15 +49,14 @@ static mosquitto_plugin_id_t *mosq_pid = NULL;
 static int callback_message(int event, void *event_data, void *userdata)
 {
 	struct mosquitto_evt_message *ed = event_data;
+	int result;
+	struct timespec ts;
+	char ts_buf[TS_BUF_LEN];
 
 	UNUSED(event);
 	UNUSED(userdata);
 
-	int result;
-
 	// Add timestamp in unix epoch (ms)
-	struct timespec ts;
-	char ts_buf[TS_BUF_LEN];
 	clock_gettime(CLOCK_REALTIME, &ts);
 	snprintf(ts_buf, TS_BUF_LEN, "%li%03lu", ts.tv_sec, ts.tv_nsec / 1000 / 1000);
 	

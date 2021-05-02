@@ -40,6 +40,8 @@ Contributors:
 #include "mosquitto.h"
 #include "mqtt_protocol.h"
 
+#define UNUSED(A) (void)(A)
+
 static mosquitto_plugin_id_t *mosq_pid = NULL;
 
 static int connect_callback(int event, void *event_data, void *userdata)
@@ -49,9 +51,12 @@ static int connect_callback(int event, void *event_data, void *userdata)
 	char topic[1024];
 	int len;
 
+	UNUSED(event);
+	UNUSED(userdata);
+
 	client_id = mosquitto_client_id(ed->client);
 	len = snprintf(topic, sizeof(topic), "$SYS/broker/connection/client/%s/state", client_id);
-	if(len < sizeof(topic)){
+	if(len < (int)sizeof(topic)){
 		mosquitto_broker_publish_copy(NULL, topic, 1, "1", 0, true, NULL);
 	}else{
 		/* client id too large */
@@ -69,9 +74,12 @@ static int disconnect_callback(int event, void *event_data, void *userdata)
 	mosquitto_property *proplist = NULL;
 	int rc;
 
+	UNUSED(event);
+	UNUSED(userdata);
+
 	client_id = mosquitto_client_id(ed->client);
 	len = snprintf(topic, sizeof(topic), "$SYS/broker/connection/client/%s/state", client_id);
-	if(len < sizeof(topic)){
+	if(len < (int)sizeof(topic)){
 		/* Expire our "disconnected" message after a day. */
 		mosquitto_property_add_int32(&proplist, MQTT_PROP_MESSAGE_EXPIRY_INTERVAL, 86400);
 		rc = mosquitto_broker_publish_copy(NULL, topic, 1, "0", 0, true, proplist);
@@ -102,6 +110,10 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 {
 	int rc;
 
+	UNUSED(user_data);
+	UNUSED(opts);
+	UNUSED(opt_count);
+
 	mosq_pid = identifier;
 
 	rc = mosquitto_callback_register(mosq_pid, MOSQ_EVT_CONNECT, connect_callback, NULL, NULL);
@@ -112,6 +124,10 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 
 int mosquitto_plugin_cleanup(void *user_data, struct mosquitto_opt *opts, int opt_count)
 {
+	UNUSED(user_data);
+	UNUSED(opts);
+	UNUSED(opt_count);
+
 	mosquitto_callback_unregister(mosq_pid, MOSQ_EVT_CONNECT, connect_callback, NULL);
 	return mosquitto_callback_unregister(mosq_pid, MOSQ_EVT_DISCONNECT, disconnect_callback, NULL);
 }
