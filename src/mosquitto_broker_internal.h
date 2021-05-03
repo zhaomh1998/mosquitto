@@ -680,7 +680,7 @@ int db__message_reconnect_reset(struct mosquitto *context);
 bool db__ready_for_flight(struct mosquitto_msg_data *msgs, int qos);
 bool db__ready_for_queue(struct mosquitto *context, int qos, struct mosquitto_msg_data *msg_data);
 void sys_tree__init(void);
-void sys_tree__update(int interval);
+void sys_tree__update(void);
 int db__message_write_inflight_out_all(struct mosquitto *context);
 int db__message_write_inflight_out_latest(struct mosquitto *context);
 int db__message_write_queued_out(struct mosquitto *context);

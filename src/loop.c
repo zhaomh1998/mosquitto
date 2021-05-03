@@ -192,7 +192,7 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 		context__free_disused();
 #ifdef WITH_SYS_TREE
 		if(db.config->sys_interval > 0){
-			sys_tree__update(db.config->sys_interval);
+			sys_tree__update();
 		}
 #endif
 

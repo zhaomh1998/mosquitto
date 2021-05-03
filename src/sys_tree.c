@@ -157,7 +157,7 @@ static void calc_load(char *buf, const char *topic, bool initial, double exponen
  * messages are sent for the $SYS hierarchy.
  * 'start_time' is the result of time() that the broker was started at.
  */
-void sys_tree__update(int interval)
+void sys_tree__update(void)
 {
 	static time_t last_update = 0;
 	time_t uptime;
@@ -220,7 +220,9 @@ void sys_tree__update(int interval)
 	uint32_t len;
 	bool initial_publish;
 
-	if(interval && db.now_s - interval > last_update){
+	if(db.config->sys_interval
+			&& db.now_s - db.config->sys_interval > last_update){
+
 		uptime = db.now_s - start_time;
 		len = (uint32_t)snprintf(buf, BUFLEN, "%d seconds", (int)uptime);
 		db__messages_easy_queue(NULL, "$SYS/broker/uptime", SYS_TREE_QOS, len, buf, 1, 60, NULL);
