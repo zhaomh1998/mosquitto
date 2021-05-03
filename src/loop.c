@@ -163,9 +163,6 @@ static void queue_plugin_msgs(void)
 
 int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listensock_count)
 {
-#ifdef WITH_SYS_TREE
-	time_t start_time = mosquitto_time();
-#endif
 #ifdef WITH_PERSISTENCE
 	time_t last_backup = mosquitto_time();
 #endif
@@ -195,7 +192,7 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 		context__free_disused();
 #ifdef WITH_SYS_TREE
 		if(db.config->sys_interval > 0){
-			sys_tree__update(db.config->sys_interval, start_time);
+			sys_tree__update(db.config->sys_interval);
 		}
 #endif
 

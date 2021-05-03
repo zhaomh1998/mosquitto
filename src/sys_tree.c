@@ -45,6 +45,9 @@ unsigned int g_clients_expired = 0;
 unsigned int g_socket_connections = 0;
 unsigned int g_connection_count = 0;
 
+static time_t start_time = 0;
+
+
 void sys_tree__init(void)
 {
 	char buf[64];
@@ -57,6 +60,8 @@ void sys_tree__init(void)
 	/* Set static $SYS messages */
 	len = (uint32_t)snprintf(buf, 64, "mosquitto version %s", VERSION);
 	db__messages_easy_queue(NULL, "$SYS/broker/version", SYS_TREE_QOS, len, buf, 1, 0, NULL);
+
+	start_time = mosquitto_time();
 }
 
 static void sys_tree__update_clients(char *buf)
@@ -152,7 +157,7 @@ static void calc_load(char *buf, const char *topic, bool initial, double exponen
  * messages are sent for the $SYS hierarchy.
  * 'start_time' is the result of time() that the broker was started at.
  */
-void sys_tree__update(int interval, time_t start_time)
+void sys_tree__update(int interval)
 {
 	static time_t last_update = 0;
 	time_t uptime;
