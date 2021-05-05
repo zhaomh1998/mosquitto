@@ -13,10 +13,8 @@ extern uint64_t last_retained;
 extern char *last_sub;
 extern int last_qos;
 
-struct mosquitto *context__init(mosq_sock_t sock)
+struct mosquitto *context__init(void)
 {
-	UNUSED(sock);
-
 	return mosquitto__calloc(1, sizeof(struct mosquitto));
 }
 

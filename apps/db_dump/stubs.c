@@ -10,10 +10,8 @@
 #  define UNUSED(A) (void)(A)
 #endif
 
-struct mosquitto *context__init(mosq_sock_t sock)
+struct mosquitto *context__init(void)
 {
-	UNUSED(sock);
-
 	return NULL;
 }
 

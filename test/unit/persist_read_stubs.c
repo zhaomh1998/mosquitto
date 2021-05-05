@@ -14,11 +14,9 @@ extern int last_qos;
 extern uint32_t last_identifier;
 extern struct mosquitto_db db;
 
-struct mosquitto *context__init(mosq_sock_t sock)
+struct mosquitto *context__init(void)
 {
 	struct mosquitto *m;
-
-	UNUSED(sock);
 
 	m = mosquitto__calloc(1, sizeof(struct mosquitto));
 	if(m){
