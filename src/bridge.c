@@ -75,7 +75,7 @@ static struct mosquitto *bridge__new(struct mosquitto__bridge *bridge)
 		mosquitto__free(local_id);
 	}else{
 		/* id wasn't found, so generate a new context */
-		new_context = context__init(INVALID_SOCKET);
+		new_context = context__init();
 		if(!new_context){
 			mosquitto__free(local_id);
 			return NULL;

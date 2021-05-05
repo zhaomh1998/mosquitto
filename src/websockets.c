@@ -137,7 +137,7 @@ static int callback_mqtt(
 
 	switch (reason) {
 		case LWS_CALLBACK_ESTABLISHED:
-			mosq = context__init(WEBSOCKET_CLIENT);
+			mosq = context__init();
 			if(mosq){
 				p = lws_get_protocol(wsi);
 				mosq->listener = p->user;

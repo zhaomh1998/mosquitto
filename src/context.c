@@ -32,10 +32,31 @@ Contributors:
 
 #include "uthash.h"
 
-struct mosquitto *context__init(mosq_sock_t sock)
+int context__init_sock(struct mosquitto *context, mosq_sock_t sock)
+{
+	char address[1024];
+
+	context->sock = sock;
+
+	if((int)context->sock >= 0){
+		if(!net__socket_get_address(context->sock,
+					address, sizeof(address),
+					&context->remote_port)){
+
+			context->address = mosquitto__strdup(address);
+		}
+		if(!context->address){
+			/* getpeername and inet_ntop failed and not a bridge */
+			return MOSQ_ERR_NOMEM;
+		}
+		HASH_ADD(hh_sock, db.contexts_by_sock, sock, sizeof(context->sock), context);
+	}
+	return MOSQ_ERR_SUCCESS;
+}
+
+struct mosquitto *context__init(void)
 {
 	struct mosquitto *context;
-	char address[1024];
 
 	context = mosquitto__calloc(1, sizeof(struct mosquitto));
 	if(!context) return NULL;
@@ -46,7 +67,7 @@ struct mosquitto *context__init(mosq_sock_t sock)
 	context->pollfd_index = -1;
 #endif
 	mosquitto__set_state(context, mosq_cs_new);
-	context->sock = sock;
+	context->sock = INVALID_SOCKET;
 	context->last_msg_in = db.now_s;
 	context->next_msg_out = db.now_s + 60;
 	context->keepalive = 60; /* Default to 60s */
@@ -71,16 +92,6 @@ struct mosquitto *context__init(mosq_sock_t sock)
 	context->current_out_packet = NULL;
 
 	context->address = NULL;
-	if((int)sock >= 0){
-		if(!net__socket_get_address(sock, address, 1024, &context->remote_port)){
-			context->address = mosquitto__strdup(address);
-		}
-		if(!context->address){
-			/* getpeername and inet_ntop failed and not a bridge */
-			mosquitto__free(context);
-			return NULL;
-		}
-	}
 	context->bridge = NULL;
 	context->msgs_in.inflight_maximum = db.config->max_inflight_messages;
 	context->msgs_out.inflight_maximum = db.config->max_inflight_messages;
@@ -91,9 +102,6 @@ struct mosquitto *context__init(mosq_sock_t sock)
 	context->ssl = NULL;
 #endif
 
-	if((int)context->sock >= 0){
-		HASH_ADD(hh_sock, db.contexts_by_sock, sock, sizeof(context->sock), context);
-	}
 	return context;
 }
 

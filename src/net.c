@@ -182,11 +182,17 @@ struct mosquitto *net__socket_accept(struct mosquitto__listener_sock *listensock
 		}
 	}
 
-	new_context = context__init(new_sock);
+	new_context = context__init();
 	if(!new_context){
 		COMPAT_CLOSE(new_sock);
 		return NULL;
 	}
+	if(context__init_sock(new_context, new_sock) != MOSQ_ERR_SUCCESS){
+		context__cleanup(new_context, true);
+		COMPAT_CLOSE(new_sock);
+		return NULL;
+	}
+
 	new_context->listener = listensock->listener;
 	if(!new_context->listener){
 		context__cleanup(new_context, true);

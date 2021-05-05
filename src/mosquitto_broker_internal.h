@@ -53,8 +53,6 @@ Contributors:
 #define MQTT3_LOG_DLT 0x20
 #define MQTT3_LOG_ALL 0xFF
 
-#define WEBSOCKET_CLIENT -2
-
 #define CMD_PORT_LIMIT 10
 #define TOPIC_HIERARCHY_LIMIT 200
 
@@ -701,7 +699,8 @@ void sub__topic_tokens_free(struct sub__token *tokens);
 /* ============================================================
  * Context functions
  * ============================================================ */
-struct mosquitto *context__init(mosq_sock_t sock);
+struct mosquitto *context__init(void);
+int context__init_sock(struct mosquitto *context, mosq_sock_t sock);
 void context__cleanup(struct mosquitto *context, bool force_free);
 void context__disconnect(struct mosquitto *context);
 void context__add_to_disused(struct mosquitto *context);
