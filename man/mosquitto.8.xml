@@ -24,6 +24,7 @@
 			</group>
 			<arg>-p <replaceable>port number</replaceable></arg>
 			<arg>-v</arg>
+			<arg>--tls-keylog <replaceable>file</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
@@ -64,6 +65,23 @@
 						<para>From version 2.0 onwards, the listeners defined with <option>-p</option> are bound to the loopback interface only, and so can
 						only be connected to from the local machine. If both <option>-p</option> is used and a listener is defined in a configuration
 						file, then the <option>-p</option> options are IGNORED.</para></important>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--tls-keylog</option> <replaceable>file</replaceable></term>
+				<listitem>
+					<para>
+						Log TLS connection information to <replaceable>file</replaceable>.
+						This option allows tools such as <command>tcpdump</command> and
+						<command>wireshark</command> to decrypt TLS traffic and inspect the
+						MQTT traffic. In Wireshark this can be done by setting the
+						<option>(Pre)-Master-Secret log filename</option> option for the
+						<option>Transport Layer Security</option> protocol.
+					</para>
+					<para>
+						This option should be used for debugging only, it must
+						not be used on production servers.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>

@@ -401,6 +401,7 @@ int main(int argc, char *argv[])
 #endif
 	context__free_disused();
 
+	mosquitto__free(db.tls_keylog);
 	db__close();
 
 	mosquitto_security_module_cleanup();

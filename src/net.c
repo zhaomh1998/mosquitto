@@ -313,6 +313,21 @@ static unsigned int psk_server_callback(SSL *ssl, const char *identity, unsigned
 #endif
 
 #ifdef WITH_TLS
+void tls_keylog_callback(const SSL *ssl, const char *line)
+{
+	FILE *fptr;
+
+	UNUSED(ssl);
+
+	if(db.tls_keylog){
+		fptr = fopen(db.tls_keylog, "at");
+		if(fptr){
+			fprintf(fptr, "%s\n", line);
+			fclose(fptr);
+		}
+	}
+}
+
 int net__tls_server_ctx(struct mosquitto__listener *listener)
 {
 	char buf[256];
@@ -386,6 +401,14 @@ int net__tls_server_ctx(struct mosquitto__listener *listener)
 #ifdef SSL_OP_NO_RENEGOTIATION
 	SSL_CTX_set_options(listener->ssl_ctx, SSL_OP_NO_RENEGOTIATION);
 #endif
+
+	if(db.tls_keylog){
+		log__printf(NULL, MOSQ_LOG_NOTICE, "TLS key logging to '%s' enabled for all listeners.",
+				db.tls_keylog);
+		log__printf(NULL, MOSQ_LOG_NOTICE, "TLS key logging is for DEBUGGING only.");
+
+		SSL_CTX_set_keylog_callback(listener->ssl_ctx, tls_keylog_callback);
+	}
 
 	snprintf(buf, 256, "mosquitto-%d", listener->port);
 	SSL_CTX_set_session_id_context(listener->ssl_ctx, (unsigned char *)buf, (unsigned int)strlen(buf));
