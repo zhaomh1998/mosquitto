@@ -2020,6 +2020,24 @@ topic clients/total in 0 test/mosquitto/org/ $SYS/broker/
 					<para>Defaults to <replaceable>true</replaceable>.</para>
 				</listitem>
 			</varlistentry>
+			<varlistentry>
+				<term><option>bridge_reload_type</option> [ lazy | immediate ]</term>
+				<listitem>
+					<para>If you change bridge options in the configuration file,
+					those configuration changes are applied during a bridge
+					reconnection. The <option>bridge_reload_type</option> option
+					determines when that reconnection happens, and can be set to either
+					<replaceable>lazy</replaceable> or <replaceable>immediate</replaceable>.</para>
+
+					<para><replaceable>lazy</replaceable> is the default, and means
+					that any connected bridge will remain in its current state until
+					a natural reconnection happens, at which point the new configuration
+					will be used.</para>
+
+					<para><replaceable>immediate</replaceable> forces a reconnection and so
+					uses the new configuration straight away.</para>
+				</listitem>
+			</varlistentry>
 		</variablelist>
 		<refsect2>
 			<title>SSL/TLS Support</title>
@@ -2122,24 +2140,6 @@ topic clients/total in 0 test/mosquitto/org/ $SYS/broker/
 					</listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><option>bridge_reload_type</option> [ lazy | immediate ]</term>
-					<listitem>
-						<para>If you change bridge options in the configuration file,
-						those configuration changes are applied during a bridge
-						reconnection. The <option>bridge_reload_type</option> option
-						determines when that reconnection happens, and can be set to either
-						<replaceable>lazy</replaceable> or <replaceable>immediate</replaceable>.</para>
-
-						<para><replaceable>lazy</replaceable> is the default, and means
-						that any connected bridge will remain in its current state until
-						a natural reconnection happens, at which point the new configuration
-						will be used.</para>
-
-						<para><replaceable>immediate</replaceable> forces a reconnection and so
-						uses the new configuration straight away.</para>
-					</listitem>
-				</varlistentry>
-				<varlistentry>
 					<term><option>bridge_require_ocsp</option> [ true | false ]</term>
 					<listitem>
 						<para>When set to true, the bridge requires OCSP on the TLS
@@ -2159,6 +2159,27 @@ topic clients/total in 0 test/mosquitto/org/ $SYS/broker/
 							connection to succeed.</para>
 					</listitem>
 				</varlistentry>
+				<varlistentry>
+					<term><option>bridge_ciphers</option> <replaceable>cipher:list</replaceable></term>
+					<listitem>
+						<para>
+							The list of allowed ciphers for this bridge, for
+							TLS v1.2 and earlier only, each separated with
+							a colon. Available ciphers can be obtained using
+							the "openssl ciphers" command.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><option>bridge_ciphers_tls1.3</option> <replaceable>cipher:list</replaceable></term>
+					<listitem>
+						<para>
+							The list of allowed ciphersuites for this bridge,
+							for TLS v1.3, each separated with a colon.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
 			</variablelist>
 		</refsect2>
 	</refsect1>

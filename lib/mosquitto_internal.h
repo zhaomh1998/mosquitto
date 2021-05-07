@@ -254,6 +254,7 @@ struct mosquitto {
 	int (*tls_pw_callback)(char *buf, int size, int rwflag, void *userdata);
 	char *tls_version;
 	char *tls_ciphers;
+	char *tls_13_ciphers;
 	char *tls_psk;
 	char *tls_psk_identity;
 	char *tls_engine;
