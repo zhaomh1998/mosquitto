@@ -9,6 +9,8 @@ Broker:
 Clients:
 - If sending mosquitto_sub output to a pipe, mosquitto_sub will now detect
   that the pipe has closed and disconnect. Closes #2164.
+- Fix `mosquitto_pub -l` quitting if a message publication is attempted when
+  the broker is temporarily unavailable. Closes #2187.
 
 
 2.0.10 - 2021-04-03
