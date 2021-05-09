@@ -2179,7 +2179,6 @@ topic clients/total in 0 test/mosquitto/org/ $SYS/broker/
 						</para>
 					</listitem>
 				</varlistentry>
-				<varlistentry>
 			</variablelist>
 		</refsect2>
 	</refsect1>
