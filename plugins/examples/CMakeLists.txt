@@ -1,7 +1,7 @@
 if(NOT WIN32)
 	add_subdirectory(add-properties)
 	add_subdirectory(message-timestamp)
-endif(NOT WIN32)
+endif()
 add_subdirectory(auth-by-ip)
 add_subdirectory(client-properties)
 add_subdirectory(connection-state)

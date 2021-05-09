@@ -1,8 +1,4 @@
-include_directories(${mosquitto_SOURCE_DIR} ${mosquitto_SOURCE_DIR}/include
-		${mosquitto_SOURCE_DIR}/lib ${mosquitto_SOURCE_DIR}/src
-		${OPENSSL_INCLUDE_DIR} ${STDBOOL_H_PATH} ${STDINT_H_PATH})
-
-if (WITH_TLS)
+if(WITH_TLS)
 	add_executable(mosquitto_passwd
 		mosquitto_passwd.c
 		get_password.c get_password.h
@@ -10,9 +6,23 @@ if (WITH_TLS)
 		../../src/memory_public.c
 		../../lib/misc_mosq.c
 		../../src/password_mosq.c ../../src/password_mosq.h
-		)
+	)
 
+	target_include_directories(mosquitto_passwd PRIVATE
+		"${OPENSSL_INCLUDE_DIR}"
+		"${STDBOOL_H_PATH}"
+		"${STDINT_H_PATH}"
+		"${mosquitto_SOURCE_DIR}"
+		"${mosquitto_SOURCE_DIR}/include"
+		"${mosquitto_SOURCE_DIR}/lib"
+		"${mosquitto_SOURCE_DIR}/src"
+	)
 
-	target_link_libraries(mosquitto_passwd ${OPENSSL_LIBRARIES})
-	install(TARGETS mosquitto_passwd RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
-endif (WITH_TLS)
+	target_link_libraries(mosquitto_passwd
+		${OPENSSL_LIBRARIES}
+	)
+
+	install(TARGETS mosquitto_passwd
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+	)
+endif()
