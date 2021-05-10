@@ -207,6 +207,7 @@ int mosquitto_broker_publish_copy(
 		mosquitto_property *properties)
 {
 	void *payload_out;
+	int rc;
 
 	if(topic == NULL
 			|| payloadlen < 0
@@ -222,7 +223,7 @@ int mosquitto_broker_publish_copy(
 	}
 	memcpy(payload_out, payload, (size_t)payloadlen);
 
-	return mosquitto_broker_publish(
+	rc = mosquitto_broker_publish(
 			clientid,
 			topic,
 			payloadlen,
@@ -230,6 +231,11 @@ int mosquitto_broker_publish_copy(
 			qos,
 			retain,
 			properties);
+
+	if(rc){
+		free(payload_out);
+	}
+	return rc;
 }
 
 
