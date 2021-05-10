@@ -379,6 +379,7 @@ int client_config_load(struct mosq_config *cfg, int pub_or_sub, int argc, char *
 	}else if(loc){
 		fptr = fopen(loc, "rt");
 		free(loc);
+		loc = NULL;
 	}else{
 		return 1;
 	}
