@@ -837,7 +837,7 @@ void bridge_check(void)
 					{
 						rc = bridge__connect(context);
 						context->bridge->restart_t = 0;
-						if(rc == MOSQ_ERR_SUCCESS){
+						if(rc == MOSQ_ERR_SUCCESS || rc == MOSQ_ERR_CONN_PENDING){
 							if(context->bridge->round_robin == false && context->bridge->cur_address != 0){
 								context->bridge->primary_retry = db.now_s + 5;
 							}
