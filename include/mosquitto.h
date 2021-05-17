@@ -1880,7 +1880,7 @@ libmosq_EXPORT void *mosquitto_ssl_get(struct mosquitto *mosq);
 /*
  * Function: mosquitto_connect_callback_set
  *
- * Set the connect callback. This is called when the broker sends a CONNACK
+ * Set the connect callback. This is called when the library receives a CONNACK
  * message in response to a connection.
  *
  * Parameters:
@@ -1901,7 +1901,7 @@ libmosq_EXPORT void mosquitto_connect_callback_set(struct mosquitto *mosq, void 
 /*
  * Function: mosquitto_connect_with_flags_callback_set
  *
- * Set the connect callback. This is called when the broker sends a CONNACK
+ * Set the connect callback. This is called when the library receives a CONNACK
  * message in response to a connection.
  *
  * Parameters:
@@ -1923,7 +1923,7 @@ libmosq_EXPORT void mosquitto_connect_with_flags_callback_set(struct mosquitto *
 /*
  * Function: mosquitto_connect_v5_callback_set
  *
- * Set the connect callback. This is called when the broker sends a CONNACK
+ * Set the connect callback. This is called when the library receives a CONNACK
  * message in response to a connection.
  *
  * It is valid to set this callback for all MQTT protocol versions. If it is
@@ -1997,7 +1997,15 @@ libmosq_EXPORT void mosquitto_disconnect_v5_callback_set(struct mosquitto *mosq,
  * Function: mosquitto_publish_callback_set
  *
  * Set the publish callback. This is called when a message initiated with
- * <mosquitto_publish> has been sent to the broker successfully.
+ * <mosquitto_publish> has been sent to the broker. "Sent" means different
+ * things depending on the QoS of the message:
+ *
+ * QoS 0: The PUBLISH was passed to the local operating system for delivery,
+ *        there is no guarantee that it was delivered to the remote broker.
+ * QoS 1: The PUBLISH was sent to the remote broker and the corresponding
+ *        PUBACK was received by the library.
+ * QoS 2: The PUBLISH was sent to the remote broker and the corresponding
+ *        PUBCOMP was received by the library.
  *
  * Parameters:
  *  mosq -       a valid mosquitto instance.
@@ -2018,6 +2026,15 @@ libmosq_EXPORT void mosquitto_publish_callback_set(struct mosquitto *mosq, void 
  * <mosquitto_publish> has been sent to the broker. This callback will be
  * called both if the message is sent successfully, or if the broker responded
  * with an error, which will be reflected in the reason_code parameter.
+ * "Sent" means different things depending on the QoS of the message:
+ *
+ * QoS 0: The PUBLISH was passed to the local operating system for delivery,
+ *        there is no guarantee that it was delivered to the remote broker.
+ * QoS 1: The PUBLISH was sent to the remote broker and the corresponding
+ *        PUBACK was received by the library.
+ * QoS 2: The PUBLISH was sent to the remote broker and the corresponding
+ *        PUBCOMP was received by the library.
+ *
  *
  * It is valid to set this callback for all MQTT protocol versions. If it is
  * used with MQTT clients that use MQTT v3.1.1 or earlier, then the `props`
@@ -2041,7 +2058,7 @@ libmosq_EXPORT void mosquitto_publish_v5_callback_set(struct mosquitto *mosq, vo
  * Function: mosquitto_message_callback_set
  *
  * Set the message callback. This is called when a message is received from the
- * broker.
+ * broker and the required QoS flow has completed.
  *
  * Parameters:
  *  mosq -       a valid mosquitto instance.
@@ -2064,7 +2081,7 @@ libmosq_EXPORT void mosquitto_message_callback_set(struct mosquitto *mosq, void 
  * Function: mosquitto_message_v5_callback_set
  *
  * Set the message callback. This is called when a message is received from the
- * broker.
+ * broker and the required QoS flow has completed.
  *
  * It is valid to set this callback for all MQTT protocol versions. If it is
  * used with MQTT clients that use MQTT v3.1.1 or earlier, then the `props`
@@ -2091,8 +2108,8 @@ libmosq_EXPORT void mosquitto_message_v5_callback_set(struct mosquitto *mosq, vo
 /*
  * Function: mosquitto_subscribe_callback_set
  *
- * Set the subscribe callback. This is called when the broker responds to a
- * subscription request.
+ * Set the subscribe callback. This is called when the library receives a
+ * SUBACK message in response to a SUBSCRIBE.
  *
  * Parameters:
  *  mosq -         a valid mosquitto instance.
@@ -2112,8 +2129,8 @@ libmosq_EXPORT void mosquitto_subscribe_callback_set(struct mosquitto *mosq, voi
 /*
  * Function: mosquitto_subscribe_v5_callback_set
  *
- * Set the subscribe callback. This is called when the broker responds to a
- * subscription request.
+ * Set the subscribe callback. This is called when the library receives a
+ * SUBACK message in response to a SUBSCRIBE.
  *
  * It is valid to set this callback for all MQTT protocol versions. If it is
  * used with MQTT clients that use MQTT v3.1.1 or earlier, then the `props`
@@ -2138,8 +2155,8 @@ libmosq_EXPORT void mosquitto_subscribe_v5_callback_set(struct mosquitto *mosq, 
 /*
  * Function: mosquitto_unsubscribe_callback_set
  *
- * Set the unsubscribe callback. This is called when the broker responds to a
- * unsubscription request.
+ * Set the unsubscribe callback. This is called when the library receives a
+ * UNSUBACK message in response to an UNSUBSCRIBE.
  *
  * Parameters:
  *  mosq -           a valid mosquitto instance.
@@ -2156,8 +2173,8 @@ libmosq_EXPORT void mosquitto_unsubscribe_callback_set(struct mosquitto *mosq, v
 /*
  * Function: mosquitto_unsubscribe_v5_callback_set
  *
- * Set the unsubscribe callback. This is called when the broker responds to a
- * unsubscription request.
+ * Set the unsubscribe callback. This is called when the library receives a
+ * UNSUBACK message in response to an UNSUBSCRIBE.
  *
  * It is valid to set this callback for all MQTT protocol versions. If it is
  * used with MQTT clients that use MQTT v3.1.1 or earlier, then the `props`
