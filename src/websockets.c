@@ -654,6 +654,7 @@ static int callback_http(
 static void log_wrap(int level, const char *line)
 {
 	char *l = (char *)line;
+	UNUSED(level);
 	l[strlen(line)-1] = '\0'; /* Remove \n */
 	log__printf(NULL, MOSQ_LOG_WEBSOCKETS, "%s", l);
 }
