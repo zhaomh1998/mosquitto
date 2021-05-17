@@ -125,7 +125,6 @@ static int callback_mqtt(
 {
 	struct mosquitto *mosq = NULL;
 	struct mosquitto__packet *packet;
-	size_t txlen;
 	int count;
 	unsigned int ucount;
 	const struct lws_protocols *p;
@@ -233,12 +232,7 @@ static int callback_mqtt(
 					memmove(&packet->payload[LWS_PRE], packet->payload, packet->packet_length);
 					packet->pos += LWS_PRE;
 				}
-				if(packet->to_process > WS_TX_BUF_SIZE){
-					txlen = WS_TX_BUF_SIZE;
-				}else{
-					txlen = packet->to_process;
-				}
-				count = lws_write(wsi, &packet->payload[packet->pos], txlen, LWS_WRITE_BINARY);
+				count = lws_write(wsi, &packet->payload[packet->pos], packet->to_process, LWS_WRITE_BINARY);
 				if(count < 0){
 					if (mosq->state == mosq_cs_disconnect_ws
 							|| mosq->state == mosq_cs_disconnecting
