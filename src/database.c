@@ -35,10 +35,17 @@ Contributors:
  * @param qos qos for the packet of interest
  * @return true if more in flight are allowed.
  */
-bool db__ready_for_flight(struct mosquitto_msg_data *msgs, int qos)
+bool db__ready_for_flight(struct mosquitto *context, enum mosquitto_msg_direction dir, int qos)
 {
+	struct mosquitto_msg_data *msgs;
 	bool valid_bytes;
 	bool valid_count;
+
+	if(dir == mosq_md_out){
+		msgs = &context->msgs_out;
+	}else{
+		msgs = &context->msgs_in;
+	}
 
 	if(msgs->inflight_maximum == 0 && db.config->max_inflight_bytes == 0){
 		return true;
@@ -54,7 +61,11 @@ bool db__ready_for_flight(struct mosquitto_msg_data *msgs, int qos)
 			return true;
 		}
 		valid_bytes = ((msgs->msg_bytes - (ssize_t)db.config->max_inflight_bytes) < (ssize_t)db.config->max_queued_bytes);
-		valid_count = msgs->msg_count - msgs->inflight_maximum < db.config->max_queued_messages;
+		if(dir == mosq_md_out){
+			valid_count = context->out_packet_count < db.config->max_queued_messages;
+		}else{
+			valid_count = msgs->msg_count - msgs->inflight_maximum < db.config->max_queued_messages;
+		}
 
 		if(db.config->max_queued_messages == 0){
 			return valid_bytes;
@@ -429,7 +440,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	}
 
 	if(context->sock != INVALID_SOCKET){
-		if(db__ready_for_flight(msg_data, qos)){
+		if(db__ready_for_flight(context, dir, qos)){
 			if(dir == mosq_md_out){
 				switch(qos){
 					case 0:
@@ -799,7 +810,7 @@ static int db__message_reconnect_reset_outgoing(struct mosquitto *context)
 			context->msgs_out.msg_count12++;
 			context->msgs_out.msg_bytes12 += msg->store->payloadlen;
 		}
-		if(db__ready_for_flight(&context->msgs_out, msg->qos)){
+		if(db__ready_for_flight(context, mosq_md_out, msg->qos)){
 			switch(msg->qos){
 				case 0:
 					msg->state = mosq_ms_publish_qos0;
@@ -862,7 +873,7 @@ static int db__message_reconnect_reset_incoming(struct mosquitto *context)
 			context->msgs_in.msg_count12++;
 			context->msgs_in.msg_bytes12 += msg->store->payloadlen;
 		}
-		if(db__ready_for_flight(&context->msgs_in, msg->qos)){
+		if(db__ready_for_flight(context, mosq_md_in, msg->qos)){
 			switch(msg->qos){
 				case 0:
 					msg->state = mosq_ms_publish_qos0;

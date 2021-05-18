@@ -217,6 +217,7 @@ static int callback_mqtt(
 				if(!mosq->out_packet){
 					mosq->out_packet_last = NULL;
 				}
+				mosq->out_packet_count--;
 			}
 
 			while(mosq->current_out_packet && !lws_send_pipe_choked(mosq->wsi)){
@@ -272,6 +273,7 @@ static int callback_mqtt(
 					if(!mosq->out_packet){
 						mosq->out_packet_last = NULL;
 					}
+					mosq->out_packet_count--;
 				}
 
 				packet__cleanup(packet);

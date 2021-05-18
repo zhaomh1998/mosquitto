@@ -299,7 +299,7 @@ int handle__publish(struct mosquitto *context)
 
 	if(!stored){
 		if(msg->qos == 0
-				|| db__ready_for_flight(&context->msgs_in, msg->qos)
+				|| db__ready_for_flight(context, mosq_md_in, msg->qos)
 				|| db__ready_for_queue(context, msg->qos, &context->msgs_in)){
 
 			dup = 0;
