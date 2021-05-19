@@ -299,6 +299,11 @@ plugin path\to\mosquitto_dynamic_security.dll
 plugin_opt_config_file path\to\dynamic-security.json
 ```
 
+On Linux you would expect the plugin library to be installed to
+`/usr/lib/x86_64-linux-gnu/mosquitto_dynamic_security.so` or a similar path,
+but this will vary depending on the particular distribution and hardware in
+use.
+
 It is recommended to use `per_listener_settings false` with this plugin, so all
 listeners use the same authentication and access control.
 
