@@ -508,7 +508,8 @@ libmosq_EXPORT int mosquitto_connect(struct mosquitto *mosq, const char *host, i
  *                 message to the client if no other messages have been exchanged
  *                 in that time.
  *  bind_address - the hostname or ip address of the local network interface to
- *                 bind to.
+ *                 bind to. If you do not want to bind to a specific interface,
+ *                 set this to NULL.
  *
  * Returns:
  * 	MOSQ_ERR_SUCCESS - on success.
@@ -551,7 +552,8 @@ libmosq_EXPORT int mosquitto_connect_bind(struct mosquitto *mosq, const char *ho
  *                 message to the client if no other messages have been exchanged
  *                 in that time.
  *  bind_address - the hostname or ip address of the local network interface to
- *                 bind to.
+ *                 bind to. If you do not want to bind to a specific interface,
+ *                 set this to NULL.
  *  properties - the MQTT 5 properties for the connect (not for the Will).
  *
  * Returns:
@@ -626,7 +628,8 @@ libmosq_EXPORT int mosquitto_connect_async(struct mosquitto *mosq, const char *h
  *                 message to the client if no other messages have been exchanged
  *                 in that time.
  *  bind_address - the hostname or ip address of the local network interface to
- *                 bind to.
+ *                 bind to. If you do not want to bind to a specific interface,
+ *                 set this to NULL.
  *
  * Returns:
  * 	MOSQ_ERR_SUCCESS - on success.
@@ -664,7 +667,8 @@ libmosq_EXPORT int mosquitto_connect_bind_async(struct mosquitto *mosq, const ch
  *                 message to the client if no other messages have been exchanged
  *                 in that time.
  *  bind_address - the hostname or ip address of the local network interface to
- *                 bind to.
+ *                 bind to. If you do not want to bind to a specific interface,
+ *                 set this to NULL.
  *
  * Returns:
  * 	MOSQ_ERR_SUCCESS - on success.
