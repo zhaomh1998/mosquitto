@@ -803,6 +803,7 @@ static void bridge__packet_cleanup(struct mosquitto *context)
 	}
 	context->out_packet = NULL;
 	context->out_packet_last = NULL;
+	context->out_packet_count = 0;
 
 	packet__cleanup(&(context->in_packet));
 }
@@ -1015,7 +1016,7 @@ void bridge_check(void)
 					{
 						rc = bridge__connect(context);
 						context->bridge->restart_t = 0;
-						if(rc == MOSQ_ERR_SUCCESS){
+						if(rc == MOSQ_ERR_SUCCESS || rc == MOSQ_ERR_CONN_PENDING){
 							if(context->bridge->round_robin == false && context->bridge->cur_address != 0){
 								context->bridge->primary_retry = db.now_s + 5;
 							}

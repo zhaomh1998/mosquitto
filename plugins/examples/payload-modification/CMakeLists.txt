@@ -1,4 +1,4 @@
-add_library(mosquitto_payload_modification SHARED
+add_library(mosquitto_payload_modification MODULE
 	mosquitto_payload_modification.c
 )
 

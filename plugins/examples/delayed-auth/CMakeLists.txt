@@ -1,4 +1,4 @@
-add_library(mosquitto_delayed_auth SHARED
+add_library(mosquitto_delayed_auth MODULE
 	mosquitto_delayed_auth.c
 )
 

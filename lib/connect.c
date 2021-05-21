@@ -193,7 +193,7 @@ static int mosquitto__reconnect(struct mosquitto *mosq, bool blocking)
 	message__reconnect_reset(mosq, false);
 
 	if(net__is_connected(mosq)){
-        net__socket_close(mosq); //close socket
+        net__socket_close(mosq);
     }
 
 	callback__on_pre_connect(mosq);
@@ -279,6 +279,7 @@ void do_client_disconnect(struct mosquitto *mosq, int reason_code, const mosquit
 		if(!mosq->out_packet){
 			mosq->out_packet_last = NULL;
 		}
+		mosq->out_packet_count--;
 	}
 	pthread_mutex_unlock(&mosq->out_packet_mutex);
 

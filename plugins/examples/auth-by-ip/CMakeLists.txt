@@ -1,4 +1,4 @@
-add_library(mosquitto_auth_by_ip SHARED
+add_library(mosquitto_auth_by_ip MODULE
 	mosquitto_auth_by_ip.c
 )
 

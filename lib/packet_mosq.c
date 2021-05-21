@@ -123,6 +123,7 @@ void packet__cleanup_all_no_locks(struct mosquitto *mosq)
 		packet__cleanup(packet);
 		mosquitto__free(packet);
 	}
+	mosq->out_packet_count = 0;
 
 	packet__cleanup(&mosq->in_packet);
 }
@@ -158,6 +159,7 @@ int packet__queue(struct mosquitto *mosq, struct mosquitto__packet *packet)
 		mosq->out_packet = packet;
 	}
 	mosq->out_packet_last = packet;
+	mosq->out_packet_count++;
 	pthread_mutex_unlock(&mosq->out_packet_mutex);
 #ifdef WITH_BROKER
 #  ifdef WITH_WEBSOCKETS
@@ -224,6 +226,7 @@ int packet__write(struct mosquitto *mosq)
 		if(!mosq->out_packet){
 			mosq->out_packet_last = NULL;
 		}
+		mosq->out_packet_count--;
 	}
 	pthread_mutex_unlock(&mosq->out_packet_mutex);
 
@@ -300,6 +303,7 @@ int packet__write(struct mosquitto *mosq)
 			if(!mosq->out_packet){
 				mosq->out_packet_last = NULL;
 			}
+			mosq->out_packet_count--;
 		}
 		pthread_mutex_unlock(&mosq->out_packet_mutex);
 
@@ -444,7 +448,7 @@ int packet__read(struct mosquitto *mosq)
 			return MOSQ_ERR_OVERSIZE_PACKET;
 		}
 #else
-		// FIXME - client case for incoming message received from broker too large
+		/* FIXME - client case for incoming message received from broker too large */
 #endif
 		if(mosq->in_packet.remaining_length > 0){
 			mosq->in_packet.payload = mosquitto__malloc(mosq->in_packet.remaining_length*sizeof(uint8_t));

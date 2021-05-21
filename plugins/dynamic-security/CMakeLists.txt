@@ -15,7 +15,7 @@ if(CJSON_FOUND AND WITH_TLS)
 
 	set(CLIENT_DIR "${mosquitto_BINARY_DIR}/lib" "${CJSON_DIR}")
 
-	add_library(mosquitto_dynamic_security SHARED
+	add_library(mosquitto_dynamic_security MODULE
 		acl.c
 		auth.c
 		clients.c

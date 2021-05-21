@@ -95,7 +95,10 @@ int handle__publish(struct mosquitto *mosq)
 
 	if(mosq->protocol == mosq_p_mqtt5){
 		rc = property__read_all(CMD_PUBLISH, &mosq->in_packet, &properties);
-		if(rc) return rc;
+		if(rc){
+			message__cleanup(&message);
+			return rc;
+		}
 
 		mosquitto_property_read_int16(properties, MQTT_PROP_TOPIC_ALIAS, &topic_alias, false);
 		if(topic_alias != 0){

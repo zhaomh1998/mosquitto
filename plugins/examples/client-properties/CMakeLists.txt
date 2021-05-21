@@ -1,4 +1,4 @@
-add_library(mosquitto_client_properties SHARED
+add_library(mosquitto_client_properties MODULE
 	mosquitto_client_properties.c
 )
 

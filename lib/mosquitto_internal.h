@@ -244,6 +244,7 @@ struct mosquitto {
 	uint16_t alias_count_r2l;
 	uint16_t alias_max_l2r;
 	uint32_t will_delay_interval;
+	int out_packet_count;
 	time_t will_delay_time;
 #ifdef WITH_TLS
 	SSL *ssl;

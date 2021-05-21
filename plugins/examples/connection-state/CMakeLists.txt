@@ -1,4 +1,4 @@
-add_library(mosquitto_connection_state SHARED
+add_library(mosquitto_connection_state MODULE
 	mosquitto_connection_state.c
 )
 

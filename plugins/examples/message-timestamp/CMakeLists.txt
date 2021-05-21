@@ -1,4 +1,4 @@
-add_library(mosquitto_message_timestamp SHARED
+add_library(mosquitto_message_timestamp MODULE
 	mosquitto_message_timestamp.c
 )
 
