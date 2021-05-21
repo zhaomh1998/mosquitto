@@ -365,11 +365,7 @@ process_bad_message:
 				rc = send__puback(context, msg->source_mid, reason_code, NULL);
 				break;
 			case 2:
-				if(context->protocol == mosq_p_mqtt5){
-					rc = send__pubrec(context, msg->source_mid, reason_code, NULL);
-				}else{
-					rc = send__pubrec(context, msg->source_mid, 0, NULL);
-				}
+				rc = send__pubrec(context, msg->source_mid, reason_code, NULL);
 				break;
 		}
 		db__msg_store_free(msg);
