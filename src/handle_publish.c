@@ -278,6 +278,12 @@ int handle__publish(struct mosquitto *context)
 
 			reason_code = MQTT_RC_NOT_AUTHORIZED;
 			goto process_bad_message;
+		}else if(rc == MOSQ_ERR_QUOTA_EXCEEDED){
+			log__printf(NULL, MOSQ_LOG_DEBUG,
+					"Rejected PUBLISH from %s, quota exceeded.", context->id);
+
+			reason_code = MQTT_RC_QUOTA_EXCEEDED;
+			goto process_bad_message;
 		}else if(rc != MOSQ_ERR_SUCCESS){
 			db__msg_store_free(msg);
 			return rc;
