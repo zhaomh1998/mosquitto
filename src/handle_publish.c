@@ -244,8 +244,11 @@ int handle__publish(struct mosquitto *context)
 	/* Check for topic access */
 	rc = mosquitto_acl_check(context, msg->topic, msg->payloadlen, msg->payload, msg->qos, msg->retain, MOSQ_ACL_WRITE);
 	if(rc == MOSQ_ERR_ACL_DENIED){
-		log__printf(NULL, MOSQ_LOG_DEBUG, "Denied PUBLISH from %s (d%d, q%d, r%d, m%d, '%s', ... (%ld bytes))", context->id, dup, msg->qos, msg->retain, msg->source_mid, msg->topic, (long)msg->payloadlen);
-			reason_code = MQTT_RC_NOT_AUTHORIZED;
+		log__printf(NULL, MOSQ_LOG_DEBUG,
+				"Denied PUBLISH from %s (d%d, q%d, r%d, m%d, '%s', ... (%ld bytes))",
+				context->id, dup, msg->qos, msg->retain, msg->source_mid, msg->topic,
+				(long)msg->payloadlen);
+		reason_code = MQTT_RC_NOT_AUTHORIZED;
 		goto process_bad_message;
 	}else if(rc != MOSQ_ERR_SUCCESS){
 		db__msg_store_free(msg);
@@ -260,23 +263,22 @@ int handle__publish(struct mosquitto *context)
 		db__msg_store_free(msg);
 		return rc;
 #else
-		if(msg->qos == 1){
-			if (send__puback(context, msg->source_mid, MQTT_RC_SUCCESS, NULL)) {
-				return MOSQ_ERR_UNKNOWN;
-			}
-		}else if(msg->qos == 2){
-			if(send__pubrec(context, msg->source_mid, MQTT_RC_SUCCESS, NULL)){
-				return MOSQ_ERR_UNKNOWN;
-			}
-		}
-		db__msg_store_free(msg);
-		return MOSQ_ERR_SUCCESS;
+		reason_code = MQTT_RC_IMPLEMENTATION_SPECIFIC;
+		goto process_bad_message;
 #endif
 	}
 
 	{
 		rc = plugin__handle_message(context, msg);
-		if(rc){
+		if(rc == MOSQ_ERR_ACL_DENIED){
+			log__printf(NULL, MOSQ_LOG_DEBUG,
+					"Denied PUBLISH from %s (d%d, q%d, r%d, m%d, '%s', ... (%ld bytes))",
+					context->id, dup, msg->qos, msg->retain, msg->source_mid, msg->topic,
+					(long)msg->payloadlen);
+
+			reason_code = MQTT_RC_NOT_AUTHORIZED;
+			goto process_bad_message;
+		}else if(rc != MOSQ_ERR_SUCCESS){
 			db__msg_store_free(msg);
 			return rc;
 		}
