@@ -428,6 +428,7 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 			}
 			i++;
 		}else if(!strcmp(argv[i], "--tls-keylog")){
+#ifdef WITH_TLS
 			if(i<argc-1){
 				db.tls_keylog = mosquitto_strdup(argv[i+1]);
 				if(db.tls_keylog == NULL){
@@ -439,6 +440,10 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 				return MOSQ_ERR_INVAL;
 			}
 			i++;
+#else
+			fprintf(stderr, "Error: TLS support not available so --tls-keylog is not available.\n");
+			return MOSQ_ERR_INVAL;
+#endif
 		}else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--verbose")){
 			db.verbose = true;
 		}else{
