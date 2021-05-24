@@ -341,6 +341,9 @@ int mosquitto_callback_unregister(
 		case MOSQ_EVT_DISCONNECT:
 			cb_base = &security_options->plugin_callbacks.disconnect;
 			break;
+		case MOSQ_EVT_CONNECT:
+			cb_base = &security_options->plugin_callbacks.connect;
+			break;
 		default:
 			return MOSQ_ERR_NOT_SUPPORTED;
 			break;
