@@ -144,7 +144,7 @@ int db__open(struct mosquitto__config *config)
 
 	if(!config) return MOSQ_ERR_INVAL;
 
-	db.last_db_id = 0;
+	util__random_bytes(&db.last_db_id, sizeof(db.last_db_id));
 
 	db.contexts_by_id = NULL;
 	db.contexts_by_sock = NULL;

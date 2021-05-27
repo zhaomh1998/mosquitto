@@ -225,3 +225,11 @@ void util__increment_send_quota(struct mosquitto *mosq)
 {
 	mosq->msgs_out.inflight_quota++;
 }
+
+int util__random_bytes(void *bytes, int count)
+{
+	UNUSED(bytes);
+	UNUSED(count);
+
+	return MOSQ_ERR_SUCCESS;
+}
