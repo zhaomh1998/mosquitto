@@ -790,11 +790,6 @@ static void bridge__packet_cleanup(struct mosquitto *context)
 	struct mosquitto__packet *packet;
 	if(!context) return;
 
-	if(context->current_out_packet){
-		packet__cleanup(context->current_out_packet);
-		mosquitto__free(context->current_out_packet);
-		context->current_out_packet = NULL;
-	}
     while(context->out_packet){
 		packet__cleanup(context->out_packet);
 		packet = context->out_packet;
@@ -977,7 +972,7 @@ void bridge_check(void)
 							rc = bridge__connect_step2(context);
 							if(rc == MOSQ_ERR_SUCCESS){
 								mux__add_in(context);
-								if(context->current_out_packet){
+								if(context->out_packet){
 									mux__add_out(context);
 								}
 							}else if(rc == MOSQ_ERR_CONN_PENDING){
@@ -1021,7 +1016,7 @@ void bridge_check(void)
 								context->bridge->primary_retry = db.now_s + 5;
 							}
 							mux__add_in(context);
-							if(context->current_out_packet){
+							if(context->out_packet){
 								mux__add_out(context);
 							}
 						}else{

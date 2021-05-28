@@ -211,17 +211,8 @@ static int callback_mqtt(
 			rc = db__message_write_queued_out(mosq);
 			if(rc) return -1;
 
-			if(mosq->out_packet && !mosq->current_out_packet){
-				mosq->current_out_packet = mosq->out_packet;
-				mosq->out_packet = mosq->out_packet->next;
-				if(!mosq->out_packet){
-					mosq->out_packet_last = NULL;
-				}
-				mosq->out_packet_count--;
-			}
-
-			while(mosq->current_out_packet && !lws_send_pipe_choked(mosq->wsi)){
-				packet = mosq->current_out_packet;
+			while(mosq->out_packet && !lws_send_pipe_choked(mosq->wsi)){
+				packet = mosq->out_packet;
 
 				if(packet->pos == 0 && packet->to_process == packet->packet_length){
 					/* First time this packet has been dealt with.
@@ -266,16 +257,7 @@ static int callback_mqtt(
 				}
 #endif
 
-				/* Free data and reset values */
-				mosq->current_out_packet = mosq->out_packet;
-				if(mosq->out_packet){
-					mosq->out_packet = mosq->out_packet->next;
-					if(!mosq->out_packet){
-						mosq->out_packet_last = NULL;
-					}
-					mosq->out_packet_count--;
-				}
-
+				packet__get_next_out(mosq);
 				packet__cleanup(packet);
 				mosquitto__free(packet);
 
@@ -287,7 +269,7 @@ static int callback_mqtt(
 
 				return -1;
 			}
-			if(mosq->current_out_packet){
+			if(mosq->out_packet){
 				lws_callback_on_writable(mosq->wsi);
 			}
 			break;
@@ -367,7 +349,7 @@ static int callback_mqtt(
 
 				keepalive__update(mosq);
 
-				if(rc && (mosq->out_packet || mosq->current_out_packet)) {
+				if(rc && mosq->out_packet) {
 					if(mosq->state != mosq_cs_disconnecting){
 						mosquitto__set_state(mosq, mosq_cs_disconnect_ws);
 					}

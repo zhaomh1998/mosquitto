@@ -64,9 +64,8 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 	if(net__is_connected(mosq)){
 		maxfd = mosq->sock;
 		FD_SET(mosq->sock, &readfds);
-		pthread_mutex_lock(&mosq->current_out_packet_mutex);
 		pthread_mutex_lock(&mosq->out_packet_mutex);
-		if(mosq->out_packet || mosq->current_out_packet){
+		if(mosq->out_packet){
 			FD_SET(mosq->sock, &writefds);
 		}
 #ifdef WITH_TLS
@@ -83,7 +82,6 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 		}
 #endif
 		pthread_mutex_unlock(&mosq->out_packet_mutex);
-		pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 	}else{
 #ifdef WITH_SRV
 		if(mosq->achan){

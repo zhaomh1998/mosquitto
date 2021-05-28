@@ -26,6 +26,7 @@ void packet__cleanup(struct mosquitto__packet *packet);
 void packet__cleanup_all(struct mosquitto *mosq);
 void packet__cleanup_all_no_locks(struct mosquitto *mosq);
 int packet__queue(struct mosquitto *mosq, struct mosquitto__packet *packet);
+struct mosquitto__packet *packet__get_next_out(struct mosquitto *mosq);
 
 int packet__check_oversize(struct mosquitto *mosq, uint32_t remaining_length);
 

@@ -42,10 +42,6 @@ static void client_cost(FILE *fptr, struct mosquitto *context, int fn_index)
 
 	pkt_count = 1;
 	pkt_bytes = context->in_packet.packet_length;
-	if(context->current_out_packet){
-		pkt_count++;
-		pkt_bytes += context->current_out_packet->packet_length;
-	}
 	pkt_tmp = context->out_packet;
 	while(pkt_tmp){
 		pkt_count++;

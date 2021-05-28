@@ -272,22 +272,12 @@ void do_client_disconnect(struct mosquitto *mosq, int reason_code, const mosquit
 	net__socket_close(mosq);
 
 	/* Free data and reset values */
-	pthread_mutex_lock(&mosq->out_packet_mutex);
-	mosq->current_out_packet = mosq->out_packet;
-	if(mosq->out_packet){
-		mosq->out_packet = mosq->out_packet->next;
-		if(!mosq->out_packet){
-			mosq->out_packet_last = NULL;
-		}
-		mosq->out_packet_count--;
-	}
-	pthread_mutex_unlock(&mosq->out_packet_mutex);
+	packet__cleanup_all(mosq);
 
 	pthread_mutex_lock(&mosq->msgtime_mutex);
 	mosq->next_msg_out = mosquitto_time() + mosq->keepalive;
 	pthread_mutex_unlock(&mosq->msgtime_mutex);
 
 	callback__on_disconnect(mosq, reason_code, properties);
-	pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 }
 
