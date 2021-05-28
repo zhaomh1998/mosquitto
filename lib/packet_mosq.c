@@ -108,35 +108,25 @@ void packet__cleanup_all_no_locks(struct mosquitto *mosq)
 	struct mosquitto__packet *packet;
 
 	/* Out packet cleanup */
-	if(mosq->out_packet && !mosq->current_out_packet){
-		mosq->current_out_packet = mosq->out_packet;
-		mosq->out_packet = mosq->out_packet->next;
-	}
-	while(mosq->current_out_packet){
-		packet = mosq->current_out_packet;
+	while(mosq->out_packet){
+		packet = mosq->out_packet;
 		/* Free data and reset values */
-		mosq->current_out_packet = mosq->out_packet;
-		if(mosq->out_packet){
-			mosq->out_packet = mosq->out_packet->next;
-		}
+		mosq->out_packet = mosq->out_packet->next;
 
 		packet__cleanup(packet);
 		mosquitto__free(packet);
 	}
 	mosq->out_packet_count = 0;
+	mosq->out_packet_last = NULL;
 
 	packet__cleanup(&mosq->in_packet);
 }
 
 void packet__cleanup_all(struct mosquitto *mosq)
 {
-	pthread_mutex_lock(&mosq->current_out_packet_mutex);
 	pthread_mutex_lock(&mosq->out_packet_mutex);
-
 	packet__cleanup_all_no_locks(mosq);
-
 	pthread_mutex_unlock(&mosq->out_packet_mutex);
-	pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 }
 
 
@@ -208,32 +198,44 @@ int packet__check_oversize(struct mosquitto *mosq, uint32_t remaining_length)
 	}
 }
 
-
-int packet__write(struct mosquitto *mosq)
+static struct mosquitto__packet *packet__get_next_out(struct mosquitto *mosq)
 {
-	ssize_t write_length;
-	struct mosquitto__packet *packet;
-	enum mosquitto_client_state state;
+	struct mosquitto__packet *packet = NULL;
 
-	if(!mosq) return MOSQ_ERR_INVAL;
-	if(!net__is_connected(mosq)) return MOSQ_ERR_NO_CONN;
-
-	pthread_mutex_lock(&mosq->current_out_packet_mutex);
 	pthread_mutex_lock(&mosq->out_packet_mutex);
-	if(mosq->out_packet && !mosq->current_out_packet){
-		mosq->current_out_packet = mosq->out_packet;
+	if(mosq->out_packet){
 		mosq->out_packet = mosq->out_packet->next;
 		if(!mosq->out_packet){
 			mosq->out_packet_last = NULL;
 		}
 		mosq->out_packet_count--;
+		packet = mosq->out_packet;
 	}
 	pthread_mutex_unlock(&mosq->out_packet_mutex);
 
-#ifdef WITH_BROKER
-	if(mosq->current_out_packet){
-	   mux__add_out(mosq);
+	return packet;
+}
+
+
+int packet__write(struct mosquitto *mosq)
+{
+	ssize_t write_length;
+	struct mosquitto__packet *packet, *next_packet;
+	enum mosquitto_client_state state;
+
+	if(!mosq) return MOSQ_ERR_INVAL;
+	if(!net__is_connected(mosq)) return MOSQ_ERR_NO_CONN;
+
+	pthread_mutex_lock(&mosq->out_packet_mutex);
+	packet = mosq->out_packet;
+	pthread_mutex_unlock(&mosq->out_packet_mutex);
+
+	if(packet == NULL){
+		return MOSQ_ERR_SUCCESS;
 	}
+
+#ifdef WITH_BROKER
+	mux__add_out(mosq);
 #endif
 
 	state = mosquitto__get_state(mosq);
@@ -242,13 +244,10 @@ int packet__write(struct mosquitto *mosq)
 #else
 	if(state == mosq_cs_connect_pending){
 #endif
-		pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 		return MOSQ_ERR_SUCCESS;
 	}
 
-	while(mosq->current_out_packet){
-		packet = mosq->current_out_packet;
-
+	while(packet){
 		while(packet->to_process > 0){
 			write_length = net__write(mosq, &(packet->payload[packet->pos]), packet->to_process);
 			if(write_length > 0){
@@ -264,10 +263,8 @@ int packet__write(struct mosquitto *mosq)
 						|| errno == WSAENOTCONN
 #endif
 						){
-					pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 					return MOSQ_ERR_SUCCESS;
 				}else{
-					pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 					switch(errno){
 						case COMPAT_ECONNRESET:
 							return MOSQ_ERR_CONN_LOST;
@@ -287,32 +284,22 @@ int packet__write(struct mosquitto *mosq)
 			callback__on_publish(mosq, packet->mid, 0, NULL);
 		}else if(((packet->command)&0xF0) == CMD_DISCONNECT){
 			do_client_disconnect(mosq, MOSQ_ERR_SUCCESS, NULL);
-			packet__cleanup(packet);
-			mosquitto__free(packet);
 			return MOSQ_ERR_SUCCESS;
 #endif
 		}else if(((packet->command)&0xF0) == CMD_PUBLISH){
 			G_PUB_MSGS_SENT_INC(1);
 		}
 
-		/* Free data and reset values */
-		pthread_mutex_lock(&mosq->out_packet_mutex);
-		mosq->current_out_packet = mosq->out_packet;
-		if(mosq->out_packet){
-			mosq->out_packet = mosq->out_packet->next;
-			if(!mosq->out_packet){
-				mosq->out_packet_last = NULL;
-			}
-			mosq->out_packet_count--;
-		}
-		pthread_mutex_unlock(&mosq->out_packet_mutex);
+		next_packet = packet__get_next_out(mosq);
 
 		packet__cleanup(packet);
 		mosquitto__free(packet);
 
+		packet = next_packet;
+
 #ifdef WITH_BROKER
 		mosq->next_msg_out = db.now_s + mosq->keepalive;
-		if(mosq->current_out_packet == NULL){
+		if(packet == NULL){
 			mux__remove_out(mosq);
 		}
 #else
@@ -321,7 +308,6 @@ int packet__write(struct mosquitto *mosq)
 		pthread_mutex_unlock(&mosq->msgtime_mutex);
 #endif
 	}
-	pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 	return MOSQ_ERR_SUCCESS;
 }
 

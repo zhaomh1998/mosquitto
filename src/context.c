@@ -89,7 +89,6 @@ struct mosquitto *context__init(void)
 	context->in_packet.payload = NULL;
 	packet__cleanup(&context->in_packet);
 	context->out_packet = NULL;
-	context->current_out_packet = NULL;
 	context->out_packet_count = 0;
 
 	context->address = NULL;
@@ -156,11 +155,6 @@ void context__cleanup(struct mosquitto *context, bool force_free)
 		context->id = NULL;
 	}
 	packet__cleanup(&(context->in_packet));
-	if(context->current_out_packet){
-		packet__cleanup(context->current_out_packet);
-		mosquitto__free(context->current_out_packet);
-		context->current_out_packet = NULL;
-	}
 	while(context->out_packet){
 		packet__cleanup(context->out_packet);
 		packet = context->out_packet;

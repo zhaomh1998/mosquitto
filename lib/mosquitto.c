@@ -170,7 +170,6 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 	packet__cleanup(&mosq->in_packet);
 	mosq->out_packet = NULL;
 	mosq->out_packet_count = 0;
-	mosq->current_out_packet = NULL;
 	mosq->last_msg_in = mosquitto_time();
 	mosq->next_msg_out = mosquitto_time() + mosq->keepalive;
 	mosq->ping_t = 0;
@@ -207,7 +206,6 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 	pthread_mutex_init(&mosq->log_callback_mutex, NULL);
 	pthread_mutex_init(&mosq->state_mutex, NULL);
 	pthread_mutex_init(&mosq->out_packet_mutex, NULL);
-	pthread_mutex_init(&mosq->current_out_packet_mutex, NULL);
 	pthread_mutex_init(&mosq->msgtime_mutex, NULL);
 	pthread_mutex_init(&mosq->msgs_in.mutex, NULL);
 	pthread_mutex_init(&mosq->msgs_out.mutex, NULL);
@@ -248,7 +246,6 @@ void mosquitto__destroy(struct mosquitto *mosq)
 		pthread_mutex_destroy(&mosq->log_callback_mutex);
 		pthread_mutex_destroy(&mosq->state_mutex);
 		pthread_mutex_destroy(&mosq->out_packet_mutex);
-		pthread_mutex_destroy(&mosq->current_out_packet_mutex);
 		pthread_mutex_destroy(&mosq->msgtime_mutex);
 		pthread_mutex_destroy(&mosq->msgs_in.mutex);
 		pthread_mutex_destroy(&mosq->msgs_out.mutex);
@@ -330,7 +327,7 @@ int mosquitto_socket(struct mosquitto *mosq)
 bool mosquitto_want_write(struct mosquitto *mosq)
 {
 	bool result = false;
-	if(mosq->out_packet || mosq->current_out_packet){
+	if(mosq->out_packet){
 		result = true;
 	}
 #ifdef WITH_TLS

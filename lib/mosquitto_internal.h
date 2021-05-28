@@ -234,7 +234,6 @@ struct mosquitto {
 	time_t next_msg_out;
 	time_t ping_t;
 	struct mosquitto__packet in_packet;
-	struct mosquitto__packet *current_out_packet;
 	struct mosquitto__packet *out_packet;
 	struct mosquitto_message_all *will;
 	struct mosquitto__alias *aliases_l2r;
@@ -276,7 +275,6 @@ struct mosquitto {
 	pthread_mutex_t log_callback_mutex;
 	pthread_mutex_t msgtime_mutex;
 	pthread_mutex_t out_packet_mutex;
-	pthread_mutex_t current_out_packet_mutex;
 	pthread_mutex_t state_mutex;
 	pthread_mutex_t mid_mutex;
 	pthread_t thread_id;
