@@ -93,7 +93,6 @@ static void free__client(struct P_client *chunk)
 static void free__client_msg(struct P_client_msg *chunk)
 {
 	free(chunk->client_id);
-	mosquitto_property_free_all(&chunk->properties);
 }
 
 

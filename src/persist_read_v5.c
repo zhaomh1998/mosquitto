@@ -109,7 +109,7 @@ error:
 
 int persist__chunk_client_msg_read_v56(FILE *db_fptr, struct P_client_msg *chunk, uint32_t length)
 {
-	mosquitto_property *properties = NULL;
+	mosquitto_property *properties = NULL, *p;
 	struct mosquitto__packet prop_packet;
 	int rc;
 
@@ -137,8 +137,17 @@ int persist__chunk_client_msg_read_v56(FILE *db_fptr, struct P_client_msg *chunk
 		if(rc){
 			return rc;
 		}
+		if(properties){
+			p = properties;
+			while(p){
+				if(p->identifier == MQTT_PROP_SUBSCRIPTION_IDENTIFIER){
+					chunk->subscription_identifier = p->value.varint;
+				}
+				p = p->next;
+			}
+			mosquitto_property_free_all(&properties);
+		}
 	}
-	chunk->properties = properties;
 
 	return MOSQ_ERR_SUCCESS;
 error:

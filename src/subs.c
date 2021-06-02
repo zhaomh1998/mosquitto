@@ -65,7 +65,6 @@ static int subs__send(struct mosquitto__subleaf *leaf, const char *topic, uint8_
 	bool client_retain;
 	uint16_t mid;
 	uint8_t client_qos, msg_qos;
-	mosquitto_property *properties = NULL;
 	int rc2;
 
 	/* Check for ACL topic access. */
@@ -94,10 +93,7 @@ static int subs__send(struct mosquitto__subleaf *leaf, const char *topic, uint8_
 		}else{
 			client_retain = false;
 		}
-		if(leaf->identifier){
-			mosquitto_property_add_varint(&properties, MQTT_PROP_SUBSCRIPTION_IDENTIFIER, leaf->identifier);
-		}
-		if(db__message_insert(leaf->context, mid, mosq_md_out, msg_qos, client_retain, stored, properties, true) == 1){
+		if(db__message_insert(leaf->context, mid, mosq_md_out, msg_qos, client_retain, stored, leaf->identifier, true) == 1){
 			return 1;
 		}
 	}else{

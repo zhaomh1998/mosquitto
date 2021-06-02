@@ -98,7 +98,7 @@ struct PF_client_msg{
 struct P_client_msg{
 	struct PF_client_msg F;
 	char *client_id;
-	mosquitto_property *properties;
+	uint32_t subscription_identifier;
 };
 
 

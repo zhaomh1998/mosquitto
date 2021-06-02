@@ -114,7 +114,7 @@ int mosquitto_publish_v5(struct mosquitto *mosq, int *mid, const char *topic, in
 	}
 
 	if(qos == 0){
-		return send__publish(mosq, local_mid, topic, (uint32_t)payloadlen, payload, (uint8_t)qos, retain, false, outgoing_properties, NULL, 0);
+		return send__publish(mosq, local_mid, topic, (uint32_t)payloadlen, payload, (uint8_t)qos, retain, false, 0, outgoing_properties, 0);
 	}else{
 		if(outgoing_properties){
 			rc = mosquitto_property_copy_all(&properties_copy, outgoing_properties);

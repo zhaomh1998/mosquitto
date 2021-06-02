@@ -276,7 +276,7 @@ static void TEST_v6_client_message_props(void)
 	CU_ASSERT_EQUAL(rc, MOSQ_ERR_SUCCESS);
 
 	CU_ASSERT_EQUAL(0, file_diff("files/persist_read/v6-client-message-props.test-db", "v6-client-message-props.db"));
-	unlink("v6-client-message-props.db");
+	//unlink("v6-client-message-props.db");
 }
 
 

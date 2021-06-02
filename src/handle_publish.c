@@ -351,7 +351,7 @@ int handle__publish(struct mosquitto *context)
 			break;
 		case 2:
 			if(dup == 0){
-				res = db__message_insert(context, stored->source_mid, mosq_md_in, stored->qos, stored->retain, stored, NULL, false);
+				res = db__message_insert(context, stored->source_mid, mosq_md_in, stored->qos, stored->retain, stored, 0, false);
 			}else{
 				res = 0;
 			}

@@ -95,7 +95,6 @@ static void connection_check_acl(struct mosquitto *context, struct mosquitto_cli
 
 				DL_DELETE((*head), msg_tail);
 				db__msg_store_ref_dec(&msg_tail->store);
-				mosquitto_property_free_all(&msg_tail->properties);
 				mosquitto__free(msg_tail);
 			}
 		}

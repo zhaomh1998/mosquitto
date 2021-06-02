@@ -69,7 +69,7 @@ static int persist__client_messages_save(FILE *db_fptr, struct mosquitto *contex
 		chunk.F.direction = (uint8_t)cmsg->direction;
 		chunk.F.state = (uint8_t)cmsg->state;
 		chunk.client_id = context->id;
-		chunk.properties = cmsg->properties;
+		chunk.subscription_identifier = cmsg->subscription_identifier;
 
 		rc = persist__chunk_client_msg_write_v6(db_fptr, &chunk);
 		if(rc){

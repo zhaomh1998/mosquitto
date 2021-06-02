@@ -142,7 +142,7 @@ static int persist__client_msg_restore(struct P_client_msg *chunk)
 	cmsg->direction = chunk->F.direction;
 	cmsg->state = chunk->F.state;
 	cmsg->dup = chunk->F.retain_dup&0x0F;
-	cmsg->properties = chunk->properties;
+	cmsg->subscription_identifier = chunk->subscription_identifier;
 
 	cmsg->store = load->store;
 	db__msg_store_ref_inc(cmsg->store);

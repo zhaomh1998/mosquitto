@@ -31,6 +31,7 @@ Contributors:
 #include <sys/stat.h>
 #include <time.h>
 
+#include "mqtt_protocol.h"
 #include "mosquitto_broker_internal.h"
 #include "memory_mosq.h"
 #include "persist.h"
@@ -92,10 +93,17 @@ int persist__chunk_client_msg_write_v6(FILE *db_fptr, struct P_client_msg *chunk
 	uint16_t id_len = chunk->F.id_len;
 	uint32_t proplen = 0;
 	int rc;
+	mosquitto_property subscription_id_prop =
+			{.next = NULL, .identifier = MQTT_PROP_SUBSCRIPTION_IDENTIFIER, .client_generated = true};
 
 	memset(&prop_packet, 0, sizeof(struct mosquitto__packet));
-	if(chunk->properties){
-		proplen += property__get_remaining_length(chunk->properties);
+	if(chunk->subscription_identifier){
+		subscription_id_prop.next = NULL;
+		subscription_id_prop.identifier = MQTT_PROP_SUBSCRIPTION_IDENTIFIER;
+		subscription_id_prop.client_generated = true;
+
+		subscription_id_prop.value.varint = chunk->subscription_identifier;
+		proplen += property__get_remaining_length(&subscription_id_prop);
 	}
 
 	chunk->F.mid = htons(chunk->F.mid);
@@ -107,7 +115,7 @@ int persist__chunk_client_msg_write_v6(FILE *db_fptr, struct P_client_msg *chunk
 	write_e(db_fptr, &header, sizeof(struct PF_header));
 	write_e(db_fptr, &chunk->F, sizeof(struct PF_client_msg));
 	write_e(db_fptr, chunk->client_id, id_len);
-	if(chunk->properties){
+	if(chunk->subscription_identifier){
 		if(proplen > 0){
 			prop_packet.remaining_length = proplen;
 			prop_packet.packet_length = proplen;
@@ -115,7 +123,7 @@ int persist__chunk_client_msg_write_v6(FILE *db_fptr, struct P_client_msg *chunk
 			if(!prop_packet.payload){
 				return MOSQ_ERR_NOMEM;
 			}
-			rc = property__write_all(&prop_packet, chunk->properties, true);
+			rc = property__write_all(&prop_packet, &subscription_id_prop, true);
 			if(rc){
 				mosquitto__free(prop_packet.payload);
 				return rc;

@@ -73,7 +73,7 @@ int acl__find_acls(struct mosquitto *context)
 }
 
 
-int send__publish(struct mosquitto *mosq, uint16_t mid, const char *topic, uint32_t payloadlen, const void *payload, uint8_t qos, bool retain, bool dup, const mosquitto_property *cmsg_props, const mosquitto_property *store_props, uint32_t expiry_interval)
+int send__publish(struct mosquitto *mosq, uint16_t mid, const char *topic, uint32_t payloadlen, const void *payload, uint8_t qos, bool retain, bool dup, uint32_t subscription_identifier, const mosquitto_property *store_props, uint32_t expiry_interval)
 {
 	UNUSED(mosq);
 	UNUSED(mid);
@@ -83,7 +83,7 @@ int send__publish(struct mosquitto *mosq, uint16_t mid, const char *topic, uint3
 	UNUSED(qos);
 	UNUSED(retain);
 	UNUSED(dup);
-	UNUSED(cmsg_props);
+	UNUSED(subscription_identifier);
 	UNUSED(store_props);
 	UNUSED(expiry_interval);
 

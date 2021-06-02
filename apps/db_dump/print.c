@@ -172,7 +172,9 @@ void print__client_msg(struct P_client_msg *chunk, uint32_t length)
 	printf("\tDirection: %d\n", chunk->F.direction);
 	printf("\tState: %d\n", chunk->F.state);
 	printf("\tDup: %d\n", chunk->F.retain_dup&0x0F);
-	print__properties(chunk->properties);
+	if(chunk->subscription_identifier){
+		printf("\tSubscription identifier: %d\n", chunk->subscription_identifier);
+	}
 }
 
 

@@ -165,7 +165,7 @@ int sub__add(struct mosquitto *context, const char *sub, uint8_t qos, uint32_t i
 	return MOSQ_ERR_SUCCESS;
 }
 
-int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_direction dir, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, mosquitto_property *properties, bool update)
+int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_direction dir, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update)
 {
 	UNUSED(context);
 	UNUSED(mid);
@@ -173,7 +173,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	UNUSED(qos);
 	UNUSED(retain);
 	UNUSED(stored);
-	UNUSED(properties);
+	UNUSED(subscription_identifier);
 	UNUSED(update);
 
 	return MOSQ_ERR_SUCCESS;

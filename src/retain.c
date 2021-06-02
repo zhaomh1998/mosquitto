@@ -132,7 +132,6 @@ static int retain__process(struct mosquitto__retainhier *branch, struct mosquitt
 	int rc = 0;
 	uint8_t qos;
 	uint16_t mid;
-	mosquitto_property *properties = NULL;
 	struct mosquitto_msg_store *retained;
 
 	if(branch->retained->message_expiry_time > 0 && db.now_real_s >= branch->retained->message_expiry_time){
@@ -186,10 +185,7 @@ static int retain__process(struct mosquitto__retainhier *branch, struct mosquitt
 	}else{
 		mid = 0;
 	}
-	if(subscription_identifier > 0){
-		mosquitto_property_add_varint(&properties, MQTT_PROP_SUBSCRIPTION_IDENTIFIER, subscription_identifier);
-	}
-	return db__message_insert(context, mid, mosq_md_out, qos, true, retained, properties, false);
+	return db__message_insert(context, mid, mosq_md_out, qos, true, retained, subscription_identifier, false);
 }
 
 
