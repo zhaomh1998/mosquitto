@@ -377,7 +377,6 @@ struct mosquitto_msg_store{
 	uint32_t payloadlen;
 	enum mosquitto_msg_origin origin;
 	uint16_t source_mid;
-	uint16_t mid;
 	uint8_t qos;
 	bool retain;
 };
@@ -387,7 +386,6 @@ struct mosquitto_client_msg{
 	struct mosquitto_client_msg *next;
 	struct mosquitto_msg_store *store;
 	mosquitto_property *properties;
-	time_t timestamp;
 	uint16_t mid;
 	uint8_t qos;
 	bool retain;

@@ -361,7 +361,6 @@ int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 		}
 
 		msg_index++;
-		tail->timestamp = db.now_s;
 		switch(tail->qos){
 			case 0:
 				tail->state = mosq_ms_publish_qos0;
@@ -506,7 +505,6 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	msg->store = stored;
 	db__msg_store_ref_inc(msg->store);
 	msg->mid = mid;
-	msg->timestamp = db.now_s;
 	msg->direction = dir;
 	msg->state = state;
 	msg->dup = false;
@@ -585,7 +583,6 @@ int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 				return MOSQ_ERR_PROTOCOL;
 			}
 			tail->state = state;
-			tail->timestamp = db.now_s;
 			return MOSQ_ERR_SUCCESS;
 		}
 	}
@@ -714,7 +711,6 @@ int db__message_store(const struct mosquitto *source, struct mosquitto_msg_store
 	if(source){
 		stored->source_listener = source->listener;
 	}
-	stored->mid = 0;
 	stored->origin = origin;
 	if(message_expiry_interval > 0){
 		stored->message_expiry_time = db.now_real_s + message_expiry_interval;
@@ -972,7 +968,6 @@ int db__message_release_incoming(struct mosquitto *context, uint16_t mid)
 		}
 
 		msg_index++;
-		tail->timestamp = db.now_s;
 
 		if(tail->qos == 2){
 			send__pubrec(context, tail->mid, 0, NULL);
@@ -1036,7 +1031,6 @@ static int db__message_write_inflight_out_single(struct mosquitto *context, stru
 		case mosq_ms_publish_qos1:
 			rc = send__publish(context, mid, topic, payloadlen, payload, qos, retain, retries, cmsg_props, store_props, expiry_interval);
 			if(rc == MOSQ_ERR_SUCCESS){
-				msg->timestamp = db.now_s;
 				msg->dup = 1; /* Any retry attempts are a duplicate. */
 				msg->state = mosq_ms_wait_for_puback;
 			}else if(rc == MOSQ_ERR_OVERSIZE_PACKET){
@@ -1049,7 +1043,6 @@ static int db__message_write_inflight_out_single(struct mosquitto *context, stru
 		case mosq_ms_publish_qos2:
 			rc = send__publish(context, mid, topic, payloadlen, payload, qos, retain, retries, cmsg_props, store_props, expiry_interval);
 			if(rc == MOSQ_ERR_SUCCESS){
-				msg->timestamp = db.now_s;
 				msg->dup = 1; /* Any retry attempts are a duplicate. */
 				msg->state = mosq_ms_wait_for_pubrec;
 			}else if(rc == MOSQ_ERR_OVERSIZE_PACKET){

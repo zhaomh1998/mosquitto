@@ -198,7 +198,6 @@ static void TEST_v3_message_store(void)
 		CU_ASSERT_EQUAL(db.msg_store->db_id, 1);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->source_id, "source_id");
 		CU_ASSERT_EQUAL(db.msg_store->source_mid, 2);
-		CU_ASSERT_EQUAL(db.msg_store->mid, 0);
 		CU_ASSERT_EQUAL(db.msg_store->qos, 2);
 		CU_ASSERT_EQUAL(db.msg_store->retain, 1);
 		CU_ASSERT_PTR_NOT_NULL(db.msg_store->topic);
@@ -267,7 +266,6 @@ static void TEST_v3_client_message(void)
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->ref_count, 1);
 				CU_ASSERT_STRING_EQUAL(context->msgs_out.inflight->store->source_id, "source_id");
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->source_mid, 2);
-				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->mid, 0);
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->qos, 2);
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->retain, 1);
 				CU_ASSERT_PTR_NOT_NULL(context->msgs_out.inflight->store->topic);
@@ -312,7 +310,6 @@ static void TEST_v3_retain(void)
 		CU_ASSERT_EQUAL(db.msg_store->db_id, 0x54);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->source_id, "source_id");
 		CU_ASSERT_EQUAL(db.msg_store->source_mid, 2);
-		CU_ASSERT_EQUAL(db.msg_store->mid, 0);
 		CU_ASSERT_EQUAL(db.msg_store->qos, 2);
 		CU_ASSERT_EQUAL(db.msg_store->retain, 1);
 		CU_ASSERT_PTR_NOT_NULL(db.msg_store->topic);
@@ -391,7 +388,6 @@ static void TEST_v4_message_store(void)
 		CU_ASSERT_EQUAL(db.msg_store->db_id, 0xFEDCBA9876543210);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->source_id, "source_id");
 		CU_ASSERT_EQUAL(db.msg_store->source_mid, 0x88);
-		CU_ASSERT_EQUAL(db.msg_store->mid, 0);
 		CU_ASSERT_EQUAL(db.msg_store->qos, 1);
 		CU_ASSERT_EQUAL(db.msg_store->retain, 0);
 		CU_ASSERT_PTR_NOT_NULL(db.msg_store->topic);
@@ -480,7 +476,6 @@ static void TEST_v6_message_store(void)
 		CU_ASSERT_EQUAL(db.msg_store->db_id, 1);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->source_id, "source_id");
 		CU_ASSERT_EQUAL(db.msg_store->source_mid, 2);
-		CU_ASSERT_EQUAL(db.msg_store->mid, 0);
 		CU_ASSERT_EQUAL(db.msg_store->qos, 2);
 		CU_ASSERT_EQUAL(db.msg_store->retain, 1);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->topic, "topic");
@@ -520,7 +515,6 @@ static void TEST_v6_message_store_props(void)
 		CU_ASSERT_EQUAL(db.msg_store->db_id, 1);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->source_id, "source_id");
 		CU_ASSERT_EQUAL(db.msg_store->source_mid, 2);
-		CU_ASSERT_EQUAL(db.msg_store->mid, 0);
 		CU_ASSERT_EQUAL(db.msg_store->qos, 2);
 		CU_ASSERT_EQUAL(db.msg_store->retain, 1);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->topic, "topic");
@@ -628,7 +622,6 @@ static void TEST_v6_client_message(void)
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->ref_count, 1);
 				CU_ASSERT_STRING_EQUAL(context->msgs_out.inflight->store->source_id, "source_id");
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->source_mid, 2);
-				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->mid, 0);
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->qos, 2);
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->retain, 1);
 				CU_ASSERT_STRING_EQUAL(context->msgs_out.inflight->store->topic, "topic");
@@ -676,7 +669,6 @@ static void TEST_v6_client_message_props(void)
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->ref_count, 1);
 				CU_ASSERT_STRING_EQUAL(context->msgs_out.inflight->store->source_id, "source_id");
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->source_mid, 2);
-				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->mid, 0);
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->qos, 2);
 				CU_ASSERT_EQUAL(context->msgs_out.inflight->store->retain, 1);
 				CU_ASSERT_STRING_EQUAL(context->msgs_out.inflight->store->topic, "topic");
@@ -722,7 +714,6 @@ static void TEST_v6_retain(void)
 		CU_ASSERT_EQUAL(db.msg_store->db_id, 0x54);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->source_id, "source_id");
 		CU_ASSERT_EQUAL(db.msg_store->source_mid, 2);
-		CU_ASSERT_EQUAL(db.msg_store->mid, 0);
 		CU_ASSERT_EQUAL(db.msg_store->qos, 2);
 		CU_ASSERT_EQUAL(db.msg_store->retain, 1);
 		CU_ASSERT_STRING_EQUAL(db.msg_store->topic, "topic");

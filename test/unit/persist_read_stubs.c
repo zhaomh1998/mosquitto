@@ -72,7 +72,6 @@ int db__message_store(const struct mosquitto *source, struct mosquitto_msg_store
     if(source){
         stored->source_listener = source->listener;
     }
-    stored->mid = 0;
     if(message_expiry_interval > 0){
         stored->message_expiry_time = time(NULL) + message_expiry_interval;
     }else{

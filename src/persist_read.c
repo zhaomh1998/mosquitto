@@ -139,7 +139,6 @@ static int persist__client_msg_restore(struct P_client_msg *chunk)
 	cmsg->mid = chunk->F.mid;
 	cmsg->qos = chunk->F.qos;
 	cmsg->retain = (chunk->F.retain_dup&0xF0)>>4;
-	cmsg->timestamp = 0;
 	cmsg->direction = chunk->F.direction;
 	cmsg->state = chunk->F.state;
 	cmsg->dup = chunk->F.retain_dup&0x0F;
