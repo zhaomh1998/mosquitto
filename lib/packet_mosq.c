@@ -236,7 +236,11 @@ int packet__write(struct mosquitto *mosq)
 #endif
 
 	state = mosquitto__get_state(mosq);
+#if defined(WITH_TLS) && !defined(WITH_BROKER)
 	if(state == mosq_cs_connect_pending || mosq->want_connect){
+#else
+	if(state == mosq_cs_connect_pending){
+#endif
 		pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 		return MOSQ_ERR_SUCCESS;
 	}
