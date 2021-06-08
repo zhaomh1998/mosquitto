@@ -9,6 +9,8 @@ Broker:
   Closes #2207.
 - Improve QoS 0 outgoing packet queueing.
 - Fix non-reachable bridge blocking the broker on Windows. Closes #2172.
+- Fix possible corruption of pollfd array on Windows when bridges were 
+  reconnecting. Closes #2173.
 
 Clients:
 - If sending mosquitto_sub output to a pipe, mosquitto_sub will now detect
