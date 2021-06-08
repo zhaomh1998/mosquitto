@@ -285,6 +285,7 @@ int bridge__connect_step2(struct mosquitto *context)
 
 	if(rc == MOSQ_ERR_CONN_PENDING){
 		mosquitto__set_state(context, mosq_cs_connect_pending);
+		mux__add_out(context);
 	}
 	return rc;
 }
@@ -447,6 +448,7 @@ int bridge__connect(struct mosquitto *context)
 		return rc;
 	}else if(rc == MOSQ_ERR_CONN_PENDING){
 		mosquitto__set_state(context, mosq_cs_connect_pending);
+		mux__add_out(context);
 	}
 
 	HASH_ADD(hh_sock, db.contexts_by_sock, sock, sizeof(context->sock), context);

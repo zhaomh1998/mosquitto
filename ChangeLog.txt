@@ -8,6 +8,7 @@ Broker:
 - Fix bridge not reconnectng if the first reconnection attempt fails.
   Closes #2207.
 - Improve QoS 0 outgoing packet queueing.
+- Fix non-reachable bridge blocking the broker on Windows. Closes #2172.
 
 Clients:
 - If sending mosquitto_sub output to a pipe, mosquitto_sub will now detect

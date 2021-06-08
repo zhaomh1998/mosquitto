@@ -236,11 +236,7 @@ int packet__write(struct mosquitto *mosq)
 #endif
 
 	state = mosquitto__get_state(mosq);
-#if defined(WITH_TLS) && !defined(WITH_BROKER)
 	if(state == mosq_cs_connect_pending || mosq->want_connect){
-#else
-	if(state == mosq_cs_connect_pending){
-#endif
 		pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 		return MOSQ_ERR_SUCCESS;
 	}
@@ -324,15 +320,17 @@ int packet__write(struct mosquitto *mosq)
 
 #ifdef WITH_BROKER
 		mosq->next_msg_out = db.now_s + mosq->keepalive;
-		if(mosq->current_out_packet == NULL){
-			mux__remove_out(mosq);
-		}
 #else
 		pthread_mutex_lock(&mosq->msgtime_mutex);
 		mosq->next_msg_out = mosquitto_time() + mosq->keepalive;
 		pthread_mutex_unlock(&mosq->msgtime_mutex);
 #endif
 	}
+#ifdef WITH_BROKER
+	if (mosq->current_out_packet == NULL) {
+		mux__remove_out(mosq);
+	}
+#endif
 	pthread_mutex_unlock(&mosq->current_out_packet_mutex);
 	return MOSQ_ERR_SUCCESS;
 }
