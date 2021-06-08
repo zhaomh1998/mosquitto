@@ -559,7 +559,6 @@ void net__print_ssl_error(struct mosquitto *mosq)
 
 int net__socket_connect_tls(struct mosquitto *mosq)
 {
-	int ret, err;
 	long res;
 
 	ERR_clear_error();
@@ -578,31 +577,7 @@ int net__socket_connect_tls(struct mosquitto *mosq)
 			return MOSQ_ERR_OCSP;
 		}
 	}
-
-	ret = SSL_connect(mosq->ssl);
-	if(ret != 1) {
-		err = SSL_get_error(mosq->ssl, ret);
-		if (err == SSL_ERROR_SYSCALL) {
-			mosq->want_connect = true;
-			return MOSQ_ERR_SUCCESS;
-		}
-		if(err == SSL_ERROR_WANT_READ){
-			mosq->want_connect = true;
-			/* We always try to read anyway */
-		}else if(err == SSL_ERROR_WANT_WRITE){
-			mosq->want_write = true;
-			mosq->want_connect = true;
-		}else{
-			net__print_ssl_error(mosq);
-
-			COMPAT_CLOSE(mosq->sock);
-			mosq->sock = INVALID_SOCKET;
-			net__print_ssl_error(mosq);
-			return MOSQ_ERR_TLS;
-		}
-	}else{
-		mosq->want_connect = false;
-	}
+	SSL_set_connect_state(mosq->ssl);
 	return MOSQ_ERR_SUCCESS;
 }
 #endif

@@ -72,12 +72,6 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 		if(mosq->ssl){
 			if(mosq->want_write){
 				FD_SET(mosq->sock, &writefds);
-			}else if(mosq->want_connect){
-				/* Remove possible FD_SET from above, we don't want to check
-				 * for writing if we are still connecting, unless want_write is
-				 * definitely set. The presence of outgoing packets does not
-				 * matter yet. */
-				FD_CLR(mosq->sock, &writefds);
 			}
 		}
 #endif
@@ -168,17 +162,9 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 			}
 			
 			if(net__is_connected(mosq) && FD_ISSET(mosq->sock, &writefds)){
-#ifdef WITH_TLS
-				if(mosq->want_connect){
-					rc = net__socket_connect_tls(mosq);
-					if(rc) return rc;
-				}else
-#endif
-				{
-					rc = mosquitto_loop_write(mosq, max_packets);
-					if(rc || !net__is_connected(mosq)){
-						return rc;
-					}
+				rc = mosquitto_loop_write(mosq, max_packets);
+				if(rc || !net__is_connected(mosq)){
+					return rc;
 				}
 			}
 		}
@@ -360,12 +346,6 @@ int mosquitto_loop_read(struct mosquitto *mosq, int max_packets)
 	int rc = MOSQ_ERR_SUCCESS;
 	int i;
 	if(max_packets < 1) return MOSQ_ERR_INVAL;
-
-#ifdef WITH_TLS
-	if(mosq->want_connect){
-		return net__socket_connect_tls(mosq);
-	}
-#endif
 
 	pthread_mutex_lock(&mosq->msgs_out.mutex);
 	max_packets = mosq->msgs_out.queue_len;

@@ -113,9 +113,6 @@ struct mosquitto *net__socket_accept(struct mosquitto__listener_sock *listensock
 	struct mosquitto *new_context;
 #ifdef WITH_TLS
 	BIO *bio;
-	int rc;
-	char ebuf[256];
-	unsigned long e;
 #endif
 #ifdef WITH_WRAP
 	struct request_info wrap_req;
@@ -222,27 +219,7 @@ struct mosquitto *net__socket_accept(struct mosquitto__listener_sock *listensock
 		bio = BIO_new_socket(new_sock, BIO_NOCLOSE);
 		SSL_set_bio(new_context->ssl, bio, bio);
 		ERR_clear_error();
-		rc = SSL_accept(new_context->ssl);
-		if(rc != 1){
-			rc = SSL_get_error(new_context->ssl, rc);
-			if(rc == SSL_ERROR_WANT_READ){
-				/* We always want to read. */
-			}else if(rc == SSL_ERROR_WANT_WRITE){
-				new_context->want_write = true;
-			}else{
-				if(db.config->connection_messages == true){
-					e = ERR_get_error();
-					while(e){
-						log__printf(NULL, MOSQ_LOG_NOTICE,
-								"Client connection from %s failed: %s.",
-								new_context->address, ERR_error_string(e, ebuf));
-						e = ERR_get_error();
-					}
-				}
-				context__cleanup(new_context, true);
-				return NULL;
-			}
-		}
+		SSL_set_accept_state(new_context->ssl);
 	}
 #endif
 

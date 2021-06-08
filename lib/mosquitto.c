@@ -334,8 +334,6 @@ bool mosquitto_want_write(struct mosquitto *mosq)
 	if(mosq->ssl){
 		if (mosq->want_write) {
 			result = true;
-		}else if(mosq->want_connect){
-			result = false;
 		}
 	}
 #endif
