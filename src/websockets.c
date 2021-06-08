@@ -587,7 +587,6 @@ static int callback_http(
 			if(mosq){
 				if(pollargs->events & LWS_POLLOUT){
 					mux__add_out(mosq);
-					mosq->ws_want_write = true;
 				}else{
 					mux__remove_out(mosq);
 				}
@@ -613,7 +612,6 @@ static int callback_http(
 					return 1;
 				}else if(pollargs->events & LWS_POLLOUT){
 					mux__add_out(mosq);
-					mosq->ws_want_write = true;
 				}else{
 					mux__remove_out(mosq);
 				}
