@@ -944,7 +944,7 @@ int net__socket_connect(struct mosquitto *mosq, const char *host, uint16_t port,
 
 
 #ifdef WITH_TLS
-static net__handle_ssl(struct mosquitto* mosq, int ret)
+static int net__handle_ssl(struct mosquitto* mosq, int ret)
 {
 	int err;
 

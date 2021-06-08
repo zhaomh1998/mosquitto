@@ -106,7 +106,7 @@ int mux_poll__init(struct mosquitto__listener_sock *listensock, int listensock_c
 }
 
 
-static mux_poll__add(struct mosquitto* context, int evt)
+static int mux_poll__add(struct mosquitto* context, uint16_t evt)
 {
 	size_t i;
 
@@ -116,7 +116,7 @@ static mux_poll__add(struct mosquitto* context, int evt)
 
 	if(context->pollfd_index != -1){
 		pollfds[context->pollfd_index].fd = context->sock;
-		pollfds[context->pollfd_index].events = evt;
+		pollfds[context->pollfd_index].events = (short int)evt;
 		pollfds[context->pollfd_index].revents = 0;
 	}else{
 		for(i=0; i<pollfd_max; i++) {
