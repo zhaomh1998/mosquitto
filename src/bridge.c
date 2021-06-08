@@ -646,7 +646,7 @@ int bridge__register_local_connections(void)
 
 	HASH_ITER(hh_sock, db.contexts_by_sock, context, ctxt_tmp){
 		if(context->bridge){
-			if(mux__add_in(context)){
+			if(mux__new(context)){
 				log__printf(NULL, MOSQ_LOG_ERR, "Error in initial bridge registration: %s", strerror(errno));
 				return MOSQ_ERR_UNKNOWN;
 			}
@@ -971,12 +971,12 @@ void bridge_check(void)
 						}else if(rc == 0){
 							rc = bridge__connect_step2(context);
 							if(rc == MOSQ_ERR_SUCCESS){
-								mux__add_in(context);
+								mux__new(context);
 								if(context->out_packet){
 									mux__add_out(context);
 								}
 							}else if(rc == MOSQ_ERR_CONN_PENDING){
-								mux__add_in(context);
+								mux__new(context);
 								mux__add_out(context);
 								context->bridge->restart_t = 0;
 							}else{
@@ -1015,7 +1015,7 @@ void bridge_check(void)
 							if(context->bridge->round_robin == false && context->bridge->cur_address != 0){
 								context->bridge->primary_retry = db.now_s + 5;
 							}
-							mux__add_in(context);
+							mux__new(context);
 							if(context->out_packet){
 								mux__add_out(context);
 							}

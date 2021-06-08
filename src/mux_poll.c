@@ -139,14 +139,14 @@ int mux_poll__add_out(struct mosquitto *context)
 int mux_poll__remove_out(struct mosquitto *context)
 {
 	if(context->events & POLLOUT) {
-		return mux_poll__add_in(context);
+		return mux_poll__new(context);
 	}else{
 		return MOSQ_ERR_SUCCESS;
 	}
 }
 
 
-int mux_poll__add_in(struct mosquitto *context)
+int mux_poll__new(struct mosquitto *context)
 {
 	size_t i;
 
@@ -247,8 +247,6 @@ int mux_poll__handle(struct mosquitto__listener_sock *listensock, int listensock
 #endif
 				{
 					while((context = net__socket_accept(&listensock[i])) != NULL){
-						context->pollfd_index = -1;
-						mux__add_in(context);
 					}
 				}
 			}

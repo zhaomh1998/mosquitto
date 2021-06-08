@@ -106,7 +106,7 @@ int mux_kqueue__remove_out(struct mosquitto *context)
 }
 
 
-int mux_kqueue__add_in(struct mosquitto *context)
+int mux_kqueue__new(struct mosquitto *context)
 {
 	struct kevent ev;
 
@@ -173,8 +173,6 @@ int mux_kqueue__handle(void)
 
 				if(event_list[i].filter == EVFILT_READ){
 					while((context = net__socket_accept(listensock)) != NULL){
-						context->events = EVFILT_READ;
-						mux__add_in(context);
 					}
 				}
 #ifdef WITH_WEBSOCKETS

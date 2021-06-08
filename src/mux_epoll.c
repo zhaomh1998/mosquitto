@@ -110,7 +110,7 @@ int mux_epoll__remove_out(struct mosquitto *context)
 }
 
 
-int mux_epoll__add_in(struct mosquitto *context)
+int mux_epoll__new(struct mosquitto *context)
 {
 	struct epoll_event ev;
 
@@ -176,8 +176,6 @@ int mux_epoll__handle(void)
 
 				if (ep_events[i].events & (EPOLLIN | EPOLLPRI)){
 					while((context = net__socket_accept(listensock)) != NULL){
-						context->events = EPOLLIN;
-						mux__add_in(context);
 					}
 				}
 #ifdef WITH_WEBSOCKETS

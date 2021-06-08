@@ -54,14 +54,14 @@ int mux__remove_out(struct mosquitto *context)
 }
 
 
-int mux__add_in(struct mosquitto *context)
+int mux__new(struct mosquitto *context)
 {
 #ifdef WITH_EPOLL
-	return mux_epoll__add_in(context);
+	return mux_epoll__new(context);
 #elif defined(WITH_KQUEUE)
-	return mux_kqueue__add_in(context);
+	return mux_kqueue__new(context);
 #else
-	return mux_poll__add_in(context);
+	return mux_poll__new(context);
 #endif
 }
 

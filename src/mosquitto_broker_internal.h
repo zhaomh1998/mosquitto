@@ -757,9 +757,9 @@ int bridge__remap_topic_in(struct mosquitto *context, char **topic);
  * ============================================================ */
 int mux__init(struct mosquitto__listener_sock *listensock, int listensock_count);
 int mux__loop_prepare(void);
+int mux__new(struct mosquitto *context);
 int mux__add_out(struct mosquitto *context);
 int mux__remove_out(struct mosquitto *context);
-int mux__add_in(struct mosquitto *context);
 int mux__delete(struct mosquitto *context);
 int mux__wait(void);
 int mux__handle(struct mosquitto__listener_sock *listensock, int listensock_count);

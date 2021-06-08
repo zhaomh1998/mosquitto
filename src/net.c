@@ -228,6 +228,8 @@ struct mosquitto *net__socket_accept(struct mosquitto__listener_sock *listensock
 				new_context->address, new_context->remote_port, new_context->listener->port);
 	}
 
+	mux__new(new_context);
+
 	return new_context;
 }
 
