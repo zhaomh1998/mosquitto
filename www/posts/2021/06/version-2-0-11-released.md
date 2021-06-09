@@ -27,6 +27,8 @@ release.
 - Fix non-reachable bridge blocking the broker on Windows. Closes #2172.
 - Fix possible corruption of pollfd array on Windows when bridges were
   reconnecting. Closes [#2173].
+- Fix QoS 0 messages not being queued when `queue_qos0_messages` was enabled.
+  Closes [#2224].
 
 # Clients
 - If sending mosquitto_sub output to a pipe, mosquitto_sub will now detect
@@ -41,3 +43,4 @@ release.
 [#2173]: https://github.com/eclipse/mosquitto/issues/2173
 [#2187]: https://github.com/eclipse/mosquitto/issues/2187
 [#2207]: https://github.com/eclipse/mosquitto/issues/2207
+[#2224]: https://github.com/eclipse/mosquitto/issues/2224
