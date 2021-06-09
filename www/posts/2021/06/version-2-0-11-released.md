@@ -9,15 +9,17 @@
 .. type: text
 -->
 
-Versions 2.0.11 of Mosquitto has been released. This is a security and bugfix
-release.
+Versions 2.0.11 and 1.6.15 of Mosquitto has been released. These are a security
+and bugfix releases.
 
-# Security
+# 2.0.11
+
+## Security
 - If an authenticated client connected with MQTT v5 sent a crafted CONNECT
   message to the broker a memory leak would occur.
   Affects versions 1.6 to 2.0.10 inclusive.
 
-# Broker
+## Broker
 - Fix possible crash having just upgraded from 1.6 if `per_listener_settings
   true` is set, and a SIGHUP is sent to the broker before a client has
   reconnected to the broker. Closes [#2167].
@@ -30,12 +32,18 @@ release.
 - Fix QoS 0 messages not being queued when `queue_qos0_messages` was enabled.
   Closes [#2224].
 
-# Clients
+## Clients
 - If sending mosquitto_sub output to a pipe, mosquitto_sub will now detect
   that the pipe has closed and disconnect. Closes [#2164].
 - Fix `mosquitto_pub -l` quitting if a message publication is attempted when
   the broker is temporarily unavailable. Closes [#2187].
 
+# 1.6.15
+
+## Security
+- If an authenticated client connected with MQTT v5 sent a crafted CONNECT
+  message to the broker a memory leak would occur.
+  Affects versions 1.6 to 2.0.10 inclusive.
 
 [#2164]: https://github.com/eclipse/mosquitto/issues/2164
 [#2167]: https://github.com/eclipse/mosquitto/issues/2167
