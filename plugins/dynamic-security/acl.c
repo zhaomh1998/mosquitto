@@ -38,10 +38,14 @@ static int acl_check_publish_c_recv(struct mosquitto_evt_acl_check *ed, struct d
 	struct dynsec__rolelist *rolelist, *rolelist_tmp = NULL;
 	struct dynsec__acl *acl, *acl_tmp = NULL;
 	bool result;
+	const char *clientid, *username;
+
+	clientid = mosquitto_client_id(ed->client);
+	username = mosquitto_client_username(ed->client);
 
 	HASH_ITER(hh, base_rolelist, rolelist, rolelist_tmp){
 		HASH_ITER(hh, rolelist->role->acls.publish_c_recv, acl, acl_tmp){
-			mosquitto_topic_matches_sub(acl->topic, ed->topic, &result);
+			mosquitto_topic_matches_sub_with_pattern(acl->topic, ed->topic, clientid, username, &result);
 			if(result){
 				if(acl->allow){
 					return MOSQ_ERR_SUCCESS;
@@ -66,10 +70,14 @@ static int acl_check_publish_c_send(struct mosquitto_evt_acl_check *ed, struct d
 	struct dynsec__rolelist *rolelist, *rolelist_tmp = NULL;
 	struct dynsec__acl *acl, *acl_tmp = NULL;
 	bool result;
+	const char *clientid, *username;
+
+	clientid = mosquitto_client_id(ed->client);
+	username = mosquitto_client_username(ed->client);
 
 	HASH_ITER(hh, base_rolelist, rolelist, rolelist_tmp){
 		HASH_ITER(hh, rolelist->role->acls.publish_c_send, acl, acl_tmp){
-			mosquitto_topic_matches_sub(acl->topic, ed->topic, &result);
+			mosquitto_topic_matches_sub_with_pattern(acl->topic, ed->topic, clientid, username, &result);
 			if(result){
 				if(acl->allow){
 					return MOSQ_ERR_SUCCESS;

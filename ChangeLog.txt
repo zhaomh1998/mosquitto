@@ -24,6 +24,9 @@ Broker:
   using QoS 1 or 2 will receive the quota-exceeded reason code in the
   corresponding PUBACK/PUBREC.
 - MOSQ_EVT_TICK is now passed to plugins when `per_listener_settings` is true.
+- The dynamic security plugin now supports `%c` and `%u` patterns for
+  substituting client id and username respectively, in publishClientSend and
+  publishClientReceive ACLs.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

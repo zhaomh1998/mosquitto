@@ -44,6 +44,7 @@ add_client_group_role_command = {"commands":[
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "subscribePattern", "topic": "single-wildcard/+/topic", "allow": True },
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "subscribePattern", "topic": "multilevel-wildcard/#", "allow": True },
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "unsubscribeLiteral", "topic": "simple/topic", "allow": False },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "subscribePattern", "topic": "pattern/#", "allow": True },
     { "command": "addGroupClient", "groupname": "mygroup", "username": "user_one" }
     ]}
 
@@ -53,6 +54,7 @@ add_client_group_role_response = {'responses': [
     {'command': 'addGroupRole'},
     {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
     {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
+    {'command': 'addRoleACL'},
     {'command': 'addGroupClient'}
     ]}
 
@@ -61,11 +63,23 @@ add_publish_acl_command = {"commands":[
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientSend", "topic": "single-wildcard/deny/deny", "priority":10, "allow": False },
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientSend", "topic": "single-wildcard/+/+", "allow": True },
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientSend", "topic": "multilevel-wildcard/topic/#", "allow": True },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientSend", "topic": "pattern/%u/topic/#", "allow": True },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientSend", "topic": "pattern/%u/denied", "allow": False },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientSend", "topic": "pattern/%c/topic/#", "allow": True },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientSend", "topic": "pattern/%c/denied", "allow": False },
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientReceive", "topic": "single-wildcard/bob/bob", "allow": False },
     { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientReceive", "topic": "multilevel-wildcard/topic/topic/denied", "allow": False },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientReceive", "topic": "pattern/%u/topic/#", "allow": True },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientReceive", "topic": "pattern/%u/denied", "allow": False },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientReceive", "topic": "pattern/%c/topic/#", "allow": True },
+    { "command": "addRoleACL", "rolename": "myrole", "acltype": "publishClientReceive", "topic": "pattern/%c/denied", "allow": False },
     ]}
 
 add_publish_acl_response = {'responses': [
+    {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
+    {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
+    {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
+    {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
     {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
     {'command': 'addRoleACL'}, {'command': 'addRoleACL'},
     {'command': 'addRoleACL'}, {'command': 'addRoleACL'}
@@ -146,7 +160,29 @@ mid = 13
 unsubscribe_multi_packet = mosq_test.gen_unsubscribe(mid, "multilevel-wildcard/topic/topic/#", proto_ver=5)
 unsuback_multi_packet_success = mosq_test.gen_unsuback(mid, 0, proto_ver=5)
 
+mid = 14
+subscribe_pattern_packet = mosq_test.gen_subscribe(mid, "pattern/#", 0, proto_ver=5)
+suback_pattern_packet = mosq_test.gen_suback(mid, 0, proto_ver=5)
+
 disconnect_kick_packet = mosq_test.gen_disconnect(reason_code=mqtt5_rc.MQTT_RC_ADMINISTRATIVE_ACTION, proto_ver=5)
+
+mid = 15
+publish_u_pattern_packet = mosq_test.gen_publish(mid=mid, topic="pattern/user_one/topic", qos=1, proto_ver=5, payload="test")
+puback_u_packet_success = mosq_test.gen_puback(mid=mid, proto_ver=5)
+publish_u_pattern_packet_r = mosq_test.gen_publish(topic="pattern/user_one/topic", qos=0, proto_ver=5, payload="test")
+
+mid = 16
+publish_u_pattern_packet_denied = mosq_test.gen_publish(mid=mid, topic="pattern/user_one/denied", qos=1, proto_ver=5, payload="test")
+puback_u_packet_denied = mosq_test.gen_puback(mid=mid, reason_code=mqtt5_rc.MQTT_RC_NOT_AUTHORIZED, proto_ver=5)
+
+mid = 17
+publish_c_pattern_packet = mosq_test.gen_publish(mid=mid, topic="pattern/user_one/topic", qos=1, proto_ver=5, payload="test")
+puback_c_packet_success = mosq_test.gen_puback(mid=mid, proto_ver=5)
+publish_c_pattern_packet_r = mosq_test.gen_publish(topic="pattern/user_one/topic", qos=0, proto_ver=5, payload="test")
+
+mid = 18
+publish_c_pattern_packet_denied = mosq_test.gen_publish(mid=mid, topic="pattern/user_one/denied", qos=1, proto_ver=5, payload="test")
+puback_c_packet_denied = mosq_test.gen_puback(mid=mid, reason_code=mqtt5_rc.MQTT_RC_NOT_AUTHORIZED, proto_ver=5)
 
 try:
     os.mkdir(str(port))
@@ -230,6 +266,9 @@ try:
     # Subscribe to "multilevel-wildcard/topic/topic/allowed" - this is now allowed
     mosq_test.do_send_receive(csock, subscribe_multi_packet, suback_multi_packet_success, "suback multi 3")
 
+    # Subscribe to "pattern/#" - allowed
+    mosq_test.do_send_receive(csock, subscribe_pattern_packet, suback_pattern_packet, "suback")
+
     # Publish to "simple/topic" - this is now allowed
     csock.send(publish_simple_packet)
     mosq_test.receive_unordered(csock, publish_simple_packet_r, puback_simple_packet_success, "puback simple 3 / publish r")
@@ -257,6 +296,21 @@ try:
 
     # Multi unsubscribe should be allowed
     mosq_test.do_send_receive(csock, unsubscribe_multi_packet, unsuback_multi_packet_success, "unsuback multi 1")
+
+    # Publish to "pattern/user_one/topic" - this is allowed
+    csock.send(publish_u_pattern_packet)
+    mosq_test.receive_unordered(csock, publish_u_pattern_packet_r, puback_u_packet_success, "puback pattern 1 / publish r")
+
+    # Publish to "pattern/user_one/denied" - this is not allowed
+    mosq_test.do_send_receive(csock, publish_u_pattern_packet_denied, puback_u_packet_denied, "puback pattern 2")
+
+    # Publish to "pattern/cid/topic" - this is allowed
+    csock.send(publish_c_pattern_packet)
+    mosq_test.receive_unordered(csock, publish_c_pattern_packet_r, puback_c_packet_success, "puback pattern 3 / publish r")
+
+    # Publish to "pattern/cid/denied" - this is not allowed
+    mosq_test.do_send_receive(csock, publish_c_pattern_packet_denied, puback_c_packet_denied, "puback pattern 4")
+
 
     # Delete the role, client should be kicked
     command_check(sock, delete_role_command, delete_role_response)

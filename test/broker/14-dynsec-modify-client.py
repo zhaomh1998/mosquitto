@@ -144,7 +144,7 @@ connect_packet = mosq_test.gen_connect("ctrl-test", keepalive=keepalive, usernam
 connack_packet = mosq_test.gen_connack(rc=0)
 
 mid = 2
-subscribe_packet = mosq_test.gen_subscribe(mid, "$CONTROL/#", 1)
+subscribe_packet = mosq_test.gen_subscribe(mid, "$CONTROL/dynamic-security/#", 1)
 suback_packet = mosq_test.gen_suback(mid, 1)
 
 try:

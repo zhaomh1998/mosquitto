@@ -190,6 +190,21 @@ the ACL topic filter and the topic provided in the SUBSCRIBE or UNSUBSCRIBE
 message. This means that setting a `subscribePattern` ACL with topic filter `#`
 to deny would prevent matching devices from subscribing to any topic at all.
 
+#### ACL pattern substitution
+
+The `publishClientSend` and `publishClientReceive` ACL types can make use of
+pattern substitution. This means that the strings `%c` and `%u` will be
+replaced with the client id and username of the client being checked,
+respectively. The pattern strings must be the only item in that level of
+hierarchy, so the ACL `topic/%count` will not be considered as a pattern.
+
+For example, with an ACL of `room/%c/temperature`, a client connecting with
+client id `kitchen` would be allowed to use the topic
+`room/kitchen/temperature` only.
+
+If a client does not have a username, a pattern that includes `%u` will always
+fail to match against that client.
+
 #### Text name
 
 This is an optional text field to give a human friendly name to this role.
