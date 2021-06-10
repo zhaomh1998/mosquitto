@@ -411,6 +411,11 @@ static void TEST_pattern_both(void)
 	rc = mosquitto_topic_matches_sub_with_pattern("test/%username/%client", "test/username/clientid", "clientid", "username", &match);
 	CU_ASSERT_EQUAL(rc, MOSQ_ERR_SUCCESS);
 	CU_ASSERT_EQUAL(match, false);
+
+	/* Not a pattern */
+	rc = mosquitto_topic_matches_sub_with_pattern("test/a%u/a%c", "test/ausername/aclientid", "clientid", "username", &match);
+	CU_ASSERT_EQUAL(rc, MOSQ_ERR_SUCCESS);
+	CU_ASSERT_EQUAL(match, false);
 }
 
 static void TEST_pattern_wildcard(void)

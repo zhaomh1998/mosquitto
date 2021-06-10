@@ -193,6 +193,7 @@ static int topic_matches_sub(const char *sub, const char *topic, const char *cli
 {
 	size_t spos;
 	const char *pattern_check;
+	const char *lastchar = NULL;
 
 	if(!result) return MOSQ_ERR_INVAL;
 	*result = false;
@@ -214,6 +215,7 @@ static int topic_matches_sub(const char *sub, const char *topic, const char *cli
 			return MOSQ_ERR_INVAL;
 		}
 		if(match_patterns &&
+				(lastchar == NULL || lastchar[0] == '/') &&
 				sub[0] == '%' &&
 				(sub[1] == 'c' || sub[1] == 'u') &&
 				(sub[2] == '/' || sub[2] == '\0')
@@ -337,6 +339,7 @@ static int topic_matches_sub(const char *sub, const char *topic, const char *cli
 				return MOSQ_ERR_SUCCESS;
 			}
 		}
+		lastchar = sub-1;
 	}
 	if((topic[0] != 0 || sub[0] != 0)){
 		*result = false;
