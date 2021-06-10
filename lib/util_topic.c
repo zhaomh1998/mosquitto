@@ -354,6 +354,131 @@ static int topic_matches_sub(const char *sub, const char *topic, const char *cli
 	return MOSQ_ERR_SUCCESS;
 }
 
+static int sub_matches_acl(const char *acl, const char *sub, bool *result)
+{
+	size_t apos;
+
+	*result = false;
+
+	if(!acl || !sub || acl[0] == 0 || sub[0] == 0){
+		return MOSQ_ERR_INVAL;
+	}
+
+	if((acl[0] == '$' && sub[0] != '$')
+			|| (sub[0] == '$' && acl[0] != '$')){
+
+		return MOSQ_ERR_SUCCESS;
+	}
+
+	apos = 0;
+
+	while(acl[0] != 0){
+		if(acl[0] != sub[0] || sub[0] == 0){ /* Check for wildcard matches */
+			if(acl[0] == '+'){
+				if(sub[0] == '#'){
+					/* + doesn't match # */
+					return MOSQ_ERR_SUCCESS;
+				}
+				/* Check for bad "+foo" or "a/+foo" subscription */
+				if(apos > 0 && acl[-1] != '/'){
+					return MOSQ_ERR_INVAL;
+				}
+				/* Check for bad "foo+" or "foo+/a" subscription */
+				if(acl[1] != 0 && acl[1] != '/'){
+					return MOSQ_ERR_INVAL;
+				}
+				apos++;
+				acl++;
+				while(sub[0] != 0 && sub[0] != '/'){
+					sub++;
+				}
+				if(sub[0] == 0 && acl[0] == 0){
+					*result = true;
+					return MOSQ_ERR_SUCCESS;
+				}
+			}else if(acl[0] == '#'){
+				/* Check for bad "foo#" subscription */
+				if(apos > 0 && acl[-1] != '/'){
+					return MOSQ_ERR_INVAL;
+				}
+				/* Check for # not the final character of the sub, e.g. "#foo" */
+				if(acl[1] != 0){
+					return MOSQ_ERR_INVAL;
+				}else{
+					*result = true;
+					return MOSQ_ERR_SUCCESS;
+				}
+			}else{
+				/* Check for e.g. foo/bar matching foo/+/# */
+				if(sub[0] == 0
+						&& apos > 0
+						&& acl[-1] == '+'
+						&& acl[0] == '/'
+						&& acl[1] == '#')
+				{
+					*result = true;
+					return MOSQ_ERR_SUCCESS;
+				}
+
+				/* There is no match at this point, but is the sub invalid? */
+				while(acl[0] != 0){
+					if(acl[0] == '#' && acl[1] != 0){
+						return MOSQ_ERR_INVAL;
+					}
+					apos++;
+					acl++;
+				}
+
+				/* Valid input, but no match */
+				return MOSQ_ERR_SUCCESS;
+			}
+		}else{
+			/* acl[apos] == sub[spos] */
+			if(sub[1] == 0){
+				/* Check for e.g. foo matching foo/# */
+				if(acl[1] == '/'
+						&& acl[2] == '#'
+						&& acl[3] == 0){
+
+					*result = true;
+					return MOSQ_ERR_SUCCESS;
+				}
+			}
+			apos++;
+			acl++;
+			sub++;
+			if(acl[0] == 0 && sub[0] == 0){
+				*result = true;
+				return MOSQ_ERR_SUCCESS;
+			}else if(sub[0] == 0 && acl[0] == '+' && acl[1] == 0){
+				if(apos > 0 && acl[-1] != '/'){
+					return MOSQ_ERR_INVAL;
+				}
+				apos++;
+				acl++;
+				*result = true;
+				return MOSQ_ERR_SUCCESS;
+			}
+		}
+	}
+	if((sub[0] != 0 || acl[0] != 0)){
+		return MOSQ_ERR_SUCCESS;
+	}
+	while(sub[0] != 0){
+		if(sub[0] == '+' || sub[0] == '#'){
+			return MOSQ_ERR_SUCCESS;
+		}
+		sub++;
+	}
+
+	*result = true;
+	return MOSQ_ERR_SUCCESS;
+}
+
+int mosquitto_sub_matches_acl(const char *acl, const char *sub, bool *result)
+{
+	return sub_matches_acl(acl, sub, result);
+}
 
 int mosquitto_topic_matches_sub(const char *sub, const char *topic, bool *result)
 {

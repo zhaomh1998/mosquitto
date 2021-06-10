@@ -2496,6 +2496,29 @@ libmosq_EXPORT int mosquitto_topic_matches_sub_with_pattern(const char *sub, con
 
 
 /*
+ * Function: mosquitto_sub_matches_acl
+ *
+ * Check whether a subscription matches an ACL topic filter
+ *
+ * For example:
+ *
+ * The subscription $SYS/broker/# would match against the ACL $SYS/#
+ * The subscription $SYS/broker/# would not match against the ACL $SYS/broker/uptime
+ *
+ * Parameters:
+ *	acl - topic filter string to check sub against.
+ *	sub - subscription topic to check.
+ *	result - bool pointer to hold result. Will be set to true if the subscription
+ *	         matches the acl.
+ *
+ * Returns:
+ *	MOSQ_ERR_SUCCESS - on success
+ * 	MOSQ_ERR_INVAL -   if the input parameters were invalid.
+ */
+libmosq_EXPORT int mosquitto_sub_matches_acl(const char *sub, const char *topic, bool *result);
+
+
+/*
  * Function: mosquitto_pub_topic_check
  *
  * Check whether a topic to be used for publishing is valid.

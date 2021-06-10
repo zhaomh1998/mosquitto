@@ -28,7 +28,6 @@ if(CJSON_FOUND AND WITH_TLS)
 		plugin.c
 		roles.c
 		rolelist.c
-		sub_matches_sub.c
 	)
 
 	target_include_directories(mosquitto_dynamic_security PRIVATE

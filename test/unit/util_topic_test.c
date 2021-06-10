@@ -150,6 +150,36 @@ static void TEST_pattern_empty_input(void)
 	CU_ASSERT_EQUAL(match, false);
 }
 
+static void TEST_sub_match_empty_input(void)
+{
+	int rc;
+	bool match;
+
+	rc = mosquitto_sub_matches_acl("sub", NULL, &match);
+	CU_ASSERT_EQUAL(rc, MOSQ_ERR_INVAL);
+	CU_ASSERT_EQUAL(match, false);
+
+	rc = mosquitto_sub_matches_acl(NULL, "topic", &match);
+	CU_ASSERT_EQUAL(rc, MOSQ_ERR_INVAL);
+	CU_ASSERT_EQUAL(match, false);
+
+	rc = mosquitto_sub_matches_acl(NULL, NULL, &match);
+	CU_ASSERT_EQUAL(rc, MOSQ_ERR_INVAL);
+	CU_ASSERT_EQUAL(match, false);
+
+	rc = mosquitto_sub_matches_acl("sub", "", &match);
+	CU_ASSERT_EQUAL(rc, MOSQ_ERR_INVAL);
+	CU_ASSERT_EQUAL(match, false);
+
+	rc = mosquitto_sub_matches_acl("", "topic", &match);
+	CU_ASSERT_EQUAL(rc, MOSQ_ERR_INVAL);
+	CU_ASSERT_EQUAL(match, false);
+
+	rc = mosquitto_sub_matches_acl("", "", &match);
+	CU_ASSERT_EQUAL(rc, MOSQ_ERR_INVAL);
+	CU_ASSERT_EQUAL(match, false);
+}
+
 /* ========================================================================
  * VALID MATCHING AND NON-MATCHING
  * ======================================================================== */
@@ -583,6 +613,50 @@ static void TEST_sub_topic_invalid(void)
 }
 
 /* ========================================================================
+ * SUB MATCHES ACL
+ * ======================================================================== */
+
+static void sub_match_test(const char *acl, const char *sub, bool expected, int rc_expected)
+{
+	bool result;
+	int rc;
+
+	rc = mosquitto_sub_matches_acl(acl, sub, &result);
+	CU_ASSERT_EQUAL(rc, rc_expected);
+	CU_ASSERT_EQUAL(result, expected);
+}
+
+
+static void TEST_sub_match_acl(void)
+{
+	sub_match_test("foo/+/bar", "foo/#", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("foo/+/ba℞/#", "foo/baz/ba℞", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("foo/+/ba℞/#", "foo/baz/ba℞/+", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("foo/+/ba℞/#", "foo/baz/ba℞/#", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("foo/+/ba℞/#", "foo/baz/+/#", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("/+//#", "/foo///#", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("#", "$SYS/uptime", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("$SYS/#", "$SYS/uptime", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("$SYS/+/#", "$SYS/uptime", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("$SYS/+/#", "$SYS/broker/uptime", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("#", "#", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("#", "+", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("/#", "+", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("/#", "/+", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("/+", "#", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("/+", "+", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("+/+", "topic/topic", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("+/+", "topic/topic/", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("+", "#", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("+", "+", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("a/b/c/d/e", "a/b/c/d/e", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("a/b/ /d/e", "a/b/c/d/e", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("a/b/c/d/e", "a/b/c/d/+", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("a/b/c/d/+", "a/b/c/d/e", true, MOSQ_ERR_SUCCESS);
+	sub_match_test("a/b/c/d/", "a/b/c/d/+", false, MOSQ_ERR_SUCCESS);
+	sub_match_test("a/b/c/d/+", "a/b/c/d/", true, MOSQ_ERR_SUCCESS);
+}
+/* ========================================================================
  * TEST SUITE SETUP
  * ======================================================================== */
 
@@ -611,6 +685,8 @@ int init_util_topic_tests(void)
 			|| !CU_add_test(test_suite, "Pattern topic: username", TEST_pattern_username)
 			|| !CU_add_test(test_suite, "Pattern topic: both", TEST_pattern_both)
 			|| !CU_add_test(test_suite, "Pattern topic: wildcard", TEST_pattern_wildcard)
+			|| !CU_add_test(test_suite, "Sub matching: Empty input", TEST_sub_match_empty_input)
+			|| !CU_add_test(test_suite, "Sub matching: normal", TEST_sub_match_acl)
 			){
 
 		printf("Error adding util topic CUnit tests.\n");
@@ -619,3 +695,5 @@ int init_util_topic_tests(void)
 
 	return 0;
 }
+#if 0
+#endif

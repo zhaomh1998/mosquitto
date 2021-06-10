@@ -149,7 +149,6 @@ void dynsec__command_reply(cJSON *j_responses, struct mosquitto *context, const 
  * ################################################################ */
 
 int dynsec__acl_check_callback(int event, void *event_data, void *userdata);
-bool sub_acl_check(const char *acl, const char *sub);
 
 
 /* ################################################################

@@ -27,6 +27,11 @@ Broker:
 - The dynamic security plugin now supports `%c` and `%u` patterns for
   substituting client id and username respectively, in publishClientSend and
   publishClientReceive ACLs.
+- Add `mosquitto_topic_matches_sub_with_pattern()`, which can match against
+  subscriptions with `%c` and `%u` patterns for client id / username
+  substitution.
+- Add `mosquitto_sub_matches_acl()`, which can match one topic filter (a
+  subscription) against another topic filter (an ACL).
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
@@ -41,6 +46,8 @@ Client library:
 - Add `mosquitto_topic_matches_sub_with_pattern()`, which can match against
   subscriptions with `%c` and `%u` patterns for client id / username
   substitution.
+- Add `mosquitto_sub_matches_acl()`, which can match one topic filter (a
+  subscription) against another topic filter (an ACL).
 
 Clients:
 - Add `-o` option for all clients loading options from a specific file.

@@ -15,8 +15,7 @@ OBJS=	\
 		json_help.o \
 		plugin.o \
 		roles.o \
-		rolelist.o \
-		sub_matches_sub.o
+		rolelist.o
 
 ifeq ($(WITH_CJSON),yes)
 ifeq ($(WITH_TLS),yes)
@@ -62,9 +61,6 @@ roles.o : roles.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 rolelist.o : rolelist.c dynamic_security.h
-	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
-
-sub_matches_sub.o : sub_matches_sub.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 reallyclean : clean

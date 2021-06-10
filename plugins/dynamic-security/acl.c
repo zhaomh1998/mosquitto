@@ -102,6 +102,7 @@ static int acl_check_subscribe(struct mosquitto_evt_acl_check *ed, struct dynsec
 	struct dynsec__rolelist *rolelist, *rolelist_tmp = NULL;
 	struct dynsec__acl *acl, *acl_tmp = NULL;
 	size_t len;
+	bool result;
 
 	len = strlen(ed->topic);
 
@@ -115,7 +116,8 @@ static int acl_check_subscribe(struct mosquitto_evt_acl_check *ed, struct dynsec
 			}
 		}
 		HASH_ITER(hh, rolelist->role->acls.subscribe_pattern, acl, acl_tmp){
-			if(sub_acl_check(acl->topic, ed->topic)){
+			mosquitto_sub_matches_acl(acl->topic, ed->topic, &result);
+			if(result){
 				if(acl->allow){
 					return MOSQ_ERR_SUCCESS;
 				}else{
@@ -139,6 +141,7 @@ static int acl_check_unsubscribe(struct mosquitto_evt_acl_check *ed, struct dyns
 	struct dynsec__rolelist *rolelist, *rolelist_tmp = NULL;
 	struct dynsec__acl *acl, *acl_tmp = NULL;
 	size_t len;
+	bool result;
 
 	len = strlen(ed->topic);
 
@@ -152,7 +155,8 @@ static int acl_check_unsubscribe(struct mosquitto_evt_acl_check *ed, struct dyns
 			}
 		}
 		HASH_ITER(hh, rolelist->role->acls.unsubscribe_pattern, acl, acl_tmp){
-			if(sub_acl_check(acl->topic, ed->topic)){
+			mosquitto_sub_matches_acl(acl->topic, ed->topic, &result);
+			if(result){
 				if(acl->allow){
 					return MOSQ_ERR_SUCCESS;
 				}else{
