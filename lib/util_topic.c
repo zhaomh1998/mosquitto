@@ -189,18 +189,10 @@ int mosquitto_sub_topic_check2(const char *str, size_t len)
 	return MOSQ_ERR_SUCCESS;
 }
 
-int mosquitto_topic_matches_sub(const char *sub, const char *topic, bool *result)
-{
-	return mosquitto_topic_matches_sub2(sub, 0, topic, 0, result);
-}
-
-/* Does a topic match a subscription? */
-int mosquitto_topic_matches_sub2(const char *sub, size_t sublen, const char *topic, size_t topiclen, bool *result)
+static int topic_matches_sub(const char *sub, const char *topic, const char *clientid, const char *username, bool match_patterns, bool *result)
 {
 	size_t spos;
-
-	UNUSED(sublen);
-	UNUSED(topiclen);
+	const char *pattern_check;
 
 	if(!result) return MOSQ_ERR_INVAL;
 	*result = false;
@@ -220,6 +212,39 @@ int mosquitto_topic_matches_sub2(const char *sub, size_t sublen, const char *top
 	while(sub[0] != 0){
 		if(topic[0] == '+' || topic[0] == '#'){
 			return MOSQ_ERR_INVAL;
+		}
+		if(match_patterns &&
+				sub[0] == '%' &&
+				(sub[1] == 'c' || sub[1] == 'u') &&
+				(sub[2] == '/' || sub[2] == '\0')
+				){
+
+			if(sub[1] == 'c'){
+				pattern_check = clientid;
+			}else{
+				pattern_check = username;
+			}
+			if(pattern_check == NULL || pattern_check[0] == '\0'){
+				return MOSQ_ERR_SUCCESS;
+			}
+			spos += 2;
+			sub += 2;
+
+			while(pattern_check[0] != 0 && topic[0] != 0 && topic[0] != '/'){
+				if(pattern_check[0] != topic[0]){
+					/* Valid input, but no match */
+					return MOSQ_ERR_SUCCESS;
+				}
+				pattern_check++;
+				topic++;
+			}
+			if((sub[0] == '\0' && topic[0] == '\0') ||
+					(sub[0] == '/' && sub[1] == '#' && sub[2] == '\0' && topic[0] == '\0')
+					){
+
+				*result = true;
+				return MOSQ_ERR_SUCCESS;
+			}
 		}
 		if(sub[0] != topic[0] || topic[0] == 0){ /* Check for wildcard matches */
 			if(sub[0] == '+'){
@@ -324,4 +349,25 @@ int mosquitto_topic_matches_sub2(const char *sub, size_t sublen, const char *top
 	}
 
 	return MOSQ_ERR_SUCCESS;
+}
+
+
+int mosquitto_topic_matches_sub(const char *sub, const char *topic, bool *result)
+{
+	return topic_matches_sub(sub, topic, NULL, NULL, false, result);
+}
+
+/* Does a topic match a subscription? */
+int mosquitto_topic_matches_sub2(const char *sub, size_t sublen, const char *topic, size_t topiclen, bool *result)
+{
+	UNUSED(sublen);
+	UNUSED(topiclen);
+
+	return topic_matches_sub(sub, topic, NULL, NULL, false, result);
+}
+
+
+int mosquitto_topic_matches_sub_with_pattern(const char *sub, const char *topic, const char *clientid, const char *username, bool *result)
+{
+	return topic_matches_sub(sub, topic, clientid, username, true, result);
 }

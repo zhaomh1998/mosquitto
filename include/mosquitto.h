@@ -2445,35 +2445,55 @@ libmosq_EXPORT int mosquitto_sub_topic_tokens_free(char ***topics, int count);
  * Returns:
  *	MOSQ_ERR_SUCCESS - on success
  * 	MOSQ_ERR_INVAL -   if the input parameters were invalid.
- * 	MOSQ_ERR_NOMEM -   if an out of memory condition occurred.
  */
 libmosq_EXPORT int mosquitto_topic_matches_sub(const char *sub, const char *topic, bool *result);
-
 
 /*
  * Function: mosquitto_topic_matches_sub2
  *
- * Check whether a topic matches a subscription.
+ * Identical to <mosquitto_topic_matches_sub>. The sublen and topiclen
+ * parameters are *IGNORED*.
+ */
+libmosq_EXPORT int mosquitto_topic_matches_sub2(const char *sub, size_t sublen, const char *topic, size_t topiclen, bool *result);
+
+
+/*
+ * Function: mosquitto_topic_matches_sub_with_pattern
+ *
+ * Check whether a topic matches a subscription, with client id/username
+ * pattern substitution.
+ *
+ * Any instances of a topic hierarchy that are exactly %c or %u will be
+ * replaced with the client id or username respectively.
  *
  * For example:
  *
- * foo/bar would match the subscription foo/# or +/bar
- * non/matching would not match the subscription non/+/+
+ * mosquitto_topic_matches_sub_with_pattern("sensors/%c/temperature", "sensors/kitchen/temperature", "kitchen", NULL, &result)
+ * -> this will match
+ *
+ * mosquitto_topic_matches_sub_with_pattern("sensors/%c/temperature", "sensors/bathroom/temperature", "kitchen", NULL, &result)
+ * -> this will not match
+ *
+ * mosquitto_topic_matches_sub_with_pattern("sensors/%count/temperature", "sensors/kitchen/temperature", "kitchen", NULL, &result)
+ * -> this will not match - the `%count` is not treated as a pattern
+ *
+ * mosquitto_topic_matches_sub_with_pattern("%c/%c/%u/%u", "kitchen/kitchen/bathroom/bathroom", "kitchen", "bathroom", &result)
+ * -> this will match
  *
  * Parameters:
  *	sub - subscription string to check topic against.
- *	sublen - length in bytes of sub string
  *	topic - topic to check.
- *	topiclen - length in bytes of topic string
+ *	clientid - client id to substitute in patterns. If NULL, then any %c patterns will not match.
+ *	username - username to substitute in patterns. If NULL, then any %u patterns will not match.
  *	result - bool pointer to hold result. Will be set to true if the topic
  *	         matches the subscription.
  *
  * Returns:
  *	MOSQ_ERR_SUCCESS - on success
  *	MOSQ_ERR_INVAL -   if the input parameters were invalid.
- *	MOSQ_ERR_NOMEM -   if an out of memory condition occurred.
  */
-libmosq_EXPORT int mosquitto_topic_matches_sub2(const char *sub, size_t sublen, const char *topic, size_t topiclen, bool *result);
+libmosq_EXPORT int mosquitto_topic_matches_sub_with_pattern(const char *sub, const char *topic, const char *clientid, const char *username, bool *result);
+
 
 /*
  * Function: mosquitto_pub_topic_check

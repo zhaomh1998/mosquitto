@@ -368,12 +368,8 @@ static int add__acl_pattern(struct mosquitto__security_options *security_opts, c
 static int mosquitto_acl_check_default(int event, void *event_data, void *userdata)
 {
 	struct mosquitto_evt_acl_check *ed = event_data;
-	char *local_acl;
 	struct mosquitto__acl *acl_root;
 	bool result;
-	size_t i;
-	size_t len, tlen, clen, ulen;
-	char *s;
 	struct mosquitto__security_options *security_opts = NULL;
 
 	UNUSED(event);
@@ -446,47 +442,14 @@ static int mosquitto_acl_check_default(int event, void *event_data, void *userda
 
 	/* Loop through all pattern ACLs. ACL denial patterns are iterated over first. */
 	if(!ed->client->id) return MOSQ_ERR_ACL_DENIED;
-	clen = strlen(ed->client->id);
 
 	while(acl_root){
-		tlen = strlen(acl_root->topic);
-
 		if(acl_root->ucount && !ed->client->username){
 			acl_root = acl_root->next;
 			continue;
 		}
 
-		if(ed->client->username){
-			ulen = strlen(ed->client->username);
-			len = tlen + (size_t)acl_root->ccount*(clen-2) + (size_t)acl_root->ucount*(ulen-2);
-		}else{
-			ulen = 0;
-			len = tlen + (size_t)acl_root->ccount*(clen-2);
-		}
-		local_acl = mosquitto__malloc(len+1);
-		if(!local_acl) return MOSQ_ERR_NOMEM;
-		s = local_acl;
-		for(i=0; i<tlen; i++){
-			if(i<tlen-1 && acl_root->topic[i] == '%'){
-				if(acl_root->topic[i+1] == 'c'){
-					i++;
-					strncpy(s, ed->client->id, clen);
-					s+=clen;
-					continue;
-				}else if(ed->client->username && acl_root->topic[i+1] == 'u'){
-					i++;
-					strncpy(s, ed->client->username, ulen);
-					s+=ulen;
-					continue;
-				}
-			}
-			s[0] = acl_root->topic[i];
-			s++;
-		}
-		local_acl[len] = '\0';
-
-		mosquitto_topic_matches_sub(local_acl, ed->topic, &result);
-		mosquitto__free(local_acl);
+		mosquitto_topic_matches_sub_with_pattern(acl_root->topic, ed->topic, ed->client->id, ed->client->username, &result);
 		if(result){
 			if(acl_root->access == MOSQ_ACL_NONE){
 				/* Access was explicitly denied for this topic pattern. */
