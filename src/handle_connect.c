@@ -445,6 +445,9 @@ int handle__connect(struct mosquitto *context)
 		rc = MOSQ_ERR_PROTOCOL;
 		goto handle_connect_error;
 	}
+	if(context->in_packet.command != CMD_CONNECT){
+		return MOSQ_ERR_MALFORMED_PACKET;
+	}
 
 	/* Read protocol name as length then bytes rather than with read_string
 	 * because the length is fixed and we can check that. Removes the need
@@ -673,7 +676,7 @@ int handle__connect(struct mosquitto *context)
 		if(rc == MOSQ_ERR_NOMEM){
 			rc = MOSQ_ERR_NOMEM;
 			goto handle_connect_error;
-		}else if(rc == MOSQ_ERR_PROTOCOL){
+		}else if(rc == MOSQ_ERR_MALFORMED_PACKET){
 			if(context->protocol == mosq_p_mqtt31){
 				/* Password flag given, but no password. Ignore. */
 			}else{

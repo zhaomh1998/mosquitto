@@ -28,6 +28,7 @@ Broker:
   directory. Closes #2241.
 - Fix listener mount_point not being removed on outgoing messages.
   Closes #2244.
+- Strict protocol compliance fixes, plus test suite.
 
 Client library:
 - If a client uses TLS-PSK then force the default cipher list to use "PSK"
