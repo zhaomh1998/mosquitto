@@ -205,7 +205,7 @@ static void print_usage(void)
 	printf("                     [-A bind_address] [--nodelay]\n");
 #endif
 	printf("                     [-i id] [-I id_prefix]\n");
-	printf("                     [-d] [-N] [--quiet] [-v] [--watch]\n");
+	printf("                     [-d] [-N] [--quiet] [-v] [-w|--watch]\n");
 	printf("                     [--will-topic [--will-payload payload] [--will-qos qos] [--will-retain]]\n");
 #ifdef WITH_TLS
 	printf("                     [--no-tls]\n");
@@ -263,6 +263,9 @@ static void print_usage(void)
 #ifndef WIN32
 	printf(" -W : Specifies a timeout in seconds how long to process incoming MQTT messages.\n");
 #endif
+	printf(" -w : messages will be printed on a fixed line number based on the topic and order in\n");
+	printf("      which topics are received. Useful for monitoring multiple topics that have\n");
+	printf("      single line payloads.\n");
 	printf(" -x : Set the session-expiry-interval property on the CONNECT packet. Applies to MQTT v5\n");
 	printf("      clients only. Set to 0-4294967294 to specify the session will expire in that many\n");
 	printf("      seconds after the client disconnects, or use -1, 4294967295, or ∞ for a session\n");
@@ -282,9 +285,6 @@ static void print_usage(void)
 	printf("                     Use -T to filter out messages you do not want to be cleared.\n");
 	printf(" --unix : connect to a broker through a unix domain socket instead of a TCP socket,\n");
 	printf("          e.g. /tmp/mosquitto.sock\n");
-	printf(" --watch : messages will be printed on a fixed line number based on the topic and order in\n");
-	printf("           which topics are received. Useful for monitoring multiple topics that have\n");
-	printf("           single line payloads.\n");
 	printf(" --will-payload : payload for the client Will, which is sent by the broker in case of\n");
 	printf("                  unexpected disconnection. If not given and will-topic is set, a zero\n");
 	printf("                  length message will be sent.\n");

@@ -60,7 +60,10 @@
 			<arg><option>-x</option> <replaceable>session-expiry-interval</replaceable></arg>
 			<arg><option>--proxy</option> <replaceable>socks-url</replaceable></arg>
 			<arg><option>--quiet</option></arg>
-			<arg><option>--watch</option></arg>
+			<group choice='opt'>
+				<arg choice='plain'><option>-w</option></arg>
+				<arg choice='plain'><option>--watch</option></arg>
+			</group>
 			<arg>
 				<option>--will-topic</option> <replaceable>topic</replaceable>
 				<arg><option>--will-payload</option> <replaceable>payload</replaceable></arg>
@@ -803,6 +806,7 @@ mosquitto_sub -t 'bbc/#' -T bbc/bbc1 --remove-retained</programlisting>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
+				<term><option>-w</option></term>
 				<term><option>--watch</option></term>
 				<listitem>
                     <para>

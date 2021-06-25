@@ -1198,7 +1198,7 @@ int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, c
 				}
 				i++;
 			}
-		}else if(!strcmp(argv[i], "--watch")){
+		}else if(!strcmp(argv[i], "-w") || !strcmp(argv[i], "--watch")){
 			if(pub_or_sub != CLIENT_SUB){
 				goto unknown_option;
 			}

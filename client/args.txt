@@ -43,7 +43,7 @@ u - PUB,RR,SUB     (username)
 V - PUB,RR,SUB     (version output)
 v - RR,SUB         (verbose)
 W - SUB            (timeout)
-w
+w - SUB            (watch)
 X
 x - PUB,RR,SUB     (session-expiry-interval)
 Y
