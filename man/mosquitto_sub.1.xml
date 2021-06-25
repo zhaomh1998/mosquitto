@@ -60,6 +60,7 @@
 			<arg><option>-x</option> <replaceable>session-expiry-interval</replaceable></arg>
 			<arg><option>--proxy</option> <replaceable>socks-url</replaceable></arg>
 			<arg><option>--quiet</option></arg>
+			<arg><option>--watch</option></arg>
 			<arg>
 				<option>--will-topic</option> <replaceable>topic</replaceable>
 				<arg><option>--will-payload</option> <replaceable>payload</replaceable></arg>
@@ -799,6 +800,24 @@ mosquitto_sub -t 'bbc/#' -T bbc/bbc1 --remove-retained</programlisting>
 						disconnect after this number of seconds has
 						passed. The timeout starts just after the client has
 						connected to the broker.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--watch</option></term>
+				<listitem>
+                    <para>
+                        Messages will be printed on a fixed line number based on
+                        the topic and order in which topics are received. Useful
+                        for monitoring multiple topics that have single line
+                        payloads. Unexpected behaviour will occur if there are
+                        more topics than lines in the terminal, or if the
+                        payload occupies more than a single line.
+						This can be used in conjuction with other output options
+						e.g. <option>-F</option>.
+					</para>
+					<para>
+						Requires ANSI escape code support in the terminal.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>

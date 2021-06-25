@@ -37,6 +37,10 @@ Contributors:
 #define snprintf sprintf_s
 #endif
 
+#undef uthash_malloc
+#undef uthash_free
+#include <uthash.h>
+
 #ifdef WITH_CJSON
 #  include <cjson/cJSON.h>
 #endif
@@ -51,6 +55,14 @@ Contributors:
 #include "sub_client_output.h"
 
 extern struct mosq_config cfg;
+
+struct watch_topic{
+	UT_hash_handle hh;
+	char *topic;
+	int line;
+};
+static int watch_max = 2;
+static struct watch_topic *watch_items = NULL;
 
 static int get_time(struct tm **ti, long *ns)
 {
@@ -764,7 +776,7 @@ static void formatted_print(const struct mosq_config *lcfg, const struct mosquit
 }
 
 
-void rand_init(void)
+static void rand_init(void)
 {
 #ifndef WIN32
 	struct tm *ti = NULL;
@@ -777,6 +789,28 @@ void rand_init(void)
 }
 
 
+void watch_print(const struct mosquitto_message *message)
+{
+	struct watch_topic *item = NULL;
+
+	HASH_FIND(hh, watch_items, message->topic, strlen(message->topic), item);
+	if(item == NULL){
+		item = calloc(1, sizeof(struct watch_topic));
+		if(item == NULL){
+			return;
+		}
+		item->line = watch_max++;
+		item->topic = strdup(message->topic);
+		if(item->topic == NULL){
+			free(item);
+			return;
+		}
+		HASH_ADD_KEYPTR(hh, watch_items, item->topic, strlen(item->topic), item);
+	}
+	printf("\e[%d;1H", item->line);
+}
+
+
 void print_message(struct mosq_config *lcfg, const struct mosquitto_message *message, const mosquitto_property *properties)
 {
 #ifdef WIN32
@@ -785,6 +819,9 @@ void print_message(struct mosq_config *lcfg, const struct mosquitto_message *mes
 	long r = 0;
 #endif
 
+	if(lcfg->watch){
+		watch_print(message);
+	}
 	if(lcfg->random_filter < 10000){
 #ifdef WIN32
 		rand_s(&r);
@@ -819,5 +856,16 @@ void print_message(struct mosq_config *lcfg, const struct mosquitto_message *mes
 			fflush(stdout);
 		}
 	}
+	if(lcfg->watch){
+		printf("\e[%d;1H\n", watch_max-1);
+	}
 }
 
+void output_init(struct mosq_config *lcfg)
+{
+	rand_init();
+	if(lcfg->watch){
+		printf("\e[2J\e[1;1H");
+		printf("Broker: %s\n", lcfg->host);
+	}
+}

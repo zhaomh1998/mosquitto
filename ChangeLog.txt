@@ -55,6 +55,9 @@ Clients:
   that instance. This is useful for negating TLS options provided in a config
   file, or to disable the automatic use of TLS when using port 8883.
   Closes #2180.
+- Add `--watch` to mosquitto_sub which means messages will be printed on a
+  fixed line number based on the topic and order in which messages were
+  received. Requires ANSI escape code support in the terminal.
 
 
 2.0.10 - 2021-04-03

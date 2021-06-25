@@ -205,7 +205,7 @@ static void print_usage(void)
 	printf("                     [-A bind_address] [--nodelay]\n");
 #endif
 	printf("                     [-i id] [-I id_prefix]\n");
-	printf("                     [-d] [-N] [--quiet] [-v]\n");
+	printf("                     [-d] [-N] [--quiet] [-v] [--watch]\n");
 	printf("                     [--will-topic [--will-payload payload] [--will-qos qos] [--will-retain]]\n");
 #ifdef WITH_TLS
 	printf("                     [--no-tls]\n");
@@ -282,6 +282,9 @@ static void print_usage(void)
 	printf("                     Use -T to filter out messages you do not want to be cleared.\n");
 	printf(" --unix : connect to a broker through a unix domain socket instead of a TCP socket,\n");
 	printf("          e.g. /tmp/mosquitto.sock\n");
+	printf(" --watch : messages will be printed on a fixed line number based on the topic and order in\n");
+	printf("           which topics are received. Useful for monitoring multiple topics that have\n");
+	printf("           single line payloads.\n");
 	printf(" --will-payload : payload for the client Will, which is sent by the broker in case of\n");
 	printf("                  unexpected disconnection. If not given and will-topic is set, a zero\n");
 	printf("                  length message will be sent.\n");
@@ -328,8 +331,6 @@ int main(int argc, char *argv[])
 
 	mosquitto_lib_init();
 
-	rand_init();
-
 	rc = client_config_load(&cfg, CLIENT_SUB, argc, argv);
 	if(rc){
 		if(rc == 2){
@@ -374,6 +375,8 @@ int main(int argc, char *argv[])
 	mosquitto_subscribe_callback_set(g_mosq, my_subscribe_callback);
 	mosquitto_connect_v5_callback_set(g_mosq, my_connect_callback);
 	mosquitto_message_v5_callback_set(g_mosq, my_message_callback);
+
+	output_init(&cfg);
 
 	rc = client_connect(g_mosq, &cfg);
 	if(rc){
