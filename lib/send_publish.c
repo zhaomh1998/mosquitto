@@ -209,17 +209,11 @@ int send__real_publish(struct mosquitto *mosq, uint16_t mid, const char *topic, 
 		return MOSQ_ERR_OVERSIZE_PACKET;
 	}
 
-	packet = mosquitto__calloc(1, sizeof(struct mosquitto__packet));
-	if(!packet) return MOSQ_ERR_NOMEM;
-
-	packet->mid = mid;
-	packet->command = (uint8_t)(CMD_PUBLISH | (uint8_t)((dup&0x1)<<3) | (uint8_t)(qos<<1) | retain);
-	packet->remaining_length = packetlen;
-	rc = packet__alloc(packet);
+	rc = packet__alloc(&packet, (uint8_t)(CMD_PUBLISH | (uint8_t)((dup&0x1)<<3) | (uint8_t)(qos<<1) | retain), packetlen);
 	if(rc){
-		mosquitto__free(packet);
 		return rc;
 	}
+	packet->mid = mid;
 	/* Variable header (topic string) */
 	if(topic){
 		packet__write_string(packet, topic, (uint16_t)strlen(topic));

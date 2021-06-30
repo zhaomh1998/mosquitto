@@ -57,20 +57,12 @@ int send__auth(struct mosquitto *context, uint8_t reason_code, const void *auth_
 
 	if(packet__check_oversize(context, remaining_length)){
 		mosquitto_property_free_all(&properties);
-		mosquitto__free(packet);
 		return MOSQ_ERR_OVERSIZE_PACKET;
 	}
 
-	packet = mosquitto__calloc(1, sizeof(struct mosquitto__packet));
-	if(!packet) return MOSQ_ERR_NOMEM;
-
-	packet->command = CMD_AUTH;
-	packet->remaining_length = remaining_length;
-
-	rc = packet__alloc(packet);
+	rc = packet__alloc(&packet, CMD_AUTH, remaining_length);
 	if(rc){
 		mosquitto_property_free_all(&properties);
-		mosquitto__free(packet);
 		return rc;
 	}
 	packet__write_byte(packet, reason_code);
@@ -79,4 +71,3 @@ int send__auth(struct mosquitto *context, uint8_t reason_code, const void *auth_
 
 	return packet__queue(context, packet);
 }
-

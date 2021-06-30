@@ -46,7 +46,7 @@ Contributors:
 #endif
 
 
-int packet__read_byte(struct mosquitto__packet *packet, uint8_t *byte)
+int packet__read_byte(struct mosquitto__packet_in *packet, uint8_t *byte)
 {
 	assert(packet);
 	if(packet->pos+1 > packet->remaining_length) return MOSQ_ERR_PROTOCOL;
@@ -68,7 +68,7 @@ void packet__write_byte(struct mosquitto__packet *packet, uint8_t byte)
 }
 
 
-int packet__read_bytes(struct mosquitto__packet *packet, void *bytes, uint32_t count)
+int packet__read_bytes(struct mosquitto__packet_in *packet, void *bytes, uint32_t count)
 {
 	assert(packet);
 	if(packet->pos+count > packet->remaining_length) return MOSQ_ERR_PROTOCOL;
@@ -90,7 +90,7 @@ void packet__write_bytes(struct mosquitto__packet *packet, const void *bytes, ui
 }
 
 
-int packet__read_binary(struct mosquitto__packet *packet, uint8_t **data, uint16_t *length)
+int packet__read_binary(struct mosquitto__packet_in *packet, uint8_t **data, uint16_t *length)
 {
 	uint16_t slen;
 	int rc;
@@ -121,7 +121,7 @@ int packet__read_binary(struct mosquitto__packet *packet, uint8_t **data, uint16
 }
 
 
-int packet__read_string(struct mosquitto__packet *packet, char **str, uint16_t *length)
+int packet__read_string(struct mosquitto__packet_in *packet, char **str, uint16_t *length)
 {
 	int rc;
 
@@ -148,7 +148,7 @@ void packet__write_string(struct mosquitto__packet *packet, const char *str, uin
 }
 
 
-int packet__read_uint16(struct mosquitto__packet *packet, uint16_t *word)
+int packet__read_uint16(struct mosquitto__packet_in *packet, uint16_t *word)
 {
 	uint8_t msb, lsb;
 
@@ -173,7 +173,7 @@ void packet__write_uint16(struct mosquitto__packet *packet, uint16_t word)
 }
 
 
-int packet__read_uint32(struct mosquitto__packet *packet, uint32_t *word)
+int packet__read_uint32(struct mosquitto__packet_in *packet, uint32_t *word)
 {
 	uint32_t val = 0;
 	int i;
@@ -201,7 +201,7 @@ void packet__write_uint32(struct mosquitto__packet *packet, uint32_t word)
 }
 
 
-int packet__read_varint(struct mosquitto__packet *packet, uint32_t *word, uint8_t *bytes)
+int packet__read_varint(struct mosquitto__packet_in *packet, uint32_t *word, uint8_t *bytes)
 {
 	int i;
 	uint8_t byte;

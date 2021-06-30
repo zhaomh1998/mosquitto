@@ -31,22 +31,18 @@ int send__unsuback(struct mosquitto *mosq, uint16_t mid, int reason_code_count, 
 {
 	struct mosquitto__packet *packet = NULL;
 	int rc;
+	uint32_t remaining_length;
 
 	assert(mosq);
-	packet = mosquitto__calloc(1, sizeof(struct mosquitto__packet));
-	if(!packet) return MOSQ_ERR_NOMEM;
 
-	packet->command = CMD_UNSUBACK;
-	packet->remaining_length = 2;
-
+	remaining_length = 2;
 	if(mosq->protocol == mosq_p_mqtt5){
-		packet->remaining_length += property__get_remaining_length(properties);
-		packet->remaining_length += (uint32_t)reason_code_count;
+		remaining_length += property__get_remaining_length(properties);
+		remaining_length += (uint32_t)reason_code_count;
 	}
 
-	rc = packet__alloc(packet);
+	rc = packet__alloc(&packet, CMD_UNSUBACK, remaining_length);
 	if(rc){
-		mosquitto__free(packet);
 		return rc;
 	}
 

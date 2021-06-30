@@ -1,6 +1,7 @@
 #include "config.h"
 
 #include <time.h>
+#include <sys/types.h>
 #include <logging_mosq.h>
 
 struct mosquitto_db{
@@ -47,4 +48,41 @@ void callback__on_disconnect(struct mosquitto *mosq, int rc, const mosquitto_pro
 	UNUSED(mosq);
 	UNUSED(rc);
 	UNUSED(props);
+}
+
+void callback__on_publish(struct mosquitto *mosq, int mid, int reason_code, const mosquitto_property *properties)
+{
+	UNUSED(mosq);
+	UNUSED(mid);
+	UNUSED(reason_code);
+	UNUSED(properties);
+}
+
+void do_client_disconnect(struct mosquitto *mosq, int reason_code, const mosquitto_property *properties)
+{
+	UNUSED(mosq);
+	UNUSED(reason_code);
+	UNUSED(properties);
+}
+
+int handle__packet(struct mosquitto *context)
+{
+	UNUSED(context);
+	return MOSQ_ERR_SUCCESS;
+}
+
+ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
+{
+	UNUSED(mosq);
+	UNUSED(buf);
+	UNUSED(count);
+	return 1;
+}
+
+ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
+{
+	UNUSED(mosq);
+	UNUSED(buf);
+	UNUSED(count);
+	return 1;
 }

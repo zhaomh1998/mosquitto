@@ -110,7 +110,7 @@ error:
 int persist__chunk_client_msg_read_v56(FILE *db_fptr, struct P_client_msg *chunk, uint32_t length)
 {
 	mosquitto_property *properties = NULL, *p;
-	struct mosquitto__packet prop_packet;
+	struct mosquitto__packet_in prop_packet;
 	int rc;
 
 	read_e(db_fptr, &chunk->F, sizeof(struct PF_client_msg));
@@ -160,7 +160,7 @@ int persist__chunk_msg_store_read_v56(FILE *db_fptr, struct P_msg_store *chunk, 
 {
 	int rc = 0;
 	mosquitto_property *properties = NULL;
-	struct mosquitto__packet prop_packet;
+	struct mosquitto__packet_in prop_packet;
 
 	memset(&prop_packet, 0, sizeof(struct mosquitto__packet));
 

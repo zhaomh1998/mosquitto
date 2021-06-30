@@ -154,14 +154,24 @@ struct session_expiry_list {
 };
 
 struct mosquitto__packet{
-	uint8_t *payload;
 	struct mosquitto__packet *next;
-	uint32_t remaining_mult;
 	uint32_t remaining_length;
 	uint32_t packet_length;
 	uint32_t to_process;
 	uint32_t pos;
 	uint16_t mid;
+	uint8_t command;
+	int8_t remaining_count;
+	uint8_t payload[];
+};
+
+struct mosquitto__packet_in{
+	uint8_t *payload;
+	uint32_t remaining_mult;
+	uint32_t remaining_length;
+	uint32_t packet_length;
+	uint32_t to_process;
+	uint32_t pos;
 	uint8_t command;
 	int8_t remaining_count;
 };
@@ -233,7 +243,7 @@ struct mosquitto {
 	time_t last_msg_in;
 	time_t next_msg_out;
 	time_t ping_t;
-	struct mosquitto__packet in_packet;
+	struct mosquitto__packet_in in_packet;
 	struct mosquitto__packet *out_packet;
 	struct mosquitto_message_all *will;
 	struct mosquitto__alias *aliases_l2r;

@@ -89,14 +89,13 @@ error:
 int persist__chunk_client_msg_write_v6(FILE *db_fptr, struct P_client_msg *chunk)
 {
 	struct PF_header header;
-	struct mosquitto__packet prop_packet;
+	struct mosquitto__packet *prop_packet = NULL;
 	uint16_t id_len = chunk->F.id_len;
 	uint32_t proplen = 0;
 	int rc;
 	mosquitto_property subscription_id_prop =
 			{.next = NULL, .identifier = MQTT_PROP_SUBSCRIPTION_IDENTIFIER, .client_generated = true};
 
-	memset(&prop_packet, 0, sizeof(struct mosquitto__packet));
 	if(chunk->subscription_identifier){
 		subscription_id_prop.next = NULL;
 		subscription_id_prop.identifier = MQTT_PROP_SUBSCRIPTION_IDENTIFIER;
@@ -117,26 +116,26 @@ int persist__chunk_client_msg_write_v6(FILE *db_fptr, struct P_client_msg *chunk
 	write_e(db_fptr, chunk->client_id, id_len);
 	if(chunk->subscription_identifier){
 		if(proplen > 0){
-			prop_packet.remaining_length = proplen;
-			prop_packet.packet_length = proplen;
-			prop_packet.payload = mosquitto__malloc(proplen);
-			if(!prop_packet.payload){
+			prop_packet = calloc(1, sizeof(struct mosquitto__packet)+proplen);
+			if(prop_packet == NULL){
 				return MOSQ_ERR_NOMEM;
 			}
-			rc = property__write_all(&prop_packet, &subscription_id_prop, true);
+			prop_packet->remaining_length = proplen;
+			prop_packet->packet_length = proplen;
+			rc = property__write_all(prop_packet, &subscription_id_prop, true);
 			if(rc){
-				mosquitto__free(prop_packet.payload);
 				return rc;
 			}
 
-			write_e(db_fptr, prop_packet.payload, proplen);
-			mosquitto__free(prop_packet.payload);
+			write_e(db_fptr, prop_packet->payload, proplen);
+			mosquitto__free(prop_packet);
 		}
 	}
 
 	return MOSQ_ERR_SUCCESS;
 error:
 	log__printf(NULL, MOSQ_LOG_ERR, "Error: %s.", strerror(errno));
+	mosquitto__free(prop_packet);
 	return 1;
 }
 
@@ -149,10 +148,9 @@ int persist__chunk_message_store_write_v6(FILE *db_fptr, struct P_msg_store *chu
 	uint16_t source_username_len = chunk->F.source_username_len;
 	uint16_t topic_len = chunk->F.topic_len;
 	uint32_t proplen = 0;
-	struct mosquitto__packet prop_packet;
+	struct mosquitto__packet *prop_packet = NULL;
 	int rc;
 
-	memset(&prop_packet, 0, sizeof(struct mosquitto__packet));
 	if(chunk->properties){
 		proplen += property__get_remaining_length(chunk->properties);
 	}
@@ -183,27 +181,26 @@ int persist__chunk_message_store_write_v6(FILE *db_fptr, struct P_msg_store *chu
 	}
 	if(chunk->properties){
 		if(proplen > 0){
-			prop_packet.remaining_length = proplen;
-			prop_packet.packet_length = proplen;
-			prop_packet.payload = mosquitto__malloc(proplen);
-			if(!prop_packet.payload){
+			prop_packet = calloc(1, sizeof(struct mosquitto__packet)+proplen);
+			if(prop_packet == NULL){
 				return MOSQ_ERR_NOMEM;
 			}
-			rc = property__write_all(&prop_packet, chunk->properties, true);
+			prop_packet->remaining_length = proplen;
+			prop_packet->packet_length = proplen;
+			rc = property__write_all(prop_packet, chunk->properties, true);
 			if(rc){
-				mosquitto__free(prop_packet.payload);
 				return rc;
 			}
 
-			write_e(db_fptr, prop_packet.payload, proplen);
-			mosquitto__free(prop_packet.payload);
+			write_e(db_fptr, prop_packet->payload, proplen);
+			mosquitto__free(prop_packet);
 		}
 	}
 
 	return MOSQ_ERR_SUCCESS;
 error:
 	log__printf(NULL, MOSQ_LOG_ERR, "Error: %s.", strerror(errno));
-	mosquitto__free(prop_packet.payload);
+	mosquitto__free(prop_packet);
 	return 1;
 }
 

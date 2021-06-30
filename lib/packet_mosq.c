@@ -48,17 +48,22 @@ Contributors:
 #  define G_PUB_MSGS_SENT_INC(A)
 #endif
 
-int packet__alloc(struct mosquitto__packet *packet)
+#ifndef LWS_PRE
+#  define LWS_PRE 0
+#endif
+
+int packet__alloc(struct mosquitto__packet **packet, uint8_t command, uint32_t remaining_length)
 {
 	uint8_t remaining_bytes[5], byte;
-	uint32_t remaining_length;
+	int8_t remaining_count;
+	uint32_t packet_length;
+	uint32_t remaining_length_stored;
 	int i;
 
 	assert(packet);
 
-	remaining_length = packet->remaining_length;
-	packet->payload = NULL;
-	packet->remaining_count = 0;
+	remaining_length_stored = remaining_length;
+	remaining_count = 0;
 	do{
 		byte = remaining_length % 128;
 		remaining_length = remaining_length / 128;
@@ -66,28 +71,33 @@ int packet__alloc(struct mosquitto__packet *packet)
 		if(remaining_length > 0){
 			byte = byte | 0x80;
 		}
-		remaining_bytes[packet->remaining_count] = byte;
-		packet->remaining_count++;
-	}while(remaining_length > 0 && packet->remaining_count < 5);
-	if(packet->remaining_count == 5) return MOSQ_ERR_PAYLOAD_SIZE;
-	packet->packet_length = packet->remaining_length + 1 + (uint8_t)packet->remaining_count;
-#ifdef WITH_WEBSOCKETS
-	packet->payload = mosquitto__malloc(sizeof(uint8_t)*packet->packet_length + LWS_PRE);
-#else
-	packet->payload = mosquitto__malloc(sizeof(uint8_t)*packet->packet_length);
-#endif
-	if(!packet->payload) return MOSQ_ERR_NOMEM;
+		remaining_bytes[remaining_count] = byte;
+		remaining_count++;
+	}while(remaining_length > 0 && remaining_count < 5);
+	if(remaining_count == 5) return MOSQ_ERR_PAYLOAD_SIZE;
 
-	packet->payload[0] = packet->command;
-	for(i=0; i<packet->remaining_count; i++){
-		packet->payload[i+1] = remaining_bytes[i];
+	packet_length = remaining_length_stored + 1 + (uint8_t)remaining_count;
+	(*packet) = mosquitto__malloc(sizeof(struct mosquitto__packet) + packet_length + LWS_PRE);
+	if((*packet) == NULL) return MOSQ_ERR_NOMEM;
+
+	/* Clear memory for everything but the payload - that will be set to valid
+	 * values when the actual payload is copied in. */
+	memset((*packet), 0, sizeof(struct mosquitto__packet));
+	(*packet)->command = command;
+	(*packet)->remaining_length = remaining_length_stored;
+	(*packet)->remaining_count = remaining_count;
+	(*packet)->packet_length = packet_length;
+
+	(*packet)->payload[0] = (*packet)->command;
+	for(i=0; i<(*packet)->remaining_count; i++){
+		(*packet)->payload[i+1] = remaining_bytes[i];
 	}
-	packet->pos = 1U + (uint8_t)packet->remaining_count;
+	(*packet)->pos = 1U + (uint8_t)(*packet)->remaining_count;
 
 	return MOSQ_ERR_SUCCESS;
 }
 
-void packet__cleanup(struct mosquitto__packet *packet)
+void packet__cleanup(struct mosquitto__packet_in *packet)
 {
 	if(!packet) return;
 
@@ -113,7 +123,6 @@ void packet__cleanup_all_no_locks(struct mosquitto *mosq)
 		/* Free data and reset values */
 		mosq->out_packet = mosq->out_packet->next;
 
-		packet__cleanup(packet);
 		mosquitto__free(packet);
 	}
 	mosq->out_packet_count = 0;
@@ -287,10 +296,7 @@ int packet__write(struct mosquitto *mosq)
 		}
 
 		next_packet = packet__get_next_out(mosq);
-
-		packet__cleanup(packet);
 		mosquitto__free(packet);
-
 		packet = next_packet;
 
 #ifdef WITH_BROKER

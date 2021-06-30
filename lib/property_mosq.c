@@ -33,7 +33,7 @@ Contributors:
 #include "property_mosq.h"
 
 
-static int property__read(struct mosquitto__packet *packet, uint32_t *len, mosquitto_property *property)
+static int property__read(struct mosquitto__packet_in *packet, uint32_t *len, mosquitto_property *property)
 {
 	int rc;
 	uint32_t property_identifier;
@@ -147,7 +147,7 @@ static int property__read(struct mosquitto__packet *packet, uint32_t *len, mosqu
 }
 
 
-int property__read_all(int command, struct mosquitto__packet *packet, mosquitto_property **properties)
+int property__read_all(int command, struct mosquitto__packet_in *packet, mosquitto_property **properties)
 {
 	int rc;
 	uint32_t proplen;

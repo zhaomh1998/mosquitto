@@ -60,13 +60,7 @@ int send__subscribe(struct mosquitto *mosq, int *mid, int topic_count, char *con
 		packetlen += 2U+(uint16_t)tlen + 1U;
 	}
 
-	packet = mosquitto__calloc(1, sizeof(struct mosquitto__packet));
-	if(!packet) return MOSQ_ERR_NOMEM;
-
-
-	packet->command = CMD_SUBSCRIBE | (1<<1);
-	packet->remaining_length = packetlen;
-	rc = packet__alloc(packet);
+	rc = packet__alloc(&packet, CMD_SUBSCRIBE | 2, packetlen);
 	if(rc){
 		mosquitto__free(packet);
 		return rc;

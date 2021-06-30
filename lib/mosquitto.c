@@ -166,7 +166,6 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 		}
 		mosq->id = mosquitto__strdup(id);
 	}
-	mosq->in_packet.payload = NULL;
 	packet__cleanup(&mosq->in_packet);
 	mosq->out_packet = NULL;
 	mosq->out_packet_count = 0;

@@ -32,6 +32,7 @@ Broker:
   substitution.
 - Add `mosquitto_sub_matches_acl()`, which can match one topic filter (a
   subscription) against another topic filter (an ACL).
+- Performance: reduce memory allocations when sending packets.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
@@ -48,6 +49,7 @@ Client library:
   substitution.
 - Add `mosquitto_sub_matches_acl()`, which can match one topic filter (a
   subscription) against another topic filter (an ACL).
+- Performance: reduce memory allocations when sending packets.
 
 Clients:
 - Add `-o` option for all clients loading options from a specific file.

@@ -56,18 +56,12 @@ int send__unsubscribe(struct mosquitto *mosq, int *mid, int topic_count, char *c
 		packetlen += 2U+(uint16_t)tlen;
 	}
 
-	packet = mosquitto__calloc(1, sizeof(struct mosquitto__packet));
-	if(!packet) return MOSQ_ERR_NOMEM;
-
 	if(mosq->protocol == mosq_p_mqtt5){
 		packetlen += property__get_remaining_length(properties);
 	}
 
-	packet->command = CMD_UNSUBSCRIBE | (1<<1);
-	packet->remaining_length = packetlen;
-	rc = packet__alloc(packet);
+	rc = packet__alloc(&packet, CMD_UNSUBSCRIBE | 2, packetlen);
 	if(rc){
-		mosquitto__free(packet);
 		return rc;
 	}
 

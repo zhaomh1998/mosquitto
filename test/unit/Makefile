@@ -27,6 +27,7 @@ LIB_OBJS = memory_mosq.o \
 		   memory_public.o \
 		   misc_mosq.o \
 		   packet_datatypes.o \
+		   packet_mosq.o \
 		   property_mosq.o \
 		   util_mosq.o \
 		   util_topic.o \
@@ -70,6 +71,7 @@ PERSIST_WRITE_OBJS = \
 		memory_public.o \
 		misc_mosq.o \
 		packet_datatypes.o \
+		packet_mosq.o \
 		persist_read.o \
 		persist_read_v234.o \
 		persist_read_v5.o \
@@ -129,6 +131,9 @@ misc_mosq.o : ../../lib/misc_mosq.c
 	$(CROSS_COMPILE)$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $^
 
 packet_datatypes.o : ../../lib/packet_datatypes.c
+	$(CROSS_COMPILE)$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $^
+
+packet_mosq.o : ../../lib/packet_mosq.c
 	$(CROSS_COMPILE)$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $^
 
 persist_read.o : ../../src/persist_read.c

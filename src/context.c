@@ -156,7 +156,6 @@ void context__cleanup(struct mosquitto *context, bool force_free)
 	}
 	packet__cleanup(&(context->in_packet));
 	while(context->out_packet){
-		packet__cleanup(context->out_packet);
 		packet = context->out_packet;
 		context->out_packet = context->out_packet->next;
 		mosquitto__free(packet);
