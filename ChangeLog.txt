@@ -33,6 +33,7 @@ Broker:
 - Add `mosquitto_sub_matches_acl()`, which can match one topic filter (a
   subscription) against another topic filter (an ACL).
 - Performance: reduce memory allocations when sending packets.
+- The `allow_duplicate_messages` now defaults to `true`.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
