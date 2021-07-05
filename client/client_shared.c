@@ -472,8 +472,8 @@ int client_config_load(struct mosq_config *cfg, int pub_or_sub, int argc, char *
 	}
 
 	if(pub_or_sub == CLIENT_SUB){
-		if(cfg->topic_count == 0){
-			fprintf(stderr, "Error: You must specify a topic to subscribe to.\n");
+		if(cfg->topic_count == 0 && cfg->unsub_topic_count == 0){
+			fprintf(stderr, "Error: You must specify a topic to subscribe to (-t) or unsubscribe from (-U).\n");
 			return 1;
 		}
 	}

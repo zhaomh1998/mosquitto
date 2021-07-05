@@ -24,7 +24,10 @@
 					<arg><option>-p</option> <replaceable>port-number</replaceable></arg>
 					<arg><option>-u</option> <replaceable>username</replaceable></arg>
 					<arg><option>-P</option> <replaceable>password</replaceable></arg>
-					<arg choice='plain' rep='repeat'><option>-t</option> <replaceable>message-topic</replaceable></arg>
+					<group choice='req'>
+						<arg choice='plain' rep='repeat'><option>-t</option> <replaceable>message-topic</replaceable></arg>
+						<arg choice='plain' rep='repeat'><option>-U</option> <replaceable>unsubscribe-topic</replaceable></arg>
+					</group>
 				</arg>
 				<arg choice='plain'>
 					<arg choice='plain'><option>-L</option> <replaceable>URL</replaceable></arg>
@@ -53,7 +56,6 @@
 			<arg><option>--retain-as-published</option></arg>
 			<arg><option>-S</option></arg>
 			<arg choice='opt' rep='repeat'><option>-T</option> <replaceable>filter-out</replaceable></arg>
-			<arg choice='opt' rep='repeat'><option>-U</option> <replaceable>unsub-topic</replaceable></arg>
 			<arg><option>-v</option></arg>
 			<arg><option>-V</option> <replaceable>protocol-version</replaceable></arg>
 			<arg><option>-W</option> <replaceable>message-processing-timeout</replaceable></arg>

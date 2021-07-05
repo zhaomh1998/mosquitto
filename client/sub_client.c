@@ -192,9 +192,9 @@ static void print_usage(void)
 	mosquitto_lib_version(&major, &minor, &revision);
 	printf("mosquitto_sub is a simple mqtt client that will subscribe to a set of topics and print all messages it receives.\n");
 	printf("mosquitto_sub version %s running on libmosquitto %d.%d.%d.\n\n", VERSION, major, minor, revision);
-	printf("Usage: mosquitto_sub {[-h host] [--unix path] [-p port] [-u username] [-P password] -t topic | -L URL [-t topic]}\n");
+	printf("Usage: mosquitto_sub {[-h host] [--unix path] [-p port] [-u username] [-P password] {-t topic | -U topic} | -L URL [-t topic]}\n");
 	printf("                     [-c] [-k keepalive] [-q qos] [-x session-expiry-interval]\n");
-	printf("                     [-C msg_count] [-E] [-R] [--retained-only] [--remove-retained] [-T filter_out] [-U topic ...]\n");
+	printf("                     [-C msg_count] [-E] [-R] [--retained-only] [--remove-retained] [-T filter_out]\n");
 	printf("                     [-F format]\n");
 #ifndef WIN32
 	printf("                     [-W timeout_secs]\n");

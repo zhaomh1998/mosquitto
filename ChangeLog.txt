@@ -60,6 +60,8 @@ Clients:
 - Add `-w`/`--watch` to mosquitto_sub which means messages will be printed on a
   fixed line number based on the topic and order in which messages were
   received. Requires ANSI escape code support in the terminal.
+- mosquitto_sub now only needs `-t` or `-U` to run - this means that `-t` is
+  not required in all situations.
 
 
 2.0.10 - 2021-04-03
