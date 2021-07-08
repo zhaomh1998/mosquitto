@@ -52,6 +52,9 @@ Client library:
   substitution.
 - Add `mosquitto_sub_matches_acl()`, which can match one topic filter (a
   subscription) against another topic filter (an ACL).
+- Add `mosquitto_sub_matches_acl_with_pattern()`, which can match one topic
+  filter (a subscription) against another topic filter (an ACL), with `%c` and
+  `%u` patterns for client id / username substitution.
 - Performance: reduce memory allocations when sending packets.
 
 Clients:
