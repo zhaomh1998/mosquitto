@@ -25,8 +25,8 @@ Broker:
   corresponding PUBACK/PUBREC.
 - MOSQ_EVT_TICK is now passed to plugins when `per_listener_settings` is true.
 - The dynamic security plugin now supports `%c` and `%u` patterns for
-  substituting client id and username respectively, in publishClientSend and
-  publishClientReceive ACLs.
+  substituting client id and username respectively, in all ACLs except for
+  subscribeLiteral and unsubscribeLiteral.
 - Add `mosquitto_topic_matches_sub_with_pattern()`, which can match against
   subscriptions with `%c` and `%u` patterns for client id / username
   substitution.
