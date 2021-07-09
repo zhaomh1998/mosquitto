@@ -500,6 +500,7 @@ enum mosquitto_bridge_reload_type{
 };
 
 struct mosquitto__bridge_topic{
+	struct mosquitto__bridge_topic *next;
 	char *topic;
 	char *local_prefix;
 	char *remote_prefix;

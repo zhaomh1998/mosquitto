@@ -49,6 +49,8 @@ Contributors:
 #include "util_mosq.h"
 #include "mqtt_protocol.h"
 
+#include "utlist.h"
+
 struct config_recurse {
 	unsigned int log_dest;
 	int log_dest_set;
@@ -327,6 +329,8 @@ void config__cleanup(struct mosquitto__config *config)
 void config__bridge_cleanup(struct mosquitto__bridge *bridge)
 {
 	int i;
+	struct mosquitto__bridge_topic *cur_topic, *topic_tmp;
+
 	if(bridge == NULL) return;
 
 	mosquitto__free(bridge->name);
@@ -343,12 +347,14 @@ void config__bridge_cleanup(struct mosquitto__bridge *bridge)
 	mosquitto__free(bridge->local_username);
 	mosquitto__free(bridge->local_password);
 	if(bridge->topics){
-		for(i=0; i<bridge->topic_count; i++){
-			mosquitto__free(bridge->topics[i].topic);
-			mosquitto__free(bridge->topics[i].local_prefix);
-			mosquitto__free(bridge->topics[i].remote_prefix);
-			mosquitto__free(bridge->topics[i].local_topic);
-			mosquitto__free(bridge->topics[i].remote_topic);
+		LL_FOREACH_SAFE(bridge->topics, cur_topic, topic_tmp){
+			mosquitto__free(cur_topic->topic);
+			mosquitto__free(cur_topic->local_prefix);
+			mosquitto__free(cur_topic->remote_prefix);
+			mosquitto__free(cur_topic->local_topic);
+			mosquitto__free(cur_topic->remote_topic);
+			LL_DELETE(bridge->topics, cur_topic);
+			mosquitto__free(cur_topic);
 		}
 		mosquitto__free(bridge->topics);
 	}

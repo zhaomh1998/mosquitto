@@ -38,14 +38,13 @@ Contributors:
 #include "packet_mosq.h"
 #include "property_mosq.h"
 #include "send_mosq.h"
-
+#include "utlist.h"
 
 int send__publish(struct mosquitto *mosq, uint16_t mid, const char *topic, uint32_t payloadlen, const void *payload, uint8_t qos, bool retain, bool dup, uint32_t subscription_identifier, const mosquitto_property *store_props, uint32_t expiry_interval)
 {
 #ifdef WITH_BROKER
 #ifdef WITH_BRIDGE
 	size_t len;
-	int i;
 	struct mosquitto__bridge_topic *cur_topic;
 	bool match;
 	int rc;
@@ -64,8 +63,7 @@ int send__publish(struct mosquitto *mosq, uint16_t mid, const char *topic, uint3
 #ifdef WITH_BROKER
 #ifdef WITH_BRIDGE
 	if(mosq->bridge && mosq->bridge->topics && mosq->bridge->topic_remapping){
-		for(i=0; i<mosq->bridge->topic_count; i++){
-			cur_topic = &mosq->bridge->topics[i];
+		LL_FOREACH(mosq->bridge->topics, cur_topic){
 			if((cur_topic->direction == bd_both || cur_topic->direction == bd_out)
 					&& (cur_topic->remote_prefix || cur_topic->local_prefix)){
 				/* Topic mapping required on this topic if the message matches */
