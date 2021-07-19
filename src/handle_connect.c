@@ -230,6 +230,14 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 			log__printf(NULL, MOSQ_LOG_DEBUG, "No will message specified.");
 		}
 	}
+#ifdef WITH_TLS
+	if(context->ssl){
+		log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s negotiated %s cipher %s",
+				context->id,
+				SSL_get_cipher_version(context->ssl),
+				SSL_get_cipher_name(context->ssl));
+	}
+#endif
 
 	context->ping_t = 0;
 	context->is_dropping = false;
