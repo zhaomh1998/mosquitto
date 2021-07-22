@@ -741,6 +741,7 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 	size_t prefix_len;
 	char **files;
 	int file_count;
+	size_t slen;
 #ifdef WITH_TLS
 	char *kpass_sha = NULL, *kpass_sha_bin = NULL;
 	char *keyform ;
@@ -751,8 +752,12 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 	while(fgets_extending(buf, buflen, fptr)){
 		(*lineno)++;
 		if((*buf)[0] != '#' && (*buf)[0] != 10 && (*buf)[0] != 13){
-			while((*buf)[strlen((*buf))-1] == 10 || (*buf)[strlen((*buf))-1] == 13){
-				(*buf)[strlen((*buf))-1] = 0;
+			slen = strlen(*buf);
+			if(slen == 0){
+				continue;
+			}
+			while((*buf)[slen-1] == 10 || (*buf)[slen-1] == 13){
+				(*buf)[slen-1] = 0;
 			}
 			token = strtok_r((*buf), " ", &saveptr);
 			if(token){

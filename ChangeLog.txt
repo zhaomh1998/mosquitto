@@ -1,6 +1,11 @@
 2.0.12 - 2021-07-xx
 ===================
 
+Broker:
+- Fix possible out of bounds memory reads when reading a corrupt/crafted
+  configuration file. Unless your configuration file is writable by untrusted
+  users this is not a risk. Closes #567213.
+
 Clients:
 - mosquitto_sub and mosquitto_rr now open stdout in binary mode on Windows
   so binary payloads are not modified when printing.
