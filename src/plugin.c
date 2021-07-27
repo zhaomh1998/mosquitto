@@ -267,7 +267,7 @@ int mosquitto_callback_register(
 			cb_base = &security_options->plugin_callbacks.ext_auth_continue;
 			break;
 		case MOSQ_EVT_CONTROL:
-			return control__register_callback(security_options, cb_func, event_data, userdata);
+			return control__register_callback(cb_func, event_data, userdata);
 			break;
 		case MOSQ_EVT_MESSAGE:
 			cb_base = &security_options->plugin_callbacks.message;
@@ -340,7 +340,7 @@ int mosquitto_callback_unregister(
 			cb_base = &security_options->plugin_callbacks.ext_auth_continue;
 			break;
 		case MOSQ_EVT_CONTROL:
-			return control__unregister_callback(security_options, cb_func, event_data);
+			return control__unregister_callback(cb_func, event_data);
 			break;
 		case MOSQ_EVT_MESSAGE:
 			cb_base = &security_options->plugin_callbacks.message;

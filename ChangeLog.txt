@@ -37,6 +37,9 @@ Broker:
 - Return protocol error if a client attemps to subscribe to a shared
   subscription and also sets no-local.
 - Log protocol version and ciphers that a client negotiates when connecting.
+- Registration of the MOSQ_EVT_CONTROL plugin event is now handled globally
+  across the broker, so only a single plugin can register for a given $CONTROL
+  topic.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

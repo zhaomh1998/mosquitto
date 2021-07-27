@@ -36,12 +36,15 @@ int control__process(struct mosquitto *context, struct mosquitto_msg_store *stor
 	mosquitto_property *properties = NULL;
 	int rc = MOSQ_ERR_SUCCESS;
 
-	if(db.config->per_listener_settings){
-		opts = &context->listener->security_options;
-	}else{
-		opts = &db.config->security_options;
-	}
+	/* Check global plugins and non-per-listener settings first */
+	opts = &db.config->security_options;
 	HASH_FIND(hh, opts->plugin_callbacks.control, stored->topic, strlen(stored->topic), cb_found);
+
+	/* If not found, check for per-listener plugins. */
+	if(cb_found == NULL && db.config->per_listener_settings){
+		opts = &context->listener->security_options;
+		HASH_FIND(hh, opts->plugin_callbacks.control, stored->topic, strlen(stored->topic), cb_found);
+	}
 	if(cb_found){
 		memset(&event_data, 0, sizeof(event_data));
 		event_data.client = context;
@@ -75,9 +78,10 @@ int control__process(struct mosquitto *context, struct mosquitto_msg_store *stor
 }
 #endif
 
-int control__register_callback(struct mosquitto__security_options *opts, MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata)
+int control__register_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata)
 {
 #ifdef WITH_CONTROL
+	struct mosquitto__security_options *opts;
 	struct mosquitto__callback *cb_found, *cb_new;
 	size_t topic_len;
 
@@ -87,6 +91,8 @@ int control__register_callback(struct mosquitto__security_options *opts, MOSQ_FU
 	if(strncmp(topic, "$CONTROL/", strlen("$CONTROL/")) || strlen(topic) < strlen("$CONTROL/A/v1")){
 		return MOSQ_ERR_INVAL;
 	}
+
+	opts = &db.config->security_options;
 
 	HASH_FIND(hh, opts->plugin_callbacks.control, topic, topic_len, cb_found);
 	if(cb_found){
@@ -112,9 +118,11 @@ int control__register_callback(struct mosquitto__security_options *opts, MOSQ_FU
 #endif
 }
 
-int control__unregister_callback(struct mosquitto__security_options *opts, MOSQ_FUNC_generic_callback cb_func, const char *topic)
+int control__unregister_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic)
 {
 #ifdef WITH_CONTROL
+	struct mosquitto__security_options *opts;
+
 	struct mosquitto__callback *cb_found;
 	size_t topic_len;
 
@@ -122,6 +130,8 @@ int control__unregister_callback(struct mosquitto__security_options *opts, MOSQ_
 	topic_len = strlen(topic);
 	if(topic_len == 0 || topic_len > 65535) return MOSQ_ERR_INVAL;
 	if(strncmp(topic, "$CONTROL/", strlen("$CONTROL/"))) return MOSQ_ERR_INVAL;
+
+	opts = &db.config->security_options;
 
 	HASH_FIND(hh, opts->plugin_callbacks.control, topic, topic_len, cb_found);
 	if(cb_found && cb_found->cb == cb_func){

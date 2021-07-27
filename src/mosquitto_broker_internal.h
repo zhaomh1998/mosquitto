@@ -723,8 +723,8 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 int control__process(struct mosquitto *context, struct mosquitto_msg_store *stored);
 void control__cleanup(void);
 #endif
-int control__register_callback(struct mosquitto__security_options *opts, MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata);
-int control__unregister_callback(struct mosquitto__security_options *opts, MOSQ_FUNC_generic_callback cb_func, const char *topic);
+int control__register_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata);
+int control__unregister_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic);
 
 
 /* ============================================================
