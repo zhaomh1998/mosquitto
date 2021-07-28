@@ -41,6 +41,8 @@ Broker:
   across the broker, so only a single plugin can register for a given $CONTROL
   topic.
 - Password salts are now 64 bytes long.
+- Add the `global_plugin` option, which gives global plugin loaded regardless
+  of `per_listener_settings`.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

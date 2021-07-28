@@ -205,9 +205,9 @@
 			<varlistentry>
 				<term><option>allow_duplicate_messages</option> [ true | false ]</term>
 				<listitem>
-                    <para>This option is deprecated and will be removed in a
-                        future version. The behaviour will default to true.
-                    </para>
+					<para>This option is deprecated and will be removed in a
+						future version. The behaviour will default to true.
+					</para>
 					<para>If a client is subscribed to multiple subscriptions
 						that overlap, e.g. foo/# and foo/+/baz , then MQTT
 						expects that when the broker receives a message on a
@@ -250,35 +250,6 @@
 						to all listeners.</para>
 
 					<para>Reloaded on reload signal.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>auth_opt_*</option> <replaceable>value</replaceable></term>
-				<listitem>
-					<para>Options to be passed to the auth plugin. See the
-						specific plugin instructions.</para>
-
-					<para>Applies to the current authentication plugin being configured.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>auth_plugin</option> <replaceable>file path</replaceable></term>
-				<listitem>
-					<para>Specify an external module to use for authentication
-						and access control. This allows custom
-						username/password and access control functions to be
-						created.</para>
-					<para>Can be specified multiple times to load multiple
-						plugins. The plugins will be processed in the order
-						that they are specified.</para>
-					<para>If <option>password_file</option>, or
-						<option>acl_file</option> are used in the config file
-						alongsize <option>auth_plugin</option>, the plugin
-						checks will run after the built in checks.</para>
-					<para>Not currently reloaded on reload signal.</para>
-					<para>See also 
-						<ulink url="https://mosquitto.org/documentation/dynamic-security/"/>
-					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -382,8 +353,8 @@
 			<varlistentry>
 				<term><option>clientid_prefixes</option> <replaceable>prefix</replaceable></term>
 				<listitem>
-                    <para>This option is deprecated and will be removed in a
-                        future version.</para>
+					<para>This option is deprecated and will be removed in a
+						future version.</para>
 					<para>If defined, only clients that have a clientid with a
 						prefix that matches clientid_prefixes will be allowed
 						to connect to the broker. For example, setting
@@ -409,6 +380,30 @@
 					<para>This option applies globally.</para>
 
 					<para>Reloaded on reload signal.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>global_plugin</option> <replaceable>file path</replaceable></term>
+				<listitem>
+					<para>
+						Load an external module to extend broker features. This loads plugins
+						for use across all listeners, regardless of the value of the
+						<option>per_listener_settings</option> option. This option functions
+						the same as the <option>plugin</option> option in all other ways.
+					</para>
+
+					<para>
+						If you set <option>per_listener_settings true</option>, then define both a
+						<option>global_plugin</option> and a <option>plugin</option> (which will be
+						attached to a specific listener), then the global plugin will always be
+						processed first.
+					</para>
+
+					<para>
+						If you set <option>per_listener_settings false</option>, then
+						<option>global_plugin</option> behaves identically to
+						<option>plugin</option>.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -781,7 +776,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 						<option>acl_file</option>, <option>psk_file</option>,
 						<option>allow_anonymous</option>,
 						<option>allow_zero_length_clientid</option>,
-						<option>auth_plugin</option>,
+						<option>plugin</option>,
 						<option>auth_opt_*</option>,
 						<option>auto_id_prefix</option>.</para>
 					<para>Note that if set to true, then a durable client (i.e.
@@ -884,6 +879,43 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 						file. This should then be configured as e.g.
 						/var/run/mosquitto/mosquitto.pid</para>
 					<para>Not reloaded on reload signal.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>plugin_opt_*</option> <replaceable>value</replaceable></term>
+				<term><option>auth_opt_*</option> <replaceable>value</replaceable></term>
+				<listitem>
+					<para>Options to be passed to a plugin. See the
+						specific plugin instructions.</para>
+
+					<para>Applies to the current plugin/global_plugin being configured.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>plugin</option> <replaceable>file path</replaceable></term>
+				<term><option>auth_plugin</option> <replaceable>file path</replaceable></term>
+				<listitem>
+					<para>Specify an external module to use for authentication,
+						access control, and other features. This allows custom
+						username/password and access control functions to be
+						created and other behaviour to be modified.</para>
+					<para>Can be specified multiple times to load multiple
+						plugins. The plugins will be processed in the order
+						that they are specified.</para>
+					<para>If <option>password_file</option>, or
+						<option>acl_file</option> are used in the config file
+						alongsize <option>plugin</option>, the plugin
+						checks will run after the built in checks.</para>
+					<para>Not currently reloaded on reload signal.</para>
+					<para>
+						If <option>per_listener_settings</option> is set to
+						<replaceable>true</replaceable>, this plugin will be
+						loaded for the current listener only.
+					</para>
+					<para>See also 
+						<ulink url="https://mosquitto.org/documentation/dynamic-security/"/>
+						and the <option>global_plugin</option> option.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -1022,9 +1054,9 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 				<varlistentry>
 					<term><option>bind_address</option> <replaceable>address</replaceable></term>
 					<listitem>
-                    <para>This option is deprecated and will be removed in a
+						<para>This option is deprecated and will be removed in a
 						future version. Use the <option>listener</option> instead.
-                    </para>
+						</para>
 						<para>Listen for incoming network connections on the
 							specified IP address/hostname only. This is useful
 							to restrict access to certain network interfaces.
@@ -1185,9 +1217,9 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 				<varlistentry>
 					<term><option>port</option> <replaceable>port number</replaceable></term>
 					<listitem>
-                    <para>This option is deprecated and will be removed in a
+						<para>This option is deprecated and will be removed in a
 						future version. Use the <option>listener</option> instead.
-                    </para>
+						</para>
 						<para>Set the network port for the default listener to
 							listen on. Defaults to 1883.</para>
 						<para>Not reloaded on reload signal.</para>
@@ -1331,21 +1363,21 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 				<varlistentry>
 					<term><option>ciphers</option> <replaceable>cipher:list</replaceable></term>
 					<listitem>
-                        <para>
-                            The list of allowed ciphers for this listener, for
-                            TLS v1.2 and earlier only, each separated with
-                            a colon. Available ciphers can be obtained using
-                            the "openssl ciphers" command.
-                        </para>
+						<para>
+							The list of allowed ciphers for this listener, for
+							TLS v1.2 and earlier only, each separated with
+							a colon. Available ciphers can be obtained using
+							the "openssl ciphers" command.
+						</para>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
 					<term><option>ciphers_tls1.3</option> <replaceable>cipher:list</replaceable></term>
 					<listitem>
-                        <para>
-                            The list of allowed ciphersuites for this listener,
-                            for TLS v1.3, each separated with a colon.
-                        </para>
+						<para>
+							The list of allowed ciphersuites for this listener,
+							for TLS v1.3, each separated with a colon.
+						</para>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
@@ -1649,15 +1681,15 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 			<varlistentry>
 				<term><option>bridge_tcp_keepalive</option> <replaceable>idle</replaceable> <replaceable>interval</replaceable> <replaceable>counter</replaceable></term>
 				<listitem>
-                    <para>
-                        Set TCP keepalive parameters for this bridge connection.
-                        Use this option to allow you to set a long MQTT
-                        keepalive value, whilst still being able to detect the
-                        connection dropping in a reasonable time.
+						<para>
+							Set TCP keepalive parameters for this bridge connection.
+							Use this option to allow you to set a long MQTT
+							keepalive value, whilst still being able to detect the
+							connection dropping in a reasonable time.
 					</para>
 					<para>
-                        This may be useful when bridging to services that bill
-                        for PINGREQ messages.
+							This may be useful when bridging to services that bill
+							for PINGREQ messages.
 					</para>
 					<para>Disabled by default.</para>
 				</listitem>

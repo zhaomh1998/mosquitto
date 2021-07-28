@@ -676,39 +676,12 @@ static int acl__check_dollar(const char *topic, int access)
 }
 
 
-int mosquitto_acl_check(struct mosquitto *context, const char *topic, uint32_t payloadlen, void* payload, uint8_t qos, bool retain, int access)
+static int plugin__acl_check(struct mosquitto__security_options *opts, struct mosquitto *context, const char *topic, uint32_t payloadlen, void* payload, uint8_t qos, bool retain, int access)
 {
-	int rc;
-	int i;
-	struct mosquitto__security_options *opts;
+	int rc = MOSQ_ERR_PLUGIN_DEFER;
 	struct mosquitto_acl_msg msg;
 	struct mosquitto__callback *cb_base;
 	struct mosquitto_evt_acl_check event_data;
-
-	if(!context->id){
-		return MOSQ_ERR_ACL_DENIED;
-	}
-	if(context->bridge){
-		return MOSQ_ERR_SUCCESS;
-	}
-
-	rc = acl__check_dollar(topic, access);
-	if(rc) return rc;
-
-	/* 
-	 * If no plugins exist we should accept at this point so set rc to success.
-	 */
-	rc = MOSQ_ERR_SUCCESS;
-
-	if(db.config->per_listener_settings){
-		if(context->listener){
-			opts = &context->listener->security_options;
-		}else{
-			return MOSQ_ERR_ACL_DENIED;
-		}
-	}else{
-		opts = &db.config->security_options;
-	}
 
 	memset(&msg, 0, sizeof(msg));
 	msg.topic = topic;
@@ -735,6 +708,66 @@ int mosquitto_acl_check(struct mosquitto *context, const char *topic, uint32_t p
 		}
 	}
 
+	return rc;
+}
+
+int mosquitto_acl_check(struct mosquitto *context, const char *topic, uint32_t payloadlen, void* payload, uint8_t qos, bool retain, int access)
+{
+	int rc;
+	int i;
+	struct mosquitto__security_options *opts;
+	struct mosquitto_acl_msg msg;
+
+	if(!context->id){
+		return MOSQ_ERR_ACL_DENIED;
+	}
+	if(context->bridge){
+		return MOSQ_ERR_SUCCESS;
+	}
+
+	rc = acl__check_dollar(topic, access);
+	if(rc) return rc;
+
+	/* 
+	 * If no plugins exist we should accept at this point so set rc to success.
+	 */
+	rc = MOSQ_ERR_SUCCESS;
+
+	if(db.config->security_options.plugin_callbacks.acl_check){
+		rc = plugin__acl_check(&db.config->security_options, context, topic, payloadlen,
+				payload, qos, retain, access);
+
+		if(rc != MOSQ_ERR_PLUGIN_DEFER){
+			return rc;
+		}
+	}
+
+	if(db.config->per_listener_settings){
+		if(context->listener){
+			if(context->listener->security_options.plugin_callbacks.acl_check){
+				rc = plugin__acl_check(&context->listener->security_options, context, topic, payloadlen,
+						payload, qos, retain, access);
+
+				if(rc != MOSQ_ERR_PLUGIN_DEFER){
+					return rc;
+				}
+			}
+		}else{
+			return MOSQ_ERR_ACL_DENIED;
+		}
+		opts = &context->listener->security_options;
+	}else{
+		opts = &db.config->security_options;
+	}
+
+	/* Old plugin version checks */
+	memset(&msg, 0, sizeof(msg));
+	msg.topic = topic;
+	msg.payloadlen = payloadlen;
+	msg.payload = payload;
+	msg.qos = qos;
+	msg.retain = retain;
+
 	for(i=0; i<opts->auth_plugin_config_count; i++){
 		if(opts->auth_plugin_configs[i].plugin.version < 5){
 			rc = acl__check_single(&opts->auth_plugin_configs[i], context, &msg, access);
@@ -752,13 +785,32 @@ int mosquitto_acl_check(struct mosquitto *context, const char *topic, uint32_t p
 	return rc;
 }
 
+
+static int plugin__unpwd_check(struct mosquitto__security_options *opts, struct mosquitto *context)
+{
+	struct mosquitto_evt_basic_auth event_data;
+	struct mosquitto__callback *cb_base;
+	int rc = MOSQ_ERR_PLUGIN_DEFER;
+
+	DL_FOREACH(opts->plugin_callbacks.basic_auth, cb_base){
+		memset(&event_data, 0, sizeof(event_data));
+		event_data.client = context;
+		event_data.username = context->username;
+		event_data.password = context->password;
+		rc = cb_base->cb(MOSQ_EVT_BASIC_AUTH, &event_data, cb_base->userdata);
+		if(rc != MOSQ_ERR_PLUGIN_DEFER){
+			return rc;
+		}
+	}
+	return rc;
+}
+
+
 int mosquitto_unpwd_check(struct mosquitto *context)
 {
 	int rc;
 	int i;
 	struct mosquitto__security_options *opts;
-	struct mosquitto_evt_basic_auth event_data;
-	struct mosquitto__callback *cb_base;
 	bool plugin_used = false;
 
 	rc = MOSQ_ERR_PLUGIN_DEFER;
@@ -772,18 +824,33 @@ int mosquitto_unpwd_check(struct mosquitto *context)
 		opts = &db.config->security_options;
 	}
 
-	DL_FOREACH(opts->plugin_callbacks.basic_auth, cb_base){
-		memset(&event_data, 0, sizeof(event_data));
-		event_data.client = context;
-		event_data.username = context->username;
-		event_data.password = context->password;
-		rc = cb_base->cb(MOSQ_EVT_BASIC_AUTH, &event_data, cb_base->userdata);
+	/* Global plugins */
+	if(db.config->security_options.plugin_callbacks.basic_auth){
+		rc = plugin__unpwd_check(&db.config->security_options, context);
+
 		if(rc != MOSQ_ERR_PLUGIN_DEFER){
 			return rc;
 		}
 		plugin_used = true;
 	}
 
+	/* Per listener plugins */
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return MOSQ_ERR_AUTH;
+		}
+		if(context->listener->security_options.plugin_callbacks.basic_auth){
+			rc = plugin__unpwd_check(&context->listener->security_options, context);
+
+			if(rc != MOSQ_ERR_PLUGIN_DEFER){
+				return rc;
+			}
+			plugin_used = true;
+		}
+	}
+
+
+	/* Old plugin checks */
 	for(i=0; i<opts->auth_plugin_config_count; i++){
 		if(opts->auth_plugin_configs[i].plugin.version == 4 
 				&& opts->auth_plugin_configs[i].plugin.unpwd_check_v4){
@@ -838,28 +905,12 @@ int mosquitto_unpwd_check(struct mosquitto *context)
 	return rc;
 }
 
-int mosquitto_psk_key_get(struct mosquitto *context, const char *hint, const char *identity, char *key, int max_key_len)
+
+static int plugin__psk_key_get(struct mosquitto__security_options *opts, struct mosquitto *context, const char *hint, const char *identity, char *key, int max_key_len)
 {
-	int rc;
-	int i;
-	struct mosquitto__security_options *opts;
 	struct mosquitto_evt_psk_key event_data;
 	struct mosquitto__callback *cb_base;
-
-	rc = mosquitto_psk_key_get_default(context, hint, identity, key, max_key_len);
-	if(rc != MOSQ_ERR_PLUGIN_DEFER){
-		return rc;
-	}
-
-	/* Default check has accepted or deferred at this point.
-	 * If no plugins exist we should accept at this point so set rc to success.
-	 */
-
-	if(db.config->per_listener_settings){
-		opts = &context->listener->security_options;
-	}else{
-		opts = &db.config->security_options;
-	}
+	int rc = MOSQ_ERR_PLUGIN_DEFER;
 
 	DL_FOREACH(opts->plugin_callbacks.psk_key, cb_base){
 		memset(&event_data, 0, sizeof(event_data));
@@ -873,7 +924,60 @@ int mosquitto_psk_key_get(struct mosquitto *context, const char *hint, const cha
 			return rc;
 		}
 	}
+	return rc;
+}
 
+
+int mosquitto_psk_key_get(struct mosquitto *context, const char *hint, const char *identity, char *key, int max_key_len)
+{
+	int rc;
+	int i;
+	struct mosquitto__security_options *opts;
+
+	rc = mosquitto_psk_key_get_default(context, hint, identity, key, max_key_len);
+	if(rc != MOSQ_ERR_PLUGIN_DEFER){
+		return rc;
+	}
+
+	/* Default check has accepted or deferred at this point.
+	 * If no plugins exist we should accept at this point so set rc to success.
+	 */
+
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return MOSQ_ERR_AUTH;
+		}
+		opts = &context->listener->security_options;
+	}else{
+		opts = &db.config->security_options;
+	}
+
+	/* Global plugins */
+	if(db.config->security_options.plugin_callbacks.psk_key){
+		rc = plugin__psk_key_get(&db.config->security_options, context,
+				hint, identity, key, max_key_len);
+
+		if(rc != MOSQ_ERR_PLUGIN_DEFER){
+			return rc;
+		}
+	}
+
+	/* Per listener plugins */
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return MOSQ_ERR_AUTH;
+		}
+		if(context->listener->security_options.plugin_callbacks.psk_key){
+			rc = plugin__psk_key_get(&context->listener->security_options, context,
+					hint, identity, key, max_key_len);
+
+			if(rc != MOSQ_ERR_PLUGIN_DEFER){
+				return rc;
+			}
+		}
+	}
+
+	/* Old plugins */
 	for(i=0; i<opts->auth_plugin_config_count; i++){
 		if(opts->auth_plugin_configs[i].plugin.version == 4
 				&& opts->auth_plugin_configs[i].plugin.psk_key_get_v4){
@@ -919,22 +1023,13 @@ int mosquitto_psk_key_get(struct mosquitto *context, const char *hint, const cha
 }
 
 
-int mosquitto_security_auth_start(struct mosquitto *context, bool reauth, const void *data_in, uint16_t data_in_len, void **data_out, uint16_t *data_out_len)
+static int plugin__ext_auth_start(struct mosquitto__security_options *opts, struct mosquitto *context, bool reauth, const void *data_in, uint16_t data_in_len, void **data_out, uint16_t *data_out_len)
 {
-	int rc = MOSQ_ERR_PLUGIN_DEFER;
-	int i;
-	struct mosquitto__security_options *opts;
 	struct mosquitto_evt_extended_auth event_data;
 	struct mosquitto__callback *cb_base;
+	int rc = MOSQ_ERR_PLUGIN_DEFER;
 
-	if(!context || !context->listener || !context->auth_method) return MOSQ_ERR_INVAL;
-	if(!data_out || !data_out_len) return MOSQ_ERR_INVAL;
-
-	if(db.config->per_listener_settings){
-		opts = &context->listener->security_options;
-	}else{
-		opts = &db.config->security_options;
-	}
+	UNUSED(reauth);
 
 	DL_FOREACH(opts->plugin_callbacks.ext_auth_start, cb_base){
 		memset(&event_data, 0, sizeof(event_data));
@@ -951,7 +1046,54 @@ int mosquitto_security_auth_start(struct mosquitto *context, bool reauth, const 
 			return rc;
 		}
 	}
+	return rc;
+}
 
+
+int mosquitto_security_auth_start(struct mosquitto *context, bool reauth, const void *data_in, uint16_t data_in_len, void **data_out, uint16_t *data_out_len)
+{
+	int rc = MOSQ_ERR_PLUGIN_DEFER;
+	int i;
+	struct mosquitto__security_options *opts;
+
+	if(!context || !context->listener || !context->auth_method) return MOSQ_ERR_INVAL;
+	if(!data_out || !data_out_len) return MOSQ_ERR_INVAL;
+
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return MOSQ_ERR_AUTH;
+		}
+		opts = &context->listener->security_options;
+	}else{
+		opts = &db.config->security_options;
+	}
+
+	/* Global plugins */
+	if(db.config->security_options.plugin_callbacks.ext_auth_start){
+		rc = plugin__ext_auth_start(&db.config->security_options, context,
+				reauth, data_in, data_in_len, data_out, data_out_len);
+
+		if(rc != MOSQ_ERR_PLUGIN_DEFER){
+			return rc;
+		}
+	}
+
+	/* Per listener plugins */
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return MOSQ_ERR_AUTH;
+		}
+		if(context->listener->security_options.plugin_callbacks.ext_auth_start){
+			rc = plugin__ext_auth_start(&context->listener->security_options, context,
+					reauth, data_in, data_in_len, data_out, data_out_len);
+
+			if(rc != MOSQ_ERR_PLUGIN_DEFER){
+				return rc;
+			}
+		}
+	}
+
+	/* Old plugins */
 	for(i=0; i<opts->auth_plugin_config_count; i++){
 		if(opts->auth_plugin_configs[i].plugin.auth_start_v4){
 			*data_out = NULL;
@@ -979,22 +1121,11 @@ int mosquitto_security_auth_start(struct mosquitto *context, bool reauth, const 
 }
 
 
-int mosquitto_security_auth_continue(struct mosquitto *context, const void *data_in, uint16_t data_in_len, void **data_out, uint16_t *data_out_len)
+static int plugin__ext_auth_continue(struct mosquitto__security_options *opts, struct mosquitto *context, const void *data_in, uint16_t data_in_len, void **data_out, uint16_t *data_out_len)
 {
 	int rc = MOSQ_ERR_PLUGIN_DEFER;
-	int i;
-	struct mosquitto__security_options *opts;
 	struct mosquitto_evt_extended_auth event_data;
 	struct mosquitto__callback *cb_base;
-
-	if(!context || !context->listener || !context->auth_method) return MOSQ_ERR_INVAL;
-	if(!data_out || !data_out_len) return MOSQ_ERR_INVAL;
-
-	if(db.config->per_listener_settings){
-		opts = &context->listener->security_options;
-	}else{
-		opts = &db.config->security_options;
-	}
 
 	DL_FOREACH(opts->plugin_callbacks.ext_auth_continue, cb_base){
 		memset(&event_data, 0, sizeof(event_data));
@@ -1010,7 +1141,54 @@ int mosquitto_security_auth_continue(struct mosquitto *context, const void *data
 			return rc;
 		}
 	}
+	return rc;
+}
 
+
+int mosquitto_security_auth_continue(struct mosquitto *context, const void *data_in, uint16_t data_in_len, void **data_out, uint16_t *data_out_len)
+{
+	int rc = MOSQ_ERR_PLUGIN_DEFER;
+	int i;
+	struct mosquitto__security_options *opts;
+
+	if(!context || !context->listener || !context->auth_method) return MOSQ_ERR_INVAL;
+	if(!data_out || !data_out_len) return MOSQ_ERR_INVAL;
+
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return MOSQ_ERR_AUTH;
+		}
+		opts = &context->listener->security_options;
+	}else{
+		opts = &db.config->security_options;
+	}
+
+	/* Global plugins */
+	if(db.config->security_options.plugin_callbacks.ext_auth_continue){
+		rc = plugin__ext_auth_continue(&db.config->security_options, context,
+				data_in, data_in_len, data_out, data_out_len);
+
+		if(rc != MOSQ_ERR_PLUGIN_DEFER){
+			return rc;
+		}
+	}
+
+	/* Per listener plugins */
+	if(db.config->per_listener_settings){
+		if(context->listener == NULL){
+			return MOSQ_ERR_AUTH;
+		}
+		if(context->listener->security_options.plugin_callbacks.ext_auth_continue){
+			rc = plugin__ext_auth_continue(&context->listener->security_options, context,
+					data_in, data_in_len, data_out, data_out_len);
+
+			if(rc != MOSQ_ERR_PLUGIN_DEFER){
+				return rc;
+			}
+		}
+	}
+
+	/* Old plugins */
 	for(i=0; i<opts->auth_plugin_config_count; i++){
 		if(opts->auth_plugin_configs[i].plugin.auth_continue_v4){
 			*data_out = NULL;

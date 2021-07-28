@@ -104,22 +104,12 @@ int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__auth
 }
 
 
-void plugin__handle_connect(struct mosquitto *context)
+static void plugin__handle_connect_single(struct mosquitto__security_options *opts, struct mosquitto *context)
 {
 	struct mosquitto_evt_connect event_data;
 	struct mosquitto__callback *cb_base;
-	struct mosquitto__security_options *opts;
 
-	if(db.config->per_listener_settings){
-		if(context->listener == NULL){
-			return;
-		}
-		opts = &context->listener->security_options;
-	}else{
-		opts = &db.config->security_options;
-	}
 	memset(&event_data, 0, sizeof(event_data));
-
 	event_data.client = context;
 	DL_FOREACH(opts->plugin_callbacks.connect, cb_base){
 		cb_base->cb(MOSQ_EVT_CONNECT, &event_data, cb_base->userdata);
@@ -127,22 +117,24 @@ void plugin__handle_connect(struct mosquitto *context)
 }
 
 
-void plugin__handle_disconnect(struct mosquitto *context, int reason)
+void plugin__handle_connect(struct mosquitto *context)
+{
+	/* Global plugins */
+	plugin__handle_connect_single(&db.config->security_options, context);
+
+	/* Per listener plugins */
+	if(db.config->per_listener_settings && context->listener){
+		plugin__handle_connect_single(&context->listener->security_options, context);
+	}
+}
+
+
+static void plugin__handle_disconnect_single(struct mosquitto__security_options *opts, struct mosquitto *context, int reason)
 {
 	struct mosquitto_evt_disconnect event_data;
 	struct mosquitto__callback *cb_base;
-	struct mosquitto__security_options *opts;
 
-	if(db.config->per_listener_settings){
-		if(context->listener == NULL){
-			return;
-		}
-		opts = &context->listener->security_options;
-	}else{
-		opts = &db.config->security_options;
-	}
 	memset(&event_data, 0, sizeof(event_data));
-
 	event_data.client = context;
 	event_data.reason = reason;
 	DL_FOREACH(opts->plugin_callbacks.disconnect, cb_base){
@@ -151,26 +143,25 @@ void plugin__handle_disconnect(struct mosquitto *context, int reason)
 }
 
 
-int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store *stored)
+void plugin__handle_disconnect(struct mosquitto *context, int reason)
+{
+	/* Global plugins */
+	plugin__handle_disconnect_single(&db.config->security_options, context, reason);
+
+	/* Per listener plugins */
+	if(db.config->per_listener_settings && context->listener){
+		plugin__handle_disconnect_single(&context->listener->security_options, context, reason);
+	}
+}
+
+
+static int plugin__handle_message_single(struct mosquitto__security_options *opts, struct mosquitto *context, struct mosquitto_msg_store *stored)
 {
 	struct mosquitto_evt_message event_data;
 	struct mosquitto__callback *cb_base;
-	struct mosquitto__security_options *opts;
 	int rc = MOSQ_ERR_SUCCESS;
 
-	if(db.config->per_listener_settings){
-		if(context->listener == NULL){
-			return MOSQ_ERR_SUCCESS;
-		}
-		opts = &context->listener->security_options;
-	}else{
-		opts = &db.config->security_options;
-	}
-	if(opts->plugin_callbacks.message == NULL){
-		return MOSQ_ERR_SUCCESS;
-	}
 	memset(&event_data, 0, sizeof(event_data));
-
 	event_data.client = context;
 	event_data.topic = stored->topic;
 	event_data.payloadlen = stored->payloadlen;
@@ -198,11 +189,40 @@ int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store
 	return rc;
 }
 
+int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store *stored)
+{
+	int rc = MOSQ_ERR_SUCCESS;
 
-void plugin__handle_tick(void)
+	/* Global plugins */
+	rc = plugin__handle_message_single(&db.config->security_options,
+			context, stored);
+	if(rc) return rc;
+
+	if(db.config->per_listener_settings && context->listener){
+		rc = plugin__handle_message_single(&context->listener->security_options,
+			context, stored);
+	}
+
+	return rc;
+}
+
+
+static void plugin__handle_tick_single(struct mosquitto__security_options *opts)
 {
 	struct mosquitto_evt_tick event_data;
 	struct mosquitto__callback *cb_base;
+
+	/* FIXME - set now_s and now_ns to avoid need for multiple time lookups */
+	memset(&event_data, 0, sizeof(event_data));
+
+	DL_FOREACH(opts->plugin_callbacks.tick, cb_base){
+		cb_base->cb(MOSQ_EVT_TICK, &event_data, cb_base->userdata);
+	}
+}
+
+
+void plugin__handle_tick(void)
+{
 	struct mosquitto__security_options *opts;
 	int i;
 
@@ -211,20 +231,11 @@ void plugin__handle_tick(void)
 		for(i=0; i<db.config->listener_count; i++){
 			opts = &db.config->listeners[i].security_options;
 			if(opts && opts->plugin_callbacks.tick){
-				memset(&event_data, 0, sizeof(event_data));
-
-				DL_FOREACH(opts->plugin_callbacks.tick, cb_base){
-					cb_base->cb(MOSQ_EVT_TICK, &event_data, cb_base->userdata);
-				}
+				plugin__handle_tick_single(opts);
 			}
 		}
 	}else{
-		opts = &db.config->security_options;
-		memset(&event_data, 0, sizeof(event_data));
-
-		DL_FOREACH(opts->plugin_callbacks.tick, cb_base){
-			cb_base->cb(MOSQ_EVT_TICK, &event_data, cb_base->userdata);
-		}
+		plugin__handle_tick_single(&db.config->security_options);
 	}
 }
 

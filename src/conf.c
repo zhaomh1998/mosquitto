@@ -928,9 +928,14 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 						mosquitto__free(key);
 						return MOSQ_ERR_INVAL;
 					}
-				}else if(!strcmp(token, "auth_plugin") || !strcmp(token, "plugin")){
-					if(reload) continue; /* Auth plugin not currently valid for reloading. */
-					conf__set_cur_security_options(config, cur_listener, &cur_security_options);
+				}else if(!strcmp(token, "auth_plugin") || !strcmp(token, "plugin") || !strcmp(token, "global_plugin")){
+					if(reload) continue; /* plugin not currently valid for reloading. */
+					if(!strcmp(token, "global_plugin")){
+						cur_security_options = &db.config->security_options;
+					}else{
+						conf__set_cur_security_options(config, cur_listener, &cur_security_options);
+					}
+
 					cur_security_options->auth_plugin_configs = mosquitto__realloc(cur_security_options->auth_plugin_configs, (size_t)(cur_security_options->auth_plugin_config_count+1)*sizeof(struct mosquitto__auth_plugin_config));
 					if(!cur_security_options->auth_plugin_configs){
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
