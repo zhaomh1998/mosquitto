@@ -709,7 +709,7 @@ def get_port(count=1):
         else:
             return 1888
     else:
-        if len(sys.argv) == 1+count:
+        if len(sys.argv) >= 1+count:
             p = ()
             for i in range(0, count):
                 p = p + (int(sys.argv[1+i]),)

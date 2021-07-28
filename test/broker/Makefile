@@ -126,7 +126,12 @@ test : test-compile 01 02 03 04 05 06 07 08 09 10 11 12 13 14
 	./06-bridge-br2b-disconnect-qos1.py
 	./06-bridge-br2b-disconnect-qos2.py
 	./06-bridge-br2b-remapping.py
-	./06-bridge-clean-session.py
+	./06-bridge-clean-session-csF-lcsF.py
+	./06-bridge-clean-session-csF-lcsN.py
+	./06-bridge-clean-session-csF-lcsT.py
+	./06-bridge-clean-session-csT-lcsF.py
+	./06-bridge-clean-session-csT-lcsN.py
+	./06-bridge-clean-session-csT-lcsT.py
 	./06-bridge-fail-persist-resend-qos1.py
 	./06-bridge-fail-persist-resend-qos2.py
 	./06-bridge-no-local.py

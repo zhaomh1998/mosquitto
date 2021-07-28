@@ -84,12 +84,12 @@ def do_test(proto_ver, cs, lcs=None):
 
 
     (port_a_listen, port_b_listen) = mosq_test.get_port(2)
-    conf_file_a = os.path.basename(__file__).replace('.py', '_a_edge.conf')
-    persistence_file_a = os.path.basename(__file__).replace('.py', '_a_edge.db')
+    conf_file_a = os.path.basename(__file__).replace('.py', '%d_a_edge.conf'%(port_a_listen))
+    persistence_file_a = os.path.basename(__file__).replace('.py', '%d_a_edge.db'%(port_a_listen))
     write_config_edge(conf_file_a, persistence_file_a, port_b_listen, port_a_listen, bridge_protocol, cs=cs, lcs=lcs)
 
-    conf_file_b = os.path.basename(__file__).replace('.py', '_b_core.conf')
-    persistence_file_b = os.path.basename(__file__).replace('.py', '_b_core.db')
+    conf_file_b = os.path.basename(__file__).replace('.py', '%d_b_core.conf'%(port_b_listen))
+    persistence_file_b = os.path.basename(__file__).replace('.py', '%d_b_core.db'%(port_b_listen))
     write_config_core(conf_file_b, port_b_listen, persistence_file_b)
 
     AckedPair = namedtuple("AckedPair", "p ack")
@@ -254,11 +254,25 @@ def do_test(proto_ver, cs, lcs=None):
             print(stde_b.decode('utf-8'))
             exit(1)
 
-for cs in [True, False]:
-    for lcs in [None, True, False]:
-        do_test(proto_ver=4, cs=cs, lcs=lcs)
-        # FIXME - v5 clean session bridging doesn't work: see
-        # https://github.com/eclipse/mosquitto/issues/1632
-        #do_test(proto_ver=5, cs=cs, lcs=lcs)
+if sys.argv[3] == "True":
+    cs = True
+elif sys.argv[3] == "False":
+    cs = False
+else:
+    raise ValueError("cs")
+
+if sys.argv[4] == "True":
+    lcs = True
+elif sys.argv[4] == "False":
+    lcs = False
+elif sys.argv[4] == "None":
+    lcs = None
+else:
+    raise ValueError("lcs")
+
+do_test(proto_ver=4, cs=cs, lcs=lcs)
+# FIXME - v5 clean session bridging doesn't work: see
+# https://github.com/eclipse/mosquitto/issues/1632
+#do_test(proto_ver=5, cs=cs, lcs=lcs)
 
 exit(0)
