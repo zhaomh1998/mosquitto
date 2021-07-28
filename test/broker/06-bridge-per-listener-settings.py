@@ -4,11 +4,11 @@
 
 from mosq_test_helper import *
 
-def write_config(filename, port1, port2, port3, protocol_version):
+def write_config(filename, port1, port2, protocol_version):
     with open(filename, 'w') as f:
         f.write("per_listener_settings true\n")
-        f.write("port %d\n" % (port2))
-        f.write("listener %d 127.0.0.1\n" % (port3))
+        f.write("listener %d\n" % (port2))
+        f.write("allow_anonymous true\n")
         f.write("\n")
         f.write("connection bridge_sample\n")
         f.write("address 127.0.0.1:%d\n" % (port1))
@@ -98,9 +98,9 @@ def do_test(proto_ver):
         bridge_protocol = "mqttv50"
         proto_ver_connect = 5
 
-    (port1, port2, port3) = mosq_test.get_port(3)
+    (port1, port2) = mosq_test.get_port(2)
     conf_file = os.path.basename(__file__).replace('.py', '.conf')
-    write_config(conf_file, port1, port2, port3, bridge_protocol)
+    write_config(conf_file, port1, port2, bridge_protocol)
 
     rc = 1
     keepalive = 60

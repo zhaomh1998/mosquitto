@@ -34,7 +34,7 @@ def tprint(*args, **kwargs):
 # this is our "A" broker
 def write_config_edge(filename, persistence_file, remote_port, listen_port, protocol_version, cs=False, lcs=None):
     with open(filename, 'w') as f:
-        f.write("port %d\n" % (listen_port))
+        f.write("listener %d\n" % (listen_port))
         f.write("allow_anonymous true\n")
         f.write("\n")
         f.write("persistence true\n")
@@ -59,7 +59,7 @@ def write_config_edge(filename, persistence_file, remote_port, listen_port, prot
 # this is our "B" broker
 def write_config_core(filename, listen_port, persistence_file):
     with open(filename, 'w') as f:
-        f.write("port %d\n" % (listen_port))
+        f.write("listener %d\n" % (listen_port))
         f.write("allow_anonymous true\n")
         f.write("\n")
         f.write("persistence true\n")

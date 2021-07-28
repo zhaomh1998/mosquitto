@@ -7,7 +7,7 @@ from mosq_test_helper import *
 
 def write_config(filename, port, pw_file):
     with open(filename, 'w') as f:
-        f.write("port %d\n" % (port))
+        f.write("listener %d\n" % (port))
         f.write("password_file %s\n" % (pw_file))
         f.write("allow_anonymous false\n")
 

@@ -12,7 +12,7 @@ def write_config(filename, port1, port2):
         f.write("allow_anonymous true\n")
         f.write("psk_file 08-tls-psk-pub.psk\n")
         f.write("\n")
-        f.write("port %d\n" % (port1))
+        f.write("listener %d\n" % (port1))
         f.write("psk_hint hint\n")
         f.write("\n")
         f.write("listener %d\n" % (port2))

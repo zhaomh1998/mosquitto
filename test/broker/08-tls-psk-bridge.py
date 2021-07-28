@@ -12,14 +12,14 @@ def write_config1(filename, port1, port2):
         f.write("\n")
         f.write("psk_file 08-tls-psk-bridge.psk\n")
         f.write("\n")
-        f.write("port %d\n" % (port1))
+        f.write("listener %d\n" % (port1))
         f.write("\n")
         f.write("listener %d\n" % (port2))
         f.write("psk_hint hint\n")
 
 def write_config2(filename, port2, port3):
     with open(filename, 'w') as f:
-        f.write("port %d\n" % (port3))
+        f.write("listener %d\n" % (port3))
         f.write("allow_anonymous true\n")
         f.write("\n")
         f.write("connection bridge-psk\n")
