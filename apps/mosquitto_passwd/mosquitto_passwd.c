@@ -140,7 +140,7 @@ static int output_new_password(FILE *fptr, const char *username, const char *pas
 		return 1;
 	}
 
-	rc = base64__encode(pw.salt, sizeof(pw.salt), &salt64);
+	rc = base64__encode(pw.salt, pw.salt_len, &salt64);
 	if(rc){
 		free(salt64);
 		fprintf(stderr, "Error: Unable to encode salt.\n");

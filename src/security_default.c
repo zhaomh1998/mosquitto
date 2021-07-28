@@ -859,13 +859,13 @@ static int unpwd__decode_passwords(struct mosquitto__unpwd **unpwd)
 			continue;
 		}
 		rc = base64__decode(token, &salt, &salt_len);
-		if(rc == MOSQ_ERR_SUCCESS && salt_len == 12){
+		if(rc == MOSQ_ERR_SUCCESS && (salt_len == 12 || salt_len == HASH_LEN)){
 			u->salt = salt;
 			u->salt_len = salt_len;
 			token = strtok(NULL, "$");
 			if(token){
 				rc = base64__decode(token, &password, &password_len);
-				if(rc == MOSQ_ERR_SUCCESS && password_len == 64){
+				if(rc == MOSQ_ERR_SUCCESS && password_len == HASH_LEN){
 					mosquitto__free(u->password);
 					u->password = (char *)password;
 					u->password_len = password_len;

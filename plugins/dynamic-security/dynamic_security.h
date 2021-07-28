@@ -157,8 +157,8 @@ int dynsec__acl_check_callback(int event, void *event_data, void *userdata);
  * #
  * ################################################################ */
 
-int dynsec_auth__base64_encode(unsigned char *in, int in_len, char **encoded);
-int dynsec_auth__base64_decode(char *in, unsigned char **decoded, int *decoded_len);
+int dynsec_auth__base64_encode(unsigned char *in, size_t in_len, char **encoded);
+int dynsec_auth__base64_decode(char *in, unsigned char **decoded, size_t *decoded_len);
 int dynsec_auth__pw_hash(struct dynsec__client *client, const char *password, unsigned char *password_hash, int password_hash_len, bool new_password);
 int dynsec_auth__basic_auth_callback(int event, void *event_data, void *userdata);
 

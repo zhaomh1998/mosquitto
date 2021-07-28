@@ -586,7 +586,7 @@ static cJSON *init_add_client(const char *username, const char *password, const 
 	if(pw__hash(password, &pw, true, PW_DEFAULT_ITERATIONS) != 0){
 		return NULL;
 	}
-	if(base64__encode(pw.salt, sizeof(pw.salt), &salt64)
+	if(base64__encode(pw.salt, (unsigned int)pw.salt_len, &salt64)
 		|| base64__encode(pw.password_hash, sizeof(pw.password_hash), &hash64)
 		){
 

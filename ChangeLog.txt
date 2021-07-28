@@ -40,6 +40,7 @@ Broker:
 - Registration of the MOSQ_EVT_CONTROL plugin event is now handled globally
   across the broker, so only a single plugin can register for a given $CONTROL
   topic.
+- Password salts are now 64 bytes long.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

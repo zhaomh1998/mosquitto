@@ -20,17 +20,25 @@ Contributors:
 
 #include <stdbool.h>
 
+#ifdef WITH_TLS
+#  include <openssl/evp.h>
+#  define HASH_LEN EVP_MAX_MD_SIZE
+#else
+   /* 64 bytes big enough for SHA512 */
+#  define HASH_LEN 64
+#endif
+
 enum mosquitto_pwhash_type{
 	pw_sha512 = 6,
 	pw_sha512_pbkdf2 = 7,
 };
 
-#define SALT_LEN 12
 #define PW_DEFAULT_ITERATIONS 101
 
 struct mosquitto_pw{
-	unsigned char password_hash[64]; /* For SHA512 */
-	unsigned char salt[SALT_LEN];
+	unsigned char password_hash[HASH_LEN]; /* For SHA512 */
+	unsigned char salt[HASH_LEN];
+	size_t salt_len;
 	int iterations;
 	enum mosquitto_pwhash_type hashtype;
 	bool valid;
@@ -38,7 +46,7 @@ struct mosquitto_pw{
 
 int pw__hash(const char *password, struct mosquitto_pw *pw, bool new_password, int new_iterations);
 int pw__memcmp_const(const void *ptr1, const void *b, size_t len);
-int base64__encode(unsigned char *in, unsigned int in_len, char **encoded);
+int base64__encode(unsigned char *in, size_t in_len, char **encoded);
 int base64__decode(char *in, unsigned char **decoded, unsigned int *decoded_len);
 
 #endif

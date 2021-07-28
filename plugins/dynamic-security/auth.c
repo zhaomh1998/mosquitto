@@ -34,12 +34,10 @@ Contributors:
  * #
  * ################################################################ */
 
-int dynsec_auth__base64_encode(unsigned char *in, int in_len, char **encoded)
+int dynsec_auth__base64_encode(unsigned char *in, size_t in_len, char **encoded)
 {
 	BIO *bmem, *b64;
 	BUF_MEM *bptr = NULL;
-
-	if(in_len < 0) return 1;
 
 	b64 = BIO_new(BIO_f_base64());
 	if(b64 == NULL) return 1;
@@ -51,7 +49,7 @@ int dynsec_auth__base64_encode(unsigned char *in, int in_len, char **encoded)
 		return 1;
 	}
 	b64 = BIO_push(b64, bmem);
-	BIO_write(b64, in, in_len);
+	BIO_write(b64, in, (int)in_len);
 	if(BIO_flush(b64) != 1){
 		BIO_free_all(b64);
 		return 1;
@@ -70,10 +68,11 @@ int dynsec_auth__base64_encode(unsigned char *in, int in_len, char **encoded)
 }
 
 
-int dynsec_auth__base64_decode(char *in, unsigned char **decoded, int *decoded_len)
+int dynsec_auth__base64_decode(char *in, unsigned char **decoded, size_t *decoded_len)
 {
 	BIO *bmem, *b64;
 	size_t slen;
+	int read_len;
 
 	slen = strlen(in);
 
@@ -100,15 +99,17 @@ int dynsec_auth__base64_decode(char *in, unsigned char **decoded, int *decoded_l
 		BIO_free_all(b64);
 		return 1;
 	}
-	*decoded_len =  BIO_read(b64, *decoded, (int)slen);
+	read_len =  BIO_read(b64, *decoded, (int)slen);
 	BIO_free_all(b64);
 
-	if(*decoded_len <= 0){
+	if(read_len <= 0){
 		mosquitto_free(*decoded);
 		*decoded = NULL;
 		*decoded_len = 0;
 		return 1;
 	}
+
+	*decoded_len = (size_t)read_len;
 
 	return 0;
 }
@@ -126,7 +127,8 @@ int dynsec_auth__pw_hash(struct dynsec__client *client, const char *password, un
 	int iterations;
 
 	if(new_password){
-		if(RAND_bytes(client->pw.salt, sizeof(client->pw.salt)) != 1){
+		client->pw.salt_len = HASH_LEN;
+		if(RAND_bytes(client->pw.salt, (int)client->pw.salt_len) != 1){
 			return MOSQ_ERR_UNKNOWN;
 		}
 		iterations = PW_DEFAULT_ITERATIONS;
@@ -144,7 +146,7 @@ int dynsec_auth__pw_hash(struct dynsec__client *client, const char *password, un
 	}
 
 	return !PKCS5_PBKDF2_HMAC(password, (int)strlen(password),
-			client->pw.salt, sizeof(client->pw.salt), iterations,
+			client->pw.salt, (int)client->pw.salt_len, iterations,
 			digest, password_hash_len, password_hash);
 }
 

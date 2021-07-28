@@ -59,7 +59,7 @@ Contributors:
 #define MAX_BUFFER_LEN 65536
 
 #ifdef WITH_TLS
-int base64__encode(unsigned char *in, unsigned int in_len, char **encoded)
+int base64__encode(unsigned char *in, size_t in_len, char **encoded)
 {
 	BIO *bmem, *b64;
 	BUF_MEM *bptr;
@@ -147,7 +147,8 @@ int pw__hash(const char *password, struct mosquitto_pw *pw, bool new_password, i
 #endif
 
 	if(new_password){
-		rc = RAND_bytes(pw->salt, sizeof(pw->salt));
+		pw->salt_len = HASH_LEN;
+		rc = RAND_bytes(pw->salt, (int)pw->salt_len);
 		if(!rc){
 			return MOSQ_ERR_UNKNOWN;
 		}
@@ -169,14 +170,14 @@ int pw__hash(const char *password, struct mosquitto_pw *pw, bool new_password, i
 		EVP_MD_CTX_init(&context);
 		EVP_DigestInit_ex(&context, digest, NULL);
 		EVP_DigestUpdate(&context, password, strlen(password));
-		EVP_DigestUpdate(&context, pw->salt, sizeof(pw->salt));
+		EVP_DigestUpdate(&context, pw->salt, pw->salt_len;
 		EVP_DigestFinal_ex(&context, pw->password_hash, &hash_len);
 		EVP_MD_CTX_cleanup(&context);
 #else
 		context = EVP_MD_CTX_new();
 		EVP_DigestInit_ex(context, digest, NULL);
 		EVP_DigestUpdate(context, password, strlen(password));
-		EVP_DigestUpdate(context, pw->salt, sizeof(pw->salt));
+		EVP_DigestUpdate(context, pw->salt, pw->salt_len);
 		EVP_DigestFinal_ex(context, pw->password_hash, &hash_len);
 		EVP_MD_CTX_free(context);
 #endif
@@ -184,7 +185,7 @@ int pw__hash(const char *password, struct mosquitto_pw *pw, bool new_password, i
 		pw->iterations = iterations;
 		hash_len = sizeof(pw->password_hash);
 		PKCS5_PBKDF2_HMAC(password, (int)strlen(password),
-			pw->salt, sizeof(pw->salt), iterations,
+			pw->salt, (int)pw->salt_len, iterations,
 			digest, (int)hash_len, pw->password_hash);
 	}
 
