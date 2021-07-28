@@ -595,6 +595,13 @@ To list all clients:
 mosquitto_ctrl <options> dynsec listClients
 ```
 
+This gives an output that is a list of client usernames:
+
+```
+client1
+client2
+```
+
 The `modifyClient` command also exists in the topic API, but is not currently available in `mosquitto_ctrl`.
 
 
