@@ -38,7 +38,6 @@ Contributors:
 #include "get_password.h"
 
 #define MAX_BUFFER_LEN 65500
-#define SALT_LEN 12
 
 void get_password__reset_term(void)
 {

@@ -53,7 +53,6 @@ Contributors:
 #endif
 
 #define MAX_BUFFER_LEN 65500
-#define SALT_LEN 12
 
 #include "misc_mosq.h"
 

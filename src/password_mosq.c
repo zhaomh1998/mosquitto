@@ -57,7 +57,6 @@ Contributors:
 #endif
 
 #define MAX_BUFFER_LEN 65536
-#define SALT_LEN 12
 
 #ifdef WITH_TLS
 int base64__encode(unsigned char *in, unsigned int in_len, char **encoded)
