@@ -356,14 +356,25 @@ static int dynsec__config_load(void)
 	/* Load from file */
 	fptr = fopen(config_file, "rb");
 	if(fptr == NULL){
-		mosquitto_log_printf(MOSQ_LOG_ERR, "Error loading Dynamic security plugin config: File is not readable - check permissions.\n");
-		return 1;
+		/* Attempt to initialise a new config file */
+		if(dynsec__config_init(config_file) == MOSQ_ERR_SUCCESS){
+			mosquitto_log_printf(MOSQ_LOG_INFO, "Dynamic security plugin config not found, generating a default config.");
+			mosquitto_log_printf(MOSQ_LOG_INFO, "  Generated passwords are at %s.pw", config_file);
+			/* If it works, try to open the file again */
+			fptr = fopen(config_file, "rb");
+		}
+
+		if(fptr == NULL){
+			mosquitto_log_printf(MOSQ_LOG_ERR,
+					"Error loading Dynamic security plugin config: File is not readable - check permissions.");
+			return MOSQ_ERR_UNKNOWN;
+		}
 	}
 
 	fseek(fptr, 0, SEEK_END);
 	flen_l = ftell(fptr);
 	if(flen_l < 0){
-		mosquitto_log_printf(MOSQ_LOG_ERR, "Error loading Dynamic security plugin config: %s\n", strerror(errno));
+		mosquitto_log_printf(MOSQ_LOG_ERR, "Error loading Dynamic security plugin config: %s", strerror(errno));
 		fclose(fptr);
 		return 1;
 	}else if(flen_l == 0){

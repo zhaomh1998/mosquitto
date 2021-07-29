@@ -111,7 +111,7 @@ int dynsec_clients__config_load(cJSON *tree)
 	struct dynsec__client *client;
 	struct dynsec__role *role;
 	unsigned char *buf;
-	size_t buf_len;
+	unsigned int buf_len;
 	int priority;
 	int iterations;
 
@@ -166,7 +166,7 @@ int dynsec_clients__config_load(cJSON *tree)
 					client->pw.iterations = iterations;
 				}
 
-				if(dynsec_auth__base64_decode(j_salt->valuestring, &buf, &buf_len) != MOSQ_ERR_SUCCESS
+				if(base64__decode(j_salt->valuestring, &buf, &buf_len) != MOSQ_ERR_SUCCESS
 						|| buf_len > sizeof(client->pw.salt)){
 
 					mosquitto_free(client->username);
@@ -177,7 +177,7 @@ int dynsec_clients__config_load(cJSON *tree)
 				client->pw.salt_len = (size_t)buf_len;
 				mosquitto_free(buf);
 
-				if(dynsec_auth__base64_decode(j_password->valuestring, &buf, &buf_len) != MOSQ_ERR_SUCCESS
+				if(base64__decode(j_password->valuestring, &buf, &buf_len) != MOSQ_ERR_SUCCESS
 						|| buf_len != sizeof(client->pw.password_hash)){
 
 					mosquitto_free(client->username);
@@ -279,7 +279,7 @@ static int dynsec__config_add_clients(cJSON *j_clients)
 		cJSON_AddItemToObject(j_client, "roles", j_roles);
 
 		if(client->pw.valid){
-			if(dynsec_auth__base64_encode(client->pw.password_hash, sizeof(client->pw.password_hash), &buf) != MOSQ_ERR_SUCCESS){
+			if(base64__encode(client->pw.password_hash, sizeof(client->pw.password_hash), &buf) != MOSQ_ERR_SUCCESS){
 				return 1;
 			}
 			jtmp = cJSON_CreateString(buf);
@@ -287,7 +287,7 @@ static int dynsec__config_add_clients(cJSON *j_clients)
 			if(jtmp == NULL) return 1;
 			cJSON_AddItemToObject(j_client, "password", jtmp);
 
-			if(dynsec_auth__base64_encode(client->pw.salt, client->pw.salt_len, &buf) != MOSQ_ERR_SUCCESS){
+			if(base64__encode(client->pw.salt, client->pw.salt_len, &buf) != MOSQ_ERR_SUCCESS){
 				return 1;
 			}
 

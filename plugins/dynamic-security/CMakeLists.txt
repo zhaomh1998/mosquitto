@@ -20,11 +20,14 @@ if(CJSON_FOUND AND WITH_TLS)
 		auth.c
 		clients.c
 		clientlist.c
+		config_init.c
 		dynamic_security.h
 		groups.c
 		grouplist.c
 		json_help.c
 		json_help.h
+		../../lib/misc_mosq.c ../../lib/misc_mosq.h
+		../../src/password_mosq.c ../../src/password_mosq.h
 		plugin.c
 		roles.c
 		rolelist.c

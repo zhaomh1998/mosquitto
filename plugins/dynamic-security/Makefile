@@ -3,16 +3,19 @@ include ../../config.mk
 .PHONY : all binary check clean reallyclean test install uninstall
 
 PLUGIN_NAME=mosquitto_dynamic_security
-LOCAL_CPPFLAGS=-I../../src/ -DWITH_CJSON
+LOCAL_CPPFLAGS=-I../../lib/ -I../../src/ -DWITH_CJSON -DWITH_TLS
 
 OBJS=	\
 		acl.o \
 		auth.o \
 		clients.o \
 		clientlist.o \
+		config_init.o \
 		groups.o \
 		grouplist.o \
 		json_help.o \
+		misc_mosq.o \
+		password_mosq.o \
 		plugin.o \
 		roles.o \
 		rolelist.o
@@ -45,6 +48,9 @@ clients.o : clients.c dynamic_security.h
 clientlist.o : clientlist.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
+config_init.o : config_init.c dynamic_security.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
+
 groups.o : groups.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
@@ -52,6 +58,12 @@ grouplist.o : grouplist.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 json_help.o : json_help.c dynamic_security.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
+
+misc_mosq.o : ../../lib/misc_mosq.c dynamic_security.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
+
+password_mosq.o : ../../src/password_mosq.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 plugin.o : plugin.c dynamic_security.h

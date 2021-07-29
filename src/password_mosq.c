@@ -62,11 +62,17 @@ Contributors:
 int base64__encode(unsigned char *in, size_t in_len, char **encoded)
 {
 	BIO *bmem, *b64;
-	BUF_MEM *bptr;
+	BUF_MEM *bptr = NULL;
 
 	b64 = BIO_new(BIO_f_base64());
+	if(b64 == NULL) return 1;
+
 	BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
 	bmem = BIO_new(BIO_s_mem());
+	if(bmem == NULL){
+		BIO_free_all(b64);
+		return 1;
+	}
 	b64 = BIO_push(b64, bmem);
 	BIO_write(b64, in, (int)in_len);
 	if(BIO_flush(b64) != 1){
@@ -131,7 +137,6 @@ int base64__decode(char *in, unsigned char **decoded, unsigned int *decoded_len)
 
 	return 0;
 }
-
 
 
 int pw__hash(const char *password, struct mosquitto_pw *pw, bool new_password, int new_iterations)

@@ -325,8 +325,32 @@ listeners use the same authentication and access control.
 
 The `dynamic-security.json` file is where the plugin configuration will be
 stored. This file will be updated each time you make client/group/role changes,
-during normal operation the configuration stays in memory. To generate an
-initial file, use the `mosquitto_ctrl` utility.
+during normal operation the configuration stays in memory.
+
+### Generating the configuration file - 2.1 onwards
+
+To generate your initial configuration file there are two choices. In version
+2.0.x, you must use the `mosquitto_ctrl` utility as described below. From
+version 2.1 onwards, if the configuration file does not exist, the plugin will
+attempt to generate a default configuration file with some sensible defaults,
+including an admin client that can administer the plugin, a democlient client
+that has read/write access to the application topic hierarchy, and a few roles
+for different situations. Random passwords will be generated for the two
+clients and placed in a file with the same name and location as the
+configuration file, with `.pw` appended. For example
+`dynamic-security.json.pw`.
+
+The roles created are:
+
+* `client` - read/write access to the full application topic hierarchy '#'
+* `dynsec-admin` - grants access to administer clients/groups/roles
+* `sys-notify` - allow bridges to publish connection state messages
+* `sys-observe` - allow read only access to the $SYS/# topic hierarchy
+* `topic-observe` - allow read only access to the full application topic hierarchy '#'
+
+### Generating the configuration file - 2.0 onwards
+
+To generate an initial file using the `mosquitto_ctrl` utility:
 
 ```
 mosquitto_ctrl dynsec init path/to/dynamic-security.json admin-user
