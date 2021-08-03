@@ -234,6 +234,7 @@ void context__disconnect(struct mosquitto *context)
 	context__send_will(context);
 	net__socket_close(context);
 	if(context->session_expiry_interval == 0){
+		plugin_persist__handle_client_remove(context);
 		/* Client session is due to be expired now */
 #ifdef WITH_BRIDGE
 		if(context->bridge == NULL)

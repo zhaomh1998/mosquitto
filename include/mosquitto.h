@@ -185,6 +185,16 @@ struct mosquitto_message{
 struct mosquitto;
 typedef struct mqtt5__property mosquitto_property;
 
+struct mosquitto_message_v5{
+	void *payload;
+	char *topic;
+	mosquitto_property *properties;
+	uint32_t payloadlen;
+	uint8_t qos;
+	bool retain;
+	uint8_t padding[2];
+};
+
 /*
  * Topic: Threads
  *	libmosquitto provides thread safe operation, with the exception of

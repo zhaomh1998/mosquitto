@@ -93,7 +93,7 @@ static int subs__send(struct mosquitto__subleaf *leaf, const char *topic, uint8_
 		}else{
 			client_retain = false;
 		}
-		if(db__message_insert_outgoing(leaf->context, 0, mid, msg_qos, client_retain, stored, leaf->identifier, true) == 1){
+		if(db__message_insert_outgoing(leaf->context, 0, mid, msg_qos, client_retain, stored, leaf->identifier, true, true) == 1){
 			return 1;
 		}
 	}else{
@@ -661,7 +661,7 @@ int sub__messages_queue(const char *source_id, const char *topic, uint8_t qos, i
 	}
 
 	if(retain){
-		rc2 = retain__store(topic, *stored, split_topics);
+		rc2 = retain__store(topic, *stored, split_topics, true);
 		if(rc2) rc = rc2;
 	}
 

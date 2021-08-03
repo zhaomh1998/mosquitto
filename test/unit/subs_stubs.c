@@ -146,11 +146,12 @@ int retain__queue(struct mosquitto *context, const char *sub, uint8_t sub_qos, u
 	return MOSQ_ERR_SUCCESS;
 }
 
-int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics)
+int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics, bool persist)
 {
 	UNUSED(topic);
 	UNUSED(stored);
 	UNUSED(split_topics);
+	UNUSED(persist);
 
 	return MOSQ_ERR_SUCCESS;
 }
@@ -187,4 +188,41 @@ int util__random_bytes(void *bytes, int count)
 	UNUSED(count);
 
 	return MOSQ_ERR_SUCCESS;
+}
+
+void plugin_persist__handle_client_msg_add(struct mosquitto *context, const struct mosquitto_client_msg *cmsg)
+{
+	UNUSED(context);
+	UNUSED(cmsg);
+}
+void plugin_persist__handle_client_msg_remove(struct mosquitto *context, const struct mosquitto_client_msg *cmsg)
+{
+	UNUSED(context);
+	UNUSED(cmsg);
+}
+void plugin_persist__handle_client_msg_update(struct mosquitto *context, const struct mosquitto_client_msg *cmsg)
+{
+	UNUSED(context);
+	UNUSED(cmsg);
+}
+void plugin_persist__handle_client_msg_clear(struct mosquitto *context, uint8_t direction)
+{
+	UNUSED(context);
+	UNUSED(direction);
+}
+void plugin_persist__handle_msg_add(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_msg_remove(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_retain_add(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_retain_remove(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
 }

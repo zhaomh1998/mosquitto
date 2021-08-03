@@ -94,7 +94,7 @@ int handle__pubrec(struct mosquitto *mosq)
 	log__printf(NULL, MOSQ_LOG_DEBUG, "Received PUBREC from %s (Mid: %d)", SAFE_PRINT(mosq->id), mid);
 
 	if(reason_code < 0x80){
-		rc = db__message_update_outgoing(mosq, mid, mosq_ms_wait_for_pubcomp, 2);
+		rc = db__message_update_outgoing(mosq, mid, mosq_ms_wait_for_pubcomp, 2, true);
 	}else{
 		return db__message_delete_outgoing(mosq, mid, mosq_ms_wait_for_pubrec, 2);
 	}

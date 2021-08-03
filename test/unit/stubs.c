@@ -13,6 +13,10 @@ struct mosquitto_db{
 
 };
 
+struct mosquitto_msg_store{
+
+};
+
 int log__printf(struct mosquitto *mosq, unsigned int priority, const char *fmt, ...)
 {
 	UNUSED(mosq);
@@ -89,4 +93,14 @@ ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 	UNUSED(buf);
 	UNUSED(count);
 	return 1;
+}
+
+void plugin_persist__handle_retain_add(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+
+void plugin_persist__handle_retain_remove(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
 }

@@ -78,6 +78,8 @@ int session_expiry__add(struct mosquitto *context)
 
 	DL_INSERT_INORDER(expiry_list, item, session_expiry__cmp);
 
+	plugin_persist__handle_client_update(context);
+
 	return MOSQ_ERR_SUCCESS;
 }
 
@@ -146,6 +148,7 @@ void session_expiry__check(void)
 			context->will_delay_interval = 0;
 			will_delay__remove(context);
 			context__send_will(context);
+			plugin_persist__handle_client_remove(context);
 			context__add_to_disused(context);
 		}else{
 			timeout = (item->context->session_expiry_time - db.now_real_s + 1) * 1000;

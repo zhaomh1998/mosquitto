@@ -71,8 +71,54 @@ int retain__init(void)
 	return MOSQ_ERR_SUCCESS;
 }
 
+int mosquitto_persist_retain_add(struct mosquitto_evt_persist_retain *msg)
+{
+	struct mosquitto_msg_store *stored;
+	int rc = MOSQ_ERR_UNKNOWN;
+	char **split_topics = NULL;
+	char *local_topic = NULL;
 
-int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics)
+	if(msg == NULL || msg->topic == NULL) return MOSQ_ERR_INVAL;
+
+	HASH_FIND(hh, db.msg_store, &msg->store_id, sizeof(msg->store_id), stored);
+	if(stored){
+		if(sub__topic_tokenise(msg->topic, &local_topic, &split_topics, NULL)) return MOSQ_ERR_NOMEM;
+
+		rc = retain__store(msg->topic, stored, split_topics, false);
+		mosquitto__free(split_topics);
+		mosquitto__free(local_topic);
+	}
+
+	return rc;
+}
+
+
+
+int mosquitto_persist_retain_remove(const char *topic)
+{
+	struct mosquitto_msg_store stored;
+	int rc = MOSQ_ERR_UNKNOWN;
+	char **split_topics = NULL;
+	char *local_topic = NULL;
+
+	if(topic == NULL) return MOSQ_ERR_INVAL;
+
+	memset(&stored, 0, sizeof(stored));
+	stored.ref_count = 10; /* Ensure this isn't freed */
+
+	if(sub__topic_tokenise(topic, &local_topic, &split_topics, NULL)) return MOSQ_ERR_NOMEM;
+
+	/* With stored->payloadlen == 0, this means the message will be removed */
+	rc = retain__store(topic, &stored, split_topics, false);
+	mosquitto__free(split_topics);
+	mosquitto__free(local_topic);
+
+	return rc;
+}
+
+
+
+int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics, bool persist)
 {
 	struct mosquitto__retainhier *retainhier;
 	struct mosquitto__retainhier *branch;
@@ -111,19 +157,29 @@ int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **
 #endif
 
 	if(retainhier->retained){
+		if(persist){
+			plugin_persist__handle_retain_remove(retainhier->retained);
+		}
 		db__msg_store_ref_dec(&retainhier->retained);
 #ifdef WITH_SYS_TREE
 		db.retained_count--;
 #endif
+		if(stored->payloadlen == 0){
+			retainhier->retained = NULL;
+		}
 	}
 	if(stored->payloadlen){
 		retainhier->retained = stored;
 		db__msg_store_ref_inc(retainhier->retained);
+		if(retainhier->retained->topic[0] != '$'){
+			if(persist){
+				plugin_persist__handle_msg_add(retainhier->retained);
+				plugin_persist__handle_retain_add(retainhier->retained);
+			}
+		}
 #ifdef WITH_SYS_TREE
 		db.retained_count++;
 #endif
-	}else{
-		retainhier->retained = NULL;
 	}
 
 	return MOSQ_ERR_SUCCESS;
@@ -138,6 +194,7 @@ static int retain__process(struct mosquitto__retainhier *branch, struct mosquitt
 	struct mosquitto_msg_store *retained;
 
 	if(branch->retained->message_expiry_time > 0 && db.now_real_s >= branch->retained->message_expiry_time){
+		plugin_persist__handle_retain_remove(branch->retained);
 		db__msg_store_ref_dec(&branch->retained);
 		branch->retained = NULL;
 #ifdef WITH_SYS_TREE
@@ -188,7 +245,7 @@ static int retain__process(struct mosquitto__retainhier *branch, struct mosquitt
 	}else{
 		mid = 0;
 	}
-	return db__message_insert_outgoing(context, 0, mid, qos, true, retained, subscription_identifier, false);
+	return db__message_insert_outgoing(context, 0, mid, qos, true, retained, subscription_identifier, false, true);
 }
 
 

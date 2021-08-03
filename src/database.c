@@ -275,13 +275,15 @@ void db__msg_store_free(struct mosquitto_msg_store *store)
 	mosquitto__free(store);
 }
 
-void db__msg_store_remove(struct mosquitto_msg_store *store)
+void db__msg_store_remove(struct mosquitto_msg_store *store, bool notify)
 {
 	if(store == NULL) return;
 	HASH_DELETE(hh, db.msg_store, store);
 	db.msg_store_count--;
 	db.msg_store_bytes -= store->payloadlen;
-
+	if(db.shutdown == false || notify == false){
+		plugin_persist__handle_msg_remove(store);
+	}
 	db__msg_store_free(store);
 }
 
@@ -291,7 +293,7 @@ void db__msg_store_clean(void)
 	struct mosquitto_msg_store *store, *store_tmp;
 
 	HASH_ITER(hh, db.msg_store, store, store_tmp){
-		db__msg_store_remove(store);
+		db__msg_store_remove(store, false);
 	}
 }
 
@@ -304,7 +306,7 @@ void db__msg_store_ref_dec(struct mosquitto_msg_store **store)
 {
 	(*store)->ref_count--;
 	if((*store)->ref_count == 0){
-		db__msg_store_remove(*store);
+		db__msg_store_remove(*store, true);
 		*store = NULL;
 	}
 }
@@ -316,17 +318,19 @@ void db__msg_store_compact(void)
 
 	HASH_ITER(hh, db.msg_store, store, store_tmp){
 		if(store->ref_count < 1){
-			db__msg_store_remove(store);
+			db__msg_store_remove(store, true);
 		}
 	}
 }
 
 
-static void db__message_remove(struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *item)
+static void db__message_remove(struct mosquitto *context, struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *item)
 {
-	if(!msg_data || !item){
+	if(!context || !msg_data || !item){
 		return;
 	}
+
+	plugin_persist__handle_client_msg_remove(context, item);
 
 	DL_DELETE(msg_data->inflight, item);
 	if(item->store){
@@ -372,7 +376,7 @@ int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 				return MOSQ_ERR_PROTOCOL;
 			}
 			msg_index--;
-			db__message_remove(&context->msgs_out, tail);
+			db__message_remove(context, &context->msgs_out, tail);
 			break;
 		}
 	}
@@ -394,6 +398,7 @@ int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 				tail->state = mosq_ms_publish_qos2;
 				break;
 		}
+		plugin_persist__handle_client_msg_update(context, tail);
 		db__message_dequeue_first(context, &context->msgs_out);
 	}
 #ifdef WITH_PERSISTENCE
@@ -405,7 +410,7 @@ int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 
 
 /* Only for QoS 2 messages */
-int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *stored)
+int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *stored, bool persist)
 {
 	struct mosquitto_client_msg *msg;
 	struct mosquitto_msg_data *msg_data;
@@ -476,13 +481,18 @@ int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, str
 		db__msg_add_to_inflight_stats(msg_data, msg);
 	}
 
+	if(persist){
+		plugin_persist__handle_msg_add(msg->store);
+		plugin_persist__handle_client_msg_add(context, msg);
+	}
+
 	if(msg->store->qos > 0){
 		util__decrement_receive_quota(context);
 	}
 	return rc;
 }
 
-int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update)
+int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update, bool persist)
 {
 	struct mosquitto_client_msg *msg;
 	struct mosquitto_msg_data *msg_data;
@@ -613,6 +623,11 @@ int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uin
 		db__msg_add_to_inflight_stats(msg_data, msg);
 	}
 
+	if(persist){
+		plugin_persist__handle_msg_add(msg->store);
+		plugin_persist__handle_client_msg_add(context, msg);
+	}
+
 	if(db.config->allow_duplicate_messages == false && retain == false){
 		/* Record which client ids this message has been sent to so we can avoid duplicates.
 		 * Outgoing messages only.
@@ -656,7 +671,7 @@ int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uin
 	return rc;
 }
 
-int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state state, int qos)
+int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state state, int qos, bool persist)
 {
 	struct mosquitto_client_msg *tail;
 
@@ -666,6 +681,9 @@ int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 				return MOSQ_ERR_PROTOCOL;
 			}
 			tail->state = state;
+			if(persist){
+				plugin_persist__handle_client_msg_update(context, tail);
+			}
 			return MOSQ_ERR_SUCCESS;
 		}
 	}
@@ -933,6 +951,7 @@ static int db__message_reconnect_reset_outgoing(struct mosquitto *context)
 				}
 				break;
 		}
+		plugin_persist__handle_client_msg_update(context, msg);
 	}
 	/* Messages received when the client was disconnected are put
 	 * in the mosq_ms_queued state. If we don't change them to the
@@ -955,6 +974,7 @@ static int db__message_reconnect_reset_outgoing(struct mosquitto *context)
 					break;
 			}
 			db__message_dequeue_first(context, &context->msgs_out);
+			plugin_persist__handle_client_msg_update(context, msg);
 		}
 	}
 
@@ -986,7 +1006,7 @@ static int db__message_reconnect_reset_incoming(struct mosquitto *context)
 		if(msg->qos != 2){
 			/* Anything <QoS 2 can be completely retried by the client at
 			 * no harm. */
-			db__message_remove(&context->msgs_in, msg);
+			db__message_remove(context, &context->msgs_in, msg);
 		}else{
 			/* Message state can be preserved here because it should match
 			 * whatever the client has got. */
@@ -1014,6 +1034,7 @@ static int db__message_reconnect_reset_incoming(struct mosquitto *context)
 					break;
 			}
 			db__message_dequeue_first(context, &context->msgs_in);
+			plugin_persist__handle_client_msg_update(context, msg);
 		}
 	}
 
@@ -1042,7 +1063,7 @@ int db__message_remove_incoming(struct mosquitto* context, uint16_t mid)
 			if(tail->store->qos != 2){
 				return MOSQ_ERR_PROTOCOL;
 			}
-			db__message_remove(&context->msgs_in, tail);
+			db__message_remove(context, &context->msgs_in, tail);
 			return MOSQ_ERR_SUCCESS;
 		}
 	}
@@ -1078,12 +1099,12 @@ int db__message_release_incoming(struct mosquitto *context, uint16_t mid)
 			 * keep resending it. That means we don't send it to other
 			 * clients. */
 			if(topic == NULL){
-				db__message_remove(&context->msgs_in, tail);
+				db__message_remove(context, &context->msgs_in, tail);
 				deleted = true;
 			}else{
 				rc = sub__messages_queue(source_id, topic, 2, retain, &tail->store);
 				if(rc == MOSQ_ERR_SUCCESS || rc == MOSQ_ERR_NO_SUBSCRIBERS){
-					db__message_remove(&context->msgs_in, tail);
+					db__message_remove(context, &context->msgs_in, tail);
 					deleted = true;
 				}else{
 					return 1;
@@ -1103,6 +1124,7 @@ int db__message_release_incoming(struct mosquitto *context, uint16_t mid)
 			send__pubrec(context, tail->mid, 0, NULL);
 			tail->state = mosq_ms_wait_for_pubrel;
 			db__message_dequeue_first(context, &context->msgs_in);
+			plugin_persist__handle_client_msg_update(context, tail);
 		}
 	}
 	if(deleted){
@@ -1133,7 +1155,7 @@ static int db__message_write_inflight_out_single(struct mosquitto *context, stru
 			if(msg->direction == mosq_md_out && msg->qos > 0){
 				util__increment_send_quota(context);
 			}
-			db__message_remove(&context->msgs_out, msg);
+			db__message_remove(context, &context->msgs_out, msg);
 			return MOSQ_ERR_SUCCESS;
 		}else{
 			expiry_interval = (uint32_t)(msg->store->message_expiry_time - db.now_real_s);
@@ -1153,7 +1175,7 @@ static int db__message_write_inflight_out_single(struct mosquitto *context, stru
 		case mosq_ms_publish_qos0:
 			rc = send__publish(context, mid, topic, payloadlen, payload, qos, retain, retries, subscription_id, store_props, expiry_interval);
 			if(rc == MOSQ_ERR_SUCCESS || rc == MOSQ_ERR_OVERSIZE_PACKET){
-				db__message_remove(&context->msgs_out, msg);
+				db__message_remove(context, &context->msgs_out, msg);
 			}else{
 				return rc;
 			}
@@ -1165,7 +1187,7 @@ static int db__message_write_inflight_out_single(struct mosquitto *context, stru
 				msg->dup = 1; /* Any retry attempts are a duplicate. */
 				msg->state = mosq_ms_wait_for_puback;
 			}else if(rc == MOSQ_ERR_OVERSIZE_PACKET){
-				db__message_remove(&context->msgs_out, msg);
+				db__message_remove(context, &context->msgs_out, msg);
 			}else{
 				return rc;
 			}
@@ -1177,7 +1199,7 @@ static int db__message_write_inflight_out_single(struct mosquitto *context, stru
 				msg->dup = 1; /* Any retry attempts are a duplicate. */
 				msg->state = mosq_ms_wait_for_pubrec;
 			}else if(rc == MOSQ_ERR_OVERSIZE_PACKET){
-				db__message_remove(&context->msgs_out, msg);
+				db__message_remove(context, &context->msgs_out, msg);
 			}else{
 				return rc;
 			}
@@ -1288,7 +1310,9 @@ int db__message_write_queued_in(struct mosquitto *context)
 			rc = send__pubrec(context, tail->mid, 0, NULL);
 			if(!rc){
 				tail->state = mosq_ms_wait_for_pubrel;
+				plugin_persist__handle_client_msg_update(context, tail);
 			}else{
+				plugin_persist__handle_client_msg_update(context, tail);
 				return rc;
 			}
 		}
@@ -1322,6 +1346,7 @@ int db__message_write_queued_out(struct mosquitto *context)
 				break;
 		}
 		db__message_dequeue_first(context, &context->msgs_out);
+		plugin_persist__handle_client_msg_update(context, tail);
 	}
 	return MOSQ_ERR_SUCCESS;
 }

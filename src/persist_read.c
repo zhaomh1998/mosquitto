@@ -306,6 +306,7 @@ static int persist__msg_store_chunk_restore(FILE *db_fptr, uint32_t length)
 	stored->retain = chunk.F.retain;
 	stored->properties = chunk.properties;
 	stored->payload = chunk.payload;
+	stored->source_listener = chunk.source.listener;
 
 	rc = db__message_store(&chunk.source, stored, message_expiry_interval,
 			chunk.F.store_id, mosq_mo_client);
@@ -345,7 +346,7 @@ static int persist__retain_chunk_restore(FILE *db_fptr)
 	HASH_FIND(hh, db.msg_store, &chunk.F.store_id, sizeof(chunk.F.store_id), msg);
 	if(msg){
 		if(sub__topic_tokenise(msg->topic, &local_topic, &split_topics, NULL)) return 1;
-		retain__store(msg->topic, msg, split_topics);
+		retain__store(msg->topic, msg, split_topics, true);
 		mosquitto__free(local_topic);
 		mosquitto__free(split_topics);
 	}else{

@@ -54,6 +54,7 @@ int will_delay__add(struct mosquitto *context)
 	DL_INSERT_INORDER(delay_list, item, will_delay__cmp);
 
 	loop__update_next_event(item->context->will_delay_interval*1000);
+	plugin_persist__handle_client_update(context);
 
 	return MOSQ_ERR_SUCCESS;
 }

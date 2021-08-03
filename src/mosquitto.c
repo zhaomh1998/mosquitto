@@ -305,6 +305,9 @@ int main(int argc, char *argv[])
 	rc = mosquitto_security_init(false);
 	if(rc) return rc;
 
+	plugin_persist__handle_restore();
+	db__msg_store_compact();
+
 	/* After loading persisted clients and ACLs, try to associate them,
 	 * so persisted subscriptions can start storing messages */
 	HASH_ITER(hh_id, db.contexts_by_id, ctxt, ctxt_tmp){
@@ -343,6 +346,7 @@ int main(int argc, char *argv[])
 
 	g_run = 1;
 	rc = mosquitto_main_loop(g_listensock, g_listensock_count);
+	db.shutdown = true;
 
 	log__printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s terminating", VERSION);
 

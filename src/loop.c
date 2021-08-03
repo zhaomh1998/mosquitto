@@ -65,7 +65,7 @@ void lws__sul_callback(struct lws_sorted_usec_list *l)
 static struct lws_sorted_usec_list sul;
 #endif
 
-static int single_publish(struct mosquitto *context, struct mosquitto_message_v5 *msg, uint32_t message_expiry)
+static int single_publish(struct mosquitto *context, struct mosquitto__message_v5 *msg, uint32_t message_expiry)
 {
 	struct mosquitto_msg_store *stored;
 	uint16_t mid;
@@ -98,7 +98,7 @@ static int single_publish(struct mosquitto *context, struct mosquitto_message_v5
 	}else{
 		mid = 0;
 	}
-	return db__message_insert_outgoing(context, 0, mid, (uint8_t)msg->qos, 0, stored, 0, true);
+	return db__message_insert_outgoing(context, 0, mid, (uint8_t)msg->qos, 0, stored, 0, true, true);
 }
 
 
@@ -130,7 +130,7 @@ static void read_message_expiry_interval(mosquitto_property **proplist, uint32_t
 
 static void queue_plugin_msgs(void)
 {
-	struct mosquitto_message_v5 *msg, *tmp;
+	struct mosquitto__message_v5 *msg, *tmp;
 	struct mosquitto *context;
 	uint32_t message_expiry;
 

@@ -105,11 +105,12 @@ ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 	return 0;
 }
 
-int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics)
+int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics, bool persist)
 {
 	UNUSED(topic);
 	UNUSED(stored);
 	UNUSED(split_topics);
+	UNUSED(persist);
 	return 0;
 }
 

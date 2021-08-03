@@ -170,3 +170,39 @@ void context__add_to_by_id(struct mosquitto *context)
 		HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, context->id, strlen(context->id), context);
 	}
 }
+void plugin_persist__handle_client_msg_add(struct mosquitto *context, const struct mosquitto_client_msg *cmsg)
+{
+	UNUSED(context);
+	UNUSED(cmsg);
+}
+void plugin_persist__handle_client_msg_remove(struct mosquitto *context, const struct mosquitto_client_msg *cmsg)
+{
+	UNUSED(context);
+	UNUSED(cmsg);
+}
+void plugin_persist__handle_client_msg_update(struct mosquitto *context, const struct mosquitto_client_msg *cmsg)
+{
+	UNUSED(context);
+	UNUSED(cmsg);
+}
+void plugin_persist__handle_client_msg_clear(struct mosquitto *context, uint8_t direction)
+{
+	UNUSED(context);
+	UNUSED(direction);
+}
+void plugin_persist__handle_msg_add(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_msg_remove(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_retain_add(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_retain_remove(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}

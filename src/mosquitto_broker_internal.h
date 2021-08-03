@@ -164,6 +164,20 @@ struct plugin__callbacks{
 	struct mosquitto__callback *message;
 	struct mosquitto__callback *psk_key;
 	struct mosquitto__callback *reload;
+	struct mosquitto__callback *persist_restore;
+	struct mosquitto__callback *persist_client_add;
+	struct mosquitto__callback *persist_client_remove;
+	struct mosquitto__callback *persist_client_update;
+	struct mosquitto__callback *persist_subscription_add;
+	struct mosquitto__callback *persist_subscription_remove;
+	struct mosquitto__callback *persist_client_msg_add;
+	struct mosquitto__callback *persist_client_msg_remove;
+	struct mosquitto__callback *persist_client_msg_update;
+	struct mosquitto__callback *persist_msg_add;
+	struct mosquitto__callback *persist_msg_remove;
+	struct mosquitto__callback *persist_msg_load;
+	struct mosquitto__callback *persist_retain_add;
+	struct mosquitto__callback *persist_retain_remove;
 };
 
 struct mosquitto__security_options {
@@ -404,6 +418,7 @@ struct mosquitto_msg_store{
 	uint16_t source_mid;
 	uint8_t qos;
 	bool retain;
+	bool stored;
 };
 
 struct mosquitto_client_msg{
@@ -450,8 +465,8 @@ struct mosquitto__acl_user{
 };
 
 
-struct mosquitto_message_v5{
-	struct mosquitto_message_v5 *next, *prev;
+struct mosquitto__message_v5{
+	struct mosquitto__message_v5 *next, *prev;
 	char *topic;
 	void *payload;
 	mosquitto_property *properties;
@@ -501,12 +516,13 @@ struct mosquitto_db{
 #ifdef WITH_KQUEUE
 	int kqueuefd;
 #endif
-	struct mosquitto_message_v5 *plugin_msgs;
+	struct mosquitto__message_v5 *plugin_msgs;
 #ifdef WITH_TLS
 	char *tls_keylog; /* This can't be in the config struct because it is used
 						 before the config is allocated. Config probably
 						 shouldn't be separately allocated. */
 #endif
+	bool shutdown;
 };
 
 enum mosquitto__bridge_direction{
@@ -702,18 +718,18 @@ int persist__restore(void);
 /* Return the number of in-flight messages in count. */
 int db__message_count(int *count);
 int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state expect_state, int qos);
-int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update);
-int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *stored);
+int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update, bool persist);
+int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *stored, bool persist);
 int db__message_remove_incoming(struct mosquitto* context, uint16_t mid);
 int db__message_release_incoming(struct mosquitto *context, uint16_t mid);
-int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state state, int qos);
+int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state state, int qos, bool persist);
 void db__message_dequeue_first(struct mosquitto *context, struct mosquitto_msg_data *msg_data);
 int db__messages_delete(struct mosquitto *context, bool force_free);
 int db__messages_easy_queue(struct mosquitto *context, const char *topic, uint8_t qos, uint32_t payloadlen, const void *payload, int retain, uint32_t message_expiry_interval, mosquitto_property **properties);
 int db__message_store(const struct mosquitto *source, struct mosquitto_msg_store *stored, uint32_t message_expiry_interval, dbid_t store_id, enum mosquitto_msg_origin origin);
 int db__message_store_find(struct mosquitto *context, uint16_t mid, struct mosquitto_msg_store **stored);
 void db__msg_store_add(struct mosquitto_msg_store *store);
-void db__msg_store_remove(struct mosquitto_msg_store *store);
+void db__msg_store_remove(struct mosquitto_msg_store *store, bool notify);
 void db__msg_store_ref_inc(struct mosquitto_msg_store *store);
 void db__msg_store_ref_dec(struct mosquitto_msg_store **store);
 void db__msg_store_clean(void);
@@ -840,6 +856,19 @@ int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store
 void LIB_ERROR(void);
 void plugin__handle_tick(void);
 int plugin__callback_unregister_all(mosquitto_plugin_id_t *identifier);
+void plugin_persist__handle_restore(void);
+void plugin_persist__handle_client_add(struct mosquitto *context);
+void plugin_persist__handle_client_remove(struct mosquitto *context);
+void plugin_persist__handle_client_update(struct mosquitto *context);
+void plugin_persist__handle_subscription_add(struct mosquitto *context, const char *sub, uint8_t subscription_options, uint32_t subscription_identifier);
+void plugin_persist__handle_subscription_remove(struct mosquitto *context, const char *sub);
+void plugin_persist__handle_client_msg_add(struct mosquitto *context, const struct mosquitto_client_msg *cmsg);
+void plugin_persist__handle_client_msg_remove(struct mosquitto *context, const struct mosquitto_client_msg *cmsg);
+void plugin_persist__handle_client_msg_update(struct mosquitto *context, const struct mosquitto_client_msg *cmsg);
+void plugin_persist__handle_msg_add(struct mosquitto_msg_store *msg);
+void plugin_persist__handle_msg_remove(struct mosquitto_msg_store *msg);
+void plugin_persist__handle_retain_add(struct mosquitto_msg_store *msg);
+void plugin_persist__handle_retain_remove(struct mosquitto_msg_store *msg);
 
 /* ============================================================
  * Property related functions
@@ -864,7 +893,7 @@ int property__process_disconnect(struct mosquitto *context, mosquitto_property *
 int retain__init(void);
 void retain__clean(struct mosquitto__retainhier **retainhier);
 int retain__queue(struct mosquitto *context, const char *sub, uint8_t sub_qos, uint32_t subscription_identifier);
-int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics);
+int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics, bool persist);
 
 /* ============================================================
  * Security related functions

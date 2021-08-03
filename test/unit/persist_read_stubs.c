@@ -165,16 +165,17 @@ int sub__add(struct mosquitto *context, const char *sub, uint8_t qos, uint32_t i
 	return MOSQ_ERR_SUCCESS;
 }
 
-int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *msg)
+int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *msg, bool persist)
 {
 	UNUSED(context);
 	UNUSED(cmsg_id);
 	UNUSED(msg);
+	UNUSED(persist);
 
 	return MOSQ_ERR_SUCCESS;
 }
 
-int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update)
+int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update, bool persist)
 {
 	UNUSED(context);
 	UNUSED(cmsg_id);
@@ -184,6 +185,7 @@ int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uin
 	UNUSED(stored);
 	UNUSED(subscription_identifier);
 	UNUSED(update);
+	UNUSED(persist);
 
 	return MOSQ_ERR_SUCCESS;
 }
@@ -223,4 +225,17 @@ void context__add_to_by_id(struct mosquitto *context)
 		context->in_by_id = true;
 		HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, context->id, strlen(context->id), context);
 	}
+}
+
+void plugin_persist__handle_retain_add(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_retain_remove(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
+}
+void plugin_persist__handle_msg_add(struct mosquitto_msg_store *msg)
+{
+	UNUSED(msg);
 }

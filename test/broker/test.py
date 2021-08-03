@@ -211,6 +211,12 @@ tests = [
     (1, './14-dynsec-plugin-invalid.py'),
     (1, './14-dynsec-role.py'),
     (1, './14-dynsec-role-invalid.py'),
+
+    #(1, './15-persist-client-msg-in-v3-1-1.py'),
+    #(1, './15-persist-client-msg-out-v3-1-1.py'),
+    #(1, './15-persist-client-v3-1-1.py'),
+    #(1, './15-persist-retain-v3-1-1.py'),
+    #(1, './15-persist-subscription-v3-1-1.py'),
     ]
 
 ptest.run_tests(tests)

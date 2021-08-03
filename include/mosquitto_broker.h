@@ -39,6 +39,8 @@ extern "C" {
 #include <stdint.h>
 #include <time.h>
 
+#include <mosquitto.h>
+
 struct mosquitto;
 typedef struct mqtt5__property mosquitto_property;
 
@@ -46,6 +48,11 @@ enum mosquitto_protocol {
 	mp_mqtt,
 	mp_mqttsn,
 	mp_websockets
+};
+
+enum mosquitto_broker_msg_direction {
+	mosq_bmd_in = 0,
+	mosq_bmd_out = 1
 };
 
 /* =========================================================================
@@ -67,6 +74,22 @@ enum mosquitto_plugin_event {
 	MOSQ_EVT_TICK = 9,
 	MOSQ_EVT_DISCONNECT = 10,
 	MOSQ_EVT_CONNECT = 11,
+	MOSQ_EVT_PERSIST_RESTORE = 12,
+	MOSQ_EVT_PERSIST_CONFIG_ADD = 13,
+	MOSQ_EVT_PERSIST_MSG_ADD = 14,
+	MOSQ_EVT_PERSIST_MSG_REMOVE = 15,
+	MOSQ_EVT_PERSIST_MSG_LOAD = 16,
+	MOSQ_EVT_PERSIST_RETAIN_ADD = 17,
+	MOSQ_EVT_PERSIST_RETAIN_REMOVE = 18,
+	MOSQ_EVT_PERSIST_CLIENT_ADD = 19,
+	MOSQ_EVT_PERSIST_CLIENT_REMOVE = 20,
+	MOSQ_EVT_PERSIST_CLIENT_UPDATE = 21,
+	MOSQ_EVT_PERSIST_SUBSCRIPTION_ADD = 22,
+	MOSQ_EVT_PERSIST_SUBSCRIPTION_REMOVE = 23,
+	MOSQ_EVT_PERSIST_CLIENT_MSG_ADD = 24,
+	MOSQ_EVT_PERSIST_CLIENT_MSG_REMOVE = 25,
+	MOSQ_EVT_PERSIST_CLIENT_MSG_UPDATE = 26,
+	MOSQ_EVT_PERSIST_CLIENT_MSG_LOAD = 27,
 };
 
 /* Data for the MOSQ_EVT_RELOAD event */
@@ -177,6 +200,95 @@ struct mosquitto_evt_disconnect {
 	struct mosquitto *client;
 	int reason;
 	void *future2[4];
+};
+
+/* Data for the MOSQ_EVT_PERSIST_RESTORE event */
+/* NOTE: The persistence interface is currently marked as unstable, which means
+ * it may change in a future minor release. */
+struct mosquitto_evt_persist_restore {
+	void *future[8];
+};
+
+/* Data for the MOSQ_EVT_PERSIST_CLIENT_ADD/_REMOVE/_UPDATE event */
+/* NOTE: The persistence interface is currently marked as unstable, which means
+ * it may change in a future minor release. */
+struct mosquitto_evt_persist_client {
+	const char *client_id;
+	const char *username;
+	const struct mosquitto_message_v5 *will;
+	time_t will_delay_time; /* update */
+	time_t session_expiry_time; /* update */
+	uint32_t will_delay_interval;
+	uint32_t session_expiry_interval;
+	uint32_t max_packet_size;
+	uint16_t listener_port;
+	uint8_t max_qos;
+	bool retain_available;
+	uint8_t padding[6];
+	void *future[8];
+};
+
+
+/* Data for the MOSQ_EVT_PERSIST_SUBSCRIPTION_ADD/_REMOVE event */
+/* NOTE: The persistence interface is currently marked as unstable, which means
+ * it may change in a future minor release. */
+struct mosquitto_evt_persist_subscription {
+	const char *client_id;
+	const char *topic;
+	uint32_t subscription_identifier;
+	uint8_t subscription_options;
+	uint8_t padding[3];
+	void *future[8];
+};
+
+
+/* Data for the MOSQ_EVT_PERSIST_CLIENT_MSG_ADD/_REMOVE/_UPDATE event */
+/* NOTE: The persistence interface is currently marked as unstable, which means
+ * it may change in a future minor release. */
+struct mosquitto_evt_persist_client_msg {
+	const char *client_id;
+	uint64_t cmsg_id;
+	uint64_t store_id;
+	uint32_t subscription_identifier;
+	uint16_t mid;
+	uint8_t qos;
+	bool retain;
+	bool dup; /* add, update */
+	uint8_t direction;
+	uint8_t state; /* add, update */
+	uint8_t padding[5];
+	void *future[8];
+};
+
+
+/* Data for the MOSQ_EVT_PERSIST_MSG_ADD/_REMOVE/_LOAD event */
+/* NOTE: The persistence interface is currently marked as unstable, which means
+ * it may change in a future minor release. */
+struct mosquitto_evt_persist_msg {
+	uint64_t store_id;
+	int64_t expiry_time;
+	const char *topic;
+	const void *payload;
+	const char *source_id;
+	const char *source_username;
+	const mosquitto_property *properties;
+	uint32_t payloadlen;
+	uint16_t source_mid;
+	uint16_t source_port;
+	uint8_t qos;
+	bool retain;
+	uint8_t padding[6];
+	void *future[8];
+};
+
+
+/* Data for the MOSQ_EVT_PERSIST_RETAIN/_REMOVE event */
+/* NOTE: The persistence interface is currently marked as unstable, which means
+ * it may change in a future minor release. */
+struct mosquitto_evt_persist_retain {
+	const char *topic;
+	uint64_t store_id;
+	void *future[8];
 };
 
 
@@ -647,6 +759,21 @@ mosq_EXPORT void mosquitto_complete_basic_auth(const char* client_id, int result
  *  MOSQ_ERR_INVAL - the value was > 1023.
  */
 mosq_EXPORT int mosquitto_broker_node_id_set(uint16_t id);
+
+/* NOTE: The persistence interface is currently marked as unstable, which means
+ * it may change in a future minor release. */
+int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *client);
+int mosquitto_persist_client_update(const struct mosquitto_evt_persist_client *client);
+int mosquitto_persist_client_remove(const char *client_id);
+int mosquitto_persist_client_msg_add(const struct mosquitto_evt_persist_client_msg *client_msg);
+int mosquitto_persist_client_msg_remove(const struct mosquitto_evt_persist_client_msg *client_msg);
+int mosquitto_persist_client_msg_update(const struct mosquitto_evt_persist_client_msg *client_msg);
+int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg);
+int mosquitto_persist_msg_remove(uint64_t store_id);
+int mosquitto_subscription_add(const char *client_id, const char *topic, uint8_t subscription_options, uint32_t subscription_identifier);
+int mosquitto_subscription_remove(const char *client_id, const char *topic);
+int mosquitto_persist_retain_add(struct mosquitto_evt_persist_retain *retain);
+int mosquitto_persist_retain_remove(const char *topic);
 
 #ifdef __cplusplus
 }

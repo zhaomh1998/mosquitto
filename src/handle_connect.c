@@ -185,6 +185,8 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 
 		if(context->clean_start == true){
 			sub__clean_session(found_context);
+			found_context->session_expiry_interval = 0;
+			plugin_persist__handle_client_remove(found_context);
 		}
 		if((found_context->protocol == mosq_p_mqtt5 && found_context->session_expiry_interval == 0)
 				|| (found_context->protocol != mosq_p_mqtt5 && found_context->clean_start == true)
@@ -335,6 +337,10 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 
 	if(rc == MOSQ_ERR_SUCCESS){
 		plugin__handle_connect(context);
+
+		if(context->session_expiry_interval != 0){
+			plugin_persist__handle_client_add(context);
+		}
 	}
 	return rc;
 error:

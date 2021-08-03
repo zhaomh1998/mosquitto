@@ -250,3 +250,10 @@ ifeq ($(WITH_CJSON),yes)
 	./14-dynsec-role-invalid.py
 endif
 endif
+
+15 :
+	./15-persist-client-v3-1-1.py
+	./15-persist-subscription-v3-1-1.py
+	./15-persist-retain-v3-1-1.py
+	./15-persist-client-msg-in-v3-1-1.py
+	./15-persist-client-msg-out-v3-1-1.py
