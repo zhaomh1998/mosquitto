@@ -405,7 +405,79 @@ int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 	return db__message_write_inflight_out_latest(context);
 }
 
-int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_direction dir, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update)
+
+/* Only for QoS 2 messages */
+int db__message_insert_incoming(struct mosquitto *context, struct mosquitto_msg_store *stored)
+{
+	struct mosquitto_client_msg *msg;
+	struct mosquitto_msg_data *msg_data;
+	enum mosquitto_msg_state state = mosq_ms_invalid;
+	int rc = 0;
+
+	assert(stored);
+	if(!context) return MOSQ_ERR_INVAL;
+	if(!context->id) return MOSQ_ERR_SUCCESS; /* Protect against unlikely "client is disconnected but not entirely freed" scenario */
+
+	msg_data = &context->msgs_in;
+
+	if(db__ready_for_flight(context, mosq_md_in, stored->qos)){
+		state = mosq_ms_wait_for_pubrel;
+	}else if(stored->qos != 0 && db__ready_for_queue(context, stored->qos, msg_data)){
+		state = mosq_ms_queued;
+		rc = 2;
+	}else{
+		/* Dropping message due to full queue. */
+		if(context->is_dropping == false){
+			context->is_dropping = true;
+			log__printf(NULL, MOSQ_LOG_NOTICE,
+					"Outgoing messages are being dropped for client %s.",
+					context->id);
+		}
+		G_MSGS_DROPPED_INC();
+		return 2;
+	}
+
+	assert(state != mosq_ms_invalid);
+
+#ifdef WITH_PERSISTENCE
+	if(state == mosq_ms_queued){
+		db.persistence_changes++;
+	}
+#endif
+
+	msg = mosquitto__malloc(sizeof(struct mosquitto_client_msg));
+	if(!msg) return MOSQ_ERR_NOMEM;
+	msg->prev = NULL;
+	msg->next = NULL;
+	msg->store = stored;
+	db__msg_store_ref_inc(msg->store);
+	msg->mid = stored->source_mid;
+	msg->direction = mosq_md_in;
+	msg->state = state;
+	msg->dup = false;
+	if(stored->qos > context->max_qos){
+		msg->qos = context->max_qos;
+	}else{
+		msg->qos = stored->qos;
+	}
+	msg->retain = stored->retain;
+	msg->subscription_identifier = 0;
+
+	if(state == mosq_ms_queued){
+		DL_APPEND(msg_data->queued, msg);
+		db__msg_add_to_queued_stats(msg_data, msg);
+	}else{
+		DL_APPEND(msg_data->inflight, msg);
+		db__msg_add_to_inflight_stats(msg_data, msg);
+	}
+
+	if(msg->store->qos > 0){
+		util__decrement_receive_quota(context);
+	}
+	return rc;
+}
+
+int db__message_insert_outgoing(struct mosquitto *context, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update)
 {
 	struct mosquitto_client_msg *msg;
 	struct mosquitto_msg_data *msg_data;
@@ -418,11 +490,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	if(!context) return MOSQ_ERR_INVAL;
 	if(!context->id) return MOSQ_ERR_SUCCESS; /* Protect against unlikely "client is disconnected but not entirely freed" scenario */
 
-	if(dir == mosq_md_out){
-		msg_data = &context->msgs_out;
-	}else{
-		msg_data = &context->msgs_in;
-	}
+	msg_data = &context->msgs_out;
 
 	/* Check whether we've already sent this message to this client
 	 * for outgoing messages only.
@@ -433,7 +501,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	 */
 	if(context->protocol != mosq_p_mqtt5
 			&& db.config->allow_duplicate_messages == false
-			&& dir == mosq_md_out && retain == false && stored->dest_ids){
+			&& retain == false && stored->dest_ids){
 
 		for(i=0; i<stored->dest_id_count; i++){
 			if(stored->dest_ids[i] && !strcmp(stored->dest_ids[i], context->id)){
@@ -459,25 +527,17 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	}
 
 	if(net__is_connected(context)){
-		if(db__ready_for_flight(context, dir, qos)){
-			if(dir == mosq_md_out){
-				switch(qos){
-					case 0:
-						state = mosq_ms_publish_qos0;
-						break;
-					case 1:
-						state = mosq_ms_publish_qos1;
-						break;
-					case 2:
-						state = mosq_ms_publish_qos2;
-						break;
-				}
-			}else{
-				if(qos == 2){
-					state = mosq_ms_wait_for_pubrel;
-				}else{
-					return 1;
-				}
+		if(db__ready_for_flight(context, mosq_md_out, qos)){
+			switch(qos){
+				case 0:
+					state = mosq_ms_publish_qos0;
+					break;
+				case 1:
+					state = mosq_ms_publish_qos1;
+					break;
+				case 2:
+					state = mosq_ms_publish_qos2;
+					break;
 			}
 		}else if(qos != 0 && db__ready_for_queue(context, qos, msg_data)){
 			state = mosq_ms_queued;
@@ -522,7 +582,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	msg->store = stored;
 	db__msg_store_ref_inc(msg->store);
 	msg->mid = mid;
-	msg->direction = dir;
+	msg->direction = mosq_md_out;
 	msg->state = state;
 	msg->dup = false;
 	if(qos > context->max_qos){
@@ -541,7 +601,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 		db__msg_add_to_inflight_stats(msg_data, msg);
 	}
 
-	if(db.config->allow_duplicate_messages == false && dir == mosq_md_out && retain == false){
+	if(db.config->allow_duplicate_messages == false && retain == false){
 		/* Record which client ids this message has been sent to so we can avoid duplicates.
 		 * Outgoing messages only.
 		 * If retain==true then this is a stale retained message and so should be
@@ -570,13 +630,11 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	}
 #endif
 
-	if(dir == mosq_md_out && msg->qos > 0 && state != mosq_ms_queued){
+	if(msg->qos > 0 && state != mosq_ms_queued){
 		util__decrement_send_quota(context);
-	}else if(dir == mosq_md_in && msg->qos > 0){
-		util__decrement_receive_quota(context);
 	}
 
-	if(dir == mosq_md_out && update){
+	if(update){
 		rc = db__message_write_inflight_out_latest(context);
 		if(rc) return rc;
 		rc = db__message_write_queued_out(context);

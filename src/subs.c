@@ -93,7 +93,7 @@ static int subs__send(struct mosquitto__subleaf *leaf, const char *topic, uint8_
 		}else{
 			client_retain = false;
 		}
-		if(db__message_insert(leaf->context, mid, mosq_md_out, msg_qos, client_retain, stored, leaf->identifier, true) == 1){
+		if(db__message_insert_outgoing(leaf->context, mid, msg_qos, client_retain, stored, leaf->identifier, true) == 1){
 			return 1;
 		}
 	}else{
