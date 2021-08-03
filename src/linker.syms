@@ -1,4 +1,5 @@
 {
+	mosquitto_broker_node_id_set;
 	mosquitto_broker_publish;
 	mosquitto_broker_publish_copy;
 	mosquitto_callback_register;

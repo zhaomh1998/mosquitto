@@ -634,6 +634,8 @@ mosq_EXPORT int mosquitto_broker_publish_copy(
  */
 mosq_EXPORT void mosquitto_complete_basic_auth(const char* client_id, int result);
 
+int mosquitto_broker_node_id_set(uint16_t id);
+
 #ifdef __cplusplus
 }
 #endif

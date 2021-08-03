@@ -464,6 +464,7 @@ struct mosquitto_message_v5{
 
 struct mosquitto_db{
 	dbid_t last_db_id;
+	uint64_t node_id_shifted;
 	struct mosquitto__subhier *subs;
 	struct mosquitto__retainhier *retains;
 	struct mosquitto *contexts_by_id;
@@ -478,6 +479,7 @@ struct mosquitto_db{
 	struct mosquitto_msg_store *msg_store;
 	time_t now_s; /* Monotonic clock, where possible */
 	time_t now_real_s; /* Read clock, for measuring session/message expiry */
+	uint64_t node_id; /* for unique db ids */
 	int next_event_ms; /* for mux timeout */
 	int msg_store_count;
 	unsigned long msg_store_bytes;
@@ -727,6 +729,7 @@ int db__message_write_queued_out(struct mosquitto *context);
 int db__message_write_queued_in(struct mosquitto *context);
 void db__msg_add_to_inflight_stats(struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *msg);
 void db__msg_add_to_queued_stats(struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *msg);
+uint64_t db__new_msg_id(void);
 
 /* ============================================================
  * Subscription functions

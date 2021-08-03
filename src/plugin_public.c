@@ -409,3 +409,14 @@ void mosquitto_complete_basic_auth(const char *client_id, int result)
 		}
 	}
 }
+
+int mosquitto_broker_node_id_set(uint16_t id)
+{
+	if(id > 1023){
+		return MOSQ_ERR_INVAL;
+	}else{
+		db.node_id = id;
+		db.node_id_shifted = ((uint64_t)id) << 54;
+		return MOSQ_ERR_SUCCESS;
+	}
+}

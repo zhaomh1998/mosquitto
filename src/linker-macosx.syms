@@ -1,3 +1,4 @@
+_mosquitto_broker_node_id_set
 _mosquitto_broker_publish
 _mosquitto_broker_publish_copy
 _mosquitto_callback_register
