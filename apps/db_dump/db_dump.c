@@ -227,7 +227,6 @@ static int dump__msg_store_chunk_process(FILE *db_fptr, uint32_t length)
 {
 	struct P_msg_store chunk;
 	struct mosquitto_msg_store *stored = NULL;
-	struct mosquitto_msg_store_load *load;
 	int64_t message_expiry_interval64;
 	uint32_t message_expiry_interval;
 	int rc = 0;
@@ -247,17 +246,6 @@ static int dump__msg_store_chunk_process(FILE *db_fptr, uint32_t length)
 		return rc;
 	}
 
-	load = mosquitto__calloc(1, sizeof(struct mosquitto_msg_store_load));
-	if(!load){
-		fclose(db_fptr);
-		mosquitto__free(chunk.source.id);
-		mosquitto__free(chunk.source.username);
-		mosquitto__free(chunk.topic);
-		mosquitto__free(chunk.payload);
-		log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
-		return MOSQ_ERR_NOMEM;
-	}
-
 	if(chunk.F.expiry_time > 0){
 		message_expiry_interval64 = chunk.F.expiry_time - time(NULL);
 		if(message_expiry_interval64 < 0 || message_expiry_interval64 > UINT32_MAX){
@@ -271,7 +259,6 @@ static int dump__msg_store_chunk_process(FILE *db_fptr, uint32_t length)
 
 	stored = mosquitto__calloc(1, sizeof(struct mosquitto_msg_store));
 	if(stored == NULL){
-		mosquitto__free(load);
 		fclose(db_fptr);
 		mosquitto__free(chunk.source.id);
 		mosquitto__free(chunk.source.username);
@@ -297,12 +284,10 @@ static int dump__msg_store_chunk_process(FILE *db_fptr, uint32_t length)
 
 	if(rc == MOSQ_ERR_SUCCESS){
 		stored->source_listener = chunk.source.listener;
-		load->db_id = stored->db_id;
-		load->store = stored;
+		stored->db_id = stored->db_id;
 
-		HASH_ADD(hh, db.msg_store_load, db_id, sizeof(dbid_t), load);
+		HASH_ADD(hh, db.msg_store, db_id, sizeof(dbid_t), stored);
 	}else{
-		mosquitto__free(load);
 		fclose(db_fptr);
 		return rc;
 	}

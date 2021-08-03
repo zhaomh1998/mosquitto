@@ -250,12 +250,12 @@ int db__close(void)
 
 void db__msg_store_add(struct mosquitto_msg_store *store)
 {
-	store->next = db.msg_store;
-	store->prev = NULL;
-	if(db.msg_store){
-		db.msg_store->prev = store;
+	struct mosquitto_msg_store *found;
+
+	HASH_FIND(hh, db.msg_store, &store->db_id, sizeof(store->db_id), found);
+	if(found == NULL){
+		HASH_ADD(hh, db.msg_store, db_id, sizeof(store->db_id), store);
 	}
-	db.msg_store = store;
 }
 
 
@@ -279,17 +279,8 @@ void db__msg_store_free(struct mosquitto_msg_store *store)
 
 void db__msg_store_remove(struct mosquitto_msg_store *store)
 {
-	if(store->prev){
-		store->prev->next = store->next;
-		if(store->next){
-			store->next->prev = store->prev;
-		}
-	}else{
-		db.msg_store = store->next;
-		if(store->next){
-			store->next->prev = NULL;
-		}
-	}
+	if(store == NULL) return;
+	HASH_DELETE(hh, db.msg_store, store);
 	db.msg_store_count--;
 	db.msg_store_bytes -= store->payloadlen;
 
@@ -299,13 +290,10 @@ void db__msg_store_remove(struct mosquitto_msg_store *store)
 
 void db__msg_store_clean(void)
 {
-	struct mosquitto_msg_store *store, *next;;
+	struct mosquitto_msg_store *store, *store_tmp;
 
-	store = db.msg_store;
-	while(store){
-		next = store->next;
+	HASH_ITER(hh, db.msg_store, store, store_tmp){
 		db__msg_store_remove(store);
-		store = next;
 	}
 }
 
@@ -326,15 +314,12 @@ void db__msg_store_ref_dec(struct mosquitto_msg_store **store)
 
 void db__msg_store_compact(void)
 {
-	struct mosquitto_msg_store *store, *next;
+	struct mosquitto_msg_store *store, *store_tmp;
 
-	store = db.msg_store;
-	while(store){
-		next = store->next;
+	HASH_ITER(hh, db.msg_store, store, store_tmp){
 		if(store->ref_count < 1){
 			db__msg_store_remove(store);
 		}
-		store = next;
 	}
 }
 

@@ -89,7 +89,7 @@ int db__message_store(const struct mosquitto *source, struct mosquitto_msg_store
         stored->db_id = store_id;
     }
 
-	db.msg_store = stored;
+	HASH_ADD(hh, db.msg_store, db_id, sizeof(stored->db_id), stored);
 
     return MOSQ_ERR_SUCCESS;
 error:

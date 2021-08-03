@@ -86,7 +86,7 @@ static int persist__client_messages_save(FILE *db_fptr, struct mosquitto *contex
 static int persist__message_store_save(FILE *db_fptr)
 {
 	struct P_msg_store chunk;
-	struct mosquitto_msg_store *stored;
+	struct mosquitto_msg_store *stored, *stored_tmp;
 	int rc;
 
 	assert(db_fptr);
@@ -94,16 +94,14 @@ static int persist__message_store_save(FILE *db_fptr)
 	memset(&chunk, 0, sizeof(struct P_msg_store));
 
 	stored = db.msg_store;
-	while(stored){
+	HASH_ITER(hh, db.msg_store, stored, stored_tmp){
 		if(stored->ref_count < 1 || stored->topic == NULL){
-			stored = stored->next;
 			continue;
 		}
 
 		if(!strncmp(stored->topic, "$SYS", 4)){
 			if(stored->ref_count <= 1 && stored->dest_id_count == 0){
 				/* $SYS messages that are only retained shouldn't be persisted. */
-				stored = stored->next;
 				continue;
 			}
 			/* Don't save $SYS messages as retained otherwise they can give
@@ -150,7 +148,6 @@ static int persist__message_store_save(FILE *db_fptr)
 		if(rc){
 			return rc;
 		}
-		stored = stored->next;
 	}
 
 	return MOSQ_ERR_SUCCESS;

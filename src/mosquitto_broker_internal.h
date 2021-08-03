@@ -386,15 +386,8 @@ struct mosquitto__retainhier {
 	uint16_t topic_len;
 };
 
-struct mosquitto_msg_store_load{
-	UT_hash_handle hh;
-	dbid_t db_id;
-	struct mosquitto_msg_store *store;
-};
-
 struct mosquitto_msg_store{
-	struct mosquitto_msg_store *next;
-	struct mosquitto_msg_store *prev;
+	UT_hash_handle hh;
 	dbid_t db_id;
 	char *source_id;
 	char *source_username;
@@ -483,7 +476,6 @@ struct mosquitto_db{
 #endif
 	struct clientid__index_hash *clientid_index_hash;
 	struct mosquitto_msg_store *msg_store;
-	struct mosquitto_msg_store_load *msg_store_load;
 	time_t now_s; /* Monotonic clock, where possible */
 	time_t now_real_s; /* Read clock, for measuring session/message expiry */
 	int next_event_ms; /* for mux timeout */
