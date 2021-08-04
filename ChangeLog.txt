@@ -43,6 +43,8 @@ Broker:
 - Password salts are now 64 bytes long.
 - Add the `global_plugin` option, which gives global plugin loaded regardless
   of `per_listener_settings`.
+- Protocol version numbers reported in the log when a client connects now
+  match the MQTT protocol version numbers, not internal Mosquitto values.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
