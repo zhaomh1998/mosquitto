@@ -232,6 +232,8 @@ struct mosquitto__listener {
 	bool ws_in_init;
 	char *http_dir;
 	struct lws_protocols *ws_protocol;
+	char **ws_origins;
+	int ws_origin_count;
 #endif
 	struct mosquitto__security_options security_options;
 #ifdef WITH_UNIX_SOCKETS

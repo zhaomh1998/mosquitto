@@ -447,6 +447,8 @@ static int callback_http(
 	struct stat filestat;
 	struct mosquitto *mosq;
 	struct lws_pollargs *pollargs = (struct lws_pollargs *)in;
+	int hlen;
+	int i;
 
 	/* FIXME - ssl cert verification is done here. */
 
@@ -537,6 +539,26 @@ static int callback_http(
 		case LWS_CALLBACK_FILTER_HTTP_CONNECTION:
 			/* Access control here */
 			return 0;
+
+#if LWS_LIBRARY_VERSION_NUMBER >= 3001000
+		case LWS_CALLBACK_HTTP_CONFIRM_UPGRADE:
+			hack = lws_context_user(lws_get_context(wsi));
+			if(hack->listener->ws_origin_count){
+				hlen = lws_hdr_total_length(wsi, WSI_TOKEN_ORIGIN);
+				if(hlen <= 0 || hlen >= (int)sizeof(buf)){
+					return -1;
+				}
+				for(i=0; i<hack->listener->ws_origin_count; i++){
+					lws_hdr_copy(wsi, (char *)buf, sizeof(buf), WSI_TOKEN_ORIGIN);
+					if((!strcmp(hack->listener->ws_origins[i], (char *)buf))){
+						return 0;
+					}
+				}
+				return -1;
+			}else{
+				return 0;
+			}
+#endif
 
 		case LWS_CALLBACK_HTTP_WRITEABLE:
 			/* Send our data here */

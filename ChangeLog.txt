@@ -45,6 +45,8 @@ Broker:
   of `per_listener_settings`.
 - Protocol version numbers reported in the log when a client connects now
   match the MQTT protocol version numbers, not internal Mosquitto values.
+- Add the `websockets_origin` option to allow optional enforcement of origin
+  when a connection attempts an upgrade to WebSockets.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

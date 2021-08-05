@@ -1286,6 +1286,19 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 					</listitem>
 				</varlistentry>
 				<varlistentry>
+					<term><option>websockets_headers_size</option> <replaceable>size</replaceable></term>
+					<listitem>
+						<para>Change the websockets headers size. This is a
+							global option, it is not possible to set per
+							listener. This option sets the size of the buffer
+							used in the libwebsockets library when reading HTTP
+							headers. If you are passing large header data such
+							as cookies then you may need to increase this
+							value. If left unset, or set to 0, then the default
+							of 1024 bytes will be used.</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
 					<term><option>websockets_log_level</option> <replaceable>level</replaceable></term>
 					<listitem>
 						<para>Change the websockets logging level. This is a
@@ -1300,16 +1313,23 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 					</listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><option>websockets_headers_size</option> <replaceable>size</replaceable></term>
+					<term><option>websockets_origin</option> <replaceable>level</replaceable></term>
 					<listitem>
-						<para>Change the websockets headers size. This is a
-							global option, it is not possible to set per
-							listener. This option sets the size of the buffer
-							used in the libwebsockets library when reading HTTP
-							headers. If you are passing large header data such
-							as cookies then you may need to increase this
-							value. If left unset, or set to 0, then the default
-							of 1024 bytes will be used.</para>
+                        <para>
+                            If set, this will be compared to the http origin
+                            header when a connection attempts to upgrade to
+                            WebSockets. Only matching origins will be allowed.
+                            Use the exact string provided by the browser in the
+                            origin header, e.g.
+                            <replaceable>http://example.com:8080</replaceable>.
+							Can be specified multiple times per listener.
+						</para>
+						<para>
+							If not set, connections from any origin will be allowed.
+						</para>
+						<para>
+							Requires libwebsockets 3.1.0 or later.
+						</para>
 					</listitem>
 				</varlistentry>
 			</variablelist>

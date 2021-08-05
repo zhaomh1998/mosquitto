@@ -253,7 +253,7 @@ void config__init(struct mosquitto__config *config)
 
 void config__cleanup(struct mosquitto__config *config)
 {
-	int i;
+	int i, j;
 
 	mosquitto__free(config->clientid_prefixes);
 	mosquitto__free(config->persistence_location);
@@ -298,6 +298,10 @@ void config__cleanup(struct mosquitto__config *config)
 #endif
 #ifdef WITH_WEBSOCKETS
 			mosquitto__free(config->listeners[i].http_dir);
+			for(j=0; j<config->listeners[i].ws_origin_count; j++){
+				mosquitto__free(config->listeners[i].ws_origins[j]);
+			}
+			mosquitto__free(config->listeners[i].ws_origins);
 #endif
 #ifdef WITH_UNIX_SOCKETS
 			mosquitto__free(config->listeners[i].unix_socket_path);
@@ -798,6 +802,9 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 #ifdef WITH_TLS
 	char *kpass_sha = NULL, *kpass_sha_bin = NULL;
 	char *keyform ;
+#endif
+#ifdef WITH_WEBSOCKETS
+	char **ws_origins = NULL;
 #endif
 
 	*lineno = 0;
@@ -2307,6 +2314,24 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 						return MOSQ_ERR_INVAL;
 					}
 					config->websockets_headers_size = (uint16_t)tmp_int;
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Websockets support not available.");
+#endif
+				}else if(!strcmp(token, "websockets_origin")){
+#ifdef WITH_WEBSOCKETS
+#  if LWS_LIBRARY_VERSION_NUMBER >= 3001000
+					ws_origins = mosquitto__realloc(cur_listener->ws_origins, sizeof(char *)*(size_t)(cur_listener->ws_origin_count+1));
+					if(ws_origins == NULL){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
+						return MOSQ_ERR_NOMEM;
+					}
+					ws_origins[cur_listener->ws_origin_count] = NULL;
+					if(conf__parse_string(&token, "websockets_origin", &ws_origins[cur_listener->ws_origin_count], &saveptr)) return MOSQ_ERR_INVAL;
+					cur_listener->ws_origins = ws_origins;
+					cur_listener->ws_origin_count++;
+#  else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: websockets_origin support not available, libwebsockets version is too old.");
+#  endif
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Websockets support not available.");
 #endif
