@@ -271,6 +271,7 @@ struct mosquitto {
 #if defined(__GLIBC__) && defined(WITH_ADNS)
 	struct gaicb *adns; /* For getaddrinfo_a */
 #endif
+	uint64_t last_cmsg_id;
 #if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == LWS_IS_BUILTIN
 	struct ws_data wsd;
 #endif

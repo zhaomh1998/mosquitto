@@ -188,7 +188,7 @@ static int retain__process(struct mosquitto__retainhier *branch, struct mosquitt
 	}else{
 		mid = 0;
 	}
-	return db__message_insert_outgoing(context, mid, qos, true, retained, subscription_identifier, false);
+	return db__message_insert_outgoing(context, 0, mid, qos, true, retained, subscription_identifier, false);
 }
 
 

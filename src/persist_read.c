@@ -136,6 +136,7 @@ static int persist__client_msg_restore(struct P_client_msg *chunk)
 
 	cmsg->next = NULL;
 	cmsg->store = NULL;
+	cmsg->cmsg_id = ++context->last_cmsg_id;
 	cmsg->mid = chunk->F.mid;
 	cmsg->qos = chunk->F.qos;
 	cmsg->retain = (chunk->F.retain_dup&0xF0)>>4;

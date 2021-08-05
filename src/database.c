@@ -405,7 +405,7 @@ int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mo
 
 
 /* Only for QoS 2 messages */
-int db__message_insert_incoming(struct mosquitto *context, struct mosquitto_msg_store *stored)
+int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *stored)
 {
 	struct mosquitto_client_msg *msg;
 	struct mosquitto_msg_data *msg_data;
@@ -447,6 +447,11 @@ int db__message_insert_incoming(struct mosquitto *context, struct mosquitto_msg_
 	if(!msg) return MOSQ_ERR_NOMEM;
 	msg->prev = NULL;
 	msg->next = NULL;
+	if(cmsg_id){
+		msg->cmsg_id = cmsg_id;
+	}else{
+		msg->cmsg_id = ++context->last_cmsg_id;
+	}
 	msg->store = stored;
 	db__msg_store_ref_inc(msg->store);
 	msg->mid = stored->source_mid;
@@ -475,7 +480,7 @@ int db__message_insert_incoming(struct mosquitto *context, struct mosquitto_msg_
 	return rc;
 }
 
-int db__message_insert_outgoing(struct mosquitto *context, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update)
+int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update)
 {
 	struct mosquitto_client_msg *msg;
 	struct mosquitto_msg_data *msg_data;
@@ -577,6 +582,11 @@ int db__message_insert_outgoing(struct mosquitto *context, uint16_t mid, uint8_t
 	if(!msg) return MOSQ_ERR_NOMEM;
 	msg->prev = NULL;
 	msg->next = NULL;
+	if(cmsg_id){
+		msg->cmsg_id = cmsg_id;
+	}else{
+		msg->cmsg_id = ++context->last_cmsg_id;
+	}
 	msg->store = stored;
 	db__msg_store_ref_inc(msg->store);
 	msg->mid = mid;

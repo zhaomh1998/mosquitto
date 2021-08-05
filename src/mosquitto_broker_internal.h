@@ -410,6 +410,7 @@ struct mosquitto_client_msg{
 	struct mosquitto_client_msg *prev;
 	struct mosquitto_client_msg *next;
 	struct mosquitto_msg_store *store;
+	uint64_t cmsg_id;
 	uint32_t subscription_identifier;
 	uint16_t mid;
 	uint8_t qos;
@@ -701,8 +702,8 @@ int persist__restore(void);
 /* Return the number of in-flight messages in count. */
 int db__message_count(int *count);
 int db__message_delete_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state expect_state, int qos);
-int db__message_insert_outgoing(struct mosquitto *context, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update);
-int db__message_insert_incoming(struct mosquitto *context, struct mosquitto_msg_store *stored);
+int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uint16_t mid, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, uint32_t subscription_identifier, bool update);
+int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, struct mosquitto_msg_store *stored);
 int db__message_remove_incoming(struct mosquitto* context, uint16_t mid);
 int db__message_release_incoming(struct mosquitto *context, uint16_t mid);
 int db__message_update_outgoing(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_state state, int qos);

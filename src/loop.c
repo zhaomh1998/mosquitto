@@ -98,7 +98,7 @@ static int single_publish(struct mosquitto *context, struct mosquitto_message_v5
 	}else{
 		mid = 0;
 	}
-	return db__message_insert_outgoing(context, mid, (uint8_t)msg->qos, 0, stored, 0, true);
+	return db__message_insert_outgoing(context, 0, mid, (uint8_t)msg->qos, 0, stored, 0, true);
 }
 
 
