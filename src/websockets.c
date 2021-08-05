@@ -175,7 +175,7 @@ static int callback_mqtt(
 			}
 			mosq->sock = lws_get_socket_fd(wsi);
 			HASH_ADD(hh_sock, db.contexts_by_sock, sock, sizeof(mosq->sock), mosq);
-			mux__add_in(mosq);
+			mux__new(mosq);
 			break;
 
 		case LWS_CALLBACK_CLOSED:
@@ -258,7 +258,6 @@ static int callback_mqtt(
 #endif
 
 				packet__get_next_out(mosq);
-				packet__cleanup(packet);
 				mosquitto__free(packet);
 
 				mosq->next_msg_out = db.now_s + mosq->keepalive;
