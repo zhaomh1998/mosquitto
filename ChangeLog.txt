@@ -2,6 +2,9 @@
 ===================
 
 Security:
+- An MQTT v5 client connecting with a large number of user-property properties
+  could cause excessive CPU usage, leading to a loss of performance and
+  possible denial of service. This has been fixed.
 - Fix `max_keepalive` not applying to MQTT v3.1.1 and v3.1 connections.
   These clients are now rejected if their keepalive value exceeds
   max_keepalive. This option allows CVE-2020-13849, which is for the MQTT

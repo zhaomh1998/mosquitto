@@ -23,6 +23,7 @@ msg_sequence_test:
 	./msg_sequence_test.py
 
 01 :
+	./01-connect-575314.py
 	./01-connect-allow-anonymous.py
 	./01-connect-disconnect-v5.py
 	./01-connect-max-connections.py

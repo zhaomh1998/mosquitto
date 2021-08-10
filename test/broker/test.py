@@ -5,6 +5,7 @@ import ptest
 
 tests = [
     #(ports required, 'path'),
+    (1, './01-connect-575314.py'),
     (1, './01-connect-allow-anonymous.py'),
     (1, './01-connect-disconnect-v5.py'),
     (1, './01-connect-max-connections.py'),
