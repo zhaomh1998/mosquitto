@@ -1731,6 +1731,7 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 					<para>
 						You can find more details about this setting at:
 						<ulink url="https://blog.cloudflare.com/when-tcp-sockets-refuse-to-die/"/>
+					</para>
 					<para>
 						Only available on Linux.
 					</para>
