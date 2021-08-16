@@ -4,6 +4,7 @@ DIRS= \
 		client-properties \
 		connection-state \
 		delayed-auth \
+		force-retain \
 		message-timestamp \
 		payload-modification
 
