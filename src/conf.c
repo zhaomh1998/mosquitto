@@ -479,7 +479,6 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 		config->listeners[config->listener_count-1].max_connections = config->default_listener.max_connections;
 		config->listeners[config->listener_count-1].protocol = config->default_listener.protocol;
 		config->listeners[config->listener_count-1].socket_domain = config->default_listener.socket_domain;
-		config->listeners[config->listener_count-1].client_count = 0;
 		config->listeners[config->listener_count-1].socks = NULL;
 		config->listeners[config->listener_count-1].sock_count = 0;
 		config->listeners[config->listener_count-1].client_count = 0;
