@@ -5,6 +5,7 @@ Broker:
 - Fix possible out of bounds memory reads when reading a corrupt/crafted
   configuration file. Unless your configuration file is writable by untrusted
   users this is not a risk. Closes #567213.
+- Fix `max_connections` option not being correctly counted.
 
 Clients:
 - mosquitto_sub and mosquitto_rr now open stdout in binary mode on Windows

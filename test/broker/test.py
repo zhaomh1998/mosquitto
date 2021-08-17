@@ -15,6 +15,7 @@ tests = [
     (1, './01-connect-invalid-id-utf8.py'),
     (1, './01-connect-invalid-protonum.py'),
     (1, './01-connect-invalid-reserved.py'),
+    (1, './01-connect-max-connections.py'),
     (1, './01-connect-success.py'),
     (1, './01-connect-uname-invalid-utf8.py'),
     (1, './01-connect-uname-no-flag.py'),
