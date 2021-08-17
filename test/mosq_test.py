@@ -60,7 +60,6 @@ def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False):
 
         if c is not None:
             c.close()
-            time.sleep(delay)
             return broker
 
     if expect_fail == False:
