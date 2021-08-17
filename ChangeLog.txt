@@ -7,6 +7,13 @@ Broker:
   users this is not a risk. Closes #567213.
 - Fix `max_connections` option not being correctly counted.
 
+Client library:
+- If a client uses TLS-PSK then force the default cipher list to use "PSK"
+  ciphers only. This means that a client connecting to a broker configured
+  with x509 certificates only will now fail. Prior to this, the client would
+  connect successfully without verifying certificates, because they were not
+  configured.
+
 Clients:
 - mosquitto_sub and mosquitto_rr now open stdout in binary mode on Windows
   so binary payloads are not modified when printing.

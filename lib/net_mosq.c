@@ -857,6 +857,9 @@ static int net__init_ssl_ctx(struct mosquitto *mosq)
 #ifdef FINAL_WITH_TLS_PSK
 		}else if(mosq->tls_psk){
 			SSL_CTX_set_psk_client_callback(mosq->ssl_ctx, psk_client_callback);
+			if(mosq->tls_ciphers == NULL){
+				SSL_CTX_set_cipher_list(mosq->ssl_ctx, "PSK");
+			}
 #endif
 		}
 	}
