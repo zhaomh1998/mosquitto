@@ -45,6 +45,8 @@ void dynsec__print_usage(void)
 	printf("Create a new client:         createClient      <username> [-c clientid] [-p password]\n");
 	printf("Delete a client:             deleteClient      <username>\n");
 	printf("Set a client password:       setClientPassword <username> [password]\n");
+	printf("Set a client password on an existing file:\n");
+	printf("    mosquitto_ctrl -f <file> dynsec setClientPassword <username> <password>\n");
 	printf("Set a client id:             setClientId       <username> [clientid]\n");
 	printf("Add a role to a client:      addClientRole     <username> <rolename> [priority]\n");
 	printf("    Higher priority (larger numerical value) roles are evaluated first.\n");
@@ -785,6 +787,8 @@ int dynsec__main(int argc, char *argv[], struct mosq_ctrl *ctrl)
 		return -1;
 	}else if(!strcasecmp(argv[0], "init")){
 		return dynsec_init(argc-1, &argv[1]);
+	}else if(ctrl->cfg.data_file && !strcasecmp(argv[0], "setClientPassword")){
+		return dynsec_client__file_set_password(argc-1, &argv[1], ctrl->cfg.data_file);
 	}
 
 	/* The remaining commands need a network connection and JSON command. */

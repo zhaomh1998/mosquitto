@@ -64,6 +64,7 @@ struct mosq_config {
 	char *socks5_username;
 	char *socks5_password;
 #endif
+	char *data_file;
 };
 
 struct mosq_ctrl {
@@ -95,6 +96,7 @@ int dynsec_client__add_remove_role(int argc, char *argv[], cJSON *j_command, con
 int dynsec_client__create(int argc, char *argv[], cJSON *j_command);
 int dynsec_client__delete(int argc, char *argv[], cJSON *j_command);
 int dynsec_client__enable_disable(int argc, char *argv[], cJSON *j_command, const char *command);
+int dynsec_client__file_set_password(int argc, char *argv[], const char *file);
 int dynsec_client__get(int argc, char *argv[], cJSON *j_command);
 int dynsec_client__list_all(int argc, char *argv[], cJSON *j_command);
 int dynsec_client__set_id(int argc, char *argv[], cJSON *j_command);

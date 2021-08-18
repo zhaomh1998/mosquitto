@@ -81,6 +81,7 @@ void client_config_cleanup(struct mosq_config *cfg)
 	free(cfg->socks5_username);
 	free(cfg->socks5_password);
 #endif
+	free(cfg->data_file);
 }
 
 int ctrl_config_parse(struct mosq_config *cfg, int *argc, char **argv[])
@@ -187,6 +188,15 @@ static int client_config_line_proc(struct mosq_config *cfg, int *argc, char **ar
 #endif
 		}else if(!strcmp(argv[0], "-d") || !strcmp(argv[0], "--debug")){
 			cfg->debug = true;
+		}else if(!strcmp(argv[0], "-f")){
+			if((*argc) == 1){
+				fprintf(stderr, "Error: -f argument given but no data file specified.\n\n");
+				return 1;
+			}else{
+				cfg->data_file = strdup(argv[1]);
+			}
+			argv++;
+			(*argc)--;
 		}else if(!strcmp(argv[0], "--help")){
 			return 2;
 		}else if(!strcmp(argv[0], "-h") || !strcmp(argv[0], "--host")){

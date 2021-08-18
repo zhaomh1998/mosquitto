@@ -97,7 +97,9 @@ int main(int argc, char *argv[])
 			/* Usage print */
 			rc = 0;
 		}else if(rc == MOSQ_ERR_SUCCESS){
-			rc = client_request_response(&ctrl);
+			if(ctrl.cfg.data_file == NULL){
+				rc = client_request_response(&ctrl);
+			}
 		}else if(rc == MOSQ_ERR_UNKNOWN){
 			/* Message printed already */
 		}else{

@@ -13,6 +13,7 @@ OBJS=	\
 		config_init.o \
 		groups.o \
 		grouplist.o \
+		hash.o \
 		json_help.o \
 		misc_mosq.o \
 		password_mosq.o \
@@ -55,6 +56,9 @@ groups.o : groups.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 grouplist.o : grouplist.c dynamic_security.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
+
+hash.o : hash.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 json_help.o : json_help.c dynamic_security.h

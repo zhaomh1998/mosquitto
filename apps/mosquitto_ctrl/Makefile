@@ -12,13 +12,14 @@ LIBMOSQ:=../../lib/libmosquitto.a
 endif
 endif
 
-LOCAL_CPPFLAGS:=-I../mosquitto_passwd -DWITH_CJSON
+LOCAL_CPPFLAGS:=-I../mosquitto_passwd -I../../plugins/dynamic-security -DWITH_CJSON
 
 OBJS=	mosquitto_ctrl.o \
 		client.o \
 		dynsec.o \
 		dynsec_client.o \
 		dynsec_group.o \
+		dynsec_hash.o \
 		dynsec_role.o \
 		get_password.o \
 		memory_mosq.o \
@@ -54,6 +55,9 @@ client.o : client.c mosquitto_ctrl.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
 
 dynsec.o : dynsec.c mosquitto_ctrl.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
+
+dynsec_hash.o : ../../plugins/dynamic-security/hash.c ../../plugins/dynamic-security/dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
 
 dynsec_client.o : dynsec_client.c mosquitto_ctrl.h

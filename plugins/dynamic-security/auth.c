@@ -27,41 +27,6 @@ Contributors:
 #include "mosquitto.h"
 #include "mosquitto_broker.h"
 
-/* ################################################################
- * #
- * # Password functions
- * #
- * ################################################################ */
-
-int dynsec_auth__pw_hash(struct dynsec__client *client, const char *password, unsigned char *password_hash, int password_hash_len, bool new_password)
-{
-	const EVP_MD *digest;
-	int iterations;
-
-	if(new_password){
-		client->pw.salt_len = HASH_LEN;
-		if(RAND_bytes(client->pw.salt, (int)client->pw.salt_len) != 1){
-			return MOSQ_ERR_UNKNOWN;
-		}
-		iterations = PW_DEFAULT_ITERATIONS;
-	}else{
-		iterations = client->pw.iterations;
-	}
-	if(iterations < 1){
-		return MOSQ_ERR_INVAL;
-	}
-	client->pw.iterations = iterations;
-
-	digest = EVP_get_digestbyname("sha512");
-	if(!digest){
-		return MOSQ_ERR_UNKNOWN;
-	}
-
-	return !PKCS5_PBKDF2_HMAC(password, (int)strlen(password),
-			client->pw.salt, (int)client->pw.salt_len, iterations,
-			digest, password_hash_len, password_hash);
-}
-
 
 /* ################################################################
  * #

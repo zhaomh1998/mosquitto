@@ -47,6 +47,8 @@ Broker:
   match the MQTT protocol version numbers, not internal Mosquitto values.
 - Add the `websockets_origin` option to allow optional enforcement of origin
   when a connection attempts an upgrade to WebSockets.
+- Allow mosquitto_ctrl dynsec module to update passwords in files rather than
+  having to connect to a broker.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

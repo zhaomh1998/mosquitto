@@ -7,6 +7,7 @@ if(WITH_TLS AND CJSON_FOUND)
 		mosquitto_ctrl.c mosquitto_ctrl.h
 		client.c
 		dynsec.c
+		../../plugins/dynamic-security/hash.c
 		dynsec_client.c
 		dynsec_group.c
 		dynsec_role.c
@@ -26,6 +27,7 @@ if(WITH_TLS AND CJSON_FOUND)
 		"${mosquitto_SOURCE_DIR}/apps/mosquitto_passwd"
 		"${mosquitto_SOURCE_DIR}/include"
 		"${mosquitto_SOURCE_DIR}/lib"
+		"${mosquitto_SOURCE_DIR}/plugins/dynamic-security"
 		"${mosquitto_SOURCE_DIR}/src"
 	)
 
