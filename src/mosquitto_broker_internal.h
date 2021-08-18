@@ -538,7 +538,7 @@ struct mosquitto__bridge{
 	unsigned int tcp_keepalive_interval;
 	unsigned int tcp_keepalive_counter;
 #ifdef WITH_TCP_USER_TIMEOUT
-	unsigned int tcp_user_timeout;
+	int tcp_user_timeout;
 #endif
 	struct mosquitto__bridge_topic *topics;
 	int topic_count;

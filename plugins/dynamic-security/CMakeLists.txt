@@ -10,6 +10,7 @@ if(CJSON_FOUND AND WITH_TLS)
 		"${mosquitto_SOURCE_DIR}"
 		"${mosquitto_SOURCE_DIR}/deps"
 		"${mosquitto_SOURCE_DIR}/include"
+		"${mosquitto_SOURCE_DIR}/lib"
 		"${mosquitto_SOURCE_DIR}/src"
 	)
 

@@ -253,7 +253,10 @@ void config__init(struct mosquitto__config *config)
 
 void config__cleanup(struct mosquitto__config *config)
 {
-	int i, j;
+	int i;
+#ifdef WITH_WEBSOCKETS
+	int j;
+#endif
 
 	mosquitto__free(config->clientid_prefixes);
 	mosquitto__free(config->persistence_location);
@@ -1286,7 +1289,7 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: invalid TCP user timeout value.");
 						return MOSQ_ERR_INVAL;
 					}
-					cur_bridge->tcp_user_timeout = (unsigned int) tmp_int;
+					cur_bridge->tcp_user_timeout = tmp_int;
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge and/or TCP user timeout support not available.");
 #endif
