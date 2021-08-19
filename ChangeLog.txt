@@ -8,6 +8,7 @@ Broker:
 - Fix `max_connections` option not being correctly counted.
 - Fix TLS certificates and TLS-PSK not being able to be configured at the same
   time.
+- Disable TLS v1.3 when using TLS-PSK, because it isn't correctly configured.
 
 Client library:
 - If a client uses TLS-PSK then force the default cipher list to use "PSK"
@@ -15,6 +16,7 @@ Client library:
   with x509 certificates only will now fail. Prior to this, the client would
   connect successfully without verifying certificates, because they were not
   configured.
+- Disable TLS v1.3 when using TLS-PSK, because it isn't correctly configured.
 
 Clients:
 - mosquitto_sub and mosquitto_rr now open stdout in binary mode on Windows
