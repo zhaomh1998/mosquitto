@@ -28,6 +28,12 @@
 		use the default values listed below. See
 		<citerefentry><refentrytitle><link xlink:href="mosquitto-8.html">mosquitto</link></refentrytitle><manvolnum>8</manvolnum></citerefentry>
 		for information on how to load a configuration file.</para>
+		<para>
+			Mosquitto can be instructed to reload the configuration file by sending
+			a SIGHUP signal as described in the Signals section of
+			<citerefentry><refentrytitle><link xlink:href="mosquitto-8.html">mosquitto</link></refentrytitle><manvolnum>8</manvolnum></citerefentry>.
+			Not all configuration options can be reloaded, as detailed in the options below.
+		</para>
 	</refsect1>
 
 	<refsect1>
