@@ -32,6 +32,9 @@ Clients:
 - mosquitto_sub and mosquitto_rr now open stdout in binary mode on Windows
   so binary payloads are not modified when printing.
 
+Build:
+- Fix installation using WITH_TLS=no. Closes #2281.
+
 2.0.11 - 2021-06-08
 ===================
 
