@@ -249,18 +249,25 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 #endif
 	context->max_qos = context->listener->max_qos;
 
-	if(context->protocol == mosq_p_mqtt5){
-		if(context->listener->max_topic_alias > 0){
-			if(mosquitto_property_add_int16(&connack_props, MQTT_PROP_TOPIC_ALIAS_MAXIMUM, context->listener->max_topic_alias)){
+	if(db.config->max_keepalive &&
+			(context->keepalive > db.config->max_keepalive || context->keepalive == 0)){
+
+		context->keepalive = db.config->max_keepalive;
+		if(context->protocol == mosq_p_mqtt5){
+			if(mosquitto_property_add_int16(&connack_props, MQTT_PROP_SERVER_KEEP_ALIVE, context->keepalive)){
 				rc = MOSQ_ERR_NOMEM;
 				goto error;
 			}
+		}else{
+			send__connack(context, connect_ack, CONNACK_REFUSED_IDENTIFIER_REJECTED, NULL);
+			rc = MOSQ_ERR_INVAL;
+			goto error;
 		}
-		if(db.config->max_keepalive &&
-				(context->keepalive > db.config->max_keepalive || context->keepalive == 0)){
+	}
 
-			context->keepalive = db.config->max_keepalive;
-			if(mosquitto_property_add_int16(&connack_props, MQTT_PROP_SERVER_KEEP_ALIVE, context->keepalive)){
+	if(context->protocol == mosq_p_mqtt5){
+		if(context->listener->max_topic_alias > 0){
+			if(mosquitto_property_add_int16(&connack_props, MQTT_PROP_TOPIC_ALIAS_MAXIMUM, context->listener->max_topic_alias)){
 				rc = MOSQ_ERR_NOMEM;
 				goto error;
 			}

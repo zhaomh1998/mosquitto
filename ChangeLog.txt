@@ -1,6 +1,12 @@
 2.0.12 - 2021-07-xx
 ===================
 
+Security:
+- Fix `max_keepalive` not applying to MQTT v3.1.1 and v3.1 connections.
+  These clients are now rejected if their keepalive value exceeds
+  max_keepalive. This option allows CVE-2020-13849, which is for the MQTT
+  v3.1.1 protocol itself rather than an implementation, to be addressed.
+
 Broker:
 - Fix possible out of bounds memory reads when reading a corrupt/crafted
   configuration file. Unless your configuration file is writable by untrusted
@@ -9,6 +15,10 @@ Broker:
 - Fix TLS certificates and TLS-PSK not being able to be configured at the same
   time.
 - Disable TLS v1.3 when using TLS-PSK, because it isn't correctly configured.
+- Fix `max_keepalive` not applying to MQTT v3.1.1 and v3.1 connections.
+  These clients are now rejected if their keepalive value exceeds
+  max_keepalive. This option allows CVE-2020-13849, which is for the MQTT
+  v3.1.1 protocol itself rather than an implementation, to be addressed.
 
 Client library:
 - If a client uses TLS-PSK then force the default cipher list to use "PSK"
