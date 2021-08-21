@@ -54,6 +54,7 @@ Broker:
   reconnecting. Closes #2173.
 - Fix QoS 0 messages not being queued when `queue_qos0_messages` was enabled.
   Closes #2224.
+- Fix openssl not being linked to dynamic security plugin. Closes #2277.
 
 Clients:
 - If sending mosquitto_sub output to a pipe, mosquitto_sub will now detect
