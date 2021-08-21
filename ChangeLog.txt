@@ -6,6 +6,11 @@ Security:
   These clients are now rejected if their keepalive value exceeds
   max_keepalive. This option allows CVE-2020-13849, which is for the MQTT
   v3.1.1 protocol itself rather than an implementation, to be addressed.
+- Using certain listener related configuration options e.g. `cafile`, that
+  apply to the default listener without defining any listener would cause a
+  remotely accessible listener to be opened that was not confined to the local
+  machine but did have anonymous access enabled, contrary to the
+  documentation. This has been fixed. Closes #2283.
 
 Broker:
 - Fix possible out of bounds memory reads when reading a corrupt/crafted
