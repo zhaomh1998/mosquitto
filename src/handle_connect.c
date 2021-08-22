@@ -102,7 +102,6 @@ static void connection_check_acl(struct mosquitto *context, struct mosquitto_cli
 	}
 }
 
-
 int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint16_t auth_data_out_len)
 {
 	struct mosquitto *found_context;
@@ -163,12 +162,22 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 
 			for(i=0; i<context->sub_count; i++){
 				if(context->subs[i]){
-					leaf = context->subs[i]->subs;
+					leaf = context->subs[i]->hier->subs;
 					while(leaf){
 						if(leaf->context == found_context){
 							leaf->context = context;
 						}
 						leaf = leaf->next;
+					}
+
+					if(context->subs[i]->shared){
+						leaf = context->subs[i]->shared->subs;
+						while(leaf){
+							if(leaf->context == found_context){
+								leaf->context = context;
+							}
+							leaf = leaf->next;
+						}
 					}
 				}
 			}

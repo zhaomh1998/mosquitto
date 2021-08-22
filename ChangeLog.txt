@@ -11,6 +11,9 @@ Security:
   remotely accessible listener to be opened that was not confined to the local
   machine but did have anonymous access enabled, contrary to the
   documentation. This has been fixed. Closes #2283.
+- If a plugin had granted ACL subscription access to a
+  durable/non-clean-session client, then removed that access, the client would
+  keep its existing subscription. This has been fixed.
 
 Broker:
 - Fix possible out of bounds memory reads when reading a corrupt/crafted
@@ -29,6 +32,8 @@ Broker:
 - Fix listener mount_point not being removed on outgoing messages.
   Closes #2244.
 - Strict protocol compliance fixes, plus test suite.
+- Fix $share subscriptions not being recovered for durable clients that
+  reconnect.
 
 Client library:
 - If a client uses TLS-PSK then force the default cipher list to use "PSK"
