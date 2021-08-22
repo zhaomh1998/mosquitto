@@ -26,6 +26,8 @@ Broker:
   v3.1.1 protocol itself rather than an implementation, to be addressed.
 - Fix broker not quiting if e.g. the `password_file` is specified as a
   directory. Closes #2241.
+- Fix listener mount_point not being removed on outgoing messages.
+  Closes #2244.
 
 Client library:
 - If a client uses TLS-PSK then force the default cipher list to use "PSK"
