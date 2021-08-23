@@ -117,14 +117,16 @@ FILE *mosquitto__fopen(const char *path, const char *mode, bool restrict_read)
 		}
 	}
 #else
-	struct stat statbuf;
-	if(stat(path, &statbuf) < 0){
-		return NULL;
-	}
+	if(mode[0] == 'r'){
+		struct stat statbuf;
+		if(stat(path, &statbuf) < 0){
+			return NULL;
+		}
 
-	if(!S_ISREG(statbuf.st_mode) && !S_ISLNK(statbuf.st_mode)){
-		log__printf(NULL, MOSQ_LOG_ERR, "Error: %s is not a file.", path);
-		return NULL;
+		if(!S_ISREG(statbuf.st_mode) && !S_ISLNK(statbuf.st_mode)){
+			log__printf(NULL, MOSQ_LOG_ERR, "Error: %s is not a file.", path);
+			return NULL;
+		}
 	}
 
 	if (restrict_read) {
