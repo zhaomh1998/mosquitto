@@ -48,6 +48,7 @@ Build:
 - Fix installation using WITH_TLS=no. Closes #2281.
 - Fix builds with libressl 3.4.0. Closes #2198.
 - Remove some unnecessary code guards related to libressl.
+- Fix printf format build warning on MIPS. Closes #2271.
 
 
 2.0.11 - 2021-06-08
