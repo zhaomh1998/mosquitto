@@ -43,6 +43,7 @@ Client library:
 Clients:
 - mosquitto_sub and mosquitto_rr now open stdout in binary mode on Windows
   so binary payloads are not modified when printing.
+- Document TLS certificate behaviour when using `-p 8883`.
 
 Build:
 - Fix installation using WITH_TLS=no. Closes #2281.
