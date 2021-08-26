@@ -80,6 +80,8 @@ void *mosquitto_client_certificate(const struct mosquitto *client)
 		return NULL;
 	}
 #else
+	UNUSED(client);
+
 	return NULL;
 #endif
 }

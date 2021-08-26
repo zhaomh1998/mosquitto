@@ -920,6 +920,9 @@ int net__socket_connect_step3(struct mosquitto *mosq, const char *host)
 		}
 
 	}
+#else
+	UNUSED(mosq);
+	UNUSED(host);
 #endif
 	return MOSQ_ERR_SUCCESS;
 }
@@ -1213,6 +1216,8 @@ void *mosquitto_ssl_get(struct mosquitto *mosq)
 #ifdef WITH_TLS
 	return mosq->ssl;
 #else
+	UNUSED(mosq);
+
 	return NULL;
 #endif
 }

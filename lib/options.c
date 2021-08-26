@@ -205,6 +205,13 @@ int mosquitto_tls_set(struct mosquitto *mosq, const char *cafile, const char *ca
 
 	return MOSQ_ERR_SUCCESS;
 #else
+	UNUSED(mosq);
+	UNUSED(cafile);
+	UNUSED(capath);
+	UNUSED(certfile);
+	UNUSED(keyfile);
+	UNUSED(pw_callback);
+
 	return MOSQ_ERR_NOT_SUPPORTED;
 
 #endif
@@ -241,8 +248,12 @@ int mosquitto_tls_opts_set(struct mosquitto *mosq, int cert_reqs, const char *tl
 
 	return MOSQ_ERR_SUCCESS;
 #else
-	return MOSQ_ERR_NOT_SUPPORTED;
+	UNUSED(mosq);
+	UNUSED(cert_reqs);
+	UNUSED(tls_version);
+	UNUSED(ciphers);
 
+	return MOSQ_ERR_NOT_SUPPORTED;
 #endif
 }
 
@@ -254,6 +265,9 @@ int mosquitto_tls_insecure_set(struct mosquitto *mosq, bool value)
 	mosq->tls_insecure = value;
 	return MOSQ_ERR_SUCCESS;
 #else
+	UNUSED(mosq);
+	UNUSED(value);
+
 	return MOSQ_ERR_NOT_SUPPORTED;
 #endif
 }
@@ -373,6 +387,11 @@ int mosquitto_tls_psk_set(struct mosquitto *mosq, const char *psk, const char *i
 
 	return MOSQ_ERR_SUCCESS;
 #else
+	UNUSED(mosq);
+	UNUSED(psk);
+	UNUSED(identity);
+	UNUSED(ciphers);
+
 	return MOSQ_ERR_NOT_SUPPORTED;
 #endif
 }

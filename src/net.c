@@ -434,9 +434,9 @@ int net__tls_server_ctx(struct mosquitto__listener *listener)
 #endif
 
 
+#ifdef WITH_TLS
 static int net__load_crl_file(struct mosquitto__listener *listener)
 {
-#ifdef WITH_TLS
 	X509_STORE *store;
 	X509_LOOKUP *lookup;
 	int rc;
@@ -456,10 +456,10 @@ static int net__load_crl_file(struct mosquitto__listener *listener)
 		return MOSQ_ERR_TLS;
 	}
 	X509_STORE_set_flags(store, X509_V_FLAG_CRL_CHECK);
-#endif
 
 	return MOSQ_ERR_SUCCESS;
 }
+#endif
 
 
 int net__load_certificates(struct mosquitto__listener *listener)
@@ -499,14 +499,16 @@ int net__load_certificates(struct mosquitto__listener *listener)
 			return rc;
 		}
 	}
+#else
+	UNUSED(listener);
 #endif
 	return MOSQ_ERR_SUCCESS;
 }
 
 
+#if defined(WITH_TLS) && !defined(OPENSSL_NO_ENGINE)
 static int net__load_engine(struct mosquitto__listener *listener)
 {
-#if defined(WITH_TLS) && !defined(OPENSSL_NO_ENGINE)
 	ENGINE *engine = NULL;
 	UI_METHOD *ui_method;
 	EVP_PKEY *pkey;
@@ -556,10 +558,10 @@ static int net__load_engine(struct mosquitto__listener *listener)
 		}
 	}
 	ENGINE_free(engine); /* release the structural reference from ENGINE_by_id() */
-#endif
 
 	return MOSQ_ERR_SUCCESS;
 }
+#endif
 
 
 int net__tls_load_verify(struct mosquitto__listener *listener)
