@@ -86,18 +86,22 @@ static char *client_id_gen(uint16_t *idlen, const char *auto_id_prefix, uint16_t
 static void connection_check_acl(struct mosquitto *context, struct mosquitto_client_msg **head)
 {
 	struct mosquitto_client_msg *msg_tail, *tmp;
+	int access;
 
 	DL_FOREACH_SAFE((*head), msg_tail, tmp){
 		if(msg_tail->direction == mosq_md_out){
-			if(mosquitto_acl_check(context, msg_tail->store->topic,
-								   msg_tail->store->payloadlen, msg_tail->store->payload,
-								   msg_tail->store->qos, msg_tail->store->retain, MOSQ_ACL_READ) != MOSQ_ERR_SUCCESS){
+			access = MOSQ_ACL_READ;
+		}else{
+			access = MOSQ_ACL_WRITE;
+		}
+		if(mosquitto_acl_check(context, msg_tail->store->topic,
+							   msg_tail->store->payloadlen, msg_tail->store->payload,
+							   msg_tail->store->qos, msg_tail->store->retain, access) != MOSQ_ERR_SUCCESS){
 
-				DL_DELETE((*head), msg_tail);
-				db__msg_store_ref_dec(&msg_tail->store);
-				mosquitto_property_free_all(&msg_tail->properties);
-				mosquitto__free(msg_tail);
-			}
+			DL_DELETE((*head), msg_tail);
+			db__msg_store_ref_dec(&msg_tail->store);
+			mosquitto_property_free_all(&msg_tail->properties);
+			mosquitto__free(msg_tail);
 		}
 	}
 }

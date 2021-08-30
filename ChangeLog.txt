@@ -17,6 +17,9 @@ Security:
 - If a plugin had granted ACL subscription access to a
   durable/non-clean-session client, then removed that access, the client would
   keep its existing subscription. This has been fixed.
+- Incoming QoS 2 messages that had not completed the QoS flow were not being
+  checked for ACL access when a clean session=False client was reconnecting.
+  This has been fixed.
 
 Broker:
 - Fix possible out of bounds memory reads when reading a corrupt/crafted
