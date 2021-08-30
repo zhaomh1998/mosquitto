@@ -14,7 +14,7 @@ Security:
   remotely accessible listener to be opened that was not confined to the local
   machine but did have anonymous access enabled, contrary to the
   documentation. This has been fixed. Closes #2283.
-- If a plugin had granted ACL subscription access to a
+- CVE-2021-34434: If a plugin had granted ACL subscription access to a
   durable/non-clean-session client, then removed that access, the client would
   keep its existing subscription. This has been fixed.
 - Incoming QoS 2 messages that had not completed the QoS flow were not being
