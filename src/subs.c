@@ -291,14 +291,14 @@ static int sub__add_normal(struct mosquitto *context, const char *sub, uint8_t q
 		return rc;
 	}
 
-	slen = strlen(sub);
-	csub = mosquitto__calloc(1, sizeof(struct mosquitto__client_sub) + slen + 1);
-	if(csub == NULL) return MOSQ_ERR_NOMEM;
-	memcpy(csub->topic_filter, sub, slen);
-	csub->hier = subhier;
-	csub->shared = NULL;
-
 	if(rc != MOSQ_ERR_SUB_EXISTS){
+		slen = strlen(sub);
+		csub = mosquitto__calloc(1, sizeof(struct mosquitto__client_sub) + slen + 1);
+		if(csub == NULL) return MOSQ_ERR_NOMEM;
+		memcpy(csub->topic_filter, sub, slen);
+		csub->hier = subhier;
+		csub->shared = NULL;
+
 		for(i=0; i<context->sub_count; i++){
 			if(!context->subs[i]){
 				context->subs[i] = csub;
