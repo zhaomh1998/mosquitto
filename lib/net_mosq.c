@@ -668,15 +668,18 @@ static int net__init_ssl_ctx(struct mosquitto *mosq)
 #if !defined(OPENSSL_NO_ENGINE)
 	EVP_PKEY *pkey;
 #endif
-
-	if(mosq->ssl_ctx){
+ 
+#ifndef WITH_BROKER
+	if(mosq->user_ssl_ctx){
+		mosq->ssl_ctx = mosq->user_ssl_ctx;
 		if(!mosq->ssl_ctx_defaults){
 			return MOSQ_ERR_SUCCESS;
 		}else if(!mosq->tls_cafile && !mosq->tls_capath && !mosq->tls_psk){
-			log__printf(mosq, MOSQ_LOG_ERR, "Error: MOSQ_OPT_SSL_CTX_WITH_DEFAULTS used without specifying cafile, capath or psk.");
+			log__printf(mosq, MOSQ_LOG_ERR, "Error: If you use MOSQ_OPT_SSL_CTX then MOSQ_OPT_SSL_CTX_WITH_DEFAULTS must be true, or at least one of cafile, capath or psk must be specified.");
 			return MOSQ_ERR_INVAL;
 		}
 	}
+#endif
 
 	/* Apply default SSL_CTX settings. This is only used if MOSQ_OPT_SSL_CTX
 	 * has not been set, or if both of MOSQ_OPT_SSL_CTX and

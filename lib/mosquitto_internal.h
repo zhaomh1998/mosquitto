@@ -243,6 +243,9 @@ struct mosquitto {
 #ifdef WITH_TLS
 	SSL *ssl;
 	SSL_CTX *ssl_ctx;
+#ifndef WITH_BROKER
+	SSL_CTX *user_ssl_ctx;
+#endif
 	char *tls_cafile;
 	char *tls_capath;
 	char *tls_certfile;

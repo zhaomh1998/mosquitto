@@ -508,12 +508,12 @@ int mosquitto_void_option(struct mosquitto *mosq, enum mosq_opt_t option, void *
 	switch(option){
 		case MOSQ_OPT_SSL_CTX:
 #ifdef WITH_TLS
-			mosq->ssl_ctx = (SSL_CTX *)value;
-			if(mosq->ssl_ctx){
+			mosq->user_ssl_ctx = (SSL_CTX *)value;
+			if(mosq->user_ssl_ctx){
 #if (OPENSSL_VERSION_NUMBER >= 0x10100000L)
-				SSL_CTX_up_ref(mosq->ssl_ctx);
+				SSL_CTX_up_ref(mosq->user_ssl_ctx);
 #else
-				CRYPTO_add(&(mosq->ssl_ctx)->references, 1, CRYPTO_LOCK_SSL_CTX);
+				CRYPTO_add(&(mosq->user_ssl_ctx)->references, 1, CRYPTO_LOCK_SSL_CTX);
 #endif
 			}
 			break;
