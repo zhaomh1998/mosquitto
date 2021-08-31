@@ -40,6 +40,7 @@ Broker:
 - Strict protocol compliance fixes, plus test suite.
 - Fix $share subscriptions not being recovered for durable clients that
   reconnect.
+- Update plugin configuration documentation. Closes #2286.
 
 Client library:
 - If a client uses TLS-PSK then force the default cipher list to use "PSK"
