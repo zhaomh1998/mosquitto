@@ -50,6 +50,7 @@ Client library:
 - Disable TLS v1.3 when using TLS-PSK, because it isn't correctly configured.
 - Threaded mode is deconfigured when the mosquitto_loop_start() thread ends,
   which allows mosquitto_loop_start() to be called again. Closes #2242.
+- Fix MOSQ_OPT_SSL_CTX not being able to be set to NULL. Closes #2289.
 
 Apps:
 - Fix `mosquitto_ctrl dynsec setDefaultACLAccess` command not working.

@@ -401,26 +401,17 @@ int mosquitto_opts_set(struct mosquitto *mosq, enum mosq_opt_t option, void *val
 {
 	int ival;
 
-	if(!mosq || !value) return MOSQ_ERR_INVAL;
+	if(!mosq) return MOSQ_ERR_INVAL;
 
 	switch(option){
 		case MOSQ_OPT_PROTOCOL_VERSION:
+			if(value == NULL){
+				return MOSQ_ERR_INVAL;
+			}
 			ival = *((int *)value);
 			return mosquitto_int_option(mosq, option, ival);
 		case MOSQ_OPT_SSL_CTX:
-#ifdef WITH_TLS
-			mosq->ssl_ctx = (SSL_CTX *)value;
-			if(mosq->ssl_ctx){
-#if (OPENSSL_VERSION_NUMBER >= 0x10100000L)
-				SSL_CTX_up_ref(mosq->ssl_ctx);
-#else
-				CRYPTO_add(&(mosq->ssl_ctx)->references, 1, CRYPTO_LOCK_SSL_CTX);
-#endif
-			}
-			break;
-#else
-			return MOSQ_ERR_NOT_SUPPORTED;
-#endif
+			return mosquitto_void_option(mosq, option, value);
 		default:
 			return MOSQ_ERR_INVAL;
 	}
@@ -512,7 +503,7 @@ int mosquitto_int_option(struct mosquitto *mosq, enum mosq_opt_t option, int val
 
 int mosquitto_void_option(struct mosquitto *mosq, enum mosq_opt_t option, void *value)
 {
-	if(!mosq || !value) return MOSQ_ERR_INVAL;
+	if(!mosq) return MOSQ_ERR_INVAL;
 
 	switch(option){
 		case MOSQ_OPT_SSL_CTX:
