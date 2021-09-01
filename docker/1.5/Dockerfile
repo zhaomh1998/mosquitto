@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.14
 
 LABEL maintainer="Roger Light <roger@atchoo.org>" \
     description="Eclipse Mosquitto MQTT Broker"
@@ -9,7 +9,9 @@ ENV VERSION=1.5.11 \
     LWS_VERSION=2.4.2 \
     LWS_SHA256=73012d7fcf428dedccc816e83a63a01462e27819d5537b8e0d0c7264bfacfad6
 
+# upgrade needed for libressl / libretls conflict
 RUN set -x && \
+    apk --no-cache upgrade && \
     apk --no-cache add --virtual build-deps \
         build-base \
         cmake \
