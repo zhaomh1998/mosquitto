@@ -6,7 +6,8 @@ DIRS= \
 		delayed-auth \
 		force-retain \
 		message-timestamp \
-		payload-modification
+		payload-modification \
+		print-ip-on-publish
 
 .PHONY : all binary check clean reallyclean test install uninstall
 

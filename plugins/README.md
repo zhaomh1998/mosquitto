@@ -55,3 +55,7 @@ verified the payload is the correct format before modifying it.
 This plugin adds the text string "hello " to the beginning of each payload, so
 with anything other than simple plain text messages it will corrupt the payload
 contents.
+
+## Examples / Print IP on publish
+This is an **example** plugin that prints out client ID and IP address of any
+client that publishes on a particular topic.
