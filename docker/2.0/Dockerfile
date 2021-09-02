@@ -9,9 +9,7 @@ ENV VERSION=2.0.12 \
     LWS_VERSION=4.2.1 \
     LWS_SHA256=842da21f73ccba2be59e680de10a8cce7928313048750eb6ad73b6fa50763c51
 
-# upgrade needed for libressl / libretls conflict
 RUN set -x && \
-    apk --no-cache upgrade && \
     apk --no-cache add --virtual build-deps \
         build-base \
         cmake \
