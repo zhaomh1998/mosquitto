@@ -193,7 +193,7 @@ int listeners__start(void)
 
 	g_listensock_count = 0;
 
-	if(db.config->listener_count == 0){
+	if(db.config->local_only){
 		if(listeners__start_local_only()){
 			db__close();
 			if(db.config->pid_file){

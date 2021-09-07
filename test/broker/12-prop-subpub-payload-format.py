@@ -13,7 +13,7 @@ def do_test(start_broker):
 
     props_in = mqtt5_props.gen_byte_prop(mqtt5_props.PROP_PAYLOAD_FORMAT_INDICATOR, 0xed)
 
-    return helper.prop_subpub_helper(start_broker, "12-prop-subpub-payload-format", props_out, props_in)
+    return helper.prop_subpub_helper(start_broker, "12-prop-subpub-payload-format", props_out, props_in, expect_proto_error=True)
 
 
 def all_tests(start_broker=False):

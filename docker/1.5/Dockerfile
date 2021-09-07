@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.14
 
 LABEL maintainer="Roger Light <roger@atchoo.org>" \
     description="Eclipse Mosquitto MQTT Broker"
@@ -30,6 +30,7 @@ RUN set -x && \
         -DLWS_WITHOUT_CLIENT=ON \
         -DLWS_WITHOUT_EXTENSIONS=ON \
         -DLWS_WITHOUT_TESTAPPS=ON \
+        -DLWS_WITH_HTTP2=OFF \
         -DLWS_WITH_SHARED=OFF \
         -DLWS_WITH_ZIP_FOPS=OFF \
         -DLWS_WITH_ZLIB=OFF && \

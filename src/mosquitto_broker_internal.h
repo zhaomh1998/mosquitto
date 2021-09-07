@@ -312,6 +312,7 @@ struct mosquitto__config {
 	struct mosquitto__security_options security_options;
 };
 
+
 struct mosquitto__subleaf {
 	struct mosquitto__subleaf *prev;
 	struct mosquitto__subleaf *next;
@@ -320,12 +321,6 @@ struct mosquitto__subleaf {
 	uint8_t qos;
 	bool no_local;
 	bool retain_as_published;
-};
-
-
-struct mosquitto__subshared_ref {
-	struct mosquitto__subhier *hier;
-	struct mosquitto__subshared *shared;
 };
 
 
@@ -343,6 +338,12 @@ struct mosquitto__subhier {
 	struct mosquitto__subshared *shared;
 	char *topic;
 	uint16_t topic_len;
+};
+
+struct mosquitto__client_sub {
+	struct mosquitto__subhier *hier;
+	struct mosquitto__subshared *shared;
+	char topic_filter[];
 };
 
 struct sub__token {

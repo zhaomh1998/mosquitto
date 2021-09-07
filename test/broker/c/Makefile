@@ -4,6 +4,7 @@ CFLAGS=-I../../../include -Wall -Werror
 
 PLUGIN_SRC = \
 	auth_plugin_acl.c \
+	auth_plugin_acl_change.c \
 	auth_plugin_acl_sub_denied.c \
 	auth_plugin_context_params.c \
 	auth_plugin_delayed.c \

@@ -36,10 +36,11 @@ Contributors:
 
 static void client_cost(FILE *fptr, struct mosquitto *context, int fn_index)
 {
-	size_t pkt_count, pkt_bytes;
-	size_t cmsg_count, cmsg_bytes;
+	long pkt_count, pkt_bytes;
+	long cmsg_count;
+	long cmsg_bytes;
 	struct mosquitto__packet *pkt_tmp;
-	size_t tBytes;
+	long tBytes;
 
 	pkt_count = 1;
 	pkt_bytes = context->in_packet.packet_length;
@@ -50,14 +51,14 @@ static void client_cost(FILE *fptr, struct mosquitto *context, int fn_index)
 		pkt_tmp = pkt_tmp->next;
 	}
 
-	cmsg_count = (size_t)context->msgs_in.msg_count;
-	cmsg_bytes = (size_t)context->msgs_in.msg_bytes;
-	cmsg_count += (size_t)context->msgs_out.msg_count;
-	cmsg_bytes += (size_t)context->msgs_out.msg_bytes;
+	cmsg_count = context->msgs_in.msg_count;
+	cmsg_bytes = context->msgs_in.msg_bytes;
+	cmsg_count += context->msgs_out.msg_count;
+	cmsg_bytes += context->msgs_out.msg_bytes;
 
 	tBytes = pkt_bytes + cmsg_bytes;
 	if(context->id){
-		tBytes += strlen(context->id);
+		tBytes += (long)strlen(context->id);
 	}
 	fprintf(fptr, "%d %ld %lu %lu %lu %lu %d 0 0\n", fn_index,
 			tBytes,
@@ -75,7 +76,7 @@ static void report_subscriptions(FILE *fptr, struct mosquitto *context, int *fn_
 
 	for(i=0; i<context->sub_count; i++){
 		if(context->subs && context->subs[i]){
-			subhier = context->subs[i];
+			subhier = context->subs[i]->hier;
 			topic_count = 0;
 			do{
 				topics[topic_count] = subhier->topic;

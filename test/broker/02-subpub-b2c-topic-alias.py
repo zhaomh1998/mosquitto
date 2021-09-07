@@ -20,7 +20,7 @@ def do_test(start_broker):
 
     port = mosq_test.get_port()
     if start_broker:
-        broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port, collect_output=False)
+        broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port, nolog=True)
 
     try:
         sock = mosq_test.do_client_connect(connect_packet, connack_packet, timeout=5, port=port)
