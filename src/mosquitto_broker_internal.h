@@ -257,6 +257,9 @@ struct mosquitto__listener_sock{
 
 typedef struct mosquitto_plugin_id_t{
 	struct mosquitto__listener *listener;
+	char *plugin_name;
+	char *plugin_version;
+	struct control_endpoint *control_endpoints;
 } mosquitto_plugin_id_t;
 
 struct mosquitto__config {
@@ -601,6 +604,11 @@ struct libws_mqtt_data {
 #include <net_mosq.h>
 
 
+struct control_endpoint {
+	struct control_endpoint *next, *prev;
+	char topic[];
+};
+
 extern struct mosquitto_db db;
 
 /* ============================================================
@@ -733,8 +741,8 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 int control__process(struct mosquitto *context, struct mosquitto_msg_store *stored);
 void control__cleanup(void);
 #endif
-int control__register_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata);
-int control__unregister_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic);
+int control__register_callback(mosquitto_plugin_id_t *pid, MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata);
+int control__unregister_callback(mosquitto_plugin_id_t *pid, MOSQ_FUNC_generic_callback cb_func, const char *topic);
 
 
 /* ============================================================

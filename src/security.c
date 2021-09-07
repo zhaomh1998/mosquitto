@@ -405,6 +405,7 @@ int mosquitto_security_module_init(void)
 static void security__module_cleanup_single(struct mosquitto__security_options *opts)
 {
 	int i;
+	struct control_endpoint *ep, *tmp;
 
 	for(i=0; i<opts->auth_plugin_config_count; i++){
 		/* Run plugin cleanup function */
@@ -413,6 +414,12 @@ static void security__module_cleanup_single(struct mosquitto__security_options *
 					opts->auth_plugin_configs[i].plugin.user_data,
 					opts->auth_plugin_configs[i].options,
 					opts->auth_plugin_configs[i].option_count);
+			mosquitto__free(opts->auth_plugin_configs[i].plugin.identifier->plugin_name);
+			mosquitto__free(opts->auth_plugin_configs[i].plugin.identifier->plugin_version);
+			DL_FOREACH_SAFE(opts->auth_plugin_configs[i].plugin.identifier->control_endpoints, ep, tmp){
+				DL_DELETE(opts->auth_plugin_configs[i].plugin.identifier->control_endpoints, ep);
+				mosquitto__free(ep);
+			}
 			mosquitto__free(opts->auth_plugin_configs[i].plugin.identifier);
 			opts->auth_plugin_configs[i].plugin.identifier = NULL;
 

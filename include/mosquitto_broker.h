@@ -186,6 +186,18 @@ typedef int (*MOSQ_FUNC_generic_callback)(int, void *, void *);
 typedef struct mosquitto_plugin_id_t mosquitto_plugin_id_t;
 
 /*
+ * Function: mosquitto_plugin_set_info
+ *
+ * Set plugin name and version information for the broker to report. It is
+ * recommended this is used in the mosquitto_plugin_init() call.
+ */
+mosq_EXPORT int mosquitto_plugin_set_info(
+		mosquitto_plugin_id_t *identifier,
+		const char *plugin_name,
+		const char *plugin_version);
+
+
+/*
  * Function: mosquitto_callback_register
  *
  * Register a callback for an event.

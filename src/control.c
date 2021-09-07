@@ -19,6 +19,7 @@ Contributors:
 #include "config.h"
 
 #include <stdio.h>
+#include <utlist.h>
 
 #include "mqtt_protocol.h"
 #include "mosquitto_broker_internal.h"
@@ -78,7 +79,7 @@ int control__process(struct mosquitto *context, struct mosquitto_msg_store *stor
 }
 #endif
 
-int control__register_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata)
+int control__register_callback(mosquitto_plugin_id_t *pid, MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata)
 {
 #ifdef WITH_CONTROL
 	struct mosquitto__security_options *opts;
@@ -112,19 +113,32 @@ int control__register_callback(MOSQ_FUNC_generic_callback cb_func, const char *t
 	cb_new->userdata = userdata;
 	HASH_ADD_KEYPTR(hh, opts->plugin_callbacks.control, cb_new->data, strlen(cb_new->data), cb_new);
 
+	if(pid->plugin_name){
+		struct control_endpoint *ep;
+		ep = mosquitto_malloc(sizeof(struct control_endpoint) + topic_len + 2);
+		if(ep){
+			ep->next = NULL;
+			ep->prev = NULL;
+			snprintf(ep->topic, topic_len+1, "%s", topic);
+			DL_APPEND(pid->control_endpoints, ep);
+		}
+		log__printf(NULL, MOSQ_LOG_INFO, "Plugin %s has registered to receive 'control' events on topic %s.",
+				pid->plugin_name, topic);
+	}
 	return MOSQ_ERR_SUCCESS;
 #else
 	return MOSQ_ERR_NOT_SUPPORTED;
 #endif
 }
 
-int control__unregister_callback(MOSQ_FUNC_generic_callback cb_func, const char *topic)
+int control__unregister_callback(mosquitto_plugin_id_t *identifier, MOSQ_FUNC_generic_callback cb_func, const char *topic)
 {
 #ifdef WITH_CONTROL
 	struct mosquitto__security_options *opts;
 
 	struct mosquitto__callback *cb_found;
 	size_t topic_len;
+	struct control_endpoint *ep;
 
 	if(topic == NULL) return MOSQ_ERR_INVAL;
 	topic_len = strlen(topic);
@@ -139,7 +153,14 @@ int control__unregister_callback(MOSQ_FUNC_generic_callback cb_func, const char 
 		mosquitto__free(cb_found->data);
 		mosquitto__free(cb_found);
 
-		return MOSQ_ERR_SUCCESS;;
+		DL_FOREACH(identifier->control_endpoints, ep){
+			if(!strcmp(topic, ep->topic)){
+				DL_DELETE(identifier->control_endpoints, ep);
+				mosquitto__free(ep);
+				break;
+			}
+		}
+		return MOSQ_ERR_SUCCESS;
 	}
 	return MOSQ_ERR_NOT_FOUND;
 #else

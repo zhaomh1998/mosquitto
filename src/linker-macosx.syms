@@ -18,6 +18,7 @@ _mosquitto_kick_client_by_clientid
 _mosquitto_kick_client_by_username
 _mosquitto_log_printf
 _mosquitto_malloc
+_mosquitto_plugin_set_info
 _mosquitto_property_add_binary
 _mosquitto_property_add_byte
 _mosquitto_property_add_int16

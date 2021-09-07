@@ -99,6 +99,13 @@ int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__auth
 			return rc;
 		}
 	}
+	if(pid->plugin_name && pid->plugin_version){
+		log__printf(NULL, MOSQ_LOG_INFO,
+				"Plugin %s version %s loaded.", pid->plugin_name, pid->plugin_version);
+	}else if(pid->plugin_name){
+		log__printf(NULL, MOSQ_LOG_INFO,
+				"Plugin %s loaded.", pid->plugin_name);
+	}
 
 	return 0;
 }
@@ -249,6 +256,7 @@ int mosquitto_callback_register(
 {
 	struct mosquitto__callback **cb_base = NULL, *cb_new;
 	struct mosquitto__security_options *security_options;
+	const char *event_name;
 
 	if(cb_func == NULL) return MOSQ_ERR_INVAL;
 
@@ -261,36 +269,46 @@ int mosquitto_callback_register(
 	switch(event){
 		case MOSQ_EVT_RELOAD:
 			cb_base = &security_options->plugin_callbacks.reload;
+			event_name = "reload";
 			break;
 		case MOSQ_EVT_ACL_CHECK:
 			cb_base = &security_options->plugin_callbacks.acl_check;
+			event_name = "acl-check";
 			break;
 		case MOSQ_EVT_BASIC_AUTH:
 			cb_base = &security_options->plugin_callbacks.basic_auth;
+			event_name = "basic-auth";
 			break;
 		case MOSQ_EVT_PSK_KEY:
 			cb_base = &security_options->plugin_callbacks.psk_key;
+			event_name = "psk-key";
 			break;
 		case MOSQ_EVT_EXT_AUTH_START:
 			cb_base = &security_options->plugin_callbacks.ext_auth_start;
+			event_name = "auth-start";
 			break;
 		case MOSQ_EVT_EXT_AUTH_CONTINUE:
 			cb_base = &security_options->plugin_callbacks.ext_auth_continue;
+			event_name = "auth-continue";
 			break;
 		case MOSQ_EVT_CONTROL:
-			return control__register_callback(cb_func, event_data, userdata);
+			return control__register_callback(identifier, cb_func, event_data, userdata);
 			break;
 		case MOSQ_EVT_MESSAGE:
 			cb_base = &security_options->plugin_callbacks.message;
+			event_name = "message";
 			break;
 		case MOSQ_EVT_TICK:
 			cb_base = &security_options->plugin_callbacks.tick;
+			event_name = "tick";
 			break;
 		case MOSQ_EVT_DISCONNECT:
 			cb_base = &security_options->plugin_callbacks.disconnect;
+			event_name = "disconnect";
 			break;
 		case MOSQ_EVT_CONNECT:
 			cb_base = &security_options->plugin_callbacks.connect;
+			event_name = "connect";
 			break;
 		default:
 			return MOSQ_ERR_NOT_SUPPORTED;
@@ -308,6 +326,11 @@ int mosquitto_callback_register(
 	DL_APPEND(*cb_base, cb_new);
 	cb_new->cb = cb_func;
 	cb_new->userdata = userdata;
+
+	if(identifier->plugin_name){
+		log__printf(NULL, MOSQ_LOG_INFO, "Plugin %s has registered to receive '%s' events.",
+				identifier->plugin_name, event_name);
+	}
 
 	return MOSQ_ERR_SUCCESS;
 }
@@ -351,7 +374,7 @@ int mosquitto_callback_unregister(
 			cb_base = &security_options->plugin_callbacks.ext_auth_continue;
 			break;
 		case MOSQ_EVT_CONTROL:
-			return control__unregister_callback(cb_func, event_data);
+			return control__unregister_callback(identifier, cb_func, event_data);
 			break;
 		case MOSQ_EVT_MESSAGE:
 			cb_base = &security_options->plugin_callbacks.message;

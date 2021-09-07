@@ -44,6 +44,9 @@ Contributors:
 #include "mosquitto.h"
 #include "mqtt_protocol.h"
 
+#define PLUGIN_NAME "delayed-auth"
+#define PLUGIN_VERSION "1.0"
+
 #ifndef UNUSED
 #  define UNUSED(A) (void)(A)
 #endif
@@ -156,6 +159,7 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 	UNUSED(opt_count);
 
 	mosq_pid = identifier;
+	mosquitto_plugin_set_info(identifier, PLUGIN_NAME, PLUGIN_VERSION);
 
 	rc = mosquitto_callback_register(mosq_pid, MOSQ_EVT_BASIC_AUTH, basic_auth_callback, NULL, NULL);
 	if(rc) return rc;

@@ -31,6 +31,25 @@ Contributors:
 #  include <openssl/ssl.h>
 #endif
 
+int mosquitto_plugin_set_info(mosquitto_plugin_id_t *identifier,
+		const char *plugin_name,
+		const char *plugin_version)
+{
+	if(identifier == NULL || plugin_name == NULL){
+		return MOSQ_ERR_INVAL;
+	}
+
+	identifier->plugin_name = mosquitto_strdup(plugin_name);
+	if(plugin_version){
+		identifier->plugin_version = mosquitto_strdup(plugin_version);
+	}else{
+		identifier->plugin_version = NULL;
+	}
+
+	return MOSQ_ERR_SUCCESS;
+}
+
+
 const char *mosquitto_client_address(const struct mosquitto *client)
 {
 	if(client){

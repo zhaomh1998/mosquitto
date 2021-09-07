@@ -19,6 +19,9 @@
 #include "mosquitto.h"
 #include "mqtt_protocol.h"
 
+#define PLUGIN_NAME "client-properties"
+#define PLUGIN_VERSION "1.0"
+
 #define UNUSED(A) (void)(A)
 
 static mosquitto_plugin_id_t *mosq_pid = NULL;
@@ -57,6 +60,7 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 	UNUSED(opt_count);
 
 	mosq_pid = identifier;
+	mosquitto_plugin_set_info(identifier, PLUGIN_NAME, PLUGIN_VERSION);
 	return mosquitto_callback_register(mosq_pid, MOSQ_EVT_MESSAGE, callback_message, NULL, NULL);
 }
 
