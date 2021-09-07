@@ -160,7 +160,8 @@ static int client_add_admin(FILE *pwfile, cJSON *j_clients)
 	free(password_hash);
 	free(salt);
 
-	if(client_role_add(j_roles, "dynsec-admin")
+	if(client_role_add(j_roles, "broker-admin")
+			|| client_role_add(j_roles, "dynsec-admin")
 			|| client_role_add(j_roles, "sys-observe")
 			|| client_role_add(j_roles, "topic-observe")
 			){
@@ -319,6 +320,35 @@ static int role_add_client(cJSON *j_roles)
 	return MOSQ_ERR_SUCCESS;
 }
 
+static int role_add_broker_admin(cJSON *j_roles)
+{
+	cJSON *j_role, *j_acls;
+
+	j_role = cJSON_CreateObject();
+	if(j_role == NULL){
+		return MOSQ_ERR_NOMEM;
+	}
+	cJSON_AddItemToArray(j_roles, j_role);
+
+	if(cJSON_AddStringToObject(j_role, "rolename", "broker-admin") == NULL
+			|| cJSON_AddStringToObject(j_role, "textdescription",
+				"Grants access to administer general broker configuration.") == NULL
+			|| (j_acls = cJSON_AddArrayToObject(j_role, "acls")) == NULL
+			){
+
+		return MOSQ_ERR_NOMEM;
+	}
+
+	if(acl_add(j_acls, "publishClientSend", "$CONTROL/broker/#", 0, true)
+			|| acl_add(j_acls, "publishClientReceive", "$CONTROL/broker/#", 0, true)
+			|| acl_add(j_acls, "subscribePattern", "$CONTROL/broker/#", 0, true)
+			){
+
+		return MOSQ_ERR_NOMEM;
+	}
+	return MOSQ_ERR_SUCCESS;
+}
+
 static int role_add_dynsec_admin(cJSON *j_roles)
 {
 	cJSON *j_role, *j_acls;
@@ -443,6 +473,7 @@ static int add_roles(cJSON *j_tree)
 	}
 
 	if(role_add_client(j_roles)
+			|| role_add_broker_admin(j_roles)
 			|| role_add_dynsec_admin(j_roles)
 			|| role_add_sys_notify(j_roles)
 			|| role_add_sys_observe(j_roles)

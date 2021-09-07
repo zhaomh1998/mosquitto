@@ -51,6 +51,9 @@ Broker:
   having to connect to a broker.
 - Add `mosquitto_plugin_set_info()` to allow plugins to tell the broker their
   name and version.
+- Add builtin $CONTROL/broker/v1 control topic with the `getPluginInfo`
+  command.
+- Add support for `getPluginInfo` to mosquitto_ctrl.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

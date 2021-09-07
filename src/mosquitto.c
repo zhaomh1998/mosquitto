@@ -355,6 +355,10 @@ int main(int argc, char *argv[])
 	bridge__start_all();
 #endif
 
+#ifdef WITH_CJSON
+	broker_control__init();
+#endif
+
 	log__printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s running", VERSION);
 #ifdef WITH_SYSTEMD
 	sd_notify(0, "READY=1");
@@ -364,6 +368,10 @@ int main(int argc, char *argv[])
 	rc = mosquitto_main_loop(g_listensock, g_listensock_count);
 
 	log__printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s terminating", VERSION);
+
+#ifdef WITH_CJSON
+	broker_control__cleanup();
+#endif
 
 	/* FIXME - this isn't quite right, all wills with will delay zero should be
 	 * sent now, but those with positive will delay should be persisted and

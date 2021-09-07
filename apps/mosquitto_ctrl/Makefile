@@ -15,6 +15,7 @@ endif
 LOCAL_CPPFLAGS:=-I../mosquitto_passwd -I../../plugins/dynamic-security -DWITH_CJSON
 
 OBJS=	mosquitto_ctrl.o \
+		broker.o \
 		client.o \
 		dynsec.o \
 		dynsec_client.o \
@@ -49,6 +50,9 @@ mosquitto_ctrl_example.so : ${EXAMPLE_OBJS}
 	$(CROSS_COMPILE)$(CC) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) -shared $< -o $@
 
 mosquitto_ctrl.o : mosquitto_ctrl.c mosquitto_ctrl.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
+
+broker.o : broker.c mosquitto_ctrl.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
 
 client.o : client.c mosquitto_ctrl.h

@@ -8,6 +8,7 @@ OBJS=	mosquitto.o \
 		alias_mosq.o \
 		bridge.o \
 		bridge_topic.o \
+		broker_control.o \
 		conf.o \
 		conf_includedir.o \
 		context.o \
@@ -26,6 +27,7 @@ OBJS=	mosquitto.o \
 		handle_subscribe.o \
 		handle_unsuback.o \
 		handle_unsubscribe.o \
+		json_help.o \
 		keepalive.o \
 		listeners.o \
 		logging.o \
@@ -98,6 +100,9 @@ bridge.o : bridge.c mosquitto_broker_internal.h
 bridge_topic.o : bridge_topic.c mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
+broker_control.o : broker_control.c mosquitto_broker_internal.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
 conf.o : conf.c mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
@@ -150,6 +155,9 @@ handle_unsuback.o : ../lib/handle_unsuback.c ../lib/read_handle.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 handle_unsubscribe.o : handle_unsubscribe.c mosquitto_broker_internal.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
+json_help.o : json_help.c json_help.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 keepalive.o : keepalive.c mosquitto_broker_internal.h

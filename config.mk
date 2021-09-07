@@ -108,6 +108,7 @@ WITH_COVERAGE:=no
 WITH_UNIX_SOCKETS:=yes
 
 # Build mosquitto_sub with cJSON support
+# Build mosquitto with broker control support
 WITH_CJSON:=yes
 
 # Build mosquitto with support for the $CONTROL topics.
@@ -378,6 +379,8 @@ ifeq ($(WITH_CJSON),yes)
 	CLIENT_LDADD:=$(CLIENT_LDADD) -lcjson
 	CLIENT_STATIC_LDADD:=$(CLIENT_STATIC_LDADD) -lcjson
 	CLIENT_LDFLAGS:=$(CLIENT_LDFLAGS)
+	BROKER_CFLAGS:=$(BROKER_CFLAGS) -DWITH_CJSON
+	BROKER_LDADD:=$(BROKER_LDADD) -lcjson
 endif
 
 ifeq ($(WITH_XTREPORT),yes)

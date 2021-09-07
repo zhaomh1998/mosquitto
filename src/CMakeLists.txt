@@ -1,6 +1,7 @@
 set (MOSQ_SRCS
 	../lib/alias_mosq.c ../lib/alias_mosq.h
 	bridge.c bridge_topic.c
+	broker_control.c
 	conf.c
 	conf_includedir.c
 	context.c
@@ -19,6 +20,7 @@ set (MOSQ_SRCS
 	handle_subscribe.c
 	../lib/handle_unsuback.c
 	handle_unsubscribe.c
+	json_help.c json_help.h
 	keepalive.c
 	lib_load.h
 	listeners.c
