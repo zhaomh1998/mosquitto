@@ -24,7 +24,7 @@ Contributors:
 
 #ifdef WITH_BROKER
 #  include "mosquitto_broker_internal.h"
-#  ifdef WITH_WEBSOCKETS
+#  if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 #    include <libwebsockets.h>
 #  endif
 #else
@@ -77,7 +77,7 @@ int packet__alloc(struct mosquitto__packet **packet, uint8_t command, uint32_t r
 	if(remaining_count == 5) return MOSQ_ERR_PAYLOAD_SIZE;
 
 	packet_length = remaining_length_stored + 1 + (uint8_t)remaining_count;
-	(*packet) = mosquitto__malloc(sizeof(struct mosquitto__packet) + packet_length + LWS_PRE);
+	(*packet) = mosquitto__malloc(sizeof(struct mosquitto__packet) + packet_length + WS_PACKET_OFFSET);
 	if((*packet) == NULL) return MOSQ_ERR_NOMEM;
 
 	/* Clear memory for everything but the payload - that will be set to valid
@@ -86,13 +86,13 @@ int packet__alloc(struct mosquitto__packet **packet, uint8_t command, uint32_t r
 	(*packet)->command = command;
 	(*packet)->remaining_length = remaining_length_stored;
 	(*packet)->remaining_count = remaining_count;
-	(*packet)->packet_length = packet_length;
+	(*packet)->packet_length = packet_length + WS_PACKET_OFFSET;
 
-	(*packet)->payload[0] = (*packet)->command;
+	(*packet)->payload[WS_PACKET_OFFSET] = (*packet)->command;
 	for(i=0; i<(*packet)->remaining_count; i++){
-		(*packet)->payload[i+1] = remaining_bytes[i];
+		(*packet)->payload[WS_PACKET_OFFSET+i+1] = remaining_bytes[i];
 	}
-	(*packet)->pos = 1U + (uint8_t)(*packet)->remaining_count;
+	(*packet)->pos = WS_PACKET_OFFSET + 1U + (uint8_t)(*packet)->remaining_count;
 
 	return MOSQ_ERR_SUCCESS;
 }
@@ -147,10 +147,37 @@ int packet__queue(struct mosquitto *mosq, struct mosquitto__packet *packet)
 	assert(mosq);
 	assert(packet);
 
-	packet->pos = 0;
-	packet->to_process = packet->packet_length;
+#if defined(WITH_BROKER) && defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
+	if(mosq->wsi){
+		packet->pos = 0;
+		packet->to_process = packet->packet_length;
 
-	packet->next = NULL;
+		packet->next = NULL;
+		pthread_mutex_lock(&mosq->out_packet_mutex);
+		if(mosq->out_packet){
+			mosq->out_packet_last->next = packet;
+		}else{
+			mosq->out_packet = packet;
+		}
+		mosq->out_packet_last = packet;
+		mosq->out_packet_count++;
+		pthread_mutex_unlock(&mosq->out_packet_mutex);
+
+		lws_callback_on_writable(mosq->wsi);
+		return MOSQ_ERR_SUCCESS;
+	}else
+#elif defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+	if(mosq->transport == mosq_t_ws){
+		ws__prepare_packet(mosq, packet);
+	}else
+#endif
+	{
+		/* Normal TCP */
+		packet->next = NULL;
+		packet->pos = WS_PACKET_OFFSET;
+		packet->to_process = packet->packet_length - WS_PACKET_OFFSET;
+	}
+
 	pthread_mutex_lock(&mosq->out_packet_mutex);
 	if(mosq->out_packet){
 		mosq->out_packet_last->next = packet;
@@ -158,30 +185,20 @@ int packet__queue(struct mosquitto *mosq, struct mosquitto__packet *packet)
 		mosq->out_packet = packet;
 	}
 	mosq->out_packet_last = packet;
-	mosq->out_packet_count++;
 	pthread_mutex_unlock(&mosq->out_packet_mutex);
-#ifdef WITH_BROKER
-#  ifdef WITH_WEBSOCKETS
-	if(mosq->wsi){
-		lws_callback_on_writable(mosq->wsi);
-		return MOSQ_ERR_SUCCESS;
-	}else{
-		return packet__write(mosq);
-	}
-#  else
-	return packet__write(mosq);
-#  endif
-#else
 
+#ifdef WITH_BROKER
+	return packet__write(mosq);
+#else
 	/* Write a single byte to sockpairW (connected to sockpairR) to break out
 	 * of select() if in threaded mode. */
 	if(mosq->sockpairW != INVALID_SOCKET){
-#ifndef WIN32
+#  ifndef WIN32
 		if(write(mosq->sockpairW, &sockpair_data, 1)){
 		}
-#else
+#  else
 		send(mosq->sockpairW, &sockpair_data, 1, 0);
-#endif
+#  endif
 	}
 
 	if(mosq->callback_depth == 0 && mosq->threaded == mosq_ts_none){
@@ -233,7 +250,9 @@ int packet__write(struct mosquitto *mosq)
 	enum mosquitto_client_state state;
 
 	if(!mosq) return MOSQ_ERR_INVAL;
-	if(!net__is_connected(mosq)) return MOSQ_ERR_NO_CONN;
+	if(!net__is_connected(mosq)){
+		return MOSQ_ERR_NO_CONN;
+	}
 
 	pthread_mutex_lock(&mosq->out_packet_mutex);
 	packet = mosq->out_packet;
@@ -322,6 +341,7 @@ int packet__read(struct mosquitto *mosq)
 	ssize_t read_length;
 	int rc = 0;
 	enum mosquitto_client_state state;
+	ssize_t (*local__read)(struct mosquitto *, void *, size_t);
 
 	if(!mosq){
 		return MOSQ_ERR_INVAL;
@@ -333,6 +353,14 @@ int packet__read(struct mosquitto *mosq)
 	state = mosquitto__get_state(mosq);
 	if(state == mosq_cs_connect_pending){
 		return MOSQ_ERR_SUCCESS;
+	}
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+	if(mosq->transport == mosq_t_ws){
+		local__read = net__read_ws;
+	}else
+#endif
+	{
+		local__read = net__read;
 	}
 
 	/* This gets called if pselect() indicates that there is network data
@@ -350,7 +378,7 @@ int packet__read(struct mosquitto *mosq)
 	 * Finally, free the memory and reset everything to starting conditions.
 	 */
 	if(!mosq->in_packet.command){
-		read_length = net__read(mosq, &byte, 1);
+		read_length = local__read(mosq, &byte, 1);
 		if(read_length == 1){
 			mosq->in_packet.command = byte;
 #ifdef WITH_BROKER
@@ -392,7 +420,7 @@ int packet__read(struct mosquitto *mosq)
 	 */
 	if(mosq->in_packet.remaining_count <= 0){
 		do{
-			read_length = net__read(mosq, &byte, 1);
+			read_length = local__read(mosq, &byte, 1);
 			if(read_length == 1){
 				mosq->in_packet.remaining_count--;
 				/* Max 4 bytes length for remaining length as defined by protocol.
@@ -480,7 +508,7 @@ int packet__read(struct mosquitto *mosq)
 		}
 	}
 	while(mosq->in_packet.to_process>0){
-		read_length = net__read(mosq, &(mosq->in_packet.payload[mosq->in_packet.pos]), mosq->in_packet.to_process);
+		read_length = local__read(mosq, &(mosq->in_packet.payload[mosq->in_packet.pos]), mosq->in_packet.to_process);
 		if(read_length > 0){
 			G_BYTES_RECEIVED_INC(read_length);
 			mosq->in_packet.to_process -= (uint32_t)read_length;

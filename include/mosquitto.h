@@ -143,8 +143,15 @@ enum mosq_opt_t {
 	MOSQ_OPT_BIND_ADDRESS = 12,
 	MOSQ_OPT_TLS_USE_OS_CERTS = 13,
 	MOSQ_OPT_DISABLE_SOCKETPAIR = 14,
+	MOSQ_OPT_TRANSPORT = 15,
+	MOSQ_OPT_HTTP_PATH = 16,
+	MOSQ_OPT_HTTP_HEADER_SIZE = 17,
 };
 
+enum mosq_transport_t {
+	MOSQ_T_TCP = 1,
+	MOSQ_T_WEBSOCKETS = 2,
+};
 
 /* MQTT specification restricts client ids to a maximum of 23 characters */
 #define MOSQ_MQTT_ID_MAX_LENGTH 23
@@ -1560,6 +1567,14 @@ libmosq_EXPORT int mosquitto_opts_set(struct mosquitto *mosq, enum mosq_opt_t op
  *            operating with an external loop, this is not necessary and
  *            consumes an extra two sockets per client. Set this option to 1 to
  *            disable the use of the socket pair.
+ *
+ *	MOSQ_OPT_TRANSPORT - Have the client connect with either MQTT over TCP as
+ *	          normal, or MQTT over WebSockets. Set the value to MOSQ_T_TCP or
+ *	          MOSQ_T_WEBSOCKETS.
+ *
+ *	MOSQ_OPT_HTTP_HEADER_SIZE - Size the size of buffer that will be allocated
+ *	          to store the incoming HTTP header when using Websocket transport.
+ *	          Defaults to 4096.
  */
 libmosq_EXPORT int mosquitto_int_option(struct mosquitto *mosq, enum mosq_opt_t option, int value);
 

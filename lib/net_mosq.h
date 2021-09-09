@@ -73,6 +73,7 @@ int net__socketpair(mosq_sock_t *sp1, mosq_sock_t *sp2);
 bool net__is_connected(struct mosquitto *mosq);
 
 ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count);
+ssize_t net__read_ws(struct mosquitto *mosq, void *buf, size_t count);
 ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count);
 
 #ifdef WITH_TLS
@@ -85,6 +86,11 @@ UI_METHOD *net__get_ui_method(void);
 #define ENGINE_SECRET_MODE "SECRET_MODE"
 #define ENGINE_SECRET_MODE_SHA 0x1000
 #define ENGINE_PIN "PIN"
+#endif
+
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+void ws__context_init(struct mosquitto *mosq);
+void ws__prepare_packet(struct mosquitto *mosq, struct mosquitto__packet *packet);
 #endif
 
 #endif

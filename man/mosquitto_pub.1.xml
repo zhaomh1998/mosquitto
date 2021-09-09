@@ -43,6 +43,7 @@
 			<arg><option>--repeat-delay</option> <replaceable>seconds</replaceable></arg>
 			<arg><option>-S</option></arg>
 			<arg><option>-V</option> <replaceable>protocol-version</replaceable></arg>
+			<arg><option>--ws</option></arg>
 			<arg><option>-x</option> <replaceable>session-expiry-interval</replaceable></arg>
 			<group choice='req'>
 				<arg choice='plain'><option>-f</option> <replaceable>file</replaceable></arg>
@@ -368,12 +369,17 @@
 				<term><option>-L</option></term>
 				<term><option>--url</option></term>
 				<listitem>
-					<para>Specify specify user, password, hostname, port and
+					<para>
+						Specify specify user, password, hostname, port and
 						topic at once as a URL.  The URL must be in the form:
-						mqtt(s)://[username[:password]@]host[:port]/topic</para>
-					<para>If the scheme is mqtt:// then the port defaults to
-						1883. If the scheme is mqtts:// then the port defaults
-						to 8883.</para>
+						mqtt(s)://[username[:password]@]host[:port]/topic
+						or ws(s)://[username[:password]@]host[:port]/path
+					</para>
+					<para>
+                        Depending on the scheme, the port will default to
+						different values. mqtt:// - 1883, mqtts:// - 8883,
+						ws:// - 80, wss:// - 443.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -688,6 +694,14 @@
 				<listitem>
 					<para>The topic on which to send a Will, in the event that
 					the client disconnects unexpectedly.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--ws</option></term>
+				<listitem>
+					<para>
+						Connect using WebSockets instead of plain TCP.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>

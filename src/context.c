@@ -80,6 +80,12 @@ struct mosquitto *context__init(void)
 	context->listener = NULL;
 	context->acl_list = NULL;
 	context->retain_available = true;
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+	memset(&context->wsd, 0, sizeof(context->wsd));
+	context->wsd.opcode = UINT8_MAX;
+	context->wsd.mask = UINT8_MAX;
+	context->wsd.disconnect_reason = 0xE8;
+#endif
 
 	/* is_bridge records whether this client is a bridge or not. This could be
 	 * done by looking at context->bridge for bridges that we create ourself,
@@ -168,6 +174,11 @@ void context__cleanup(struct mosquitto *context, bool force_free)
 		mosquitto__free(context->adns);
 	}
 #endif
+
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+	mosquitto__free(context->http_request);
+	context->http_request = NULL;
+#endif
 	if(force_free){
 		mosquitto__free(context);
 	}
@@ -211,6 +222,12 @@ void context__disconnect(struct mosquitto *context)
 		return;
 	}
 
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == LWS_IS_BUILTIN
+	if(context->transport == mosq_t_ws){
+		uint8_t buf[4] = {0x88, 0x02, 0x03, context->wsd.disconnect_reason};
+		send(context->sock, buf, 4, 0);
+	}
+#endif
 	plugin__handle_disconnect(context, -1);
 
 	net__socket_close(context);
@@ -254,14 +271,14 @@ void context__add_to_disused(struct mosquitto *context)
 void context__free_disused(void)
 {
 	struct mosquitto *context, *next;
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 	struct mosquitto *last = NULL;
 #endif
 
 	context = db.ll_for_free;
 	db.ll_for_free = NULL;
 	while(context){
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 		if(context->wsi){
 			/* Don't delete yet, lws hasn't finished with it */
 			if(last){

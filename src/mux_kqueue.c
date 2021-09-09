@@ -235,7 +235,22 @@ static void loop_handle_reads_writes(struct mosquitto *context, short event)
 				return;
 			}
 		}
-		rc = packet__write(context);
+		switch(context->transport){
+			case mosq_t_tcp:
+				rc = packet__write(context);
+				break;
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+			case mosq_t_ws:
+				rc = packet__write(context);
+				break;
+			case mosq_t_http:
+				rc = http__write(context);
+				break;
+#endif
+			default:
+				rc = MOSQ_ERR_INVAL;
+				break;
+		}
 		if(rc){
 			do_disconnect(context, rc);
 			return;
@@ -249,7 +264,20 @@ static void loop_handle_reads_writes(struct mosquitto *context, short event)
 			){
 
 		do{
-			rc = packet__read(context);
+			switch(context->transport){
+				case mosq_t_tcp:
+				case mosq_t_ws:
+					rc = packet__read(context);
+					break;
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+				case mosq_t_http:
+					rc = http__read(context);
+					break;
+#endif
+				default:
+					rc = MOSQ_ERR_INVAL;
+					break;
+			}
 			if(rc){
 				do_disconnect(context, rc);
 				return;

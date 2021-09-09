@@ -24,6 +24,7 @@ Contributors:
 
 #include "mosquitto_ctrl.h"
 #include "mosquitto.h"
+#include "base64_mosq.h"
 #include "password_mosq.h"
 #include "get_password.h"
 

@@ -43,7 +43,7 @@ Contributors:
 #endif
 #include <time.h>
 
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 #  include <libwebsockets.h>
 #endif
 
@@ -218,7 +218,7 @@ int mux_poll__handle(struct mosquitto__listener_sock *listensock, int listensock
 
 		for(i=0; i<listensock_count; i++){
 			if(pollfds[i].revents & POLLIN){
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 				if(listensock[i].listener->ws_context){
 					/* Nothing needs to happen here, because we always call lws_service in the loop.
 					 * The important point is we've been woken up for this listener. */
@@ -262,7 +262,7 @@ static void loop_handle_reads_writes(void)
 
 		assert(pollfds[context->pollfd_index].fd == context->sock);
 
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 		if(context->wsi){
 			struct lws_pollfd wspoll;
 			wspoll.fd = pollfds[context->pollfd_index].fd;
@@ -297,7 +297,22 @@ static void loop_handle_reads_writes(void)
 					continue;
 				}
 			}
-			rc = packet__write(context);
+			switch(context->transport){
+				case mosq_t_tcp:
+					rc = packet__write(context);
+					break;
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+				case mosq_t_ws:
+					rc = packet__write(context);
+					break;
+				case mosq_t_http:
+					rc = http__write(context);
+					break;
+#endif
+				default:
+					rc = MOSQ_ERR_INVAL;
+					break;
+			}
 			if(rc){
 				do_disconnect(context, rc);
 				continue;
@@ -309,7 +324,7 @@ static void loop_handle_reads_writes(void)
 		if(context->pollfd_index < 0){
 			continue;
 		}
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 		if(context->wsi){
 			// Websocket are already handled above
 			continue;
@@ -323,7 +338,20 @@ static void loop_handle_reads_writes(void)
 		if(pollfds[context->pollfd_index].revents & POLLIN){
 #endif
 			do{
-				rc = packet__read(context);
+				switch(context->transport){
+					case mosq_t_tcp:
+					case mosq_t_ws:
+						rc = packet__read(context);
+						break;
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+					case mosq_t_http:
+						rc = http__read(context);
+						break;
+#endif
+					default:
+						rc = MOSQ_ERR_INVAL;
+						break;
+				}
 				if(rc){
 					do_disconnect(context, rc);
 					continue;

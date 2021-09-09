@@ -202,6 +202,7 @@ static void init_config(struct mosq_config *cfg, int pub_or_sub)
 		cfg->protocol_version = MQTT_PROTOCOL_V311;
 	}
 	cfg->session_expiry_interval = -1; /* -1 means unset here, the user can't set it to -1. */
+	cfg->transport = MOSQ_T_TCP;
 }
 
 void client_config_cleanup(struct mosq_config *cfg)
@@ -776,6 +777,20 @@ int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, c
 					fprintf(stderr, "Error: TLS support not available.\n\n");
 					return 1;
 #endif
+				} else if(!strncasecmp(url, "ws://", 5)) {
+					url += 5;
+					cfg->port = 1883;
+					cfg->transport = MOSQ_T_WEBSOCKETS;
+				} else if(!strncasecmp(url, "wss://", 6)) {
+#ifdef WITH_TLS
+					url += 6;
+					cfg->port = 8883;
+					cfg->tls_use_os_certs = true;
+					cfg->transport = MOSQ_T_WEBSOCKETS;
+#else
+					fprintf(stderr, "Error: TLS support not available.\n\n");
+					return 1;
+#endif
 				} else {
 					fprintf(stderr, "Error: unsupported URL scheme.\n\n");
 					return 1;
@@ -1242,6 +1257,8 @@ int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, c
 				cfg->will_topic = strdup(argv[i+1]);
 			}
 			i++;
+		}else if(!strcmp(argv[i], "--ws")){
+			cfg->transport = MOSQ_T_WEBSOCKETS;
 		}else if(!strcmp(argv[i], "-x")){
 			if(i==argc-1){
 				fprintf(stderr, "Error: -x argument given but no session expiry interval specified.\n\n");
@@ -1351,6 +1368,7 @@ int client_opts_set(struct mosquitto *mosq, struct mosq_config *cfg)
 #endif
 
 	mosquitto_int_option(mosq, MOSQ_OPT_PROTOCOL_VERSION, cfg->protocol_version);
+	mosquitto_int_option(mosq, MOSQ_OPT_TRANSPORT, cfg->transport);
 
 	if(cfg->will_topic && mosquitto_will_set_v5(mosq, cfg->will_topic,
 				cfg->will_payloadlen, cfg->will_payload, cfg->will_qos,

@@ -70,6 +70,12 @@ Contributors:
 struct mosquitto_client_msg;
 #endif
 
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
+#  define WS_PACKET_OFFSET LWS_PRE
+#else
+#  define WS_PACKET_OFFSET 16
+#endif
+
 #ifdef WIN32
 typedef SOCKET mosq_sock_t;
 #else
@@ -139,7 +145,8 @@ enum mosquitto__transport {
 	mosq_t_invalid = 0,
 	mosq_t_tcp = 1,
 	mosq_t_ws = 2,
-	mosq_t_sctp = 3
+	mosq_t_sctp = 3,
+	mosq_t_http = 4, /* not valid for MQTT, just as a ws precursor */
 };
 
 /* Alias direction - local <-> remote */
@@ -223,6 +230,30 @@ struct mosquitto_msg_data{
 };
 
 
+#define WS_CONTINUATION 0x00
+#define WS_TEXT 0x01
+#define WS_BINARY 0x02
+#define WS_CLOSE 0x08
+#define WS_PING 0x09
+#define WS_PONG 0x0A
+
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == LWS_IS_BUILTIN
+struct ws_data{
+	struct mosquitto__packet *out_packet;
+	char *http_path;
+	uint64_t payloadlen;
+	ssize_t pos;
+	int http_header_size;
+	uint8_t maskingkey[4];
+	uint8_t disconnect_reason;
+	uint8_t opcode;
+	uint8_t mask;
+	uint8_t mask_bytes;
+	uint8_t payloadlen_bytes;
+	bool is_client;
+};
+#endif
+
 struct mosquitto {
 #if defined(WITH_BROKER) && (defined(WITH_EPOLL) || defined(WITH_KQUEUE))
 	/* This *must* be the first element in the struct. */
@@ -236,6 +267,9 @@ struct mosquitto {
 #if defined(__GLIBC__) && defined(WITH_ADNS)
 	struct gaicb *adns; /* For getaddrinfo_a */
 #endif
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == LWS_IS_BUILTIN
+	struct ws_data wsd;
+#endif
 	enum mosquitto__protocol protocol;
 	char *address;
 	char *id;
@@ -244,6 +278,7 @@ struct mosquitto {
 	uint16_t keepalive;
 	uint16_t last_mid;
 	enum mosquitto_client_state state;
+	uint8_t transport;
 	time_t last_msg_in;
 	time_t next_msg_out;
 	time_t ping_t;
@@ -320,7 +355,9 @@ struct mosquitto {
 	int pollfd_index;
 #  endif
 #  ifdef WITH_WEBSOCKETS
+#    if WITH_WEBSOCKETS == WS_IS_LWS
 	struct lws *wsi;
+#    endif
 #  endif
 	bool assigned_id;
 #else
@@ -368,6 +405,9 @@ struct mosquitto {
 	uint8_t max_qos;
 	uint8_t retain_available;
 	bool tcp_nodelay;
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+	char *http_request;
+#endif
 
 #ifdef WITH_BROKER
 	UT_hash_handle hh_id;

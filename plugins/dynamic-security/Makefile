@@ -11,6 +11,7 @@ endif
 OBJS=	\
 		acl.o \
 		auth.o \
+		base64_mosq.o \
 		clients.o \
 		clientlist.o \
 		config_init.o \
@@ -44,6 +45,9 @@ acl.o : acl.c dynamic_security.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 auth.o : auth.c dynamic_security.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
+
+base64_mosq.o : ../../lib/base64_mosq.c ../../lib/base64_mosq.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) -c $< -o $@
 
 clients.o : clients.c dynamic_security.h

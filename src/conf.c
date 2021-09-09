@@ -211,6 +211,9 @@ static void config__init_reload(struct mosquitto__config *config)
 	config->set_tcp_nodelay = false;
 	config->sys_interval = 10;
 	config->upgrade_outgoing_qos = false;
+#ifdef WITH_WEBSOCKETS
+	config->websockets_headers_size = 4096;
+#endif
 
 	config__cleanup_plugins(config);
 }
@@ -294,7 +297,7 @@ void config__cleanup(struct mosquitto__config *config)
 			mosquitto__free(config->listeners[i].tls_version);
 			mosquitto__free(config->listeners[i].tls_engine);
 			mosquitto__free(config->listeners[i].tls_engine_kpass_sha1);
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 			if(!config->listeners[i].ws_context) /* libwebsockets frees its own SSL_CTX */
 #endif
 			{
@@ -302,7 +305,9 @@ void config__cleanup(struct mosquitto__config *config)
 			}
 #endif
 #ifdef WITH_WEBSOCKETS
+#  if WITH_WEBSOCKETS == WS_IS_LWS
 			mosquitto__free(config->listeners[i].http_dir);
+#  endif
 			for(j=0; j<config->listeners[i].ws_origin_count; j++){
 				mosquitto__free(config->listeners[i].ws_origins[j]);
 			}
@@ -636,7 +641,7 @@ static void config__copy(struct mosquitto__config *src, struct mosquitto__config
 	dest->sys_interval = src->sys_interval;
 	dest->upgrade_outgoing_qos = src->upgrade_outgoing_qos;
 
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 	dest->websockets_log_level = src->websockets_log_level;
 #endif
 
@@ -1513,8 +1518,14 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 					if(conf__parse_int(&token, "global_max_connections", &config->global_max_connections, &saveptr)) return MOSQ_ERR_INVAL;
 				}else if(!strcmp(token, "http_dir")){
 #ifdef WITH_WEBSOCKETS
+#  if WITH_WEBSOCKETS == WS_IS_LWS
 					if(reload) continue; /* Listeners not valid for reloading. */
 					if(conf__parse_string(&token, "http_dir", &cur_listener->http_dir, &saveptr)) return MOSQ_ERR_INVAL;
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: http_dir support will be removed when support for libwebsockets is removed in a future version.");
+#  else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Builtin websockets does not support the `http_dir` option.");
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Recompile using libwebsockets support if this is important to you, but be aware support will be completely removed in a future version.");
+#  endif
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Websockets support not available.");
 #endif
@@ -2373,10 +2384,8 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Bridge support not available.");
 #endif
 				}else if(!strcmp(token, "websockets_log_level")){
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 					if(conf__parse_int(&token, "websockets_log_level", &config->websockets_log_level, &saveptr)) return MOSQ_ERR_INVAL;
-#else
-					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Websockets support not available.");
 #endif
 				}else if(!strcmp(token, "websockets_headers_size")){
 #ifdef WITH_WEBSOCKETS
@@ -2391,7 +2400,7 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 #endif
 				}else if(!strcmp(token, "websockets_origin")){
 #ifdef WITH_WEBSOCKETS
-#  if LWS_LIBRARY_VERSION_NUMBER >= 3001000
+#  if LWS_LIBRARY_VERSION_NUMBER >= 3001000 || WITH_WEBSOCKETS == WS_IS_BUILTIN
 					ws_origins = mosquitto__realloc(cur_listener->ws_origins, sizeof(char *)*(size_t)(cur_listener->ws_origin_count+1));
 					if(ws_origins == NULL){
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");

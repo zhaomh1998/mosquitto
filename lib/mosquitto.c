@@ -153,6 +153,14 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 	}else{
 		mosq->userdata = mosq;
 	}
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+	memset(&mosq->wsd, 0, sizeof(mosq->wsd));
+	mosq->wsd.opcode = UINT8_MAX;
+	mosq->wsd.mask = UINT8_MAX;
+	mosq->wsd.disconnect_reason = 0xE8;
+	mosq->wsd.is_client = true;
+#endif
+	mosq->transport = mosq_t_tcp;
 	mosq->protocol = mosq_p_mqtt311;
 	mosq->sock = INVALID_SOCKET;
 	mosq->keepalive = 60;

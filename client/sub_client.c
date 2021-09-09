@@ -192,7 +192,7 @@ static void print_usage(void)
 	mosquitto_lib_version(&major, &minor, &revision);
 	printf("mosquitto_sub is a simple mqtt client that will subscribe to a set of topics and print all messages it receives.\n");
 	printf("mosquitto_sub version %s running on libmosquitto %d.%d.%d.\n\n", VERSION, major, minor, revision);
-	printf("Usage: mosquitto_sub {[-h host] [--unix path] [-p port] [-u username] [-P password] {-t topic | -U topic} | -L URL [-t topic]}\n");
+	printf("Usage: mosquitto_sub {[-h host] [--unix path] [-p port] [-u username] [-P password] {-t topic | -U topic} [--ws] | -L URL [-t topic]}\n");
 	printf("                     [-c] [-k keepalive] [-q qos] [-x session-expiry-interval]\n");
 	printf("                     [-C msg_count] [-E] [-R] [--retained-only] [--remove-retained] [-T filter_out]\n");
 	printf("                     [-F format]\n");
@@ -243,6 +243,7 @@ static void print_usage(void)
 	printf(" -k : keep alive in seconds for this client. Defaults to 60.\n");
 	printf(" -L : specify user, password, hostname, port and topic as a URL in the form:\n");
 	printf("      mqtt(s)://[username[:password]@]host[:port]/topic\n");
+	printf("      ws(s)://[username[:password]@]host[:port]/topic\n");
 	printf(" -N : do not add an end of line character when printing the payload.\n");
 	printf(" -o : provide options in a file rather than on the command line.\n");
 	printf("      See the Options section of https://mosquitto.org/man/mosquitto_pub-1.html\n");
@@ -291,6 +292,7 @@ static void print_usage(void)
 	printf(" --will-qos : QoS level for the client Will.\n");
 	printf(" --will-retain : if given, make the client Will retained.\n");
 	printf(" --will-topic : the topic on which to publish the client Will.\n");
+	printf(" --ws : connect using WebSockets.\n");
 #ifdef WITH_TLS
 	printf(" --cafile : path to a file containing trusted CA certificates to enable encrypted\n");
 	printf("            certificate based communication.\n");

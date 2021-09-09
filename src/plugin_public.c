@@ -117,8 +117,12 @@ void *mosquitto_client_certificate(const struct mosquitto *client)
 
 int mosquitto_client_protocol(const struct mosquitto *client)
 {
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 	if(client && client->wsi){
+		return mp_websockets;
+	}else
+#elif defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+	if(client && client->transport == mosq_t_ws){
 		return mp_websockets;
 	}else
 #else

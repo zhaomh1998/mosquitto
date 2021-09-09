@@ -360,6 +360,22 @@ int mosquitto_string_option(struct mosquitto *mosq, enum mosq_opt_t option, cons
 				return MOSQ_ERR_SUCCESS;
 			}
 
+		case MOSQ_OPT_HTTP_PATH:
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+			mosquitto__free(mosq->wsd.http_path);
+			if(value){
+				mosq->wsd.http_path = mosquitto__strdup(value);
+				if(mosq->wsd.http_path){
+					return MOSQ_ERR_SUCCESS;
+				}else{
+					return MOSQ_ERR_NOMEM;
+				}
+			}else{
+				return MOSQ_ERR_SUCCESS;
+			}
+#else
+			return MOSQ_ERR_NOT_SUPPORTED;
+#endif
 
 		default:
 			return MOSQ_ERR_INVAL;
@@ -502,6 +518,26 @@ int mosquitto_int_option(struct mosquitto *mosq, enum mosq_opt_t option, int val
 
 		case MOSQ_OPT_TCP_NODELAY:
 			mosq->tcp_nodelay = (bool)value;
+			break;
+
+		case MOSQ_OPT_TRANSPORT:
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == LWS_IS_BUILTIN
+			if(value == mosq_t_tcp || value == mosq_t_ws){
+				mosq->transport = (uint8_t)value;
+			}else{
+				return MOSQ_ERR_INVAL;
+			}
+#else
+			return MOSQ_ERR_NOT_SUPPORTED;
+#endif
+			break;
+
+		case MOSQ_OPT_HTTP_HEADER_SIZE:
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == LWS_IS_BUILTIN
+			mosq->wsd.http_header_size = value;
+#else
+			return MOSQ_ERR_NOT_SUPPORTED;
+#endif
 			break;
 
 		default:

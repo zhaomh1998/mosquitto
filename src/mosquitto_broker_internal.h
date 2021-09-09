@@ -23,7 +23,7 @@ Contributors:
 #include "config.h"
 #include <stdio.h>
 
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 #  include <libwebsockets.h>
 #  if LWS_LIBRARY_VERSION_NUMBER >= 3002000 && !defined(LWS_WITH_EXTERNAL_POLL)
 #    warning "libwebsockets is not compiled with LWS_WITH_EXTERNAL_POLL support. Websocket performance will be unusable."
@@ -233,10 +233,12 @@ struct mosquitto__listener {
 	enum mosquitto__keyform tls_keyform;
 #endif
 #ifdef WITH_WEBSOCKETS
+#  if WITH_WEBSOCKETS == WS_IS_LWS
 	struct lws_context *ws_context;
 	bool ws_in_init;
 	char *http_dir;
 	struct lws_protocols *ws_protocol;
+#  endif
 	char **ws_origins;
 	int ws_origin_count;
 #endif
@@ -322,8 +324,10 @@ struct mosquitto__config {
 	int sys_interval;
 	bool upgrade_outgoing_qos;
 	char *user;
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 	int websockets_log_level;
+#endif
+#ifdef WITH_WEBSOCKETS
 	uint16_t websockets_headers_size;
 #endif
 #ifdef WITH_BRIDGE
@@ -609,7 +613,7 @@ struct mosquitto__bridge{
 #endif
 };
 
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 struct libws_mqtt_hack {
 	char *http_dir;
 	struct mosquitto__listener *listener;
@@ -813,7 +817,7 @@ extern int g_listensock_count;
 
 void listener__set_defaults(struct mosquitto__listener *listener);
 void listeners__reload_all_certificates(void);
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 void listeners__add_websockets(struct lws_context *ws_context, mosq_sock_t fd);
 #endif
 int listeners__start(void);
@@ -912,7 +916,14 @@ DWORD WINAPI SigThreadProc(void* data);
  * Websockets related functions
  * ============================================================ */
 #ifdef WITH_WEBSOCKETS
+#  if WITH_WEBSOCKETS == WS_IS_LWS
 void mosq_websockets_init(struct mosquitto__listener *listener, const struct mosquitto__config *conf);
+#  endif
+int http__context_init(struct mosquitto *context);
+int http__context_cleanup(struct mosquitto *context);
+int http__read(struct mosquitto *context);
+int http__write(struct mosquitto *context);
+void ws__context_init(struct mosquitto *context);
 #endif
 void do_disconnect(struct mosquitto *context, int reason);
 

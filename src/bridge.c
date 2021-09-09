@@ -86,6 +86,7 @@ static struct mosquitto *bridge__new(struct mosquitto__bridge *bridge)
 			mosquitto__free(local_id);
 			return NULL;
 		}
+		new_context->transport = mosq_t_tcp;
 		new_context->id = local_id;
 		HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, new_context->id, strlen(new_context->id), new_context);
 	}

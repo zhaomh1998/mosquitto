@@ -194,7 +194,7 @@ static void print_usage(void)
 	printf("             Defaults to MQTT v5, where the Request-Response feature will be used, but v3.1.1 can also be used\n");
 	printf("             with v3.1.1 brokers.\n");
 	printf("mosquitto_rr version %s running on libmosquitto %d.%d.%d.\n\n", VERSION, major, minor, revision);
-	printf("Usage: mosquitto_rr {[-h host] [--unix path] [-p port] [-u username] [-P password] -t topic | -L URL} -e response-topic\n");
+	printf("Usage: mosquitto_rr {[-h host] [--unix path] [-p port] [-u username] [-P password] [--ws] -t topic | -L URL} -e response-topic\n");
 	printf("                    [-c] [-k keepalive] [-q qos] [-R] [-x session-expiry-interval\n");
 	printf("                    [-F format]\n");
 #ifndef WIN32
@@ -241,6 +241,7 @@ static void print_usage(void)
 	printf(" -k : keep alive in seconds for this client. Defaults to 60.\n");
 	printf(" -L : specify user, password, hostname, port and topic as a URL in the form:\n");
 	printf("      mqtt(s)://[username[:password]@]host[:port]/topic\n");
+	printf("      ws(s)://[username[:password]@]host[:port]/topic\n");
 	printf(" -N : do not add an end of line character when printing the payload.\n");
 	printf(" -o : provide options in a file rather than on the command line.\n");
 	printf("      See the Options section of https://mosquitto.org/man/mosquitto_pub-1.html\n");
@@ -277,6 +278,7 @@ static void print_usage(void)
 	printf(" --will-qos : QoS level for the client Will.\n");
 	printf(" --will-retain : if given, make the client Will retained.\n");
 	printf(" --will-topic : the topic on which to publish the client Will.\n");
+	printf(" --ws : connect using WebSockets.\n");
 #ifdef WITH_TLS
 	printf(" --cafile : path to a file containing trusted CA certificates to enable encrypted\n");
 	printf("            certificate based communication.\n");

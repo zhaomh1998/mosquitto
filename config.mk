@@ -67,6 +67,11 @@ WITH_SYSTEMD:=no
 WITH_SRV:=no
 
 # Build with websockets support on the broker.
+# Set to yes to build with new websockets support
+#    You will need to run `git clone https://github.com/h2o/picohttpparser` in
+#    the `deps/` directory.
+# Set to lws to build with old libwebsockets code
+# Set to no to disable
 WITH_WEBSOCKETS:=no
 
 # Use elliptic keys in broker
@@ -330,12 +335,18 @@ ifeq ($(WITH_UNIX_SOCKETS),yes)
 endif
 
 ifeq ($(WITH_WEBSOCKETS),yes)
-	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_WEBSOCKETS
+	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_WEBSOCKETS=WS_IS_BUILTIN -I../deps/picohttpparser
+	LIB_CPPFLAGS:=$(LIB_CPPFLAGS) -DWITH_WEBSOCKETS=WS_IS_BUILTIN -I../deps/picohttpparser
+	CLIENT_CPPFLAGS:=$(CLIENT_CPPFLAGS) -DWITH_WEBSOCKETS=WS_IS_BUILTIN
+endif
+
+ifeq ($(WITH_WEBSOCKETS),lws)
+	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_WEBSOCKETS=WS_IS_LWS
 	BROKER_LDADD:=$(BROKER_LDADD) -lwebsockets
 endif
 
 ifeq ($(WITH_WEBSOCKETS),static)
-	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_WEBSOCKETS
+	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_WEBSOCKET=WS_IS_LWS
 	BROKER_LDADD:=$(BROKER_LDADD) -static -lwebsockets
 endif
 

@@ -19,6 +19,7 @@ set(C_SRC
 	handle_suback.c
 	handle_unsuback.c
 	helpers.c
+	http_client.c http_client.h
 	logging_mosq.c logging_mosq.h
 	loop.c
 	memory_mosq.c memory_mosq.h
@@ -28,6 +29,7 @@ set(C_SRC
 	mosquitto_internal.h
 	../include/mqtt_protocol.h
 	net_mosq_ocsp.c net_mosq.c net_mosq.h
+	net_ws.c
 	options.c
 	packet_datatypes.c
 	packet_mosq.c packet_mosq.h

@@ -21,6 +21,7 @@ Contributors:
 #include <string.h>
 
 #include "callbacks.h"
+#include "http_client.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
 #include "logging_mosq.h"
@@ -219,11 +220,18 @@ static int mosquitto__reconnect(struct mosquitto *mosq, bool blocking)
 #endif
 	{
 		mosquitto__set_state(mosq, mosq_cs_connected);
-		rc = send__connect(mosq, mosq->keepalive, mosq->clean_start, outgoing_properties);
-		if(rc){
-			packet__cleanup_all(mosq);
-			net__socket_close(mosq);
-			mosquitto__set_state(mosq, mosq_cs_new);
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+		if(mosq->transport == mosq_t_ws){
+			http_c__context_init(mosq);
+		}else
+#endif
+		{
+			rc = send__connect(mosq, mosq->keepalive, mosq->clean_start, outgoing_properties);
+			if(rc){
+				packet__cleanup_all(mosq);
+				net__socket_close(mosq);
+				mosquitto__set_state(mosq, mosq_cs_new);
+			}
 		}
 		return rc;
 	}

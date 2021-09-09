@@ -18,6 +18,7 @@ LOCAL_CPPFLAGS+=-I../../deps
 endif
 
 OBJS=	mosquitto_ctrl.o \
+		base64_mosq.o \
 		broker.o \
 		client.o \
 		dynsec.o \
@@ -53,6 +54,9 @@ mosquitto_ctrl_example.so : ${EXAMPLE_OBJS}
 	$(CROSS_COMPILE)$(CC) $(PLUGIN_CPPFLAGS) $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) -shared $< -o $@
 
 mosquitto_ctrl.o : mosquitto_ctrl.c mosquitto_ctrl.h
+	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
+
+base64_mosq.o : ../../lib/base64_mosq.c ../../lib/base64_mosq.h
 	${CROSS_COMPILE}${CC} $(LOCAL_CPPFLAGS) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
 
 broker.o : broker.c mosquitto_ctrl.h

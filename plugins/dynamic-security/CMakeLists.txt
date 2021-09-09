@@ -19,6 +19,7 @@ if(CJSON_FOUND AND WITH_TLS)
 	add_library(mosquitto_dynamic_security MODULE
 		acl.c
 		auth.c
+		../../lib/base64_mosq.c ../../lib/base64_mosq.h
 		clients.c
 		clientlist.c
 		config_init.c

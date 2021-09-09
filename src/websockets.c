@@ -20,7 +20,9 @@ Contributors:
 
 #include "config.h"
 
-#include <libwebsockets.h>
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
+#  include <libwebsockets.h>
+#endif
 #include "mosquitto_internal.h"
 #include "mosquitto_broker_internal.h"
 #include "mqtt_protocol.h"
@@ -37,6 +39,7 @@ Contributors:
 #  include <sys/socket.h>
 #endif
 
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 /* Be careful if changing these, if TX is not bigger than SERV then there can
  * be very large write performance penalties.
  */
@@ -747,5 +750,5 @@ void mosq_websockets_init(struct mosquitto__listener *listener, const struct mos
 	listener->ws_in_init = false;
 }
 
-
+#endif
 #endif

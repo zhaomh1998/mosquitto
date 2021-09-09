@@ -25,6 +25,7 @@ Contributors:
 #endif
 
 #include "callbacks.h"
+#include "http_client.h"
 #include "mosquitto.h"
 #include "mosquitto_internal.h"
 #include "net_mosq.h"
@@ -366,7 +367,19 @@ int mosquitto_loop_read(struct mosquitto *mosq, int max_packets)
 		}else
 #endif
 		{
-			rc = packet__read(mosq);
+			switch(mosq->transport){
+				case mosq_t_tcp:
+				case mosq_t_ws:
+					rc = packet__read(mosq);
+					break;
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_BUILTIN
+				case mosq_t_http:
+					rc = http_c__read(mosq);
+					break;
+#endif
+				default:
+					return MOSQ_ERR_INVAL;
+			}
 		}
 		if(rc || errno == EAGAIN || errno == COMPAT_EWOULDBLOCK){
 			return mosquitto__loop_rc_handle(mosq, rc);

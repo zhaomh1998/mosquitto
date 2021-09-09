@@ -63,7 +63,7 @@ Contributors:
 
 #ifdef WITH_BROKER
 #  include "mosquitto_broker_internal.h"
-#  ifdef WITH_WEBSOCKETS
+#  if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 #    include <libwebsockets.h>
 #  endif
 #else
@@ -74,6 +74,7 @@ Contributors:
 #include "memory_mosq.h"
 #include "mqtt_protocol.h"
 #include "net_mosq.h"
+#include "packet_mosq.h"
 #include "time_mosq.h"
 #include "util_mosq.h"
 
@@ -200,7 +201,7 @@ void net__init_tls(void)
 
 bool net__is_connected(struct mosquitto *mosq)
 {
-#if defined(WITH_BROKER) && defined(WITH_WEBSOCKETS)
+#if defined(WITH_BROKER) && defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 	return mosq->sock != INVALID_SOCKET || mosq->wsi != NULL;
 #else
 	return mosq->sock != INVALID_SOCKET;
@@ -221,7 +222,7 @@ int net__socket_close(struct mosquitto *mosq)
 
 	assert(mosq);
 #ifdef WITH_TLS
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 	if(!mosq->wsi)
 #endif
 	{
@@ -235,7 +236,7 @@ int net__socket_close(struct mosquitto *mosq)
 	}
 #endif
 
-#ifdef WITH_WEBSOCKETS
+#if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 	if(mosq->wsi)
 	{
 		if(mosq->state != mosq_cs_disconnecting){
@@ -1016,6 +1017,7 @@ ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 	}
 #endif
 }
+
 
 ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 {

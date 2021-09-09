@@ -28,6 +28,7 @@ Contributors:
 #include <string.h>
 
 #include "get_password.h"
+#include "base64_mosq.h"
 #include "password_mosq.h"
 
 #ifdef WIN32

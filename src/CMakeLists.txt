@@ -1,5 +1,6 @@
 set (MOSQ_SRCS
 	../lib/alias_mosq.c ../lib/alias_mosq.h
+	../lib/base64_mosq.c
 	bridge.c bridge_topic.c
 	broker_control.c
 	conf.c
@@ -20,6 +21,7 @@ set (MOSQ_SRCS
 	handle_subscribe.c
 	../lib/handle_unsuback.c
 	handle_unsubscribe.c
+	http_serv.c
 	json_help.c json_help.h
 	keepalive.c
 	lib_load.h
@@ -34,6 +36,7 @@ set (MOSQ_SRCS
 	mux.c mux.h mux_epoll.c mux_kqueue.c mux_poll.c
 	net.c
 	../lib/net_mosq_ocsp.c ../lib/net_mosq.c ../lib/net_mosq.h
+	../lib/net_ws.c
 	../lib/packet_datatypes.c
 	../lib/packet_mosq.c ../lib/packet_mosq.h
 	password_mosq.c password_mosq.h

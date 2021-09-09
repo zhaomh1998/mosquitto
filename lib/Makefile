@@ -7,6 +7,7 @@ MOSQ_OBJS=mosquitto.o \
 		  alias_mosq.o \
 		  callbacks.o \
 		  connect.o \
+		  base64_mosq.o \
 		  handle_auth.o \
 		  handle_connack.o \
 		  handle_disconnect.o \
@@ -18,6 +19,7 @@ MOSQ_OBJS=mosquitto.o \
 		  handle_suback.o \
 		  handle_unsuback.o \
 		  helpers.o \
+		  http_client.o \
 		  logging_mosq.o \
 		  loop.o \
 		  memory_mosq.o \
@@ -25,7 +27,9 @@ MOSQ_OBJS=mosquitto.o \
 		  misc_mosq.o \
 		  net_mosq_ocsp.o \
 		  net_mosq.o \
+		  net_ws.o \
 		  options.o \
+		  password_mosq.o \
 		  packet_datatypes.o \
 		  packet_mosq.o \
 		  property_mosq.o \
@@ -46,6 +50,10 @@ MOSQ_OBJS=mosquitto.o \
 		  util_mosq.o \
 		  util_topic.o \
 		  will_mosq.o
+
+ifeq ($(WITH_WEBSOCKETS),yes)
+	MOSQ_OBJS+=picohttpparser.o
+endif
 
 ALL_DEPS:=
 
@@ -111,6 +119,9 @@ alias_mosq.o : alias_mosq.c alias_mosq.h ../include/mosquitto.h mosquitto_intern
 callbacks.o : callbacks.c ../include/mosquitto.h mosquitto_internal.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
+base64_mosq.o : base64_mosq.c base64_mosq.h
+	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
+
 connect.o : connect.c ../include/mosquitto.h mosquitto_internal.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
@@ -147,6 +158,9 @@ handle_unsuback.o : handle_unsuback.c read_handle.h
 helpers.o : helpers.c
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
+http_client.o : http_client.c http_client.h mosquitto_internal.h
+	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
+
 logging_mosq.o : logging_mosq.c logging_mosq.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
@@ -166,6 +180,15 @@ net_mosq_ocsp.o : net_mosq_ocsp.c net_mosq.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 net_mosq.o : net_mosq.c net_mosq.h
+	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
+
+password_mosq.o : ../src/password_mosq.c net_mosq.h
+	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
+
+picohttpparser.o : ../deps/picohttpparser/picohttpparser.c ../deps/picohttpparser/picohttpparser.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
+net_ws.o : net_ws.c net_mosq.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 options.o : options.c ../include/mosquitto.h mosquitto_internal.h

@@ -84,6 +84,14 @@ ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 	return 0;
 }
 
+ssize_t net__read_ws(struct mosquitto *mosq, void *buf, size_t count)
+{
+	UNUSED(mosq);
+	UNUSED(buf);
+	UNUSED(count);
+	return 0;
+}
+
 ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 {
 	UNUSED(mosq);

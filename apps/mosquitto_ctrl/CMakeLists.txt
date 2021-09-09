@@ -5,6 +5,7 @@ if(WITH_TLS AND CJSON_FOUND)
 
 	add_executable(mosquitto_ctrl
 		mosquitto_ctrl.c mosquitto_ctrl.h
+		../../lib/base64_mosq.c ../../lib/base64_mosq.h
 		broker.c
 		client.c
 		dynsec.c

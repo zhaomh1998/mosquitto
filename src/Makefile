@@ -6,6 +6,7 @@ all : mosquitto
 
 OBJS=	mosquitto.o \
 		alias_mosq.o \
+		base64_mosq.o \
 		bridge.o \
 		bridge_topic.o \
 		broker_control.o \
@@ -27,6 +28,7 @@ OBJS=	mosquitto.o \
 		handle_subscribe.o \
 		handle_unsuback.o \
 		handle_unsubscribe.o \
+		http_serv.o \
 		json_help.o \
 		keepalive.o \
 		listeners.o \
@@ -42,6 +44,7 @@ OBJS=	mosquitto.o \
 		net.o \
 		net_mosq.o \
 		net_mosq_ocsp.o \
+		net_ws.o \
 		packet_datatypes.o \
 		packet_mosq.o \
 		password_mosq.o \
@@ -89,6 +92,10 @@ OBJS=	mosquitto.o \
 		will_mosq.o \
 		xtreport.o
 
+ifeq ($(WITH_WEBSOCKETS),yes)
+	OBJS+=picohttpparser.o
+endif
+
 mosquitto : ${OBJS}
 	${CROSS_COMPILE}${CC} ${BROKER_LDFLAGS} $^ -o $@ $(BROKER_LDADD)
 
@@ -96,6 +103,9 @@ mosquitto.o : mosquitto.c mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 alias_mosq.o : ../lib/alias_mosq.c ../lib/alias_mosq.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
+base64_mosq.o : ../lib/base64_mosq.c ../lib/base64_mosq.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 bridge.o : bridge.c mosquitto_broker_internal.h
@@ -161,6 +171,9 @@ handle_unsuback.o : ../lib/handle_unsuback.c ../lib/read_handle.h
 handle_unsubscribe.o : handle_unsubscribe.c mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
+http_serv.o : http_serv.c mosquitto_broker_internal.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
 json_help.o : json_help.c json_help.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
@@ -206,6 +219,9 @@ net_mosq_ocsp.o : ../lib/net_mosq_ocsp.c ../lib/net_mosq.h
 net_mosq.o : ../lib/net_mosq.c ../lib/net_mosq.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
+net_ws.o : ../lib/net_ws.c ../lib/net_mosq.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
 password_mosq.o : password_mosq.c password_mosq.h mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
@@ -228,6 +244,9 @@ packet_datatypes.o : ../lib/packet_datatypes.c ../lib/packet_mosq.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 packet_mosq.o : ../lib/packet_mosq.c ../lib/packet_mosq.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
+picohttpparser.o : ../deps/picohttpparser/picohttpparser.c ../deps/picohttpparser/picohttpparser.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 property_broker.o : property_broker.c mosquitto_broker_internal.h
