@@ -1,3 +1,10 @@
+2.0.13 - 2021-xx-xx
+===================
+
+Broker:
+- Fix `max_keepalive` option not being able to be set to 0.
+
+
 2.0.12 - 2021-08-31
 ===================
 
