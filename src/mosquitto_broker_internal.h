@@ -272,6 +272,7 @@ struct mosquitto__config {
 	uint16_t cmd_port[CMD_PORT_LIMIT];
 	int cmd_port_count;
 	bool daemon;
+	bool enable_control_api;
 	struct mosquitto__listener default_listener;
 	struct mosquitto__listener *listeners;
 	int listener_count;
@@ -911,8 +912,9 @@ void xtreport(void);
 #endif
 
 #ifdef WITH_CJSON
-int broker_control__init(void);
-int broker_control__cleanup(void);
+void broker_control__init(void);
+void broker_control__cleanup(void);
+void broker_control__reload(void);
 #endif
 
 #endif

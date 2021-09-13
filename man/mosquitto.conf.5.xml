@@ -389,6 +389,21 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
+				<term><option>enable_control_api</option> [ true | false ]</term>
+				<listitem>
+					<para>If set to <replaceable>true</replaceable>, the
+					<option>$CONTROL/broker/v1</option> will be enabled. This currently
+					allows interrogating which plugins are enabled, but in the future
+					will allow access to configuring general broker options. If you enable
+					this you should ensure you have authentication and appropriate access
+					control configured, i.e. only allowing access to
+					<option>$CONTROL/broker/#</option> for a limited set of users.
+				</para>
+					<para>This option applies globally.</para>
+					<para>Reloaded on reload signal.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
 				<term><option>global_plugin</option> <replaceable>file path</replaceable></term>
 				<listitem>
 					<para>

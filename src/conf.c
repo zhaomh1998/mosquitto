@@ -1465,6 +1465,12 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: TLS support not available.");
 #endif
+				}else if(!strcmp(token, "enable_control_api")){
+#ifdef WITH_CONTROL
+					if(conf__parse_bool(&token, "enable_control_api", &config->enable_control_api, &saveptr)) return MOSQ_ERR_INVAL;
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: $CONTROL support not available (enable_control_api).");
+#endif
 				}else if(!strcmp(token, "http_dir")){
 #ifdef WITH_WEBSOCKETS
 					if(reload) continue; /* Listeners not valid for reloading. */

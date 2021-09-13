@@ -226,19 +226,28 @@ static int broker_control_callback(int event, void *event_data, void *userdata)
 }
 
 
-int broker_control__init(void)
+void broker_control__init(void)
 {
 	memset(&plg_id, 0, sizeof(plg_id));
-	mosquitto_callback_register(&plg_id, MOSQ_EVT_CONTROL, broker_control_callback, "$CONTROL/broker/v1", NULL);
 
-	return MOSQ_ERR_SUCCESS;
+	if(db.config->enable_control_api){
+		mosquitto_callback_register(&plg_id, MOSQ_EVT_CONTROL, broker_control_callback, "$CONTROL/broker/v1", NULL);
+	}
 }
 
-int broker_control__cleanup(void)
+
+void broker_control__cleanup(void)
 {
 	mosquitto_callback_unregister(&plg_id, MOSQ_EVT_CONTROL, broker_control_callback, "$CONTROL/broker/v1");
-	return MOSQ_ERR_SUCCESS;
 }
+
+
+void broker_control__reload(void)
+{
+	broker_control__cleanup();
+	broker_control__init();
+}
+
 
 /* ################################################################
  * #

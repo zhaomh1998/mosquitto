@@ -52,7 +52,8 @@ Broker:
 - Add `mosquitto_plugin_set_info()` to allow plugins to tell the broker their
   name and version.
 - Add builtin $CONTROL/broker/v1 control topic with the `getPluginInfo`
-  command.
+  command. This is disabled by default, but can be enabled with the
+  `enable_control_api` option.
 - Add support for `getPluginInfo` to mosquitto_ctrl.
 
 Client library:
