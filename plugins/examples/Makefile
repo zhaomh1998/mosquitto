@@ -7,7 +7,8 @@ DIRS= \
 		force-retain \
 		message-timestamp \
 		payload-modification \
-		print-ip-on-publish
+		print-ip-on-publish \
+		topic-modification
 
 .PHONY : all binary check clean reallyclean test install uninstall
 

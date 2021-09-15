@@ -59,3 +59,12 @@ contents.
 ## Examples / Print IP on publish
 This is an **example** plugin that prints out client ID and IP address of any
 client that publishes on a particular topic.
+
+## Examples / Topic modification
+This is an **example** plugin to demonstrate how it is possible to modify the
+topic of messages after they have been received, and before they are sent on
+to subscribers.
+
+This plugin removes the `/uplink` end part of topics that match the pattern
+`device/+/data/uplink`, so devices publishing to `device/0001/data/uplink` will
+effectively be publishing to `device/0001/data`.
