@@ -55,6 +55,7 @@ Broker:
   command. This is disabled by default, but can be enabled with the
   `enable_control_api` option.
 - Add support for `getPluginInfo` to mosquitto_ctrl.
+- Add `mosquitto_client_port()` function for plugins.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

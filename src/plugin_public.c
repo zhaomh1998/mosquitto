@@ -60,6 +60,16 @@ const char *mosquitto_client_address(const struct mosquitto *client)
 }
 
 
+int mosquitto_client_port(const struct mosquitto *client)
+{
+	if(client && client->listener){
+		return client->listener->port;
+	}else{
+		return 0;
+	}
+}
+
+
 bool mosquitto_client_clean_session(const struct mosquitto *client)
 {
 	if(client){

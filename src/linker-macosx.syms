@@ -1,4 +1,4 @@
-_mosquitto_broker_publish
+t_mosquitto_broker_publish
 _mosquitto_broker_publish_copy
 _mosquitto_callback_register
 _mosquitto_callback_unregister
@@ -8,6 +8,7 @@ _mosquitto_client_certificate
 _mosquitto_client_clean_session
 _mosquitto_client_id
 _mosquitto_client_keepalive
+_mosquitto_client_port
 _mosquitto_client_protocol
 _mosquitto_client_protocol_version
 _mosquitto_client_sub_count

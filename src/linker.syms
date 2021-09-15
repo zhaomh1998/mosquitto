@@ -9,6 +9,7 @@
 	mosquitto_client_clean_session;
 	mosquitto_client_id;
 	mosquitto_client_keepalive;
+	mosquitto_client_port;
 	mosquitto_client_protocol;
 	mosquitto_client_protocol_version;
 	mosquitto_client_sub_count;
