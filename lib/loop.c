@@ -373,7 +373,11 @@ int mosquitto_loop_read(struct mosquitto *mosq, int max_packets)
 
 #ifdef WITH_TLS
 	if(mosq->want_connect){
-		return net__socket_connect_tls(mosq);
+		rc = net__socket_connect_tls(mosq);
+		if (MOSQ_ERR_TLS == rc){
+			rc = mosquitto__loop_rc_handle(mosq, rc);
+		}
+		return rc;
 	}
 #endif
 
