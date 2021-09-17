@@ -418,6 +418,8 @@ int bridge__dynamic_parse_payload_new(struct mosquitto_db *db, void* payload, st
 	int len;
 	int nb_param = 0;
 
+	if(!payload) return MOSQ_ERR_INVAL;
+
 	buf = strtok(payload, "\n");
 
 	while(buf) {
