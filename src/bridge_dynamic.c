@@ -74,6 +74,7 @@ int bridge__dynamic_analyse(struct mosquitto_db *db, char *topic, void* payload,
 			log__printf(NULL, MOSQ_LOG_WARNING, "Information : Start connection with bridge %s.",
 					config.bridges[config.bridge_count-1].name);
 			mux__add_in(db->bridges[db->bridge_count-1]);
+			mux__add_out(db->bridges[db->bridge_count-1]);
 		}
 	}else if(strncmp("$BRIDGE/del", topic, 11)==0){
 		rc = bridge__dynamic_parse_payload_del_json(payload,db,index);
