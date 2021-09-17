@@ -56,6 +56,8 @@ Broker:
   `enable_control_api` option.
 - Add support for `getPluginInfo` to mosquitto_ctrl.
 - Add `mosquitto_client_port()` function for plugins.
+- Add `global_max_clients` option to allow limiting client sessions globally
+  on the broker.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

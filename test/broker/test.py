@@ -8,6 +8,7 @@ tests = [
     (1, './01-connect-575314.py'),
     (1, './01-connect-allow-anonymous.py'),
     (1, './01-connect-disconnect-v5.py'),
+    (1, './01-connect-global-max-clients.py'),
     (1, './01-connect-max-connections.py'),
     (1, './01-connect-max-keepalive.py'),
     (1, './01-connect-uname-no-password-denied.py'),

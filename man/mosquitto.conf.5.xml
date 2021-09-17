@@ -404,6 +404,32 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
+				<term><option>global_max_clients</option> <replaceable>count</replaceable></term>
+				<listitem>
+					<para>
+                        The maximum number of client sessions to allow across
+						the whole broker. In this context a client session means
+						either a client currently connected via the network, or
+						a client that has clean_session = False (MQTT v3.x) and
+						is disconnected, or has disconnected and still hasn't
+						exceeded its session expiry interval (MQTT v5).
+					</para>
+
+					<para>
+						See also the max_connections setting, which applies to
+						listeners. If you set <option>global_max_clients</option>
+						to 1000 and <option>max_connections</option> on a
+						listener to 10, then that means only 10 simultaneous
+						connections will be allowed at once, with an overall
+						maximum of 1000 client sessions.
+					</para>
+
+					<para>This option applies globally.</para>
+					<para>Defaults to -1 (unlimited)</para>
+					<para>Reloaded on reload signal.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
 				<term><option>global_plugin</option> <replaceable>file path</replaceable></term>
 				<listitem>
 					<para>

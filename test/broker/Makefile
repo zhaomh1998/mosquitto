@@ -26,6 +26,7 @@ msg_sequence_test:
 	./01-connect-575314.py
 	./01-connect-allow-anonymous.py
 	./01-connect-disconnect-v5.py
+	./01-connect-global-max-clients.py
 	./01-connect-max-connections.py
 	./01-connect-max-keepalive.py
 	./01-connect-uname-no-password-denied.py

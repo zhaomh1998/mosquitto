@@ -207,6 +207,14 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 		do_disconnect(found_context, MOSQ_ERR_SUCCESS);
 	}
 
+	if(db.config->global_max_clients > 0 && HASH_CNT(hh_id, db.contexts_by_id) >= (unsigned int)db.config->global_max_clients){
+		if(context->protocol == mosq_p_mqtt5){
+			send__connack(context, 0, MQTT_RC_SERVER_BUSY, NULL);
+		}
+		rc = MOSQ_ERR_INVAL;
+		goto error;
+	}
+
 	rc = acl__find_acls(context);
 	if(rc){
 		free(auth_data_out);
