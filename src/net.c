@@ -197,7 +197,9 @@ struct mosquitto *net__socket_accept(struct mosquitto__listener_sock *listensock
 	}
 	new_context->listener->client_count++;
 
-	if(new_context->listener->max_connections > 0 && new_context->listener->client_count > new_context->listener->max_connections){
+	if((new_context->listener->max_connections > 0 && new_context->listener->client_count > new_context->listener->max_connections)
+			|| (db.config->global_max_connections > 0 && HASH_CNT(hh_sock, db.contexts_by_sock) > (unsigned int)db.config->global_max_connections)){
+
 		if(db.config->connection_messages == true){
 			log__printf(NULL, MOSQ_LOG_NOTICE, "Client connection from %s denied: max_connections exceeded.", new_context->address);
 		}

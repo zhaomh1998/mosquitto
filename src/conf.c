@@ -193,6 +193,7 @@ static void config__init_reload(struct mosquitto__config *config)
 	mosquitto__free(config->log_timestamp_format);
 	config->log_timestamp_format = NULL;
 	config->global_max_clients = -1;
+	config->global_max_connections = -1;
 	config->max_keepalive = 65535;
 	config->max_packet_size = 0;
 	config->max_inflight_messages = 20;
@@ -1474,6 +1475,8 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 #endif
 				}else if(!strcmp(token, "global_max_clients")){
 					if(conf__parse_int(&token, "global_max_clients", &config->global_max_clients, &saveptr)) return MOSQ_ERR_INVAL;
+				}else if(!strcmp(token, "global_max_connections")){
+					if(conf__parse_int(&token, "global_max_connections", &config->global_max_connections, &saveptr)) return MOSQ_ERR_INVAL;
 				}else if(!strcmp(token, "http_dir")){
 #ifdef WITH_WEBSOCKETS
 					if(reload) continue; /* Listeners not valid for reloading. */

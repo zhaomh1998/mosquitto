@@ -416,12 +416,30 @@
 					</para>
 
 					<para>
-						See also the max_connections setting, which applies to
+						See also the <option>max_connections</option> setting, which applies to
 						listeners. If you set <option>global_max_clients</option>
 						to 1000 and <option>max_connections</option> on a
 						listener to 10, then that means only 10 simultaneous
 						connections will be allowed at once, with an overall
 						maximum of 1000 client sessions.
+					</para>
+
+					<para>This option applies globally.</para>
+					<para>Defaults to -1 (unlimited)</para>
+					<para>Reloaded on reload signal.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>global_max_connections</option> <replaceable>count</replaceable></term>
+				<listitem>
+					<para>
+						The maximum number of currently connected clients to
+						allow across the whole broker.
+					</para>
+
+					<para>
+						See also the <option>global_max_clients</option> and
+						<option>max_connections</option> settings.
 					</para>
 
 					<para>This option applies globally.</para>

@@ -58,6 +58,8 @@ Broker:
 - Add `mosquitto_client_port()` function for plugins.
 - Add `global_max_clients` option to allow limiting client sessions globally
   on the broker.
+- Add `global_max_connections` option to allow limiting client onnections globally
+  on the broker.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

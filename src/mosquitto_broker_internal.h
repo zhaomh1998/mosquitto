@@ -274,6 +274,7 @@ struct mosquitto__config {
 	bool daemon;
 	bool enable_control_api;
 	int global_max_clients;
+	int global_max_connections;
 	struct mosquitto__listener default_listener;
 	struct mosquitto__listener *listeners;
 	int listener_count;
