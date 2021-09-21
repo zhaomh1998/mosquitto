@@ -1534,6 +1534,19 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 					</listitem>
 				</varlistentry>
 				<varlistentry>
+					<term><option>disable_client_cert_date_checks</option> [ true | false ]</term>
+					<listitem>
+						<para>
+							If set true, <option>disable_client_cert_date_checks</option> will change the certificate
+							verification behaviour to allow client certificates that are expired or are not yet
+							valid, when using <option>require_certificate true</option>.
+						</para>
+						<para>
+							Defaults to <option>false</option>
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
 					<term><option>keyfile</option> <replaceable>file path</replaceable></term>
 					<listitem>
 						<para>

@@ -828,7 +828,7 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 			if(token){
 				if(!strcmp(token, "accept_protocol_version")){
 					if(cur_listener == &config->default_listener){
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: You must define a listener before using he %s option.", "accept_protocol_version");
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: You must define a listener before using the %s option.", "accept_protocol_version");
 						return MOSQ_ERR_INVAL;
 					}
 					cur_listener->disable_protocol_v3 = true;
@@ -1488,6 +1488,16 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 #ifdef WITH_TLS
 					if(reload) continue; /* Listeners not valid for reloading. */
 					if(conf__parse_string(&token, "dhparamfile", &cur_listener->dhparamfile, &saveptr)) return MOSQ_ERR_INVAL;
+#else
+					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: TLS support not available.");
+#endif
+				}else if(!strcmp(token, "disable_client_cert_date_checks")){
+#ifdef WITH_TLS
+					if(cur_listener == &config->default_listener){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: You must define a listener before using the %s option.", "disable_client_cert_date_checks");
+						return MOSQ_ERR_INVAL;
+					}
+					if(conf__parse_bool(&token, "disable_client_cert_date_checks", &cur_listener->disable_client_cert_date_checks, &saveptr)) return MOSQ_ERR_INVAL;
 #else
 					log__printf(NULL, MOSQ_LOG_WARNING, "Warning: TLS support not available.");
 #endif

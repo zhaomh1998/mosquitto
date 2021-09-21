@@ -229,6 +229,7 @@ struct mosquitto__listener {
 	bool use_identity_as_username;
 	bool use_subject_as_username;
 	bool require_certificate;
+	bool disable_client_cert_date_checks;
 	enum mosquitto__keyform tls_keyform;
 #endif
 #ifdef WITH_WEBSOCKETS

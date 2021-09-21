@@ -150,6 +150,7 @@ ifeq ($(WITH_TLS),yes)
 	./08-ssl-bridge.py
 	./08-ssl-connect-cert-auth-crl.py
 	./08-ssl-connect-cert-auth-expired.py
+	./08-ssl-connect-cert-auth-expired-allowed.py
 	./08-ssl-connect-cert-auth-revoked.py
 	./08-ssl-connect-cert-auth-without.py
 	./08-ssl-connect-cert-auth.py

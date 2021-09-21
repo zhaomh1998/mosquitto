@@ -62,6 +62,8 @@ Broker:
   on the broker.
 - Add `accept_protocol_versions` option to allow limiting which MQTT protocol
   versions are allowed for a particular listener.
+- Add `disable_client_cert_date_checks` option to allow expired client
+  certificate to be considered valid.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

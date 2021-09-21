@@ -124,6 +124,7 @@ tests = [
     (2, './08-ssl-bridge.py'),
     (2, './08-ssl-connect-cert-auth-crl.py'),
     (2, './08-ssl-connect-cert-auth-expired.py'),
+    (2, './08-ssl-connect-cert-auth-expired-allowed.py'),
     (2, './08-ssl-connect-cert-auth-revoked.py'),
     (2, './08-ssl-connect-cert-auth-without.py'),
     (2, './08-ssl-connect-cert-auth.py'),

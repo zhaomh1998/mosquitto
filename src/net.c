@@ -238,9 +238,22 @@ struct mosquitto *net__socket_accept(struct mosquitto__listener_sock *listensock
 #ifdef WITH_TLS
 static int client_certificate_verify(int preverify_ok, X509_STORE_CTX *ctx)
 {
-	UNUSED(ctx);
-
 	/* Preverify should check expiry, revocation. */
+	if(preverify_ok == 0){
+		SSL *ssl;
+		ssl = X509_STORE_CTX_get_ex_data(ctx, SSL_get_ex_data_X509_STORE_CTX_idx());
+		if(ssl){
+			struct mosquitto__listener *listener;
+			listener = SSL_get_ex_data(ssl, tls_ex_index_listener);
+
+			if(listener && listener->disable_client_cert_date_checks){
+				int err = X509_STORE_CTX_get_error(ctx);
+				if(err == X509_V_ERR_CERT_NOT_YET_VALID || err == X509_V_ERR_CERT_HAS_EXPIRED){
+					preverify_ok = 1;
+				}
+			}
+		}
+	}
 	return preverify_ok;
 }
 #endif
@@ -901,13 +914,6 @@ int net__socket_listen(struct mosquitto__listener *listener)
 		}
 #  ifdef FINAL_WITH_TLS_PSK
 		if(listener->psk_hint){
-			if(tls_ex_index_context == -1){
-				tls_ex_index_context = SSL_get_ex_new_index(0, "client context", NULL, NULL, NULL);
-			}
-			if(tls_ex_index_listener == -1){
-				tls_ex_index_listener = SSL_get_ex_new_index(0, "listener", NULL, NULL, NULL);
-			}
-
 			if(listener->certfile == NULL || listener->keyfile == NULL){
 				if(net__tls_server_ctx(listener)){
 					return 1;
@@ -924,6 +930,12 @@ int net__socket_listen(struct mosquitto__listener *listener)
 			}
 		}
 #  endif /* FINAL_WITH_TLS_PSK */
+		if(tls_ex_index_context == -1){
+			tls_ex_index_context = SSL_get_ex_new_index(0, "client context", NULL, NULL, NULL);
+		}
+		if(tls_ex_index_listener == -1){
+			tls_ex_index_listener = SSL_get_ex_new_index(0, "listener", NULL, NULL, NULL);
+		}
 #endif /* WITH_TLS */
 		return 0;
 	}else{
