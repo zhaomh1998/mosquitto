@@ -434,6 +434,19 @@ error_cleanup:
 }
 
 
+static int check_protocol_version(struct mosquitto__listener *listener, int protocol_version)
+{
+	if((protocol_version == 3 && listener->disable_protocol_v3 == false)
+			|| (protocol_version == 4 && listener->disable_protocol_v4 == false)
+			|| (protocol_version == 5 && listener->disable_protocol_v5 == false)
+			){
+
+		return MOSQ_ERR_SUCCESS;
+	}else{
+		return MOSQ_ERR_NOT_SUPPORTED;
+	}
+}
+
 
 int handle__connect(struct mosquitto *context)
 {
@@ -501,6 +514,17 @@ int handle__connect(struct mosquitto *context)
 
 	if(packet__read_byte(&context->in_packet, &protocol_version)){
 		rc = MOSQ_ERR_PROTOCOL;
+		goto handle_connect_error;
+	}
+	if(check_protocol_version(context->listener, protocol_version)){
+		if(protocol_version == 3 || protocol_version == 4){
+			context->protocol = mosq_p_mqtt311;
+			send__connack(context, 0, CONNACK_REFUSED_PROTOCOL_VERSION, NULL);
+		}else{
+			context->protocol = mosq_p_mqtt5;
+			send__connack(context, 0, MQTT_RC_UNSUPPORTED_PROTOCOL_VERSION, NULL);
+		}
+		rc = MOSQ_ERR_NOT_SUPPORTED;
 		goto handle_connect_error;
 	}
 	if(!strcmp(protocol_name, PROTOCOL_NAME_v31)){

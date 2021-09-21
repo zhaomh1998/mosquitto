@@ -826,7 +826,31 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 			}
 			token = strtok_r((*buf), " ", &saveptr);
 			if(token){
-				if(!strcmp(token, "acl_file")){
+				if(!strcmp(token, "accept_protocol_version")){
+					if(cur_listener == &config->default_listener){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: You must define a listener before using he %s option.", "accept_protocol_version");
+						return MOSQ_ERR_INVAL;
+					}
+					cur_listener->disable_protocol_v3 = true;
+					cur_listener->disable_protocol_v4 = true;
+					cur_listener->disable_protocol_v5 = true;
+					if(saveptr == NULL){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Empty %s value in configuration.", "accept_protocol_version");
+						return MOSQ_ERR_INVAL;
+					}
+					token = strtok_r(saveptr, ", \t", &saveptr);
+					while(token){
+						if(!strcmp(token, "3")){
+							cur_listener->disable_protocol_v3 = false;
+						}else if(!strcmp(token, "4")){
+							cur_listener->disable_protocol_v4 = false;
+						}else if(!strcmp(token, "5")){
+							cur_listener->disable_protocol_v5 = false;
+						}
+
+						token = strtok_r(NULL, ", \t", &saveptr);
+					}
+				}else if(!strcmp(token, "acl_file")){
 					conf__set_cur_security_options(config, cur_listener, &cur_security_options);
 					if(reload){
 						mosquitto__free(cur_security_options->acl_file);
