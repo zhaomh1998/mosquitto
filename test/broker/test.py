@@ -109,6 +109,7 @@ tests = [
     (1, './07-will-null-topic.py'),
     (1, './07-will-null.py'),
     (1, './07-will-oversize-payload.py'),
+    (1, './07-will-per-listener.py'),
     (1, './07-will-properties.py'),
     (1, './07-will-qos0.py'),
     (1, './07-will-reconnect-1273.py'),

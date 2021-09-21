@@ -133,6 +133,7 @@ msg_sequence_test:
 	./07-will-null-topic.py
 	./07-will-null.py
 	./07-will-oversize-payload.py
+	./07-will-per-listener.py
 	./07-will-properties.py
 	./07-will-qos0.py
 	./07-will-reconnect-1273.py
