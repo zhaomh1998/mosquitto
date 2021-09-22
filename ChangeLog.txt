@@ -5,6 +5,7 @@ Broker:
 - Fix `max_keepalive` option not being able to be set to 0.
 - Fix LWT messages not being delivered if `per_listener_settings` was set to
   true. Closes #2314.
+- Various fixes around inflight quota management. Closes #2306.
 
 
 2.0.12 - 2021-08-31

@@ -33,6 +33,7 @@ tests = [
     (1, './02-subpub-qos1-oversize-payload.py'),
     (1, './02-subpub-qos1.py'),
     (1, './02-subpub-qos2-1322.py'),
+    (1, './02-subpub-qos2-max-inflight-bytes.py'),
     (1, './02-subpub-qos2-pubrec-error.py'),
     (1, './02-subpub-qos2-receive-maximum-1.py'),
     (1, './02-subpub-qos2-receive-maximum-2.py'),

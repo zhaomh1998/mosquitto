@@ -53,6 +53,7 @@ msg_sequence_test:
 	./02-subpub-qos1-oversize-payload.py
 	./02-subpub-qos1.py
 	./02-subpub-qos2-1322.py
+	./02-subpub-qos2-max-inflight-bytes.py
 	./02-subpub-qos2-pubrec-error.py
 	./02-subpub-qos2-receive-maximum-1.py
 	./02-subpub-qos2-receive-maximum-2.py
