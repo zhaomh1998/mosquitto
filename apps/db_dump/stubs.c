@@ -122,3 +122,15 @@ int keepalive__update(struct mosquitto *context)
 	UNUSED(context);
 	return 0;
 }
+
+void db__msg_add_to_inflight_stats(struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *msg)
+{
+	UNUSED(msg_data);
+	UNUSED(msg);
+}
+
+void db__msg_add_to_queued_stats(struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *msg)
+{
+	UNUSED(msg_data);
+	UNUSED(msg);
+}
