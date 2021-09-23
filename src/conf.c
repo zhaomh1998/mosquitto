@@ -757,6 +757,10 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 			}
 			while((*buf)[slen-1] == 10 || (*buf)[slen-1] == 13){
 				(*buf)[slen-1] = 0;
+				slen = strlen(*buf);
+				if(slen == 0){
+					continue;
+				}
 			}
 			token = strtok_r((*buf), " ", &saveptr);
 			if(token){

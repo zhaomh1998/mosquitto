@@ -32,6 +32,7 @@ msg_sequence_test:
 	./01-connect-uname-or-anon.py
 	./01-connect-uname-password-denied-no-will.py
 	./01-connect-uname-password-denied.py
+	./01-connect-windows-line-endings.py
 	./01-connect-zero-length-id.py
 
 

@@ -14,6 +14,7 @@ tests = [
     (1, './01-connect-uname-or-anon.py'),
     (1, './01-connect-uname-password-denied-no-will.py'),
     (1, './01-connect-uname-password-denied.py'),
+    (1, './01-connect-windows-line-endings.py'),
     (2, './01-connect-zero-length-id.py'),
 
     (1, './02-shared-qos0-v5.py'),

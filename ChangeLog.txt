@@ -6,6 +6,7 @@ Broker:
 - Fix LWT messages not being delivered if `per_listener_settings` was set to
   true. Closes #2314.
 - Various fixes around inflight quota management. Closes #2306.
+- Fix problem parsing config files with Windows line endings. Closes #2297.
 
 
 2.0.12 - 2021-08-31
