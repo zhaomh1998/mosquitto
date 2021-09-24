@@ -8,6 +8,10 @@ Broker:
 - Various fixes around inflight quota management. Closes #2306.
 - Fix problem parsing config files with Windows line endings. Closes #2297.
 
+Client library:
+- Initialise sockpairR/W to invalid in `mosquitto_reinitialise()` to avoid
+  closing invalid sockets in `mosquitto_destroy()` on error. Closes #2326.
+
 
 2.0.12 - 2021-08-31
 ===================
