@@ -471,6 +471,7 @@ struct mosquitto_db{
 	struct mosquitto_msg_store_load *msg_store_load;
 	time_t now_s; /* Monotonic clock, where possible */
 	time_t now_real_s; /* Read clock, for measuring session/message expiry */
+	int next_event_ms; /* for mux timeout */
 	int msg_store_count;
 	unsigned long msg_store_bytes;
 	char *config_file;
@@ -622,6 +623,7 @@ extern struct mosquitto_db db;
  * Main functions
  * ============================================================ */
 int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listensock_count);
+void loop__update_next_event(time_t new_ms);
 
 /* ============================================================
  * Config functions

@@ -64,6 +64,9 @@ Broker:
   versions are allowed for a particular listener.
 - Add `disable_client_cert_date_checks` option to allow expired client
   certificate to be considered valid.
+- Improve idle performance. The broker now calculates when the next event of
+  interest is, and uses that as the timeout for e.g. epoll_wait(). This can
+  reduce the number of process wakeups by 100x on an idle broker.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

@@ -219,11 +219,14 @@ static void plugin__handle_tick_single(struct mosquitto__security_options *opts)
 	struct mosquitto_evt_tick event_data;
 	struct mosquitto__callback *cb_base;
 
-	/* FIXME - set now_s and now_ns to avoid need for multiple time lookups */
 	memset(&event_data, 0, sizeof(event_data));
 
 	DL_FOREACH(opts->plugin_callbacks.tick, cb_base){
+		mosquitto_time_ns(&event_data.now_s, &event_data.now_ns);
+		event_data.next_s = 0;
+		event_data.next_ms = 0;
 		cb_base->cb(MOSQ_EVT_TICK, &event_data, cb_base->userdata);
+		loop__update_next_event(event_data.next_s * 1000 + event_data.next_ms);
 	}
 }
 

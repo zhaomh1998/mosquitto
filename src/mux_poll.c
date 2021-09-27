@@ -60,23 +60,11 @@ static void loop_handle_reads_writes(void);
 
 static struct pollfd *pollfds = NULL;
 static size_t pollfd_max, pollfd_current_max;
-#ifndef WIN32
-static sigset_t my_sigblock;
-#endif
 
 int mux_poll__init(struct mosquitto__listener_sock *listensock, int listensock_count)
 {
 	size_t i;
 	size_t pollfd_index = 0;
-
-#ifndef WIN32
-	sigemptyset(&my_sigblock);
-	sigaddset(&my_sigblock, SIGINT);
-	sigaddset(&my_sigblock, SIGTERM);
-	sigaddset(&my_sigblock, SIGUSR1);
-	sigaddset(&my_sigblock, SIGUSR2);
-	sigaddset(&my_sigblock, SIGHUP);
-#endif
 
 #ifdef WIN32
 	pollfd_max = (size_t)_getmaxstdio();
@@ -195,13 +183,18 @@ int mux_poll__handle(struct mosquitto__listener_sock *listensock, int listensock
 #ifndef WIN32
 	sigset_t origsig;
 #endif
+	int timeout;
+
+#ifdef WITH_WEBSOCKETS
+	timeout = 100;
+#else
+	timeout = db.next_event_ms;
+#endif
 
 #ifndef WIN32
-	sigprocmask(SIG_SETMASK, &my_sigblock, &origsig);
-	fdcount = poll(pollfds, pollfd_current_max+1, 100);
-	sigprocmask(SIG_SETMASK, &origsig, NULL);
+	fdcount = poll(pollfds, pollfd_current_max+1, timeout);
 #else
-	fdcount = WSAPoll(pollfds, pollfd_current_max+1, 100);
+	fdcount = WSAPoll(pollfds, pollfd_current_max+1, timeout);
 #endif
 
 	db.now_s = mosquitto_time();

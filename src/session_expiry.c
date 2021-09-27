@@ -113,8 +113,20 @@ void session_expiry__check(void)
 {
 	struct session_expiry_list *item, *tmp;
 	struct mosquitto *context;
+	time_t timeout;
 
-	if(db.now_real_s <= last_check) return;
+	if(db.now_real_s <= last_check){
+		if(expiry_list){
+			/* Next event is the first item of the list, we must set the timeout even if we aren't 
+			 * checking the full list */
+			timeout = (expiry_list->context->session_expiry_time - db.now_real_s) * 1000;
+			if(timeout <= 0){
+				timeout = 100;
+			}
+			loop__update_next_event(timeout);
+		}
+		return;
+	}
 
 	last_check = db.now_real_s;
 
@@ -137,6 +149,11 @@ void session_expiry__check(void)
 			context__send_will(context);
 			context__add_to_disused(context);
 		}else{
+			timeout = (item->context->session_expiry_time - db.now_real_s + 1) * 1000;
+			if(timeout <= 0){
+				timeout = 100;
+			}
+			loop__update_next_event(timeout);
 			return;
 		}
 	}

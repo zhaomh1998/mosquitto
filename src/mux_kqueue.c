@@ -32,21 +32,12 @@ Contributors:
 
 static void loop_handle_reads_writes(struct mosquitto *context, short events);
 
-static sigset_t my_sigblock;
-
 static struct kevent event_list[MAX_EVENTS];
 
 int mux_kqueue__init(struct mosquitto__listener_sock *listensock, int listensock_count)
 {
 	struct kevent ev;
 	int i;
-
-	sigemptyset(&my_sigblock);
-	sigaddset(&my_sigblock, SIGINT);
-	sigaddset(&my_sigblock, SIGTERM);
-	sigaddset(&my_sigblock, SIGUSR1);
-	sigaddset(&my_sigblock, SIGUSR2);
-	sigaddset(&my_sigblock, SIGHUP);
 
 	memset(&event_list, 0, sizeof(struct kevent)*MAX_EVENTS);
 
@@ -138,19 +129,24 @@ int mux_kqueue__delete(struct mosquitto *context)
 int mux_kqueue__handle(void)
 {
 	int i;
-	sigset_t origsig;
 	struct mosquitto *context;
 	struct mosquitto__listener_sock *listensock;
 	int event_count;
-	struct timespec timeout = {0, 100000000}; /* 100 ms */
+	struct timespec timeout;
+
+#ifdef WITH_WEBSOCKETS
+	timeout.tv_sec = 0;
+	timeout.tv_nsec = 100000000; /* 100 ms */
+#else
+	timeout.tv_sec = db.next_event_ms/1000;
+	timeout.tv_nsec = (db.next_event_ms - timeout.tv_sec*100) * 1000000;
+#endif
 
 	memset(&event_list, 0, sizeof(event_list));
-	sigprocmask(SIG_SETMASK, &my_sigblock, &origsig);
 	event_count = kevent(db.kqueuefd,
 			NULL, 0,
 			event_list, MAX_EVENTS,
 			&timeout);
-	sigprocmask(SIG_SETMASK, &origsig, NULL);
 
 	db.now_s = mosquitto_time();
 	db.now_real_s = time(NULL);

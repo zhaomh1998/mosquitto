@@ -46,6 +46,7 @@ unsigned int g_socket_connections = 0;
 unsigned int g_connection_count = 0;
 
 static time_t start_time = 0;
+static time_t last_update = 0;
 
 
 void sys_tree__init(void)
@@ -62,6 +63,7 @@ void sys_tree__init(void)
 	db__messages_easy_queue(NULL, "$SYS/broker/version", SYS_TREE_QOS, len, buf, 1, 0, NULL);
 
 	start_time = mosquitto_time();
+	last_update = start_time;
 }
 
 static void sys_tree__update_clients(char *buf)
@@ -159,7 +161,6 @@ static void calc_load(char *buf, const char *topic, bool initial, double exponen
  */
 void sys_tree__update(void)
 {
-	static time_t last_update = 0;
 	time_t uptime;
 	char buf[BUFLEN];
 
@@ -219,9 +220,18 @@ void sys_tree__update(void)
 	double i_mult;
 	uint32_t len;
 	bool initial_publish;
+	time_t next_event;
+
+	if(db.config->sys_interval){
+		next_event = last_update - db.now_s + db.config->sys_interval;
+		if(next_event <= 0){
+			next_event = db.config->sys_interval;
+		}
+		loop__update_next_event(next_event*1000);
+	}
 
 	if(db.config->sys_interval
-			&& db.now_s - db.config->sys_interval > last_update){
+			&& db.now_s - db.config->sys_interval >= last_update){
 
 		uptime = db.now_s - start_time;
 		len = (uint32_t)snprintf(buf, BUFLEN, "%d seconds", (int)uptime);

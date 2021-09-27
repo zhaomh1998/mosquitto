@@ -51,6 +51,8 @@ int mosquitto_plugin_cleanup(void *user_data, struct mosquitto_opt *auth_opts, i
 
 static int tick_callback(int event, void *event_data, void *user_data)
 {
+	struct mosquitto_evt_tick *ed = event_data;
+
 	if(auth_delay == 0){
 		if(client_id && username && password
 			&& !strcmp(username, "delayed-username") && !strcmp(password, "good")){
@@ -68,6 +70,9 @@ static int tick_callback(int event, void *event_data, void *user_data)
 	}else if(auth_delay > 0){
 		auth_delay--;
 	}
+
+	/* fast turn around for quick testing */
+	ed->next_ms = 100;
 
 	return MOSQ_ERR_SUCCESS;
 }

@@ -36,8 +36,16 @@ int keepalive__add(struct mosquitto *context)
 void keepalive__check(void)
 {
 	struct mosquitto *context, *ctxt_tmp;
+	time_t timeout;
 
-	if(last_keepalive_check + 5 < db.now_s){
+	if(db.contexts_by_sock){
+		timeout = (last_keepalive_check + 5 - db.now_s);
+		if(timeout <= 0){
+			timeout = 5;
+		}
+		loop__update_next_event(timeout*1000);
+	}
+	if(last_keepalive_check + 5 <= db.now_s){
 		last_keepalive_check = db.now_s;
 
 		/* FIXME - this needs replacing with something more efficient */

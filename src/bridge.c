@@ -383,6 +383,7 @@ int bridge__connect_step3(struct mosquitto *context)
 
 	if(context->bridge->round_robin == false && context->bridge->cur_address != 0){
 		context->bridge->primary_retry = db.now_s + 5;
+		loop__update_next_event(5000);
 	}
 
 	if (bridge__set_tcp_keepalive(context) != MOSQ_ERR_SUCCESS) return MOSQ_ERR_UNKNOWN;
@@ -928,7 +929,7 @@ void bridge_check(void)
 			if(context->bridge->round_robin == false
 					&& context->bridge->cur_address != 0
 					&& context->bridge->primary_retry
-					&& db.now_s > context->bridge->primary_retry){
+					&& db.now_s >= context->bridge->primary_retry){
 
 				if(context->bridge->primary_retry_sock == INVALID_SOCKET){
 					rc = net__try_connect(context->bridge->addresses[0].address,
@@ -958,11 +959,13 @@ void bridge_check(void)
 							COMPAT_CLOSE(context->bridge->primary_retry_sock);
 							context->bridge->primary_retry_sock = INVALID_SOCKET;
 							context->bridge->primary_retry = db.now_s+5;
+							loop__update_next_event(5000);
 						}
 					}else{
 						COMPAT_CLOSE(context->bridge->primary_retry_sock);
 						context->bridge->primary_retry_sock = INVALID_SOCKET;
 						context->bridge->primary_retry = db.now_s+5;
+						loop__update_next_event(5000);
 					}
 				}
 			}
@@ -978,9 +981,10 @@ void bridge_check(void)
 				if(context->bridge->cur_address == context->bridge->address_count){
 					context->bridge->cur_address = 0;
 				}
+				loop__update_next_event(context->bridge->restart_timeout*1000);
 			}else{
 				if((context->bridge->start_type == bst_lazy && context->bridge->lazy_reconnect)
-						|| (context->bridge->start_type == bst_automatic && db.now_s > context->bridge->restart_t)){
+						|| (context->bridge->start_type == bst_automatic && db.now_s >= context->bridge->restart_t)){
 
 #if defined(__GLIBC__) && defined(WITH_ADNS)
 					if(context->adns){
@@ -1034,6 +1038,7 @@ void bridge_check(void)
 						if(rc == MOSQ_ERR_SUCCESS || rc == MOSQ_ERR_CONN_PENDING){
 							if(context->bridge->round_robin == false && context->bridge->cur_address != 0){
 								context->bridge->primary_retry = db.now_s + 5;
+								loop__update_next_event(5000);
 							}
 							mux__new(context);
 							if(context->out_packet){

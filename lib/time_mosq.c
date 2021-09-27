@@ -63,3 +63,26 @@ time_t mosquitto_time(void)
 #endif
 }
 
+void mosquitto_time_ns(time_t *s, long *ns)
+{
+#ifdef WIN32
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	*s = st.wSecond
+	*ns = st.wMilliseconds*1000000L;
+	gettimeofday(&tv, NULL);
+	srand((unsigned int)(tv.tv_sec + tv.tv_usec));
+#elif _POSIX_TIMERS>0 && defined(_POSIX_MONOTONIC_CLOCK)
+	struct timespec tp;
+
+	clock_gettime(CLOCK_REALTIME, &tp);
+	*s = tp.tv_sec;
+	*ns = tp.tv_nsec;
+#else
+	struct timeval tv;
+
+	gettimeofday(&tv, NULL);
+	*s = tv.tv_sec;
+	*ns = tv.tv_usec * 1000;
+#endif
+}

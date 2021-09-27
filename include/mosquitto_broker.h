@@ -158,7 +158,7 @@ struct mosquitto_evt_message {
 struct mosquitto_evt_tick {
 	void *future;
 	long now_ns;
-	long next_ns;
+	long next_ms;
 	time_t now_s;
 	time_t next_s;
 	void *future2[4];

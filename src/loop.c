@@ -161,6 +161,14 @@ static void queue_plugin_msgs(void)
 }
 
 
+void loop__update_next_event(time_t new_ms)
+{
+	if(new_ms > 0 && new_ms < db.next_event_ms){
+		db.next_event_ms = (int)new_ms;
+	}
+}
+
+
 int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listensock_count)
 {
 #ifdef WITH_PERSISTENCE
@@ -187,6 +195,8 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 	while(g_run){
 		queue_plugin_msgs();
 		context__free_disused();
+
+		db.next_event_ms = 86400000;
 #ifdef WITH_SYS_TREE
 		if(db.config->sys_interval > 0){
 			sys_tree__update();
@@ -198,6 +208,7 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 #ifdef WITH_BRIDGE
 		bridge_check();
 #endif
+		plugin__handle_tick();
 
 		rc = mux__handle(listensock, listensock_count);
 		if(rc) return rc;
@@ -269,7 +280,6 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 			}
 		}
 #endif
-		plugin__handle_tick();
 	}
 
 	mux__cleanup();

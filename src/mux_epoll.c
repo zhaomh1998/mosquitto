@@ -35,20 +35,12 @@ Contributors:
 
 static void loop_handle_reads_writes(struct mosquitto *context, uint32_t events);
 
-static sigset_t my_sigblock;
 static struct epoll_event ep_events[MAX_EVENTS];
 
 int mux_epoll__init(struct mosquitto__listener_sock *listensock, int listensock_count)
 {
 	struct epoll_event ev;
 	int i;
-
-	sigemptyset(&my_sigblock);
-	sigaddset(&my_sigblock, SIGINT);
-	sigaddset(&my_sigblock, SIGTERM);
-	sigaddset(&my_sigblock, SIGUSR1);
-	sigaddset(&my_sigblock, SIGUSR2);
-	sigaddset(&my_sigblock, SIGHUP);
 
 	memset(&ep_events, 0, sizeof(struct epoll_event)*MAX_EVENTS);
 
@@ -145,15 +137,16 @@ int mux_epoll__handle(void)
 {
 	int i;
 	struct epoll_event ev;
-	sigset_t origsig;
 	struct mosquitto *context;
 	struct mosquitto__listener_sock *listensock;
 	int event_count;
 
 	memset(&ev, 0, sizeof(struct epoll_event));
-	sigprocmask(SIG_SETMASK, &my_sigblock, &origsig);
+#if defined(WITH_WEBSOCKETS)
 	event_count = epoll_wait(db.epollfd, ep_events, MAX_EVENTS, 100);
-	sigprocmask(SIG_SETMASK, &origsig, NULL);
+#else
+	event_count = epoll_wait(db.epollfd, ep_events, MAX_EVENTS, db.next_event_ms);
+#endif
 
 	db.now_s = mosquitto_time();
 	db.now_real_s = time(NULL);

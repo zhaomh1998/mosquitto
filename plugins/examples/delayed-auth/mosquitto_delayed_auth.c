@@ -107,16 +107,16 @@ static int basic_auth_callback(int event, void *event_data, void *userdata)
 
 static int tick_callback(int event, void *event_data, void *userdata)
 {
+	struct mosquitto_evt_tick *ed = event_data;
 	struct client_list *client, *client_tmp;
 	time_t now;
 	long r;
 
 	UNUSED(event);
-	UNUSED(event_data);
 	UNUSED(userdata);
 
 	now = time(NULL);
-	if(now > last_check){
+	if(now >= last_check){
 		HASH_ITER(hh, clients, client, client_tmp){
 			if(authentication_check(client, now)){
 				/* Deny access 1/4 of the time, yes it's biased number generation. */
@@ -134,6 +134,9 @@ static int tick_callback(int event, void *event_data, void *userdata)
 		}
 		last_check = now;
 	}
+	/* Declare that we want another call in at most 1 second */
+	ed->next_s = 1;
+
 	return MOSQ_ERR_SUCCESS;
 }
 
