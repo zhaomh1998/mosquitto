@@ -5,11 +5,11 @@
 		"tests": [
 			{ "name": "10 proto ver 2", "connect":false, "msgs":[
 				{"type":"send", "payload":"10 0F 0006 4D5149736470 02 00 000A 0001 70", "comment":"CONNECT"},
-				{"type":"recv", "payload":"20 02 00 01", "comment": "CONNACK identifier rejected"}
+				{"type":"recv", "payload":"20 03 00 84 00", "comment": "CONNACK identifier rejected"}
 			]},
 			{ "name": "10 proto ver 6", "connect":false, "msgs":[
 				{"type":"send", "payload":"10 0F 0006 4D5149736470 06 00 000A 0001 70", "comment":"CONNECT"},
-				{"type":"recv", "payload":"20 02 00 01", "comment": "CONNACK identifier rejected"}
+				{"type":"recv", "payload":"20 03 00 84 00", "comment": "CONNACK identifier rejected"}
 			]},
 			{ "name": "10 empty client ID", "ver":3, "connect":false, "msgs":[
 				{"type":"send", "payload":"10 0E 0006 4D5149736470 03 02 000A 0000", "comment":"CONNECT clean session true, no client id"},
@@ -44,11 +44,11 @@
 			]},
 			{ "name": "10 proto ver 2 [MQTT-3.1.2-2]", "connect":false, "msgs":[
 				{"type":"send", "payload":"10 0D 0004 4D515454 02 00 000A 0001 70", "comment":"CONNECT"},
-				{"type":"recv", "payload":"20 02 00 01", "comment": "v3.1.1 CONNACK identifier rejected"}
+				{"type":"recv", "payload":"20 03 00 84 00", "comment": "v3.1.1 CONNACK identifier rejected"}
 			]},
 			{ "name": "10 proto ver 6 [MQTT-3.1.2-2]", "connect":false, "msgs":[
 				{"type":"send", "payload":"10 0D 0004 4D515454 06 00 000A 0001 70", "comment":"CONNECT"},
-				{"type":"recv", "payload":"20 02 00 01", "comment": "v3.1.1 CONNACK identifier rejected"}
+				{"type":"recv", "payload":"20 03 00 84 00", "comment": "v3.1.1 CONNACK identifier rejected"}
 			]},
 			{ "name": "10 remaining length 5 bytes", "connect":false, "msgs":[
 				{"type":"send", "payload":"10 FFFFFFFF7F 0004 4D515454 06 00 000A 0001 70", "comment":"CONNECT"}

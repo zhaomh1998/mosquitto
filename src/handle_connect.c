@@ -436,6 +436,9 @@ error_cleanup:
 
 static int check_protocol_version(struct mosquitto__listener *listener, int protocol_version)
 {
+	/* Allow bridge protocol as well. */
+	protocol_version &= 0x7F;
+
 	if((protocol_version == 3 && listener->disable_protocol_v3 == false)
 			|| (protocol_version == 4 && listener->disable_protocol_v4 == false)
 			|| (protocol_version == 5 && listener->disable_protocol_v5 == false)
