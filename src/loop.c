@@ -235,7 +235,9 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 			mosquitto_security_apply();
 			log__close(db.config);
 			log__init(db.config);
+#ifdef WITH_CJSON
 			broker_control__reload();
+#endif
 #ifdef WITH_BRIDGE
 			bridge__reload();
 #endif

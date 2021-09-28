@@ -9,6 +9,12 @@ target_include_directories(mosquitto_delayed_auth PRIVATE
 	"${mosquitto_SOURCE_DIR}/include"
 )
 
+if(WITH_BUNDLED_DEPS)
+	target_include_directories(mosquitto_delayed_auth PRIVATE
+		"${mosquitto_SOURCE_DIR}/deps"
+	)
+endif()
+
 set_target_properties(mosquitto_delayed_auth PROPERTIES
 	PREFIX ""
 	POSITION_INDEPENDENT_CODE 1

@@ -29,6 +29,11 @@ target_include_directories(mosquitto_pub PRIVATE ${CLIENT_INC})
 target_include_directories(mosquitto_sub PRIVATE ${CLIENT_INC})
 target_include_directories(mosquitto_rr PRIVATE ${CLIENT_INC})
 
+if(WITH_BUNDLED_DEPS)
+	target_include_directories(mosquitto_sub PRIVATE "${mosquitto_SOURCE_DIR}/deps")
+	target_include_directories(mosquitto_rr PRIVATE "${mosquitto_SOURCE_DIR}/deps")
+endif()
+
 link_directories(${CLIENT_DIR})
 
 

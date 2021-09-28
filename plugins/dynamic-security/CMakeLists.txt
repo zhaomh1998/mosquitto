@@ -38,6 +38,11 @@ if(CJSON_FOUND AND WITH_TLS)
 	target_include_directories(mosquitto_dynamic_security PRIVATE
 		${CLIENT_INC}
 	)
+	if(WITH_BUNDLED_DEPS)
+		target_include_directories(mosquitto_dynamic_security PRIVATE
+			"${mosquitto_SOURCE_DIR}/deps"
+		)
+	endif()
 	link_directories(${CLIENT_DIR} "${mosquitto_SOURCE_DIR}")
 
 	set_target_properties(mosquitto_dynamic_security PROPERTIES

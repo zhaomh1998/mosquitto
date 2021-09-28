@@ -31,6 +31,11 @@ if(WITH_TLS AND CJSON_FOUND)
 		"${mosquitto_SOURCE_DIR}/plugins/dynamic-security"
 		"${mosquitto_SOURCE_DIR}/src"
 	)
+	if(WITH_BUNDLED_DEPS)
+		target_include_directories(mosquitto_ctrl PRIVATE
+			"${mosquitto_SOURCE_DIR}/deps"
+		)
+	endif()
 
 	if(WITH_STATIC_LIBRARIES)
 		target_link_libraries(mosquitto_ctrl libmosquitto_static)
