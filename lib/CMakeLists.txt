@@ -50,6 +50,10 @@ set(C_SRC
 	util_mosq.c util_topic.c util_mosq.h
 	will_mosq.c will_mosq.h)
 
+if (WIN32)
+	list(APPEND C_SRC "winthread_mosq.c" "winthread_mosq.h")
+endif()
+
 set (LIBRARIES ${OPENSSL_LIBRARIES} ${PTHREAD_LIBRARIES})
 
 if(UNIX AND NOT APPLE AND NOT ANDROID)

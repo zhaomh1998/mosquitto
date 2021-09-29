@@ -10,27 +10,7 @@ Capabilities
 Some versions of Windows have limitations on the number of concurrent
 connections due to the Windows API being used. In modern versions of Windows,
 e.g. Windows 10 or Windows Server 2019, this is approximately 8192 connections.
-In earlier versions of Windows, t his limit is 2048 connections.
-
-
-Websockets
-----------
-
-The broker executables provided in the installers have Websockets support
-through a statically compiled version of libwebsockets and is being distributed
-under the Static Linking Exception (Section 2) of the License. As a result, the
-content is not subject to the LGPL 2.1.
-
-
-Library Thread Support
-----------------------
-
-libmosquitto on Windows is currently compiled without thread support, so
-neither of mosquitto_loop_start() nor "mosquitto_pub -l" are available.
-
-A better solution that the old pthreads-win32 is being looked into, so support
-will return in the future. If you need thread support, the code still supports
-it just fine. Support has been dropped to simplify installation.
+In earlier versions of Windows, this limit is 2048 connections.
 
 
 Windows Service

@@ -241,7 +241,10 @@ static int pub_stdin_line_loop(struct mosquitto *mosq)
 	int read_len;
 	bool stdin_finished = false;
 
-	mosquitto_loop_start(mosq);
+	rc = mosquitto_loop_start(mosq);
+	if(rc != MOSQ_ERR_SUCCESS){
+		return rc;
+	}
 	stdin_finished = false;
 	do{
 		if(status == STATUS_CONNECTING){

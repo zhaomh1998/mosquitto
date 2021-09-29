@@ -84,6 +84,7 @@ Client library:
   filter (a subscription) against another topic filter (an ACL), with `%c` and
   `%u` patterns for client id / username substitution.
 - Performance: reduce memory allocations when sending packets.
+- Reintroduce threading support for Windows.
 
 
 2.0.12 - 2021-08-31
