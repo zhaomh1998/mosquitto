@@ -141,6 +141,8 @@ static void plugin__handle_disconnect_single(struct mosquitto__security_options 
 	struct mosquitto_evt_disconnect event_data;
 	struct mosquitto__callback *cb_base;
 
+	if(context->id == NULL) return;
+
 	memset(&event_data, 0, sizeof(event_data));
 	event_data.client = context;
 	event_data.reason = reason;
