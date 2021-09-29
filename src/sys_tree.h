@@ -29,7 +29,7 @@ extern unsigned long g_msgs_sent;
 extern unsigned long g_pub_msgs_received;
 extern unsigned long g_pub_msgs_sent;
 extern unsigned long g_msgs_dropped;
-extern int g_clients_expired;
+extern unsigned int g_clients_expired;
 extern unsigned int g_socket_connections;
 extern unsigned int g_connection_count;
 
