@@ -82,23 +82,6 @@ struct mosquitto_acl_msg {
  *
  * gcc -I<path to mosquitto_plugin.h> -fPIC -shared plugin.c -undefined dynamic_lookup -o plugin.so
  *
- * Authentication plugins can implement one or both of authentication and
- * access control. If your plugin does not wish to handle either of
- * authentication or access control it should return MOSQ_ERR_PLUGIN_DEFER. In
- * this case, the next plugin will handle it. If all plugins return
- * MOSQ_ERR_PLUGIN_DEFER, the request will be denied.
- *
- * For each check, the following flow happens:
- *
- * * The default password file and/or acl file checks are made. If either one
- *   of these is not defined, then they are considered to be deferred. If either
- *   one accepts the check, no further checks are made. If an error occurs, the
- *   check is denied
- * * The first plugin does the check, if it returns anything other than
- *   MOSQ_ERR_PLUGIN_DEFER, then the check returns immediately. If the plugin
- *   returns MOSQ_ERR_PLUGIN_DEFER then the next plugin runs its check.
- * * If the final plugin returns MOSQ_ERR_PLUGIN_DEFER, then access will be
- *   denied.
  */
 
 /* =========================================================================
@@ -218,6 +201,23 @@ mosq_plugin_EXPORT int mosquitto_plugin_cleanup(void *userdata, struct mosquitto
  *
  * You must implement these functions in your plugin.
  *
+ * Authentication plugins can implement one or both of authentication and
+ * access control. If your plugin does not wish to handle either of
+ * authentication or access control it should return MOSQ_ERR_PLUGIN_DEFER. In
+ * this case, the next plugin will handle it. If all plugins return
+ * MOSQ_ERR_PLUGIN_DEFER, the request will be denied.
+ *
+ * For each check, the following flow happens:
+ *
+ * * The default password file and/or acl file checks are made. If either one
+ *   of these is not defined, then they are considered to be deferred. If either
+ *   one accepts the check, no further checks are made. If an error occurs, the
+ *   check is denied
+ * * The first plugin does the check, if it returns anything other than
+ *   MOSQ_ERR_PLUGIN_DEFER, then the check returns immediately. If the plugin
+ *   returns MOSQ_ERR_PLUGIN_DEFER then the next plugin runs its check.
+ * * If the final plugin returns MOSQ_ERR_PLUGIN_DEFER, then access will be
+ *   denied.
  * ========================================================================= */
 
 /*

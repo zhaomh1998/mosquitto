@@ -385,7 +385,7 @@ static int mosquitto_acl_check_default(int event, void *event_data, void *userda
 		security_opts = &db.config->security_options;
 	}
 	if(!security_opts->acl_file && !security_opts->acl_list && !security_opts->acl_patterns){
-		return MOSQ_ERR_PLUGIN_DEFER;
+		return MOSQ_ERR_PLUGIN_IGNORE;
 	}
 
 	if(!ed->client->acl_list && !security_opts->acl_patterns) return MOSQ_ERR_ACL_DENIED;
@@ -967,7 +967,7 @@ static int mosquitto_unpwd_check_default(int event, void *event_data, void *user
 	UNUSED(userdata);
 
 	if(ed->client->username == NULL){
-		return MOSQ_ERR_PLUGIN_DEFER;
+		return MOSQ_ERR_PLUGIN_IGNORE;
 	}
 
 	if(db.config->per_listener_settings){
@@ -1273,7 +1273,7 @@ int mosquitto_psk_key_get_default(struct mosquitto *context, const char *hint, c
 	}else{
 		psk_id_ref = db.config->security_options.psk_id;
 	}
-	if(!psk_id_ref) return MOSQ_ERR_PLUGIN_DEFER;
+	if(!psk_id_ref) return MOSQ_ERR_PLUGIN_IGNORE;
 
 	HASH_ITER(hh, psk_id_ref, u, tmp){
 		if(!strcmp(u->username, identity)){
