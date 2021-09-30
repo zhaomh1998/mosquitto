@@ -167,3 +167,26 @@ int control__unregister_callback(mosquitto_plugin_id_t *identifier, MOSQ_FUNC_ge
 	return MOSQ_ERR_NOT_SUPPORTED;
 #endif
 }
+
+/* Unregister all control callbacks for a single plugin */
+void control__unregister_all_callbacks(mosquitto_plugin_id_t *identifier)
+{
+	struct mosquitto__security_options *opts;
+
+	struct mosquitto__callback *cb_found;
+	struct control_endpoint *ep, *ep_tmp;
+
+	opts = &db.config->security_options;
+
+	DL_FOREACH_SAFE(identifier->control_endpoints, ep, ep_tmp){
+		HASH_FIND(hh, opts->plugin_callbacks.control, ep->topic, strlen(ep->topic), cb_found);
+		if(cb_found){
+			HASH_DELETE(hh, opts->plugin_callbacks.control, cb_found);
+			mosquitto__free(cb_found->data);
+			mosquitto__free(cb_found);
+		}
+
+		DL_DELETE(identifier->control_endpoints, ep);
+		mosquitto__free(ep);
+	}
+}

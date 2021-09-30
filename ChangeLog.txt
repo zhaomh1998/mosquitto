@@ -67,6 +67,9 @@ Broker:
 - Improve idle performance. The broker now calculates when the next event of
   interest is, and uses that as the timeout for e.g. epoll_wait(). This can
   reduce the number of process wakeups by 100x on an idle broker.
+- Plugins no longer need to define mosquitto_plugin_cleanup() if they do not
+  need to do any of their own cleanup. Callbacks will be unregistered
+  automatically.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

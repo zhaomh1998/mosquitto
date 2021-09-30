@@ -259,11 +259,22 @@ struct mosquitto__listener_sock{
 	struct mosquitto__listener *listener;
 };
 
+
+/* Callbacks belonging to a specific plugin
+ * Doesn't include MOSQ_EVT_CONTROL events.
+ */
+struct plugin_own_callback{
+	struct plugin_own_callback *next, *prev;
+	MOSQ_FUNC_generic_callback cb_func;
+	int event;
+};
+
 typedef struct mosquitto_plugin_id_t{
 	struct mosquitto__listener *listener;
 	char *plugin_name;
 	char *plugin_version;
 	struct control_endpoint *control_endpoints;
+	struct plugin_own_callback *own_callbacks;
 } mosquitto_plugin_id_t;
 
 struct mosquitto__config {
@@ -752,6 +763,7 @@ void control__cleanup(void);
 #endif
 int control__register_callback(mosquitto_plugin_id_t *pid, MOSQ_FUNC_generic_callback cb_func, const char *topic, void *userdata);
 int control__unregister_callback(mosquitto_plugin_id_t *pid, MOSQ_FUNC_generic_callback cb_func, const char *topic);
+void control__unregister_all_callbacks(mosquitto_plugin_id_t *identifier);
 
 
 /* ============================================================
@@ -816,6 +828,7 @@ void plugin__handle_disconnect(struct mosquitto *context, int reason);
 int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store *stored);
 void LIB_ERROR(void);
 void plugin__handle_tick(void);
+int plugin__callback_unregister_all(mosquitto_plugin_id_t *identifier);
 
 /* ============================================================
  * Property related functions

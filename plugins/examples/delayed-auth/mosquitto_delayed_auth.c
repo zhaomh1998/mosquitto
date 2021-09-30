@@ -162,12 +162,17 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 
 int mosquitto_plugin_cleanup(void *user_data, struct mosquitto_opt *opts, int opt_count)
 {
+	struct client_list *client, *client_tmp;
+
 	UNUSED(user_data);
 	UNUSED(opts);
 	UNUSED(opt_count);
 
-	mosquitto_callback_unregister(mosq_pid, MOSQ_EVT_BASIC_AUTH, basic_auth_callback, NULL);
-	mosquitto_callback_unregister(mosq_pid, MOSQ_EVT_TICK, tick_callback, NULL);
+	HASH_ITER(hh, clients, client, client_tmp){
+		HASH_DELETE(hh, clients, client);
+		mosquitto_free(client->id);
+		mosquitto_free(client);
+	}
 
-	return 0;
+	return MOSQ_ERR_SUCCESS;
 }

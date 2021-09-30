@@ -190,6 +190,9 @@ mosq_plugin_EXPORT int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, 
  * Called when the broker is shutting down. This will only ever be called once
  * per plugin.
  *
+ * If you do not need to do any of your own cleanup, this function is not
+ * required. The broker will automatically unregister your callbacks.
+ *
  * Parameters:
  *
  *	user_data -      The pointer provided in <mosquitto_plugin_init>.

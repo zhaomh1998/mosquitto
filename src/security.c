@@ -406,46 +406,53 @@ static void security__module_cleanup_single(struct mosquitto__security_options *
 {
 	int i;
 	struct control_endpoint *ep, *tmp;
+	struct mosquitto__auth_plugin_config *conf;
 
 	for(i=0; i<opts->auth_plugin_config_count; i++){
+		conf = &opts->auth_plugin_configs[i];
+
 		/* Run plugin cleanup function */
-		if(opts->auth_plugin_configs[i].plugin.version == 5){
-			opts->auth_plugin_configs[i].plugin.plugin_cleanup_v5(
-					opts->auth_plugin_configs[i].plugin.user_data,
-					opts->auth_plugin_configs[i].options,
-					opts->auth_plugin_configs[i].option_count);
-			mosquitto__free(opts->auth_plugin_configs[i].plugin.identifier->plugin_name);
-			mosquitto__free(opts->auth_plugin_configs[i].plugin.identifier->plugin_version);
-			DL_FOREACH_SAFE(opts->auth_plugin_configs[i].plugin.identifier->control_endpoints, ep, tmp){
-				DL_DELETE(opts->auth_plugin_configs[i].plugin.identifier->control_endpoints, ep);
+		if(conf->plugin.version == 5){
+			if(conf->plugin.plugin_cleanup_v5){
+				conf->plugin.plugin_cleanup_v5(
+						conf->plugin.user_data,
+						conf->options,
+						conf->option_count);
+			}
+
+			plugin__callback_unregister_all(conf->plugin.identifier);
+			mosquitto__free(conf->plugin.identifier->plugin_name);
+			mosquitto__free(conf->plugin.identifier->plugin_version);
+			DL_FOREACH_SAFE(conf->plugin.identifier->control_endpoints, ep, tmp){
+				DL_DELETE(conf->plugin.identifier->control_endpoints, ep);
 				mosquitto__free(ep);
 			}
-			mosquitto__free(opts->auth_plugin_configs[i].plugin.identifier);
-			opts->auth_plugin_configs[i].plugin.identifier = NULL;
+			mosquitto__free(conf->plugin.identifier);
+			conf->plugin.identifier = NULL;
 
-		}else if(opts->auth_plugin_configs[i].plugin.version == 4){
-			opts->auth_plugin_configs[i].plugin.plugin_cleanup_v4(
-					opts->auth_plugin_configs[i].plugin.user_data,
-					opts->auth_plugin_configs[i].options,
-					opts->auth_plugin_configs[i].option_count);
+		}else if(conf->plugin.version == 4){
+			conf->plugin.plugin_cleanup_v4(
+					conf->plugin.user_data,
+					conf->options,
+					conf->option_count);
 
-		}else if(opts->auth_plugin_configs[i].plugin.version == 3){
-			opts->auth_plugin_configs[i].plugin.plugin_cleanup_v3(
-					opts->auth_plugin_configs[i].plugin.user_data,
-					opts->auth_plugin_configs[i].options,
-					opts->auth_plugin_configs[i].option_count);
+		}else if(conf->plugin.version == 3){
+			conf->plugin.plugin_cleanup_v3(
+					conf->plugin.user_data,
+					conf->options,
+					conf->option_count);
 
-		}else if(opts->auth_plugin_configs[i].plugin.version == 2){
-			opts->auth_plugin_configs[i].plugin.plugin_cleanup_v2(
-					opts->auth_plugin_configs[i].plugin.user_data,
-					(struct mosquitto_auth_opt *)opts->auth_plugin_configs[i].options,
-					opts->auth_plugin_configs[i].option_count);
+		}else if(conf->plugin.version == 2){
+			conf->plugin.plugin_cleanup_v2(
+					conf->plugin.user_data,
+					(struct mosquitto_auth_opt *)conf->options,
+					conf->option_count);
 		}
 
-		if(opts->auth_plugin_configs[i].plugin.lib){
-			LIB_CLOSE(opts->auth_plugin_configs[i].plugin.lib);
+		if(conf->plugin.lib){
+			LIB_CLOSE(conf->plugin.lib);
 		}
-		memset(&opts->auth_plugin_configs[i].plugin, 0, sizeof(struct mosquitto__auth_plugin));
+		memset(&conf->plugin, 0, sizeof(struct mosquitto__auth_plugin));
 	}
 }
 

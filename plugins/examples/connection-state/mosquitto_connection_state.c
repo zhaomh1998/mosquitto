@@ -115,13 +115,3 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 	rc = mosquitto_callback_register(mosq_pid, MOSQ_EVT_DISCONNECT, disconnect_callback, NULL, NULL);
 	return rc;
 }
-
-int mosquitto_plugin_cleanup(void *user_data, struct mosquitto_opt *opts, int opt_count)
-{
-	UNUSED(user_data);
-	UNUSED(opts);
-	UNUSED(opt_count);
-
-	mosquitto_callback_unregister(mosq_pid, MOSQ_EVT_CONNECT, connect_callback, NULL);
-	return mosquitto_callback_unregister(mosq_pid, MOSQ_EVT_DISCONNECT, disconnect_callback, NULL);
-}

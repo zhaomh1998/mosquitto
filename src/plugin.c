@@ -43,16 +43,25 @@ static bool check_callback_exists(struct mosquitto__callback *cb_base, MOSQ_FUNC
 }
 
 
-static int remove_callback(struct mosquitto__callback **cb_base, MOSQ_FUNC_generic_callback cb_func)
+static int remove_callback(mosquitto_plugin_id_t *identifier, int event, struct mosquitto__callback **cb_base, MOSQ_FUNC_generic_callback cb_func)
 {
 	struct mosquitto__callback *tail, *tmp;
+	struct plugin_own_callback *own, *own_tmp;
 
 	DL_FOREACH_SAFE(*cb_base, tail, tmp){
 		if(tail->cb == cb_func){
 			DL_DELETE(*cb_base, tail);
 			mosquitto__free(tail);
+			break;
+		}
+	}
+	DL_FOREACH_SAFE(identifier->own_callbacks, own, own_tmp){
+		if(own->cb_func == cb_func && own->event == event){
+			DL_DELETE(identifier->own_callbacks, own);
+			mosquitto__free(own);
 			return MOSQ_ERR_SUCCESS;
 		}
+		mosquitto__free(own);
 	}
 	return MOSQ_ERR_NOT_FOUND;
 }
@@ -70,13 +79,8 @@ int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__auth
 		LIB_CLOSE(lib);
 		return MOSQ_ERR_UNKNOWN;
 	}
-	if(!(plugin->plugin_cleanup_v5 = (FUNC_plugin_cleanup_v5)LIB_SYM(lib, "mosquitto_plugin_cleanup"))){
-		log__printf(NULL, MOSQ_LOG_ERR,
-				"Error: Unable to load plugin function mosquitto_plugin_cleanup().");
-		LIB_ERROR();
-		LIB_CLOSE(lib);
-		return MOSQ_ERR_UNKNOWN;
-	}
+	/* Optional function */
+	plugin->plugin_cleanup_v5 = (FUNC_plugin_cleanup_v5)LIB_SYM(lib, "mosquitto_plugin_cleanup");
 
 	pid = mosquitto__calloc(1, sizeof(mosquitto_plugin_id_t));
 	if(pid == NULL){
@@ -262,6 +266,7 @@ int mosquitto_callback_register(
 	struct mosquitto__callback **cb_base = NULL, *cb_new;
 	struct mosquitto__security_options *security_options;
 	const char *event_name;
+	struct plugin_own_callback *own_callback;
 
 	if(cb_func == NULL) return MOSQ_ERR_INVAL;
 
@@ -328,6 +333,15 @@ int mosquitto_callback_register(
 	if(cb_new == NULL){
 		return MOSQ_ERR_NOMEM;
 	}
+	own_callback = mosquitto__calloc(1, sizeof(struct plugin_own_callback));
+	if(own_callback == NULL){
+		mosquitto__free(cb_new);
+		return MOSQ_ERR_NOMEM;
+	}
+	own_callback->event = event;
+	own_callback->cb_func = cb_func;
+	DL_APPEND(identifier->own_callbacks, own_callback);
+
 	DL_APPEND(*cb_base, cb_new);
 	cb_new->cb = cb_func;
 	cb_new->userdata = userdata;
@@ -337,6 +351,71 @@ int mosquitto_callback_register(
 				identifier->plugin_name, event_name);
 	}
 
+	return MOSQ_ERR_SUCCESS;
+}
+
+
+int plugin__callback_unregister_all(mosquitto_plugin_id_t *identifier)
+{
+	struct mosquitto__callback **cb_base = NULL;
+	struct mosquitto__security_options *security_options;
+	struct plugin_own_callback *own, *own_tmp;
+
+	if(identifier == NULL){
+		return MOSQ_ERR_INVAL;
+	}
+
+	if(identifier->listener == NULL){
+		security_options = &db.config->security_options;
+	}else{
+		security_options = &identifier->listener->security_options;
+	}
+
+	control__unregister_all_callbacks(identifier);
+
+	DL_FOREACH_SAFE(identifier->own_callbacks, own, own_tmp){
+		switch(own->event){
+			case MOSQ_EVT_RELOAD:
+				cb_base = &security_options->plugin_callbacks.reload;
+				break;
+			case MOSQ_EVT_ACL_CHECK:
+				cb_base = &security_options->plugin_callbacks.acl_check;
+				break;
+			case MOSQ_EVT_BASIC_AUTH:
+				cb_base = &security_options->plugin_callbacks.basic_auth;
+				break;
+			case MOSQ_EVT_PSK_KEY:
+				cb_base = &security_options->plugin_callbacks.psk_key;
+				break;
+			case MOSQ_EVT_EXT_AUTH_START:
+				cb_base = &security_options->plugin_callbacks.ext_auth_start;
+				break;
+			case MOSQ_EVT_EXT_AUTH_CONTINUE:
+				cb_base = &security_options->plugin_callbacks.ext_auth_continue;
+				break;
+			case MOSQ_EVT_CONTROL:
+				cb_base = NULL;
+				break;
+			case MOSQ_EVT_MESSAGE:
+				cb_base = &security_options->plugin_callbacks.message;
+				break;
+			case MOSQ_EVT_TICK:
+				cb_base = &security_options->plugin_callbacks.tick;
+				break;
+			case MOSQ_EVT_DISCONNECT:
+				cb_base = &security_options->plugin_callbacks.disconnect;
+				break;
+			case MOSQ_EVT_CONNECT:
+				cb_base = &security_options->plugin_callbacks.connect;
+				break;
+			default:
+				cb_base = NULL;
+				break;
+		}
+		if(cb_base){
+			remove_callback(identifier, own->event, cb_base, own->cb_func);
+		}
+	}
 	return MOSQ_ERR_SUCCESS;
 }
 
@@ -398,7 +477,7 @@ int mosquitto_callback_unregister(
 			break;
 	}
 
-	return remove_callback(cb_base, cb_func);
+	return remove_callback(identifier, event, cb_base, cb_func);
 }
 
 void mosquitto_complete_basic_auth(const char *client_id, int result)
