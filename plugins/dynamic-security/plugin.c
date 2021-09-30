@@ -33,6 +33,8 @@ Contributors:
 
 #include "dynamic_security.h"
 
+MOSQUITTO_PLUGIN_DECLARE_VERSION(5);
+
 static mosquitto_plugin_id_t *plg_id = NULL;
 static char *config_file = NULL;
 struct dynsec__acl_default_access default_access = {false, false, false, false};
@@ -273,18 +275,6 @@ internal_error:
 	return MOSQ_ERR_NOMEM;
 }
 
-
-int mosquitto_plugin_version(int supported_version_count, const int *supported_versions)
-{
-	int i;
-
-	for(i=0; i<supported_version_count; i++){
-		if(supported_versions[i] == 5){
-			return 5;
-		}
-	}
-	return -1;
-}
 
 static int dynsec__general_config_load(cJSON *tree)
 {

@@ -45,6 +45,8 @@ Contributors:
 
 #define UNUSED(A) (void)(A)
 
+MOSQUITTO_PLUGIN_DECLARE_VERSION(5);
+
 static mosquitto_plugin_id_t *mosq_pid = NULL;
 
 static int callback_message(int event, void *event_data, void *userdata)
@@ -81,18 +83,6 @@ static int callback_message(int event, void *event_data, void *userdata)
 	ed->payloadlen = new_payloadlen;
 	
 	return MOSQ_ERR_SUCCESS;
-}
-
-int mosquitto_plugin_version(int supported_version_count, const int *supported_versions)
-{
-	int i;
-
-	for(i=0; i<supported_version_count; i++){
-		if(supported_versions[i] == 5){
-			return 5;
-		}
-	}
-	return -1;
 }
 
 int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, struct mosquitto_opt *opts, int opt_count)
