@@ -328,12 +328,6 @@ will_mosq.o : ../lib/will_mosq.c ../lib/will_mosq.h
 xtreport.o : xtreport.c
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
-plugin_defer.so : plugin_defer.c ../include/mosquitto_plugin.h ../include/mosquitto_broker.h mosquitto_broker_internal.h
-	${CROSS_COMPILE}${CC} -I. -I../lib -fPIC -shared $< -o $@
-
-plugin_debug.so : plugin_debug.c ../include/mosquitto_plugin.../include/h mosquitto_broker.h mosquitto_broker_internal.h
-	${CROSS_COMPILE}${CC} -I. -I../lib -fPIC -shared $< -o $@
-
 install : all
 	$(INSTALL) -d "${DESTDIR}$(prefix)/sbin"
 	$(INSTALL) ${STRIP_OPTS} mosquitto "${DESTDIR}${prefix}/sbin/mosquitto"
