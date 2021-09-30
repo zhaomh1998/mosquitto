@@ -532,14 +532,15 @@ int mosquitto_security_init(bool reload)
 	int i;
 	int rc;
 
+	/* Global plugins loaded first */
+	rc = security__init_single(&db.config->security_options, reload);
+	if(rc != MOSQ_ERR_SUCCESS) return rc;
+
 	if(db.config->per_listener_settings){
 		for(i=0; i<db.config->listener_count; i++){
 			rc = security__init_single(&db.config->listeners[i].security_options, reload);
 			if(rc != MOSQ_ERR_SUCCESS) return rc;
 		}
-	}else{
-		rc = security__init_single(&db.config->security_options, reload);
-		if(rc != MOSQ_ERR_SUCCESS) return rc;
 	}
 	return mosquitto_security_init_default(reload);
 }

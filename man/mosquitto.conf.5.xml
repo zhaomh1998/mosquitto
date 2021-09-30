@@ -987,7 +987,7 @@ log_timestamp_format %Y-%m-%dT%H:%M:%S
 					<para>If <option>password_file</option>, or
 						<option>acl_file</option> are used in the config file
 						alongsize <option>plugin</option>, the plugin
-						checks will run after the built in checks.</para>
+						checks will run before the built in checks.</para>
 					<para>Not currently reloaded on reload signal.</para>
 					<para>
 						If <option>per_listener_settings</option> is set to
