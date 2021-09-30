@@ -61,7 +61,6 @@ static int remove_callback(mosquitto_plugin_id_t *identifier, int event, struct 
 			mosquitto__free(own);
 			return MOSQ_ERR_SUCCESS;
 		}
-		mosquitto__free(own);
 	}
 	return MOSQ_ERR_NOT_FOUND;
 }
