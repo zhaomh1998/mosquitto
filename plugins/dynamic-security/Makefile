@@ -4,6 +4,9 @@ include ../../config.mk
 
 PLUGIN_NAME=mosquitto_dynamic_security
 LOCAL_CPPFLAGS=-I../../lib/ -I../../src/ -DWITH_CJSON -DWITH_TLS
+ifeq ($(WITH_BUNDLED_DEPS),yes)
+	LOCAL_CPPFLAGS:=$(LOCAL_CPPFLAGS) -I../deps
+endif
 
 OBJS=	\
 		acl.o \

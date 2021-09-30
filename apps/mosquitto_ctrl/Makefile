@@ -13,6 +13,9 @@ endif
 endif
 
 LOCAL_CPPFLAGS:=-I../mosquitto_passwd -I../../plugins/dynamic-security -DWITH_CJSON
+ifeq ($(WITH_BUNDLED_DEPS),yes)
+LOCAL_CPPFLAGS+=-I../../deps
+endif
 
 OBJS=	mosquitto_ctrl.o \
 		broker.o \

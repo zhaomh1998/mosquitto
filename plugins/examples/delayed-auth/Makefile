@@ -3,7 +3,10 @@ include ../../../config.mk
 .PHONY : all binary check clean reallyclean test install uninstall
 
 PLUGIN_NAME=mosquitto_delayed_auth
-PLUGIN_CFLAGS+=-I../../../include -I../../../
+PLUGIN_CPPFLAGS+=-I../../../include -I../../../
+ifeq ($(WITH_BUNDLED_DEPS),yes)
+PLUGIN_CPPFLAGS+=-I../../../deps
+endif
 
 all : binary
 
