@@ -155,6 +155,7 @@ void bridge__start_all(void)
 
 #if defined(__GLIBC__) && defined(WITH_ADNS)
 		context->bridge->restart_t = 1; /* force quick restart of bridge */
+		loop__update_next_event(1000);
 		ret = bridge__connect_step1(context);
 #else
 		ret = bridge__connect(context);
@@ -897,6 +898,7 @@ static bool reload_if_needed(struct mosquitto *context)
 			bridge__destroy(context);
 			bridge__new(db.config->bridges[i]);
 			db.config->bridges[i] = NULL;
+			loop__update_next_event(100);
 			return true;
 		}
 	}
@@ -1029,6 +1031,7 @@ void bridge_check(void)
 						}else{
 							/* Short wait for ADNS lookup */
 							context->bridge->restart_t = 1;
+							loop__update_next_event(1000);
 						}
 					}
 #else
