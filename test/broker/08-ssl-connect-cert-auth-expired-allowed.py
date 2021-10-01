@@ -34,15 +34,9 @@ try:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ssock = ssl.wrap_socket(sock, ca_certs="../ssl/test-root-ca.crt", certfile="../ssl/client-expired.crt", keyfile="../ssl/client-expired.key", cert_reqs=ssl.CERT_REQUIRED)
     ssock.settimeout(20)
-    try:
-        ssock.connect(("localhost", port1))
-        mosq_test.do_send_receive(ssock, connect_packet, connack_packet, "connack")
-    except ssl.SSLError as err:
-        if err.errno == 1:
-            rc = 0
-        else:
-            broker.terminate()
-            raise ValueError(err.errno)
+    ssock.connect(("localhost", port1))
+    mosq_test.do_send_receive(ssock, connect_packet, connack_packet, "connack")
+    rc = 0
 except mosq_test.TestError:
     pass
 finally:
