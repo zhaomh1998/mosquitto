@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2016-2020 Roger Light <roger@atchoo.org>
+Copyright (c) 2016-2021 Roger Light <roger@atchoo.org>
 
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License 2.0
@@ -19,13 +19,12 @@ Contributors:
 #include "config.h"
 
 #include "mosquitto_broker_internal.h"
-#include "mosquitto_internal.h"
-#include "mosquitto_broker.h"
 #include "memory_mosq.h"
 #include "mqtt_protocol.h"
 #include "send_mosq.h"
 #include "util_mosq.h"
 #include "utlist.h"
+#include "will_mosq.h"
 
 #ifdef WITH_TLS
 #  include <openssl/ssl.h>
@@ -379,4 +378,30 @@ int mosquitto_kick_client_by_username(const char *username, bool with_will)
 		}
 	}
 	return MOSQ_ERR_SUCCESS;
+}
+
+
+void mosquitto_complete_basic_auth(const char *client_id, int result)
+{
+	struct mosquitto *context;
+
+	if(client_id == NULL) return;
+
+	HASH_FIND(hh_id, db.contexts_by_id_delayed_auth, client_id, strlen(client_id), context);
+	if(context){
+		HASH_DELETE(hh_id, db.contexts_by_id_delayed_auth, context);
+		if(result == MOSQ_ERR_SUCCESS){
+			connect__on_authorised(context, NULL, 0);
+		}else{
+			if(context->protocol == mosq_p_mqtt5){
+				send__connack(context, 0, MQTT_RC_NOT_AUTHORIZED, NULL);
+			}else{
+				send__connack(context, 0, CONNACK_REFUSED_NOT_AUTHORIZED, NULL);
+			}
+			context->clean_start = true;
+			context->session_expiry_interval = 0;
+			will__clear(context);
+			do_disconnect(context, MOSQ_ERR_AUTH);
+		}
+	}
 }
