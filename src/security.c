@@ -889,15 +889,18 @@ int mosquitto_unpwd_check(struct mosquitto *context)
 
 	/* Old plugin checks */
 	for(i=0; i<opts->auth_plugin_config_count; i++){
-		if(opts->auth_plugin_configs[i].plugin.version == 4 
-				&& opts->auth_plugin_configs[i].plugin.unpwd_check_v4){
-
-			rc = opts->auth_plugin_configs[i].plugin.unpwd_check_v4(
-					opts->auth_plugin_configs[i].plugin.user_data,
-					context,
-					context->username,
-					context->password);
-
+		if(opts->auth_plugin_configs[i].plugin.version == 5){
+			continue;
+		}else if(opts->auth_plugin_configs[i].plugin.version == 4){
+			if(opts->auth_plugin_configs[i].plugin.unpwd_check_v4){
+				rc = opts->auth_plugin_configs[i].plugin.unpwd_check_v4(
+						opts->auth_plugin_configs[i].plugin.user_data,
+						context,
+						context->username,
+						context->password);
+			}else{
+				rc = MOSQ_ERR_PLUGIN_IGNORE;
+			}
 		}else if(opts->auth_plugin_configs[i].plugin.version == 3){
 			rc = opts->auth_plugin_configs[i].plugin.unpwd_check_v3(
 					opts->auth_plugin_configs[i].plugin.user_data,
