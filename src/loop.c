@@ -209,12 +209,12 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 		bridge_check();
 #endif
 		plugin__handle_tick();
+		session_expiry__check();
+		will_delay__check();
 
 		rc = mux__handle(listensock, listensock_count);
 		if(rc) return rc;
 
-		session_expiry__check();
-		will_delay__check();
 #ifdef WITH_PERSISTENCE
 		if(db.config->persistence && db.config->autosave_interval){
 			if(db.config->autosave_on_changes){

@@ -53,6 +53,8 @@ int will_delay__add(struct mosquitto *context)
 
 	DL_INSERT_INORDER(delay_list, item, will_delay__cmp);
 
+	loop__update_next_event(item->context->will_delay_interval*1000);
+
 	return MOSQ_ERR_SUCCESS;
 }
 
@@ -76,12 +78,17 @@ void will_delay__check(void)
 {
 	struct will_delay_list *item, *tmp;
 
-	if(db.now_real_s <= last_check) return;
+	if(db.now_real_s <= last_check){
+		if(delay_list){
+			loop__update_next_event(1000);
+		}
+		return;
+	}
 
 	last_check = db.now_real_s;
 
 	DL_FOREACH_SAFE(delay_list, item, tmp){
-		if(item->context->will_delay_time < db.now_real_s){
+		if(item->context->will_delay_time <= db.now_real_s){
 			DL_DELETE(delay_list, item);
 			item->context->will_delay_interval = 0;
 			item->context->will_delay_entry = NULL;
@@ -91,6 +98,7 @@ void will_delay__check(void)
 			}
 			mosquitto__free(item);
 		}else{
+			loop__update_next_event((item->context->will_delay_time - db.now_real_s)*1000);
 			return;
 		}
 	}
