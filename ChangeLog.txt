@@ -7,6 +7,7 @@ Broker:
   true. Closes #2314.
 - Various fixes around inflight quota management. Closes #2306.
 - Fix problem parsing config files with Windows line endings. Closes #2297.
+- Don't send retained messages when a shared subscription is made.
 
 Client library:
 - Initialise sockpairR/W to invalid in `mosquitto_reinitialise()` to avoid
