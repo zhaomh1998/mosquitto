@@ -104,7 +104,7 @@ Broker:
   Closes #2207.
 - Improve QoS 0 outgoing packet queueing.
 - Fix non-reachable bridge blocking the broker on Windows. Closes #2172.
-- Fix possible corruption of pollfd array on Windows when bridges were 
+- Fix possible corruption of pollfd array on Windows when bridges were
   reconnecting. Closes #2173.
 - Fix QoS 0 messages not being queued when `queue_qos0_messages` was enabled.
   Closes #2224.
@@ -334,7 +334,7 @@ Client library:
 Build:
 - `install` Makefile target should depend on `all`, not `mosquitto`, to ensure
   that man pages are always built. Closes #1989.
-- Fixes for lots of minor build warnings highlighted by Visual Studio. 
+- Fixes for lots of minor build warnings highlighted by Visual Studio.
 
 Apps:
 - Disallow control characters in mosquitto_passwd usernames.
@@ -695,7 +695,7 @@ Broker:
   native version. Closes #1684.
 - Fix possible assert crash associated with bridge reconnecting when compiled
   without epoll support. Closes #1700.
- 
+
 Client library:
 - Don't treat an unexpected PUBACK, PUBREL, or PUBCOMP as a fatal error.
   Issue #1629.

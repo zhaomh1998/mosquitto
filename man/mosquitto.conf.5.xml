@@ -176,7 +176,7 @@
 					<para>Reloaded on reload signal. The currently loaded ACLs
 						will be freed and reloaded. Existing subscriptions will
 						be affected after the reload.</para>
-					<para>See also 
+					<para>See also
 						<ulink url="https://mosquitto.org/documentation/dynamic-security/"/>
 					</para>
 				</listitem>
@@ -456,7 +456,7 @@ D.conf
 					<para>Send log messages to a particular destination.
 						Possible destinations are: <option>stdout</option>
 						<option>stderr</option> <option>syslog</option>
-						<option>topic</option> <option>file</option> 
+						<option>topic</option> <option>file</option>
 						<option>dlt</option>.</para>
 					<para><option>stdout</option> and
 						<option>stderr</option> log to the console on the
