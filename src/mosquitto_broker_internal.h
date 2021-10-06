@@ -692,6 +692,7 @@ void context__disconnect(struct mosquitto *context);
 void context__add_to_disused(struct mosquitto *context);
 void context__free_disused(void);
 void context__send_will(struct mosquitto *context);
+void context__add_to_by_id(struct mosquitto *context);
 void context__remove_from_by_id(struct mosquitto *context);
 
 int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint16_t auth_data_out_len);

@@ -9,6 +9,7 @@ Broker:
 - Fix problem parsing config files with Windows line endings. Closes #2297.
 - Don't send retained messages when a shared subscription is made.
 - Fix log being truncated in Windows.
+- Fix client id not showing in log on failed connections, where possible.
 
 Client library:
 - Initialise sockpairR/W to invalid in `mosquitto_reinitialise()` to avoid

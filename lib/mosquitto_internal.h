@@ -285,7 +285,7 @@ struct mosquitto {
 	time_t session_expiry_time;
 	uint32_t session_expiry_interval;
 #ifdef WITH_BROKER
-	bool removed_from_by_id; /* True if removed from by_id hash */
+	bool in_by_id;
 	bool is_dropping;
 	bool is_bridge;
 	struct mosquitto__bridge *bridge;

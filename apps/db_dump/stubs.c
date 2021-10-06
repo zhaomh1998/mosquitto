@@ -17,6 +17,11 @@ struct mosquitto *context__init(mosq_sock_t sock)
 	return NULL;
 }
 
+void context__add_to_by_id(struct mosquitto *context)
+{
+	UNUSED(context);
+}
+
 int db__message_store(const struct mosquitto *source, struct mosquitto_msg_store *stored, uint32_t message_expiry_interval, dbid_t store_id, enum mosquitto_msg_origin origin)
 {
 	UNUSED(source);

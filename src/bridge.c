@@ -92,7 +92,7 @@ int bridge__new(struct mosquitto__bridge *bridge)
 			return MOSQ_ERR_NOMEM;
 		}
 		new_context->id = local_id;
-		HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, new_context->id, strlen(new_context->id), new_context);
+		context__add_to_by_id(new_context);
 	}
 	new_context->bridge = bridge;
 	new_context->is_bridge = true;

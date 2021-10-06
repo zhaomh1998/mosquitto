@@ -64,7 +64,7 @@ static struct mosquitto *persist__find_or_add_context(const char *client_id, uin
 
 		context->clean_start = false;
 
-		HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, context->id, strlen(context->id), context);
+		context__add_to_by_id(context);
 	}
 	if(last_mid){
 		context->last_mid = last_mid;
