@@ -372,6 +372,33 @@ void do_disconnect(struct mosquitto *context, int reason)
 					case MOSQ_ERR_RECEIVE_MAXIMUM_EXCEEDED:
 						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected due to exceeding the receive maximum.", id);
 						break;
+					case MOSQ_ERR_IMPLEMENTATION_SPECIFIC:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, implementation specific error.", id);
+						break;
+					case MOSQ_ERR_CLIENT_IDENTIFIER_NOT_VALID:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, client identifier not valid.", id);
+						break;
+					case MOSQ_ERR_BAD_USERNAME_OR_PASSWORD:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, bad username or password.", id);
+						break;
+					case MOSQ_ERR_SERVER_UNAVAILABLE:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, server unavailable.", id);
+						break;
+					case MOSQ_ERR_SERVER_BUSY:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, server busy.", id);
+						break;
+					case MOSQ_ERR_BANNED:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, client banned.", id);
+						break;
+					case MOSQ_ERR_BAD_AUTHENTICATION_METHOD:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, bad authentication method.", id);
+						break;
+					case MOSQ_ERR_QUOTA_EXCEEDED:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, quota exceeded.", id);
+						break;
+					case MOSQ_ERR_CONNECTION_RATE_EXCEEDED:
+						log__printf(NULL, MOSQ_LOG_NOTICE, "Client %s disconnected, connection rate exceeded.", id);
+						break;
 					default:
 						log__printf(NULL, MOSQ_LOG_NOTICE, "Bad socket read/write on client %s: %s", id, mosquitto_strerror(reason));
 						break;
@@ -388,5 +415,3 @@ void do_disconnect(struct mosquitto *context, int reason)
 		context__disconnect(context);
 	}
 }
-
-

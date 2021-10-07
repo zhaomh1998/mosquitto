@@ -982,7 +982,22 @@ int handle__connect(struct mosquitto *context)
 					}else{
 						send__connack(context, 0, CONNACK_REFUSED_NOT_AUTHORIZED, NULL);
 					}
-					rc = MOSQ_ERR_AUTH;
+					goto handle_connect_error;
+					break;
+				case MOSQ_ERR_UNSPECIFIED:
+				case MOSQ_ERR_IMPLEMENTATION_SPECIFIC:
+				case MOSQ_ERR_CLIENT_IDENTIFIER_NOT_VALID:
+				case MOSQ_ERR_BAD_USERNAME_OR_PASSWORD:
+				case MOSQ_ERR_SERVER_UNAVAILABLE:
+				case MOSQ_ERR_SERVER_BUSY:
+				case MOSQ_ERR_BANNED:
+				case MOSQ_ERR_BAD_AUTHENTICATION_METHOD:
+				case MOSQ_ERR_CONNECTION_RATE_EXCEEDED:
+					if(context->protocol == mosq_p_mqtt5){
+						send__connack(context, 0, (uint8_t)rc, NULL);
+					}else{
+						send__connack(context, 0, CONNACK_REFUSED_NOT_AUTHORIZED, NULL);
+					}
 					goto handle_connect_error;
 					break;
 				default:
