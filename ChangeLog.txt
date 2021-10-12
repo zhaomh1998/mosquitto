@@ -10,6 +10,8 @@ Broker:
 - Don't send retained messages when a shared subscription is made.
 - Fix log being truncated in Windows.
 - Fix client id not showing in log on failed connections, where possible.
+- Fix broker sending duplicate CONNACK on failed MQTT v5 reauthentication.
+  Closes #2339.
 
 Client library:
 - Initialise sockpairR/W to invalid in `mosquitto_reinitialise()` to avoid

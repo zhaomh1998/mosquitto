@@ -138,6 +138,7 @@ tests = [
     (1, './09-extended-auth-change-username.py'),
     (1, './09-extended-auth-multistep-reauth.py'),
     (1, './09-extended-auth-multistep.py'),
+    (1, './09-extended-auth-reauth.py'),
     (1, './09-extended-auth-single.py'),
     (1, './09-plugin-acl-change.py'),
     (1, './09-plugin-auth-acl-pub.py'),
