@@ -31,47 +31,49 @@ Contributors:
 
 #include "mosquitto_broker_internal.h"
 
-#ifdef WITH_PERSISTENCE
-extern bool flag_db_backup;
-#endif
-extern bool flag_reload;
-extern bool flag_tree_print;
 extern int g_run;
 
-#ifdef SIGHUP
-/* Signal handler for SIGHUP - flag a config reload. */
-void handle_sighup(int signal)
-{
-	UNUSED(signal);
-
-	flag_reload = true;
-}
-#endif
-
-/* Signal handler for SIGINT and SIGTERM - just stop gracefully. */
-void handle_sigint(int signal)
-{
-	UNUSED(signal);
-
-	g_run = 0;
-}
-
-/* Signal handler for SIGUSR1 - backup the db. */
-void handle_sigusr1(int signal)
-{
-	UNUSED(signal);
-
+bool flag_reload = false;
 #ifdef WITH_PERSISTENCE
-	flag_db_backup = true;
+bool flag_db_backup = false;
 #endif
-}
+bool flag_tree_print = false;
 
-/* Signal handler for SIGUSR2 - print subscription / retained tree. */
-void handle_sigusr2(int signal)
+static void handle_signal(int signal)
 {
 	UNUSED(signal);
 
-	flag_tree_print = true;
+	if(signal == SIGINT || signal == SIGTERM){
+		g_run = 0;
+#ifdef SIGHUP
+	}else if(signal == SIGHUP){
+		flag_reload = true;
+#endif
+	}else if(signal == SIGUSR1){
+#ifdef WITH_PERSISTENCE
+		flag_db_backup = true;
+#endif
+	}else if(signal == SIGUSR2){
+		flag_tree_print = true;
+	}
+}
+
+
+void signal__setup(void)
+{
+	signal(SIGINT, handle_signal);
+	signal(SIGTERM, handle_signal);
+#ifdef SIGHUP
+	signal(SIGHUP, handle_signal);
+#endif
+#ifndef WIN32
+	signal(SIGUSR1, handle_signal);
+	signal(SIGUSR2, handle_signal);
+	signal(SIGPIPE, SIG_IGN);
+#endif
+#ifdef WIN32
+	CreateThread(NULL, 0, SigThreadProc, NULL, 0, NULL);
+#endif
 }
 
 /*

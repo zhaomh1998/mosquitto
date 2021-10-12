@@ -61,11 +61,6 @@ struct mosquitto_db db;
 struct mosquitto__listener_sock *g_listensock = NULL;
 int g_listensock_count = 0;
 
-bool flag_reload = false;
-#ifdef WITH_PERSISTENCE
-bool flag_db_backup = false;
-#endif
-bool flag_tree_print = false;
 int g_run = 0;
 #ifdef WITH_WRAP
 #include <syslog.h>
@@ -164,24 +159,6 @@ static void mosquitto__daemonise(void)
 	assert(freopen("/dev/null", "w", stderr));
 #else
 	log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Can't start in daemon mode in Windows.");
-#endif
-}
-
-
-static void signal__setup(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGTERM, handle_sigint);
-#ifdef SIGHUP
-	signal(SIGHUP, handle_sighup);
-#endif
-#ifndef WIN32
-	signal(SIGUSR1, handle_sigusr1);
-	signal(SIGUSR2, handle_sigusr2);
-	signal(SIGPIPE, SIG_IGN);
-#endif
-#ifdef WIN32
-	CreateThread(NULL, 0, SigThreadProc, NULL, 0, NULL);
 #endif
 }
 
