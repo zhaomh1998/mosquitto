@@ -33,7 +33,6 @@ Contributors:
 #include "mosquitto.h"
 #include "mosquitto_broker.h"
 #include "base64_mosq.h"
-#include "memory_mosq.h"
 
 #ifdef WITH_TLS
 int base64__encode(unsigned char *in, size_t in_len, char **encoded)
@@ -96,7 +95,7 @@ int base64__decode(char *in, unsigned char **decoded, unsigned int *decoded_len)
 		BIO_free_all(b64);
 		return 1;
 	}
-	*decoded = mosquitto__calloc(slen, 1);
+	*decoded = calloc(slen, 1);
 	if(!(*decoded)){
 		BIO_free_all(b64);
 		return 1;
@@ -105,7 +104,7 @@ int base64__decode(char *in, unsigned char **decoded, unsigned int *decoded_len)
 	BIO_free_all(b64);
 
 	if(len <= 0){
-		mosquitto__free(*decoded);
+		free(*decoded);
 		*decoded = NULL;
 		*decoded_len = 0;
 		return 1;
