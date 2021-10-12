@@ -837,10 +837,11 @@ int plugin__callback_unregister_all(mosquitto_plugin_id_t *identifier);
 /* ============================================================
  * Property related functions
  * ============================================================ */
+int keepalive__init(void);
+void keepalive__cleanup(void);
 int keepalive__add(struct mosquitto *context);
 void keepalive__check(void);
 int keepalive__remove(struct mosquitto *context);
-void keepalive__remove_all(void);
 int keepalive__update(struct mosquitto *context);
 
 /* ============================================================

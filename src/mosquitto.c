@@ -290,6 +290,9 @@ int main(int argc, char *argv[])
 	if(rc != MOSQ_ERR_SUCCESS) return rc;
 	db.config = &config;
 
+	rc = keepalive__init();
+	if(rc != MOSQ_ERR_SUCCESS) return rc;
+
 	/* Drop privileges permanently immediately after the config is loaded.
 	 * This requires the user to ensure that all certificates, log locations,
 	 * etc. are accessible my the `mosquitto` or other unprivileged user.
@@ -403,6 +406,7 @@ int main(int argc, char *argv[])
 	bridge__db_cleanup();
 #endif
 	context__free_disused();
+	keepalive__cleanup();
 
 #ifdef WITH_TLS
 	mosquitto__free(db.tls_keylog);

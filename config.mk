@@ -126,6 +126,10 @@ WITH_JEMALLOC:=no
 # probably of no particular interest to end users.
 WITH_XTREPORT=no
 
+# Use the old O(n) keepalive check routine, instead of the new O(1) keepalive
+# check routine. See src/keepalive.c for notes on this.
+WITH_OLD_KEEPALIVE=no
+
 # =============================================================================
 # End of user configuration
 # =============================================================================
@@ -393,6 +397,10 @@ ifeq ($(WITH_CJSON),yes)
 	CLIENT_LDFLAGS:=$(CLIENT_LDFLAGS)
 	BROKER_CFLAGS:=$(BROKER_CFLAGS) -DWITH_CJSON
 	BROKER_LDADD:=$(BROKER_LDADD) -lcjson
+endif
+
+ifeq ($(WITH_OLD_KEEPALIVE),yes)
+	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_OLD_KEEPALIVE
 endif
 
 ifeq ($(WITH_XTREPORT),yes)

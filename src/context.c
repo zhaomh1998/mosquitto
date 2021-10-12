@@ -134,6 +134,7 @@ void context__cleanup(struct mosquitto *context, bool force_free)
 #endif
 
 	alias__free_all(context);
+	keepalive__remove(context);
 
 	mosquitto__free(context->auth_method);
 	context->auth_method = NULL;

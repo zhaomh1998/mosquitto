@@ -43,6 +43,13 @@ BRIDGE_TOPIC_OBJS = \
 		memory_public.o \
 		util_topic.o \
 
+KEEPALIVE_TEST_OBJS = \
+		keepalive_stubs.o \
+		keepalive_test.o
+
+KEEPALIVE_OBJS = \
+		memory_mosq.o
+
 PERSIST_READ_TEST_OBJS = \
 		persist_read_test.o \
 		persist_read_stubs.o
@@ -103,6 +110,9 @@ mosq_test : ${TEST_OBJS} ${LIB_OBJS}
 	$(CROSS_COMPILE)$(CC) $(LDFLAGS) -o $@ $^ $(LDADD)
 
 bridge_topic_test : ${BRIDGE_TOPIC_TEST_OBJS} ${BRIDGE_TOPIC_OBJS}
+	$(CROSS_COMPILE)$(CC) $(LDFLAGS) -o $@ $^ $(LDADD)
+
+keepalive_test : ${KEEPALIVE_TEST_OBJS} ${KEEPALIVE_OBJS}
 	$(CROSS_COMPILE)$(CC) $(LDFLAGS) -o $@ $^ $(LDADD)
 
 persist_read_test : ${PERSIST_READ_TEST_OBJS} ${PERSIST_READ_OBJS}
@@ -172,21 +182,22 @@ util_topic.o : ../../lib/util_topic.c
 utf8_mosq.o : ../../lib/utf8_mosq.c
 	$(CROSS_COMPILE)$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $^
 
-build : mosq_test bridge_topic_test persist_read_test persist_write_test subs_test
+build : mosq_test bridge_topic_test keepalive_test persist_read_test persist_write_test subs_test
 
 test-lib : build
 	./mosq_test
 
 test-broker : build
 	./bridge_topic_test
+	./keepalive_test
 	./persist_read_test
 	./persist_write_test
 	./subs_test
 
 test : test-broker test-lib
 
-clean : 
-	-rm -rf mosq_test bridge_topic_test persist_read_test persist_write_test
+clean :
+	-rm -rf mosq_test bridge_topic_test keepalive_test persist_read_test persist_write_test
 	-rm -rf *.o *.gcda *.gcno coverage.info out/
 
 coverage :

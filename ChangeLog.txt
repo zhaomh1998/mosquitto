@@ -77,6 +77,7 @@ Broker:
   its blocklist. If no other plugins were configured, the client would be
   authenticated. Using MOSQ_ERR_PLUGIN_DEFER instead would mean the clients
   would be denied if no other plugins were configured.
+- Add more efficient keepalive check.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
