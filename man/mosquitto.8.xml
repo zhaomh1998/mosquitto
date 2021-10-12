@@ -693,6 +693,18 @@
 					for details.</para>
 					<para>If TLS certificates are in use, then mosquitto will
 					also reload certificate on receiving a SIGHUP.</para>
+					<para>
+						The logs will also be closed and reopened.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>SIGRTMIN</term>
+				<listitem>
+					<para>
+						Upon receiving the SIGRTMIN signal, mosquitto will
+						close and reopen the logs to support log rotation.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>

@@ -55,11 +55,6 @@ Contributors:
 #include "time_mosq.h"
 #include "util_mosq.h"
 
-extern bool flag_reload;
-#ifdef WITH_PERSISTENCE
-extern bool flag_db_backup;
-#endif
-extern bool flag_tree_print;
 extern int g_run;
 
 #if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_WEBSOCKETS && LWS_LIBRARY_VERSION_NUMBER == 3002000
@@ -231,38 +226,7 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 		}
 #endif
 
-#ifdef WITH_PERSISTENCE
-		if(flag_db_backup){
-			persist__backup(false);
-			flag_db_backup = false;
-		}
-#endif
-		if(flag_reload){
-			log__printf(NULL, MOSQ_LOG_INFO, "Reloading config.");
-			config__read(db.config, true);
-			listeners__reload_all_certificates();
-			mosquitto_security_cleanup(true);
-			mosquitto_security_init(true);
-			mosquitto_security_apply();
-			log__close(db.config);
-			log__init(db.config);
-			keepalive__cleanup();
-			keepalive__init();
-#ifdef WITH_CJSON
-			broker_control__reload();
-#endif
-#ifdef WITH_BRIDGE
-			bridge__reload();
-#endif
-			flag_reload = false;
-		}
-		if(flag_tree_print){
-			sub__tree_print(db.subs, 0);
-			flag_tree_print = false;
-#ifdef WITH_XTREPORT
-			xtreport();
-#endif
-		}
+		signal__flag_check();
 #if defined(WITH_WEBSOCKETS) && WITH_WEBSOCKETS == WS_IS_LWS
 		for(i=0; i<db.config->listener_count; i++){
 			/* Extremely hacky, should be using the lws provided external poll

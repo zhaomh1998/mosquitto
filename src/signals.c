@@ -33,11 +33,12 @@ Contributors:
 
 extern int g_run;
 
-bool flag_reload = false;
+static bool flag_reload = false;
+static bool flag_log_rotate = false;
 #ifdef WITH_PERSISTENCE
-bool flag_db_backup = false;
+static bool flag_db_backup = false;
 #endif
-bool flag_tree_print = false;
+static bool flag_tree_print = false;
 
 static void handle_signal(int signal)
 {
@@ -55,6 +56,10 @@ static void handle_signal(int signal)
 #endif
 	}else if(signal == SIGUSR2){
 		flag_tree_print = true;
+#ifdef SIGRTMIN
+	}else if(signal == SIGRTMIN){
+		flag_log_rotate = true;
+#endif
 	}
 }
 
@@ -71,9 +76,53 @@ void signal__setup(void)
 	signal(SIGUSR2, handle_signal);
 	signal(SIGPIPE, SIG_IGN);
 #endif
+#ifdef SIGRTMIN
+	signal(SIGRTMIN, handle_signal);
+#endif
 #ifdef WIN32
 	CreateThread(NULL, 0, SigThreadProc, NULL, 0, NULL);
 #endif
+}
+
+void signal__flag_check(void)
+{
+#ifdef WITH_PERSISTENCE
+	if(flag_db_backup){
+		persist__backup(false);
+		flag_db_backup = false;
+	}
+#endif
+	if(flag_log_rotate){
+		log__close(db.config);
+		log__init(db.config);
+		flag_log_rotate = false;
+	}
+	if(flag_reload){
+		log__printf(NULL, MOSQ_LOG_INFO, "Reloading config.");
+		config__read(db.config, true);
+		listeners__reload_all_certificates();
+		mosquitto_security_cleanup(true);
+		mosquitto_security_init(true);
+		mosquitto_security_apply();
+		log__close(db.config);
+		log__init(db.config);
+		keepalive__cleanup();
+		keepalive__init();
+#ifdef WITH_CJSON
+		broker_control__reload();
+#endif
+#ifdef WITH_BRIDGE
+		bridge__reload();
+#endif
+		flag_reload = false;
+	}
+	if(flag_tree_print){
+		sub__tree_print(db.subs, 0);
+		flag_tree_print = false;
+#ifdef WITH_XTREPORT
+		xtreport();
+#endif
+	}
 }
 
 /*

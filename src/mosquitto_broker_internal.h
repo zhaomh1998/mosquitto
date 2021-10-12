@@ -896,6 +896,7 @@ void session_expiry__send_all(void);
  * Signals
  * ============================================================ */
 void signal__setup(void);
+void signal__flag_check(void);
 
 /* ============================================================
  * Window service and signal related functions
