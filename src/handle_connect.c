@@ -126,9 +126,6 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 		}else{
 			/* Client is already connected, disconnect old version. This is
 			 * done in context__cleanup() below. */
-			if(db.config->connection_messages == true){
-				log__printf(NULL, MOSQ_LOG_ERR, "Client %s already connected, closing old connection.", context->id);
-			}
 		}
 
 		if(context->clean_start == false && found_context->session_expiry_interval > 0){
@@ -204,7 +201,10 @@ int connect__on_authorised(struct mosquitto *context, void *auth_data_out, uint1
 		found_context->clean_start = true;
 		found_context->session_expiry_interval = 0;
 		mosquitto__set_state(found_context, mosq_cs_duplicate);
-		do_disconnect(found_context, MOSQ_ERR_SUCCESS);
+		if(found_context->protocol == mosq_p_mqtt5){
+			send__disconnect(found_context, MQTT_RC_SESSION_TAKEN_OVER, NULL);
+		}
+		do_disconnect(found_context, MOSQ_ERR_SESSION_TAKEN_OVER);
 	}
 
 	if(db.config->global_max_clients > 0 && HASH_CNT(hh_id, db.contexts_by_id) >= (unsigned int)db.config->global_max_clients){

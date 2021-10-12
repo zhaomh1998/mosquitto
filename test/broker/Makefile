@@ -31,6 +31,7 @@ msg_sequence_test:
 	./01-connect-global-max-connections.py
 	./01-connect-max-connections.py
 	./01-connect-max-keepalive.py
+	./01-connect-take-over.py
 	./01-connect-uname-no-password-denied.py
 	./01-connect-uname-or-anon.py
 	./01-connect-uname-password-denied-no-will.py

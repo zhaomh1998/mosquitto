@@ -13,6 +13,7 @@ tests = [
     (1, './01-connect-global-max-connections.py'),
     (1, './01-connect-max-connections.py'),
     (1, './01-connect-max-keepalive.py'),
+    (1, './01-connect-take-over.py'),
     (1, './01-connect-uname-no-password-denied.py'),
     (1, './01-connect-uname-or-anon.py'),
     (1, './01-connect-uname-password-denied-no-will.py'),

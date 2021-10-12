@@ -78,6 +78,8 @@ Broker:
   authenticated. Using MOSQ_ERR_PLUGIN_DEFER instead would mean the clients
   would be denied if no other plugins were configured.
 - Add more efficient keepalive check.
+- Send DISCONNECT With session-takeover return code to MQTT v5 clients when a
+  client connects with the same client id. Closes #2340.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair
