@@ -122,7 +122,11 @@ static int tick_callback(int event, void *event_data, void *userdata)
 		HASH_ITER(hh, clients, client, client_tmp){
 			if(authentication_check(client, now)){
 				/* Deny access 1/4 of the time, yes it's biased number generation. */
+#ifdef WIN32
+				r = rand() % 1000;
+#else
 				 r = random() % 1000;
+#endif
 				if(r > 740){
 					mosquitto_complete_basic_auth(client->id, MOSQ_ERR_AUTH);
 				}else{

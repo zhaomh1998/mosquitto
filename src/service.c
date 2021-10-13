@@ -24,7 +24,7 @@ Contributors:
 
 #include "memory_mosq.h"
 
-extern int run;
+extern int g_run;
 SERVICE_STATUS_HANDLE service_handle = 0;
 static SERVICE_STATUS service_status;
 int main(int argc, char *argv[]);
@@ -57,7 +57,7 @@ void __stdcall service_handler(DWORD fdwControl)
 			/* Service should stop. */
 			service_status.dwCurrentState = SERVICE_STOP_PENDING;
 			SetServiceStatus(service_handle, &service_status);
-			run = 0;
+			g_run = 0;
 			break;
 	}
 }

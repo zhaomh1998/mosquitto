@@ -14,5 +14,9 @@ set_target_properties(mosquitto_connection_state PROPERTIES
 	POSITION_INDEPENDENT_CODE 1
 )
 
+if(WIN32)
+	target_link_libraries(mosquitto_connection_state mosquitto)
+endif()
+
 # Don't install, these are example plugins only.
 #install(TARGETS mosquitto_connection_state RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")

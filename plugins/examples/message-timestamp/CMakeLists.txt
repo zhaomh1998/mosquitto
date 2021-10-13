@@ -15,5 +15,9 @@ set_target_properties(mosquitto_message_timestamp PROPERTIES
 	POSITION_INDEPENDENT_CODE 1
 )
 
+if(WIN32)
+	target_link_libraries(mosquitto_message_timestamp mosquitto)
+endif()
+
 # Don't install, these are example plugins only.
 #install(TARGETS mosquitto_message_timestamp RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")

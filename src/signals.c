@@ -50,12 +50,16 @@ static void handle_signal(int signal)
 	}else if(signal == SIGHUP){
 		flag_reload = true;
 #endif
+#ifdef SIGUSR1
 	}else if(signal == SIGUSR1){
 #ifdef WITH_PERSISTENCE
 		flag_db_backup = true;
 #endif
+#endif
+#ifdef SIGUSR2
 	}else if(signal == SIGUSR2){
 		flag_tree_print = true;
+#endif
 #ifdef SIGRTMIN
 	}else if(signal == SIGRTMIN){
 		flag_log_rotate = true;
@@ -154,24 +158,26 @@ DWORD WINAPI SigThreadProc(void* data)
 	sprintf_s(evt_name, MAX_PATH, "mosq%d_backup", pid);
 	evt[2] = CreateEvent(NULL, FALSE, FALSE, evt_name);
 
-	while (true) {
+	while (g_run) {
 		int wr = WaitForMultipleObjects(sizeof(evt) / sizeof(HANDLE), evt, FALSE, INFINITE);
 		switch (wr) {
 			case WAIT_OBJECT_0 + 0:
-				handle_sigint(SIGINT);
+				handle_signal(SIGINT);
 				break;
 			case WAIT_OBJECT_0 + 1:
 				flag_reload = true;
 				continue;
 			case WAIT_OBJECT_0 + 2:
-				handle_sigusr1(0);
+#ifdef WITH_PERSISTENCE
+				flag_db_backup = true;
+#endif
 				continue;
 				break;
 		}
 	}
 	CloseHandle(evt[0]);
-	CloseHandle(evt[1]);
-	CloseHandle(evt[2]);
+	if(evt[1]) CloseHandle(evt[1]);
+	if(evt[2]) CloseHandle(evt[2]);
 	return 0;
 }
 #endif

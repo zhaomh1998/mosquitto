@@ -608,10 +608,6 @@ mosq_EXPORT int mosquitto_broker_publish_copy(
 		bool retain,
 		mosquitto_property *properties);
 
-#ifdef __cplusplus
-}
-#endif
-
 /* Function: mosquitto_complete_basic_auth
  *
  * Complete a delayed authentication request.
@@ -636,5 +632,9 @@ mosq_EXPORT int mosquitto_broker_publish_copy(
  * the call to `mosquitto_complete_basic_auth()` must happen in the main
  * mosquitto thread. Using the MOSQ_EVT_TICK event for this is suggested.
  */
-void mosquitto_complete_basic_auth(const char *client_id, int result);
+mosq_EXPORT void mosquitto_complete_basic_auth(const char* client_id, int result);
+
+#ifdef __cplusplus
+}
+#endif
 #endif
