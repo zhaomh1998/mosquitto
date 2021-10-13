@@ -225,13 +225,13 @@ int main(int argc, char *argv[])
 #if defined(WIN32) || defined(__CYGWIN__)
 	if(argc == 2){
 		if(!strcmp(argv[1], "run")){
-			service_run();
+			service_run(argv[0]);
 			return 0;
 		}else if(!strcmp(argv[1], "install")){
-			service_install();
+			service_install(argv[0]);
 			return 0;
 		}else if(!strcmp(argv[1], "uninstall")){
-			service_uninstall();
+			service_uninstall(argv[0]);
 			return 0;
 		}
 	}

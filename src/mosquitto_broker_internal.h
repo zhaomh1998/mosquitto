@@ -902,9 +902,9 @@ void signal__flag_check(void);
  * Window service and signal related functions
  * ============================================================ */
 #if defined(WIN32) || defined(__CYGWIN__)
-void service_install(void);
-void service_uninstall(void);
-void service_run(void);
+void service_install(char *name);
+void service_uninstall(char *name);
+void service_run(char *name);
 
 DWORD WINAPI SigThreadProc(void* data);
 #endif
