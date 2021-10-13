@@ -1,4 +1,6 @@
 ; NSIS installer script for mosquitto
+Unicode True
+SetCompressor /SOLID lzma
 
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
@@ -13,7 +15,7 @@ Name "Eclipse Mosquitto"
 OutFile "mosquitto-${VERSION}-install-windows-x64.exe"
 
 !include "x64.nsh"
-InstallDir "$PROGRAMFILES64\mosquitto"
+InstallDir "$PROGRAMFILES64\Mosquitto"
 
 ;--------------------------------
 ; Installer pages
@@ -59,7 +61,7 @@ Section "Files" SecInstall
 	File "..\README.md"
 	File "..\README-windows.txt"
 	File "..\README-letsencrypt.md"
-	;File "C:\pthreads\Pre-built.2\dll\x64\pthreadVC2.dll"
+	File "..\SECURITY.md"
 	File "C:\OpenSSL-Win64\bin\libssl-1_1-x64.dll"
 	File "C:\OpenSSL-Win64\bin\libcrypto-1_1-x64.dll"
 	File "..\edl-v10"
@@ -88,6 +90,16 @@ Section "Files" SecInstall
 	SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 SectionEnd
 
+Section "Visual Studio Runtime"
+  SetOutPath "$INSTDIR"
+  File "VC_redist.x64.exe"
+  IfSilent 0 +2
+  ExecWait '"$INSTDIR\VC_redist.x64.exe" /quiet /norestart'
+  IfSilent +2 0
+  ExecWait '"$INSTDIR\VC_redist.x64.exe" /norestart'
+  Delete "$INSTDIR\VC_redist.x64.exe"
+SectionEnd
+
 Section "Service" SecService
 	ExecWait '"$INSTDIR\mosquitto.exe" install'
 SectionEnd
@@ -107,10 +119,10 @@ Section "Uninstall"
 	Delete "$INSTDIR\ChangeLog.txt"
 	Delete "$INSTDIR\mosquitto.conf"
 	Delete "$INSTDIR\pwfile.example"
-	Delete "$INSTDIR\README.txt"
+	Delete "$INSTDIR\README.md"
 	Delete "$INSTDIR\README-windows.txt"
 	Delete "$INSTDIR\README-letsencrypt.md"
-	;Delete "$INSTDIR\pthreadVC2.dll"
+	Delete "$INSTDIR\SECURITY.md"
 	Delete "$INSTDIR\libssl-1_1-x64.dll"
 	Delete "$INSTDIR\libcrypto-1_1-x64.dll"
 	Delete "$INSTDIR\edl-v10"
@@ -119,7 +131,6 @@ Section "Uninstall"
 	Delete "$INSTDIR\devel\mosquitto.h"
 	Delete "$INSTDIR\devel\mosquitto.lib"
 	Delete "$INSTDIR\devel\mosquitto_broker.h"
-	Delete "$INSTDIR\devel\mosquitto_plugin.h"
 	Delete "$INSTDIR\devel\mosquitto_plugin.h"
 	Delete "$INSTDIR\devel\mosquittopp.h"
 	Delete "$INSTDIR\devel\mosquittopp.lib"

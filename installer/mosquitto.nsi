@@ -1,4 +1,6 @@
 ; NSIS installer script for mosquitto
+Unicode True
+SetCompressor /SOLID lzma
 
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
@@ -12,7 +14,7 @@ Name "Eclipse Mosquitto"
 !define VERSION 2.0.12
 OutFile "mosquitto-${VERSION}-install-windows-x86.exe"
 
-InstallDir "$PROGRAMFILES\mosquitto"
+InstallDir "$PROGRAMFILES\Mosquitto"
 
 ;--------------------------------
 ; Installer pages
@@ -58,7 +60,7 @@ Section "Files" SecInstall
 	File "..\README.md"
 	File "..\README-windows.txt"
 	File "..\README-letsencrypt.md"
-	;File "C:\pthreads\Pre-built.2\dll\x86\pthreadVC2.dll"
+	File "..\SECURITY.md"
 	File "C:\OpenSSL-Win32\bin\libssl-1_1.dll"
 	File "C:\OpenSSL-Win32\bin\libcrypto-1_1.dll"
 	File "..\edl-v10"
@@ -87,6 +89,16 @@ Section "Files" SecInstall
 	SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 SectionEnd
 
+Section "Visual Studio Runtime"
+  SetOutPath "$INSTDIR"
+  File "VC_redist.x86.exe"
+  IfSilent 0 +2
+  ExecWait '"$INSTDIR\VC_redist.x86.exe" /quiet /norestart'
+  IfSilent +2 0
+  ExecWait '"$INSTDIR\VC_redist.x86.exe" /norestart'
+  Delete "$INSTDIR\VC_redist.x86.exe"
+SectionEnd
+
 Section "Service" SecService
 	ExecWait '"$INSTDIR\mosquitto.exe" install'
 SectionEnd
@@ -106,10 +118,10 @@ Section "Uninstall"
 	Delete "$INSTDIR\ChangeLog.txt"
 	Delete "$INSTDIR\mosquitto.conf"
 	Delete "$INSTDIR\pwfile.example"
-	Delete "$INSTDIR\README.txt"
+	Delete "$INSTDIR\README.md"
 	Delete "$INSTDIR\README-windows.txt"
 	Delete "$INSTDIR\README-letsencrypt.md"
-	;Delete "$INSTDIR\pthreadVC2.dll"
+	Delete "$INSTDIR\SECURITY.md"
 	Delete "$INSTDIR\libssl-1_1.dll"
 	Delete "$INSTDIR\libcrypto-1_1.dll"
 	Delete "$INSTDIR\edl-v10"
