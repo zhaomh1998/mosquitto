@@ -8,11 +8,11 @@
 #include <net_mosq.h>
 #include <send_mosq.h>
 #include <time_mosq.h>
+#include <callbacks.h>
 
 extern char *last_sub;
 extern int last_qos;
 extern uint32_t last_identifier;
-extern struct mosquitto_db db;
 
 struct mosquitto *context__init(void)
 {

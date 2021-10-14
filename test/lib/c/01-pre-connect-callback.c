@@ -4,8 +4,10 @@
 #include <string.h>
 #include <mosquitto.h>
 
-void on_pre_connect(struct mosquitto *mosq, void *userdata)
+static void on_pre_connect(struct mosquitto *mosq, void *userdata)
 {
+	(void)userdata;
+
 	mosquitto_username_pw_set(mosq, "uname", ";'[08gn=#");
 }
 
@@ -14,8 +16,12 @@ int main(int argc, char *argv[])
 {
 	int rc;
 	struct mosquitto *mosq;
+	int port;
 
-	int port = atoi(argv[1]);
+	if(argc < 2){
+		return 1;
+	}
+	port = atoi(argv[1]);
 
 	mosquitto_lib_init();
 
@@ -26,6 +32,7 @@ int main(int argc, char *argv[])
 	mosquitto_pre_connect_callback_set(mosq, on_pre_connect);
 
 	rc = mosquitto_connect(mosq, "localhost", port, 60);
+	if(rc != MOSQ_ERR_SUCCESS) return rc;
 
 	while(run == -1){
 		mosquitto_loop(mosq, -1, 1);

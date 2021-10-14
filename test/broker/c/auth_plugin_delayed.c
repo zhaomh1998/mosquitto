@@ -15,20 +15,14 @@ static char *password = NULL;
 static char *client_id = NULL;
 static int auth_delay = -1;
 
-int mosquitto_plugin_version(int supported_version_count, const int *supported_versions)
-{
-	int i;
-
-	for(i=0; i<supported_version_count; i++){
-		if(supported_versions[i] == 5){
-			return 5;
-		}
-	}
-	return -1;
-}
+MOSQUITTO_PLUGIN_DECLARE_VERSION(5);
 
 int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, struct mosquitto_opt *auth_opts, int auth_opt_count)
 {
+	(void)user_data;
+	(void)auth_opts;
+	(void)auth_opt_count;
+
 	plg_id = identifier;
 
 	mosquitto_callback_register(plg_id, MOSQ_EVT_TICK, tick_callback, NULL, NULL);
@@ -39,6 +33,10 @@ int mosquitto_plugin_init(mosquitto_plugin_id_t *identifier, void **user_data, s
 
 int mosquitto_plugin_cleanup(void *user_data, struct mosquitto_opt *auth_opts, int auth_opt_count)
 {
+	(void)user_data;
+	(void)auth_opts;
+	(void)auth_opt_count;
+
 	free(username);
 	free(password);
 	free(client_id);
@@ -52,6 +50,12 @@ int mosquitto_plugin_cleanup(void *user_data, struct mosquitto_opt *auth_opts, i
 static int tick_callback(int event, void *event_data, void *user_data)
 {
 	struct mosquitto_evt_tick *ed = event_data;
+
+	(void)user_data;
+
+	if(event != MOSQ_EVT_TICK){
+		abort();
+	}
 
 	if(auth_delay == 0){
 		if(client_id && username && password
@@ -80,6 +84,9 @@ static int tick_callback(int event, void *event_data, void *user_data)
 static int unpwd_check_callback(int event, void *event_data, void *user_data)
 {
 	struct mosquitto_evt_basic_auth *ed = event_data;
+
+	(void)event;
+	(void)user_data;
 
 	free(username);
 	free(password);

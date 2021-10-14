@@ -39,7 +39,7 @@ static mosquitto_plugin_id_t plg_id;
 
 static int broker__handle_control(cJSON *j_responses, struct mosquitto *context, cJSON *commands);
 
-void broker__command_reply(cJSON *j_responses, struct mosquitto *context, const char *command, const char *error, const char *correlation_data)
+static void broker__command_reply(cJSON *j_responses, struct mosquitto *context, const char *command, const char *error, const char *correlation_data)
 {
 	cJSON *j_response;
 

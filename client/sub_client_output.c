@@ -791,7 +791,7 @@ static void rand_init(void)
 }
 
 
-void watch_print(const struct mosquitto_message *message)
+static void watch_print(const struct mosquitto_message *message)
 {
 	struct watch_topic *item = NULL;
 

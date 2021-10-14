@@ -8,6 +8,7 @@
 #include <net_mosq.h>
 #include <send_mosq.h>
 #include <time_mosq.h>
+#include <callbacks.h>
 
 extern uint64_t last_retained;
 extern char *last_sub;

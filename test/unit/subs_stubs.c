@@ -1,6 +1,7 @@
 #include <time.h>
 
 #define WITH_BROKER
+#define WITH_PERSISTENCE
 
 #include <logging_mosq.h>
 #include <memory_mosq.h>
@@ -8,32 +9,9 @@
 #include <net_mosq.h>
 #include <send_mosq.h>
 #include <time_mosq.h>
-
-#if 0
-extern uint64_t last_retained;
-extern char *last_sub;
-extern int last_qos;
-
-struct mosquitto *context__init(mosq_sock_t sock)
-{
-	return mosquitto__calloc(1, sizeof(struct mosquitto));
-}
-
-
-int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_msg_direction dir, uint8_t qos, bool retain, struct mosquitto_msg_store *stored, mosquitto_property *properties)
-{
-	return MOSQ_ERR_SUCCESS;
-}
-
-void db__msg_store_ref_dec(struct mosquitto_msg_store **store)
-{
-}
-
-void db__msg_store_ref_inc(struct mosquitto_msg_store *store)
-{
-	store->ref_count++;
-}
-#endif
+#include <util_mosq.h>
+#include <logging_mosq.h>
+#include <persist.h>
 
 int log__printf(struct mosquitto *mosq, unsigned int priority, const char *fmt, ...)
 {
@@ -48,29 +26,6 @@ time_t mosquitto_time(void)
 {
 	return 123;
 }
-
-#if 0
-int net__socket_close(struct mosquitto *mosq)
-{
-	return MOSQ_ERR_SUCCESS;
-}
-
-int send__pingreq(struct mosquitto *mosq)
-{
-	return MOSQ_ERR_SUCCESS;
-}
-
-int mosquitto_acl_check(struct mosquitto *context, const char *topic, uint32_tn payloadlen, void* payload, uint8_t qos, bool retain, int access)
-{
-	return MOSQ_ERR_SUCCESS;
-}
-
-int acl__find_acls(struct mosquitto *context)
-{
-	return MOSQ_ERR_SUCCESS;
-}
-#endif
-
 
 bool net__is_connected(struct mosquitto *mosq)
 {

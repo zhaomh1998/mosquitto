@@ -2,7 +2,12 @@
 
 #include <time.h>
 #include <sys/types.h>
-#include <logging_mosq.h>
+#include "callbacks.h"
+#include "logging_mosq.h"
+#include "net_mosq.h"
+#include "read_handle.h"
+#include "send_mosq.h"
+#include "time_mosq.h"
 
 struct mosquitto_db{
 
@@ -28,9 +33,8 @@ bool net__is_connected(struct mosquitto *mosq)
 	return false;
 }
 
-int net__socket_close(struct mosquitto_db *db, struct mosquitto *mosq)
+int net__socket_close(struct mosquitto *mosq)
 {
-	UNUSED(db);
 	UNUSED(mosq);
 
 	return MOSQ_ERR_SUCCESS;

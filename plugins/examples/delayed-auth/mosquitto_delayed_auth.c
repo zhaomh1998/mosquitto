@@ -63,7 +63,7 @@ static mosquitto_plugin_id_t *mosq_pid = NULL;
 static struct client_list *clients = NULL;
 static time_t last_check = 0;
 
-bool authentication_check(struct client_list *client, time_t now)
+static bool authentication_check(struct client_list *client, time_t now)
 {
 	time_t secs;
 

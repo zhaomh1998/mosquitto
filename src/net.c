@@ -324,7 +324,7 @@ static unsigned int psk_server_callback(SSL *ssl, const char *identity, unsigned
 #endif
 
 #ifdef WITH_TLS
-void tls_keylog_callback(const SSL *ssl, const char *line)
+static void tls_keylog_callback(const SSL *ssl, const char *line)
 {
 	FILE *fptr;
 

@@ -98,7 +98,7 @@ static int bridge__create_prefix(char **full_prefix, const char *topic, const ch
 }
 
 
-struct mosquitto__bridge_topic *bridge__find_topic(struct mosquitto__bridge *bridge, const char *topic, enum mosquitto__bridge_direction direction, uint8_t qos, const char *local_prefix, const char *remote_prefix)
+static struct mosquitto__bridge_topic *bridge__find_topic(struct mosquitto__bridge *bridge, const char *topic, enum mosquitto__bridge_direction direction, uint8_t qos, const char *local_prefix, const char *remote_prefix)
 {
 	struct mosquitto__bridge_topic *cur_topic = NULL;
 	bool found = false;
