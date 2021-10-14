@@ -129,33 +129,30 @@ void keepalive__check(void)
 	time_t timeout;
 
 	if(db.contexts_by_sock){
-		/* Check the next 10 seconds for upcoming expiries */
+		/* Check the next 5 seconds for upcoming expiries */
 		/* FIXME - find the actual next entry without having to iterate over
 		 * the whole list */
-		timeout = 10;
-		for(time_t i=10; i>0; i--){
+		timeout = 5;
+		for(time_t i=5; i>0; i--){
 			if(keepalive_list[(db.now_s + i) % keepalive_list_max]){
-				timeout = i+1;
+				timeout = i;
 			}
 		}
 		loop__update_next_event(timeout*1000);
 	}
-	if(last_keepalive_check + 1 <= db.now_s){
-
-		for(time_t i=last_keepalive_check; i<db.now_s; i++){
-			int idx = (int)(i % keepalive_list_max);
-			if(keepalive_list[idx]){
-				DL_FOREACH_SAFE2(keepalive_list[idx], context, ctxt_tmp, keepalive_next){
-					if(net__is_connected(context)){
-						/* Client has exceeded keepalive*1.5 */
-						do_disconnect(context, MOSQ_ERR_KEEPALIVE);
-					}
+	for(time_t i=last_keepalive_check; i<db.now_s; i++){
+		int idx = (int)(i % keepalive_list_max);
+		if(keepalive_list[idx]){
+			DL_FOREACH_SAFE2(keepalive_list[idx], context, ctxt_tmp, keepalive_next){
+				if(net__is_connected(context)){
+					/* Client has exceeded keepalive*1.5 */
+					do_disconnect(context, MOSQ_ERR_KEEPALIVE);
 				}
 			}
 		}
-
-		last_keepalive_check = db.now_s;
 	}
+
+	last_keepalive_check = db.now_s;
 }
 #else
 void keepalive__check(void)
