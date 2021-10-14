@@ -110,6 +110,9 @@ int keepalive__add(struct mosquitto *context)
 {
 #ifndef WITH_OLD_KEEPALIVE
 	if(context->keepalive <= 0 || !net__is_connected(context)) return MOSQ_ERR_SUCCESS;
+#ifdef WITH_BRIDGE
+	if(context->bridge) return MOSQ_ERR_SUCCESS;
+#endif
 
 	DL_APPEND2(keepalive_list[calc_index(context)], context, keepalive_prev, keepalive_next);
 #else
