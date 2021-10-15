@@ -116,6 +116,9 @@ FILE *mosquitto__fopen(const char *path, const char *mode, bool restrict_read)
 				_close(fd);
 				return NULL;
 			}
+			if(mode[0] == 'a'){
+				fseek(fptr, 0, SEEK_END);
+			}
 			return fptr;
 
 		}else {
