@@ -130,6 +130,9 @@ WITH_XTREPORT=no
 # check routine. See src/keepalive.c for notes on this.
 WITH_OLD_KEEPALIVE=no
 
+# Use link time optimisation
+WITH_LTO=yes
+
 # =============================================================================
 # End of user configuration
 # =============================================================================
@@ -277,6 +280,11 @@ endif
 
 ifeq ($(WITH_BRIDGE),yes)
 	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_BRIDGE
+endif
+
+ifeq ($(WITH_LTO),yes)
+	BROKER_CFLAGS:=$(BROKER_CFLAGS) -flto
+	BROKER_LDFLAGS:=$(BROKER_LDFLAGS) -flto
 endif
 
 ifeq ($(WITH_PERSISTENCE),yes)
