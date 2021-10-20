@@ -46,8 +46,29 @@ int last_mid = 0;
 static bool timed_out = false;
 static int connack_result = 0;
 bool connack_received = false;
+#ifdef WIN32
+static HANDLE timeout_h = NULL;
+#endif
 
-#ifndef WIN32
+#ifdef WIN32
+void timeout_cb(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
+{
+	UNUSED(lpParameter);
+	UNUSED(TimerOrWaitFired);
+
+	if (connack_received) {
+		process_messages = false;
+		mosquitto_disconnect_v5(g_mosq, MQTT_RC_DISCONNECT_WITH_WILL_MSG, cfg.disconnect_props);
+	}
+	else {
+		exit(-1);
+	}
+
+	timed_out = true;
+	(void)DeleteTimerQueueTimer(NULL, timeout_h, NULL);
+	timeout_h = NULL;
+}
+#else
 static void my_signal_handler(int signum)
 {
 	if(signum == SIGALRM || signum == SIGTERM || signum == SIGINT){
@@ -385,7 +406,14 @@ int main(int argc, char *argv[])
 		goto cleanup;
 	}
 
-#ifndef WIN32
+#ifdef WIN32
+	if(cfg.timeout){
+		if(!CreateTimerQueueTimer(&timeout_h, NULL, timeout_cb, NULL, cfg.timeout*1000, 0, WT_EXECUTEDEFAULT)){
+			err_printf(&cfg, "Error: Unable to create timer for -W.\n");
+			goto cleanup;
+		}
+	}
+#else
 	sigact.sa_handler = my_signal_handler;
 	sigemptyset(&sigact.sa_mask);
 	sigact.sa_flags = 0;

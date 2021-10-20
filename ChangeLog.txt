@@ -106,6 +106,9 @@ Client library:
 - Performance: reduce memory allocations when sending packets.
 - Reintroduce threading support for Windows.
 
+Clients:
+- Add `-W` timeout support to Windows.
+
 
 2.0.12 - 2021-08-31
 ===================
