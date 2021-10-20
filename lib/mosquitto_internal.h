@@ -329,11 +329,7 @@ struct mosquitto {
 	pthread_mutex_t out_packet_mutex;
 	pthread_mutex_t state_mutex;
 	pthread_mutex_t mid_mutex;
-#ifdef WIN32
-	int thread_id;
-#else
 	pthread_t thread_id;
-#endif
 #endif
 	bool clean_start;
 	time_t session_expiry_time;
