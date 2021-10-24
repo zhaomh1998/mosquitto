@@ -453,7 +453,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 			&& dir == mosq_md_out && retain == false && stored->dest_ids){
 
 		for(i=0; i<stored->dest_id_count; i++){
-			if(!strcmp(stored->dest_ids[i], context->id)){
+			if(stored->dest_ids[i] && !strcmp(stored->dest_ids[i], context->id)){
 				/* We have already sent this message to this client. */
 				mosquitto_property_free_all(&properties);
 				return MOSQ_ERR_SUCCESS;
