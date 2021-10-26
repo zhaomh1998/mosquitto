@@ -48,7 +48,9 @@ void plugin__handle_tick(void)
 	struct mosquitto__security_options *opts;
 	int i;
 
-	/* FIXME - set now_s and now_ns to avoid need for multiple time lookups */
+	/* Global plugins */
+	plugin__handle_tick_single(&db.config->security_options);
+
 	if(db.config->per_listener_settings){
 		for(i=0; i<db.config->listener_count; i++){
 			opts = &db.config->listeners[i].security_options;
@@ -56,7 +58,5 @@ void plugin__handle_tick(void)
 				plugin__handle_tick_single(opts);
 			}
 		}
-	}else{
-		plugin__handle_tick_single(&db.config->security_options);
 	}
 }
