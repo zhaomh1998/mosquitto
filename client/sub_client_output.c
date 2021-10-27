@@ -248,6 +248,16 @@ static int json_print_properties(cJSON *root, const mosquitto_property *properti
 #endif
 
 
+static void format_time_8601(const struct tm *ti, int ns, char *buf, size_t len)
+{
+	char c;
+
+	strftime(buf, len, "%Y-%m-%dT%H:%M:%S.000000%z", ti);
+	c = buf[strlen("2020-05-06T21:48:00.000000")];
+	snprintf(&buf[strlen("2020-05-06T21:48:00.")], 9, "%06d", ns/1000);
+	buf[strlen("2020-05-06T21:48:00.000000")] = c;
+}
+
 static int json_print(const struct mosquitto_message *message, const mosquitto_property *properties, const struct tm *ti, int ns, bool escaped, bool pretty)
 {
 	char buf[100];
@@ -262,9 +272,7 @@ static int json_print(const struct mosquitto_message *message, const mosquitto_p
 		return MOSQ_ERR_NOMEM;
 	}
 
-	strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S.000000Z%z", ti);
-	snprintf(&buf[strlen("2020-05-06T21:48:00.")], 9, "%06d", ns/1000);
-	buf[strlen("2020-05-06T21:48:00.000000")] = 'Z';
+	format_time_8601(ti, ns, buf, sizeof(buf));
 
 	tmp = cJSON_CreateStringReference(buf);
 	if(tmp == NULL){
@@ -367,9 +375,7 @@ static int json_print(const struct mosquitto_message *message, const mosquitto_p
 	UNUSED(properties);
 	UNUSED(pretty);
 
-	strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S.000000Z%z", ti);
-	snprintf(&buf[strlen("2020-05-06T21:48:00.")], 9, "%06d", ns/1000);
-	buf[strlen("2020-05-06T21:48:00.000000")] = 'Z';
+	format_time_8601(ti, ns, buf, sizeof(buf));
 
 	printf("{\"tst\":\"%s\",\"topic\":\"%s\",\"qos\":%d,\"retain\":%d,\"payloadlen\":%d,", buf, message->topic, message->qos, message->retain, message->payloadlen);
 	if(message->qos > 0){
