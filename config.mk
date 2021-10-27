@@ -140,7 +140,7 @@ WITH_LTO=yes
 
 # Also bump lib/mosquitto.h, CMakeLists.txt,
 # installer/mosquitto.nsi, installer/mosquitto64.nsi
-VERSION=2.0.12
+VERSION=2.0.13
 
 # Client library SO version. Bump if incompatible API/ABI changes are made.
 SOVERSION=1

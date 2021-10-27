@@ -375,7 +375,7 @@ uninstall :
 	-rm -f "${DESTDIR}${prefix}/include/mosquitto_broker.h"
 	-rm -f "${DESTDIR}${prefix}/include/mosquitto_plugin.h"
 
-clean : 
+clean :
 	-rm -f *.o mosquitto *.gcda *.gcno
 
 reallyclean : clean

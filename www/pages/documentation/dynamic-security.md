@@ -167,7 +167,7 @@ messages on a specific topic within that hierarchy like 'topic/secret'.
 
 The different events have ACL types associated with them, and it is these ACLs
 that you will add to your roles. Each ACL has a `topic`, a `priority`, and can
-be set to `allow` or `deny`. 
+be set to `allow` or `deny`.
 
 The `publishClientSend` and `publishClientReceive` ACL types map directly to
 the events of the same name. The topic can contain wildcards, so allowing send
@@ -539,7 +539,7 @@ The initial configuration sets the default ACL type behaviours to:
 * `subscribe`: deny
 * `unsubscribe`: allow
 
-If you wish to change these, use `mosquitto_ctrl`. 
+If you wish to change these, use `mosquitto_ctrl`.
 
 ```
 mosquitto_ctrl <options> dynsec setDefaultACLAccess publishClientSend deny

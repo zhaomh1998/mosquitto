@@ -9,6 +9,7 @@ PLUGIN_SRC = \
 	auth_plugin_context_params.c \
 	auth_plugin_delayed.c \
 	auth_plugin_extended_multiple.c \
+	auth_plugin_extended_reauth.c \
 	auth_plugin_extended_single.c \
 	auth_plugin_extended_single2.c \
 	auth_plugin_msg_params.c \

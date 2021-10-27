@@ -4,12 +4,12 @@ Copyright (c) 2011-2020 Roger Light <roger@atchoo.org>
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License 2.0
 and Eclipse Distribution License v1.0 which accompany this distribution.
- 
+
 The Eclipse Public License is available at
    https://www.eclipse.org/legal/epl-2.0/
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
- 
+
 SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
@@ -257,7 +257,7 @@ static int security__load_v4(struct mosquitto__auth_plugin *plugin, struct mosqu
 
 	plugin->auth_start_v4 = (FUNC_auth_plugin_auth_start_v4)LIB_SYM(lib, "mosquitto_auth_start");
 	plugin->auth_continue_v4 = (FUNC_auth_plugin_auth_continue_v4)LIB_SYM(lib, "mosquitto_auth_continue");
-	
+
 	if(plugin->auth_start_v4){
 		if(plugin->auth_continue_v4){
 			log__printf(NULL, MOSQ_LOG_INFO,
@@ -742,7 +742,7 @@ int mosquitto_acl_check(struct mosquitto *context, const char *topic, uint32_t p
 	rc = acl__check_dollar(topic, access);
 	if(rc) return rc;
 
-	/* 
+	/*
 	 * If no plugins exist we should accept at this point so set rc to success.
 	 */
 	rc_final = MOSQ_ERR_SUCCESS;
