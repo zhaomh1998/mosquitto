@@ -93,7 +93,7 @@ int pw__hash(const char *password, struct mosquitto_pw *pw, bool new_password, i
 		EVP_MD_CTX_init(&context);
 		EVP_DigestInit_ex(&context, digest, NULL);
 		EVP_DigestUpdate(&context, password, strlen(password));
-		EVP_DigestUpdate(&context, pw->salt, pw->salt_len;
+		EVP_DigestUpdate(&context, pw->salt, pw->salt_len);
 		EVP_DigestFinal_ex(&context, pw->password_hash, &hash_len);
 		EVP_MD_CTX_cleanup(&context);
 #else
