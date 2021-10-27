@@ -44,6 +44,8 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 
+#include <mosquitto_broker.h>
+
 struct mosquitto;
 
 struct mosquitto_opt {
