@@ -186,3 +186,14 @@ void db__msg_store_ref_inc(struct mosquitto_msg_store *store)
 	store->ref_count++;
 }
 
+void db__msg_add_to_inflight_stats(struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *msg)
+{
+	UNUSED(msg_data);
+	UNUSED(msg);
+}
+
+void db__msg_add_to_queued_stats(struct mosquitto_msg_data *msg_data, struct mosquitto_client_msg *msg)
+{
+	UNUSED(msg_data);
+	UNUSED(msg);
+}
