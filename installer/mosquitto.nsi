@@ -92,10 +92,7 @@ SectionEnd
 Section "Visual Studio Runtime"
   SetOutPath "$INSTDIR"
   File "VC_redist.x86.exe"
-  IfSilent 0 +2
   ExecWait '"$INSTDIR\VC_redist.x86.exe" /quiet /norestart'
-  IfSilent +2 0
-  ExecWait '"$INSTDIR\VC_redist.x86.exe" /norestart'
   Delete "$INSTDIR\VC_redist.x86.exe"
 SectionEnd
 
