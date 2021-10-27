@@ -162,3 +162,11 @@ ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 	UNUSED(count);
 	return 1;
 }
+
+void context__add_to_by_id(struct mosquitto *context)
+{
+	if(context->in_by_id == false){
+		context->in_by_id = true;
+		HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, context->id, strlen(context->id), context);
+	}
+}
