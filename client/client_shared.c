@@ -1352,7 +1352,7 @@ static int client_tls_opts_set(struct mosquitto *mosq, struct mosq_config *cfg)
 		err_printf(cfg, "Error: Problem setting TLS ALPN protocol.\n");
 		return 1;
 	}
-	if((cfg->tls_version || cfg->ciphers) && mosquitto_tls_opts_set(mosq, 1, cfg->tls_version, cfg->ciphers)){
+	if((cfg->tls_version || cfg->ciphers) && mosquitto_tls_opts_set(mosq, !cfg->insecure, cfg->tls_version, cfg->ciphers)){
 		err_printf(cfg, "Error: Problem setting TLS options, check the options are valid.\n");
 		return 1;
 	}

@@ -108,6 +108,7 @@ Client library:
 
 Clients:
 - Add `-W` timeout support to Windows.
+- The `--insecure` option now disables all server certificate verification.
 
 
 2.0.13 - 2021-10-27

@@ -353,15 +353,15 @@
 				<term><option>--insecure</option></term>
 				<listitem>
 					<para>When using certificate based encryption, this option
-						disables verification of the server hostname in the
-						server certificate. This can be useful when testing
-						initial server configurations but makes it possible for
-						a malicious third party to impersonate your server
-						through DNS spoofing, for example. Use this option in
-						testing <emphasis>only</emphasis>. If you need to
-						resort to using this option in a production
-						environment, your setup is at fault and there is no
-						point using encryption.</para>
+						disables verification of the server certificate. This
+						can be useful when testing initial server configurations
+						but means there are no guarantees whatsoever about
+						whether the server you are connecting to is the server
+						you expect. Use this option in testing
+						<emphasis>only</emphasis>. If you need to resort to using
+						this option in a production environment, your setup is at
+						fault and there is little point using encryption.
+					</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>

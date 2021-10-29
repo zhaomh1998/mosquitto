@@ -290,9 +290,9 @@ static void print_usage(void)
 	printf(" --tls-use-os-certs : Load and trust OS provided CA certificates.\n");
 	printf(" --tls-version : TLS protocol version, can be one of tlsv1.3 tlsv1.2 or tlsv1.1.\n");
 	printf("                 Defaults to tlsv1.2 if available.\n");
-	printf(" --insecure : do not check that the server certificate hostname matches the remote\n");
-	printf("              hostname. Using this option means that you cannot be sure that the\n");
-	printf("              remote host is the server you wish to connect to and so is insecure.\n");
+	printf(" --insecure : do not verify the the server certificate. Using this option means that\n");
+	printf("              you cannot be sure that the remote host is the server you wish to connect\n");
+	printf("              to and so is insecure.\n");
 	printf("              Do not use this option in a production environment.\n");
 #ifdef WITH_TLS_PSK
 	printf(" --psk : pre-shared-key in hexadecimal (no leading 0x) to enable TLS-PSK mode.\n");
