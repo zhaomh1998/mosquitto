@@ -1,7 +1,7 @@
 #ifndef PASSWORD_COMMON_H
 #define PASSWORD_COMMON_H
 /*
-Copyright (c) 2012-2020 Roger Light <roger@atchoo.org>
+Copyright (c) 2012-2021 Roger Light <roger@atchoo.org>
 
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License 2.0
