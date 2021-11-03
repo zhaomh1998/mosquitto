@@ -222,11 +222,11 @@ static void config__init_reload(struct mosquitto__config *config)
 static void config__cleanup_plugins(struct mosquitto__config *config)
 {
 	int i, j;
-	struct mosquitto__auth_plugin_config *plug;
+	struct mosquitto__plugin_config *plug;
 
-	if(config->security_options.auth_plugin_configs){
-		for(i=0; i<config->security_options.auth_plugin_config_count; i++){
-			plug = &config->security_options.auth_plugin_configs[i];
+	if(config->security_options.plugin_configs){
+		for(i=0; i<config->security_options.plugin_config_count; i++){
+			plug = &config->security_options.plugin_configs[i];
 			mosquitto__free(plug->path);
 			plug->path = NULL;
 
@@ -240,8 +240,8 @@ static void config__cleanup_plugins(struct mosquitto__config *config)
 				plug->option_count = 0;
 			}
 		}
-		mosquitto__free(config->security_options.auth_plugin_configs);
-		config->security_options.auth_plugin_configs = NULL;
+		mosquitto__free(config->security_options.plugin_configs);
+		config->security_options.plugin_configs = NULL;
 	}
 }
 
@@ -501,7 +501,7 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 			|| config->default_listener.socket_domain
 			|| config->default_listener.security_options.password_file
 			|| config->default_listener.security_options.psk_file
-			|| config->default_listener.security_options.auth_plugin_config_count
+			|| config->default_listener.security_options.plugin_config_count
 			|| config->default_listener.security_options.allow_zero_length_clientid != true
 			){
 
@@ -560,8 +560,8 @@ int config__parse_args(struct mosquitto__config *config, int argc, char *argv[])
 		config->listeners[config->listener_count-1].security_options.acl_file = config->default_listener.security_options.acl_file;
 		config->listeners[config->listener_count-1].security_options.password_file = config->default_listener.security_options.password_file;
 		config->listeners[config->listener_count-1].security_options.psk_file = config->default_listener.security_options.psk_file;
-		config->listeners[config->listener_count-1].security_options.auth_plugin_configs = config->default_listener.security_options.auth_plugin_configs;
-		config->listeners[config->listener_count-1].security_options.auth_plugin_config_count = config->default_listener.security_options.auth_plugin_config_count;
+		config->listeners[config->listener_count-1].security_options.plugin_configs = config->default_listener.security_options.plugin_configs;
+		config->listeners[config->listener_count-1].security_options.plugin_config_count = config->default_listener.security_options.plugin_config_count;
 		config->listeners[config->listener_count-1].security_options.allow_anonymous = config->default_listener.security_options.allow_anonymous;
 		config->listeners[config->listener_count-1].security_options.allow_zero_length_clientid = config->default_listener.security_options.allow_zero_length_clientid;
 	}
@@ -798,7 +798,7 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 	char *tmp_char;
 	struct mosquitto__bridge *cur_bridge = NULL;
 #endif
-	struct mosquitto__auth_plugin_config *cur_auth_plugin_config = NULL;
+	struct mosquitto__plugin_config *cur_plugin_config = NULL;
 
 	time_t expiration_mult;
 	char *key;
@@ -931,8 +931,8 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 					if(conf__parse_bool(&token, "allow_zero_length_clientid", &cur_security_options->allow_zero_length_clientid, &saveptr)) return MOSQ_ERR_INVAL;
 				}else if(!strncmp(token, "auth_opt_", strlen("auth_opt_")) || !strncmp(token, "plugin_opt_", strlen("plugin_opt_"))){
 					if(reload) continue; /* Auth plugin not currently valid for reloading. */
-					if(!cur_auth_plugin_config){
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: An auth_opt_ option exists in the config file without an auth_plugin.");
+					if(!cur_plugin_config){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: A plugin_opt_ option exists in the config file without a plugin.");
 						return MOSQ_ERR_INVAL;
 					}
 					if(!strncmp(token, "auth_opt_", strlen("auth_opt_"))){
@@ -942,7 +942,7 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 					}
 					if(strlen(token) < prefix_len + 3){
 						/* auth_opt_ == 9, + one digit key == 10, + one space == 11, + one value == 12 */
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid auth_opt_ config option.");
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Invalid plugin_opt_ config option.");
 						return MOSQ_ERR_INVAL;
 					}
 					key = mosquitto__strdup(&token[prefix_len]);
@@ -959,16 +959,16 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 						token++;
 					}
 					if(token[0]){
-						cur_auth_plugin_config->option_count++;
-						cur_auth_plugin_config->options = mosquitto__realloc(cur_auth_plugin_config->options, (size_t)cur_auth_plugin_config->option_count*sizeof(struct mosquitto_auth_opt));
-						if(!cur_auth_plugin_config->options){
+						cur_plugin_config->option_count++;
+						cur_plugin_config->options = mosquitto__realloc(cur_plugin_config->options, (size_t)cur_plugin_config->option_count*sizeof(struct mosquitto_auth_opt));
+						if(!cur_plugin_config->options){
 							log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
 							mosquitto__free(key);
 							return MOSQ_ERR_NOMEM;
 						}
-						cur_auth_plugin_config->options[cur_auth_plugin_config->option_count-1].key = key;
-						cur_auth_plugin_config->options[cur_auth_plugin_config->option_count-1].value = mosquitto__strdup(token);
-						if(!cur_auth_plugin_config->options[cur_auth_plugin_config->option_count-1].value){
+						cur_plugin_config->options[cur_plugin_config->option_count-1].key = key;
+						cur_plugin_config->options[cur_plugin_config->option_count-1].value = mosquitto__strdup(token);
+						if(!cur_plugin_config->options[cur_plugin_config->option_count-1].value){
 							log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
 							return MOSQ_ERR_NOMEM;
 						}
@@ -985,26 +985,26 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 						conf__set_cur_security_options(config, cur_listener, &cur_security_options);
 					}
 
-					cur_security_options->auth_plugin_configs = mosquitto__realloc(cur_security_options->auth_plugin_configs, (size_t)(cur_security_options->auth_plugin_config_count+1)*sizeof(struct mosquitto__auth_plugin_config));
-					if(!cur_security_options->auth_plugin_configs){
+					cur_security_options->plugin_configs = mosquitto__realloc(cur_security_options->plugin_configs, (size_t)(cur_security_options->plugin_config_count+1)*sizeof(struct mosquitto__plugin_config));
+					if(!cur_security_options->plugin_configs){
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
 						return MOSQ_ERR_NOMEM;
 					}
-					cur_auth_plugin_config = &cur_security_options->auth_plugin_configs[cur_security_options->auth_plugin_config_count];
-					memset(cur_auth_plugin_config, 0, sizeof(struct mosquitto__auth_plugin_config));
-					cur_auth_plugin_config->path = NULL;
-					cur_auth_plugin_config->options = NULL;
-					cur_auth_plugin_config->option_count = 0;
-					cur_auth_plugin_config->deny_special_chars = true;
-					cur_security_options->auth_plugin_config_count++;
-					if(conf__parse_string(&token, "auth_plugin", &cur_auth_plugin_config->path, &saveptr)) return MOSQ_ERR_INVAL;
+					cur_plugin_config = &cur_security_options->plugin_configs[cur_security_options->plugin_config_count];
+					memset(cur_plugin_config, 0, sizeof(struct mosquitto__plugin_config));
+					cur_plugin_config->path = NULL;
+					cur_plugin_config->options = NULL;
+					cur_plugin_config->option_count = 0;
+					cur_plugin_config->deny_special_chars = true;
+					cur_security_options->plugin_config_count++;
+					if(conf__parse_string(&token, "plugin", &cur_plugin_config->path, &saveptr)) return MOSQ_ERR_INVAL;
 				}else if(!strcmp(token, "auth_plugin_deny_special_chars")){
 					if(reload) continue; /* Auth plugin not currently valid for reloading. */
-					if(!cur_auth_plugin_config){
-						log__printf(NULL, MOSQ_LOG_ERR, "Error: An auth_plugin_deny_special_chars option exists in the config file without an auth_plugin.");
+					if(!cur_plugin_config){
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: An auth_plugin_deny_special_chars option exists in the config file without a plugin.");
 						return MOSQ_ERR_INVAL;
 					}
-					if(conf__parse_bool(&token, "auth_plugin_deny_special_chars", &cur_auth_plugin_config->deny_special_chars, &saveptr)) return MOSQ_ERR_INVAL;
+					if(conf__parse_bool(&token, "auth_plugin_deny_special_chars", &cur_plugin_config->deny_special_chars, &saveptr)) return MOSQ_ERR_INVAL;
 				}else if(!strcmp(token, "auto_id_prefix")){
 					conf__set_cur_security_options(config, cur_listener, &cur_security_options);
 					if(conf__parse_string(&token, "auto_id_prefix", &cur_security_options->auto_id_prefix, &saveptr)) return MOSQ_ERR_INVAL;

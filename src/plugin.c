@@ -60,7 +60,7 @@ static int remove_callback(mosquitto_plugin_id_t *identifier, int event, struct 
 }
 
 
-int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__auth_plugin *plugin, struct mosquitto_opt *options, int option_count, void *lib)
+int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__plugin *plugin, struct mosquitto_opt *options, int option_count, void *lib)
 {
 	int rc;
 	mosquitto_plugin_id_t *pid;

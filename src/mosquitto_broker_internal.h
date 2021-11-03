@@ -97,7 +97,7 @@ enum mosquitto_msg_origin{
 	mosq_mo_broker = 1
 };
 
-struct mosquitto__auth_plugin{
+struct mosquitto__plugin{
 	void *lib;
 	void *user_data;
 	int (*plugin_version)(void);
@@ -134,14 +134,14 @@ struct mosquitto__auth_plugin{
 	int version;
 };
 
-struct mosquitto__auth_plugin_config
+struct mosquitto__plugin_config
 {
 	char *path;
 	struct mosquitto_opt *options;
 	int option_count;
 	bool deny_special_chars;
 
-	struct mosquitto__auth_plugin plugin;
+	struct mosquitto__plugin plugin;
 };
 
 struct mosquitto__callback{
@@ -178,8 +178,8 @@ struct mosquitto__security_options {
 	char *password_file;
 	char *psk_file;
 	char *acl_file;
-	struct mosquitto__auth_plugin_config *auth_plugin_configs;
-	int auth_plugin_config_count;
+	struct mosquitto__plugin_config *plugin_configs;
+	int plugin_config_count;
 	int8_t allow_anonymous;
 	bool allow_zero_length_clientid;
 	char *auto_id_prefix;
@@ -491,7 +491,7 @@ struct mosquitto_db{
 	unsigned long msg_store_bytes;
 	char *config_file;
 	struct mosquitto__config *config;
-	int auth_plugin_count;
+	int plugin_count;
 	bool verbose;
 #ifdef WITH_SYS_TREE
 	int subscription_count;
@@ -829,7 +829,7 @@ void listeners__stop(void);
 /* ============================================================
  * Plugin related functions
  * ============================================================ */
-int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__auth_plugin *plugin, struct mosquitto_opt *auth_options, int auth_option_count, void *lib);
+int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__plugin *plugin, struct mosquitto_opt *auth_options, int auth_option_count, void *lib);
 void plugin__handle_connect(struct mosquitto *context);
 void plugin__handle_disconnect(struct mosquitto *context, int reason);
 int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store *stored);
