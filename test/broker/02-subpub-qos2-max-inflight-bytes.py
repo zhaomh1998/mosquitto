@@ -7,6 +7,44 @@
 
 from mosq_test_helper import *
 
+def helper(port):
+    rc = 1
+    keepalive = 60
+    connect_packet = mosq_test.gen_connect("subpub-qos2-recv-max1-helper", keepalive=keepalive, proto_ver=5)
+    connack_packet = mosq_test.gen_connack(rc=0, proto_ver=5)
+
+    mid = 1
+    publish_packet = mosq_test.gen_publish("subpub/qos2", qos=2, mid=mid, payload="message1", proto_ver=5)
+    pubrec_packet = mosq_test.gen_pubrec(mid, proto_ver=5)
+    pubrel_packet = mosq_test.gen_pubrel(mid, proto_ver=5)
+    pubcomp_packet = mosq_test.gen_pubcomp(mid, proto_ver=5)
+
+    mid = 2
+    publish_packet2 = mosq_test.gen_publish("subpub/qos2", qos=2, mid=mid, payload="message2", proto_ver=5)
+    pubrec_packet2 = mosq_test.gen_pubrec(mid, proto_ver=5)
+    pubrel_packet2 = mosq_test.gen_pubrel(mid, proto_ver=5)
+    pubcomp_packet2 = mosq_test.gen_pubcomp(mid, proto_ver=5)
+
+    mid = 3
+    publish_packet3 = mosq_test.gen_publish("subpub/qos2", qos=2, mid=mid, payload="message3", proto_ver=5)
+    pubrec_packet3 = mosq_test.gen_pubrec(mid, proto_ver=5)
+    pubrel_packet3 = mosq_test.gen_pubrel(mid, proto_ver=5)
+    pubcomp_packet3 = mosq_test.gen_pubcomp(mid, proto_ver=5)
+
+
+    sock = mosq_test.do_client_connect(connect_packet, connack_packet, timeout=20, port=port)
+
+    mosq_test.do_send_receive(sock, publish_packet, pubrec_packet, "pubrec")
+    mosq_test.do_send_receive(sock, pubrel_packet, pubcomp_packet, "pubcomp")
+
+    mosq_test.do_send_receive(sock, publish_packet2, pubrec_packet2, "pubrec2")
+    mosq_test.do_send_receive(sock, pubrel_packet2, pubcomp_packet2, "pubcomp2")
+
+    mosq_test.do_send_receive(sock, publish_packet3, pubrec_packet3, "pubrec3")
+    mosq_test.do_send_receive(sock, pubrel_packet3, pubcomp_packet3, "pubcomp3")
+    sock.close()
+
+
 def write_config(filename, port):
     with open(filename, 'w') as f:
         f.write("listener %d\n" % (port))
@@ -59,9 +97,10 @@ def do_test(proto_ver):
         # Repeat many times to stress the send quota
         mid = 0
         for i in range(0, 12):
-            pub = subprocess.Popen(['./02-subpub-qos2-receive-maximum-helper.py', str(port)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            pub.wait()
-            (stdo, stde) = pub.communicate()
+            helper(port)
+            #pub = subprocess.Popen(['./02-subpub-qos2-receive-maximum-helper.py', str(port)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            #pub.wait()
+            #(stdo, stde) = pub.communicate()
 
             mid += 1
             publish_packet1 = mosq_test.gen_publish("subpub/qos2", qos=2, mid=mid, payload="message1", proto_ver=5)
