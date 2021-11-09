@@ -830,6 +830,11 @@ void listeners__stop(void);
  * Plugin related functions
  * ============================================================ */
 int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__plugin *plugin, struct mosquitto_opt *auth_options, int auth_option_count, void *lib);
+int plugin__load_v4(struct mosquitto__listener *listener, struct mosquitto__plugin_config *plugin_config, void *lib);
+int plugin__load_v3(struct mosquitto__listener *listener, struct mosquitto__plugin_config *plugin_config, void *lib);
+int plugin__load_v2(struct mosquitto__listener *listener, struct mosquitto__plugin_config *plugin_config, void *lib);
+int acl__pre_check(struct mosquitto__plugin_config *plugin, struct mosquitto *context, int access);
+
 void plugin__handle_connect(struct mosquitto *context);
 void plugin__handle_disconnect(struct mosquitto *context, int reason);
 int plugin__handle_message(struct mosquitto *context, struct mosquitto_msg_store *stored);

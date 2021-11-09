@@ -191,6 +191,12 @@ endif
 	./09-plugin-auth-unpwd-success.py
 	./09-plugin-auth-v2-unpwd-fail.py
 	./09-plugin-auth-v2-unpwd-success.py
+	./09-plugin-auth-v3-unpwd-fail.py
+	./09-plugin-auth-v3-unpwd-success.py
+	./09-plugin-auth-v4-unpwd-fail.py
+	./09-plugin-auth-v4-unpwd-success.py
+	./09-plugin-auth-v5-unpwd-fail.py
+	./09-plugin-auth-v5-unpwd-success.py
 	./09-plugin-delayed-auth.py
 	./09-plugin-publish.py
 	./09-pwfile-parse-invalid.py
