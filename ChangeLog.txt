@@ -1,3 +1,9 @@
+2.0.14 - 2021-xx-xx
+===================
+
+Broker:
+- Fix bridge not respecting receive-maximum when reconnecting with MQTT v5.
+
 2.0.13 - 2021-10-27
 ===================
 
