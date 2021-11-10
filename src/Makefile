@@ -55,10 +55,11 @@ OBJS=	mosquitto.o \
 		persist_read_v5.o \
 		persist_write.o \
 		persist_write_v5.o \
-		plugin.o \
+		plugin_callbacks.o \
 		plugin_v2.o \
 		plugin_v3.o \
 		plugin_v4.o \
+		plugin_v5.o \
 		plugin_acl_check.o \
 		plugin_basic_auth.o \
 		plugin_cleanup.o \
@@ -263,7 +264,7 @@ property_broker.o : property_broker.c mosquitto_broker_internal.h
 property_mosq.o : ../lib/property_mosq.c ../lib/property_mosq.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
-plugin.o : plugin.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
+plugin_callbacks.o : plugin_callbacks.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 plugin_v2.o : plugin_v2.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
@@ -273,6 +274,9 @@ plugin_v3.o : plugin_v3.c ../include/mosquitto_plugin.h mosquitto_broker_interna
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 plugin_v4.o : plugin_v4.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
+plugin_v5.o : plugin_v5.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 plugin_acl_check.o : plugin_acl_check.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h

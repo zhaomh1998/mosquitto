@@ -43,7 +43,7 @@ set (MOSQ_SRCS
 	persist_read_v234.c persist_read_v5.c persist_read.c
 	persist_write_v5.c persist_write.c
 	persist.h
-	plugin.c plugin_v4.c plugin_v3.c plugin_v2.c
+	plugin_callbacks.c plugin_v5.c plugin_v4.c plugin_v3.c plugin_v2.c
 	plugin_init.c plugin_cleanup.c
 	plugin_acl_check.c plugin_basic_auth.c plugin_connect.c plugin_disconnect.c
 	plugin_extended_auth.c plugin_message.c plugin_psk_key.c plugin_public.c

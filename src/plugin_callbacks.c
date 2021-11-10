@@ -60,54 +60,6 @@ static int remove_callback(mosquitto_plugin_id_t *identifier, int event, struct 
 }
 
 
-int plugin__load_v5(struct mosquitto__listener *listener, struct mosquitto__plugin *plugin, struct mosquitto_opt *options, int option_count, void *lib)
-{
-	int rc;
-	mosquitto_plugin_id_t *pid;
-
-	if(!(plugin->plugin_init_v5 = (FUNC_plugin_init_v5)LIB_SYM(lib, "mosquitto_plugin_init"))){
-		log__printf(NULL, MOSQ_LOG_ERR,
-				"Error: Unable to load plugin function mosquitto_plugin_init().");
-		LIB_ERROR();
-		LIB_CLOSE(lib);
-		return MOSQ_ERR_UNKNOWN;
-	}
-	/* Optional function */
-	plugin->plugin_cleanup_v5 = (FUNC_plugin_cleanup_v5)LIB_SYM(lib, "mosquitto_plugin_cleanup");
-
-	pid = mosquitto__calloc(1, sizeof(mosquitto_plugin_id_t));
-	if(pid == NULL){
-		log__printf(NULL, MOSQ_LOG_ERR,
-				"Error: Out of memory.");
-		LIB_CLOSE(lib);
-		return MOSQ_ERR_NOMEM;
-	}
-	pid->listener = listener;
-
-	plugin->lib = lib;
-	plugin->user_data = NULL;
-	plugin->identifier = pid;
-
-	if(plugin->plugin_init_v5){
-		rc = plugin->plugin_init_v5(pid, &plugin->user_data, options, option_count);
-		if(rc){
-			log__printf(NULL, MOSQ_LOG_ERR,
-					"Error: Plugin returned %d when initialising.", rc);
-			return rc;
-		}
-	}
-	if(pid->plugin_name && pid->plugin_version){
-		log__printf(NULL, MOSQ_LOG_INFO,
-				"Plugin %s version %s loaded.", pid->plugin_name, pid->plugin_version);
-	}else if(pid->plugin_name){
-		log__printf(NULL, MOSQ_LOG_INFO,
-				"Plugin %s loaded.", pid->plugin_name);
-	}
-
-	return 0;
-}
-
-
 int mosquitto_callback_register(
 		mosquitto_plugin_id_t *identifier,
 		int event,
