@@ -226,7 +226,7 @@ static void config__cleanup_plugins(struct mosquitto__config *config)
 
 	if(config->security_options.plugin_configs){
 		for(i=0; i<config->security_options.plugin_config_count; i++){
-			plug = &config->security_options.plugin_configs[i];
+			plug = config->security_options.plugin_configs[i];
 			mosquitto__free(plug->path);
 			plug->path = NULL;
 
@@ -239,6 +239,7 @@ static void config__cleanup_plugins(struct mosquitto__config *config)
 				plug->options = NULL;
 				plug->option_count = 0;
 			}
+			mosquitto__free(plug);
 		}
 		mosquitto__free(config->security_options.plugin_configs);
 		config->security_options.plugin_configs = NULL;
@@ -985,13 +986,19 @@ static int config__read_file_core(struct mosquitto__config *config, bool reload,
 						conf__set_cur_security_options(config, cur_listener, &cur_security_options);
 					}
 
-					cur_security_options->plugin_configs = mosquitto__realloc(cur_security_options->plugin_configs, (size_t)(cur_security_options->plugin_config_count+1)*sizeof(struct mosquitto__plugin_config));
-					if(!cur_security_options->plugin_configs){
+					cur_plugin_config = mosquitto__calloc(1, sizeof(struct mosquitto__plugin_config));
+					if(!cur_plugin_config){
 						log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
 						return MOSQ_ERR_NOMEM;
 					}
-					cur_plugin_config = &cur_security_options->plugin_configs[cur_security_options->plugin_config_count];
-					memset(cur_plugin_config, 0, sizeof(struct mosquitto__plugin_config));
+
+					cur_security_options->plugin_configs = mosquitto__realloc(cur_security_options->plugin_configs, (size_t)(cur_security_options->plugin_config_count+1)*sizeof(struct mosquitto__plugin_config *));
+					if(!cur_security_options->plugin_configs){
+						mosquitto__free(cur_plugin_config);
+						log__printf(NULL, MOSQ_LOG_ERR, "Error: Out of memory.");
+						return MOSQ_ERR_NOMEM;
+					}
+					cur_security_options->plugin_configs[cur_security_options->plugin_config_count] = cur_plugin_config;
 					cur_plugin_config->path = NULL;
 					cur_plugin_config->options = NULL;
 					cur_plugin_config->option_count = 0;

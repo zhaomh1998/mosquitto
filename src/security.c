@@ -63,20 +63,20 @@ static int security__module_init_single(struct mosquitto__listener *listener, st
 	}
 
 	for(i=0; i<opts->plugin_config_count; i++){
-		if(opts->plugin_configs[i].path){
-			memset(&opts->plugin_configs[i].plugin, 0, sizeof(struct mosquitto__plugin));
+		if(opts->plugin_configs[i]->path){
+			memset(&opts->plugin_configs[i]->plugin, 0, sizeof(struct mosquitto__plugin));
 
-			log__printf(NULL, MOSQ_LOG_INFO, "Loading plugin: %s", opts->plugin_configs[i].path);
+			log__printf(NULL, MOSQ_LOG_INFO, "Loading plugin: %s", opts->plugin_configs[i]->path);
 
-			lib = LIB_LOAD(opts->plugin_configs[i].path);
+			lib = LIB_LOAD(opts->plugin_configs[i]->path);
 			if(!lib){
 				log__printf(NULL, MOSQ_LOG_ERR,
-						"Error: Unable to load plugin \"%s\".", opts->plugin_configs[i].path);
+						"Error: Unable to load plugin \"%s\".", opts->plugin_configs[i]->path);
 				LIB_ERROR();
 				return MOSQ_ERR_UNKNOWN;
 			}
 
-			opts->plugin_configs[i].plugin.lib = NULL;
+			opts->plugin_configs[i]->plugin.lib = NULL;
 			if((plugin_version = (FUNC_plugin_version)LIB_SYM(lib, "mosquitto_plugin_version"))){
 				version = plugin_version(plugin_version_count, plugin_versions);
 			}else if((plugin_auth_version = (FUNC_auth_plugin_version)LIB_SYM(lib, "mosquitto_auth_plugin_version"))){
@@ -88,26 +88,26 @@ static int security__module_init_single(struct mosquitto__listener *listener, st
 				LIB_CLOSE(lib);
 				return MOSQ_ERR_UNKNOWN;
 			}
-			opts->plugin_configs[i].plugin.version = version;
+			opts->plugin_configs[i]->plugin.version = version;
 			if(version == 5){
 				rc = plugin__load_v5(
 						listener,
-						&opts->plugin_configs[i].plugin,
-						opts->plugin_configs[i].options,
-						opts->plugin_configs[i].option_count,
+						&opts->plugin_configs[i]->plugin,
+						opts->plugin_configs[i]->options,
+						opts->plugin_configs[i]->option_count,
 						lib);
 
 				if(rc){
 					return rc;
 				}
 			}else if(version == 4){
-				rc = plugin__load_v4(listener, &opts->plugin_configs[i], lib);
+				rc = plugin__load_v4(listener, opts->plugin_configs[i], lib);
 				if(rc) return rc;
 			}else if(version == 3){
-				rc = plugin__load_v3(listener, &opts->plugin_configs[i], lib);
+				rc = plugin__load_v3(listener, opts->plugin_configs[i], lib);
 				if(rc) return rc;
 			}else if(version == 2){
-				rc = plugin__load_v2(listener, &opts->plugin_configs[i], lib);
+				rc = plugin__load_v2(listener, opts->plugin_configs[i], lib);
 				if(rc) return rc;
 			}else{
 				log__printf(NULL, MOSQ_LOG_ERR,
@@ -148,7 +148,7 @@ static void security__module_cleanup_single(struct mosquitto__security_options *
 	struct mosquitto__plugin_config *conf;
 
 	for(i=0; i<opts->plugin_config_count; i++){
-		conf = &opts->plugin_configs[i];
+		conf = opts->plugin_configs[i];
 
 		/* Run plugin cleanup function */
 		if(conf->plugin.version == 5){
@@ -231,27 +231,27 @@ static int security__init_single(struct mosquitto__security_options *opts, bool 
 	}
 
 	for(i=0; i<opts->plugin_config_count; i++){
-		if(opts->plugin_configs[i].plugin.version == 5){
+		if(opts->plugin_configs[i]->plugin.version == 5){
 			continue;
-		}else if(opts->plugin_configs[i].plugin.version == 4){
-			rc = opts->plugin_configs[i].plugin.security_init_v4(
-					opts->plugin_configs[i].plugin.user_data,
-					opts->plugin_configs[i].options,
-					opts->plugin_configs[i].option_count,
+		}else if(opts->plugin_configs[i]->plugin.version == 4){
+			rc = opts->plugin_configs[i]->plugin.security_init_v4(
+					opts->plugin_configs[i]->plugin.user_data,
+					opts->plugin_configs[i]->options,
+					opts->plugin_configs[i]->option_count,
 					reload);
 
-		}else if(opts->plugin_configs[i].plugin.version == 3){
-			rc = opts->plugin_configs[i].plugin.security_init_v3(
-					opts->plugin_configs[i].plugin.user_data,
-					opts->plugin_configs[i].options,
-					opts->plugin_configs[i].option_count,
+		}else if(opts->plugin_configs[i]->plugin.version == 3){
+			rc = opts->plugin_configs[i]->plugin.security_init_v3(
+					opts->plugin_configs[i]->plugin.user_data,
+					opts->plugin_configs[i]->options,
+					opts->plugin_configs[i]->option_count,
 					reload);
 
-		}else if(opts->plugin_configs[i].plugin.version == 2){
-			rc = opts->plugin_configs[i].plugin.security_init_v2(
-					opts->plugin_configs[i].plugin.user_data,
-					(struct mosquitto_auth_opt *)opts->plugin_configs[i].options,
-					opts->plugin_configs[i].option_count,
+		}else if(opts->plugin_configs[i]->plugin.version == 2){
+			rc = opts->plugin_configs[i]->plugin.security_init_v2(
+					opts->plugin_configs[i]->plugin.user_data,
+					(struct mosquitto_auth_opt *)opts->plugin_configs[i]->options,
+					opts->plugin_configs[i]->option_count,
 					reload);
 		}else{
 			rc = MOSQ_ERR_INVAL;
@@ -300,27 +300,27 @@ static int security__cleanup_single(struct mosquitto__security_options *opts, bo
 	int rc;
 
 	for(i=0; i<opts->plugin_config_count; i++){
-		if(opts->plugin_configs[i].plugin.version == 5){
+		if(opts->plugin_configs[i]->plugin.version == 5){
 			rc = MOSQ_ERR_SUCCESS;
-		}else if(opts->plugin_configs[i].plugin.version == 4){
-			rc = opts->plugin_configs[i].plugin.security_cleanup_v4(
-					opts->plugin_configs[i].plugin.user_data,
-					opts->plugin_configs[i].options,
-					opts->plugin_configs[i].option_count,
+		}else if(opts->plugin_configs[i]->plugin.version == 4){
+			rc = opts->plugin_configs[i]->plugin.security_cleanup_v4(
+					opts->plugin_configs[i]->plugin.user_data,
+					opts->plugin_configs[i]->options,
+					opts->plugin_configs[i]->option_count,
 					reload);
 
-		}else if(opts->plugin_configs[i].plugin.version == 3){
-			rc = opts->plugin_configs[i].plugin.security_cleanup_v3(
-					opts->plugin_configs[i].plugin.user_data,
-					opts->plugin_configs[i].options,
-					opts->plugin_configs[i].option_count,
+		}else if(opts->plugin_configs[i]->plugin.version == 3){
+			rc = opts->plugin_configs[i]->plugin.security_cleanup_v3(
+					opts->plugin_configs[i]->plugin.user_data,
+					opts->plugin_configs[i]->options,
+					opts->plugin_configs[i]->option_count,
 					reload);
 
-		}else if(opts->plugin_configs[i].plugin.version == 2){
-			rc = opts->plugin_configs[i].plugin.security_cleanup_v2(
-					opts->plugin_configs[i].plugin.user_data,
-					(struct mosquitto_auth_opt *)opts->plugin_configs[i].options,
-					opts->plugin_configs[i].option_count,
+		}else if(opts->plugin_configs[i]->plugin.version == 2){
+			rc = opts->plugin_configs[i]->plugin.security_cleanup_v2(
+					opts->plugin_configs[i]->plugin.user_data,
+					(struct mosquitto_auth_opt *)opts->plugin_configs[i]->options,
+					opts->plugin_configs[i]->option_count,
 					reload);
 		}else{
 			rc = MOSQ_ERR_INVAL;

@@ -178,7 +178,7 @@ struct mosquitto__security_options {
 	char *password_file;
 	char *psk_file;
 	char *acl_file;
-	struct mosquitto__plugin_config *plugin_configs;
+	struct mosquitto__plugin_config **plugin_configs;
 	int plugin_config_count;
 	int8_t allow_anonymous;
 	bool allow_zero_length_clientid;

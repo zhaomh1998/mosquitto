@@ -149,7 +149,7 @@ static int broker__process_get_plugin_info(cJSON *j_responses, struct mosquitto 
 	}
 
 	for(i=0; i<db.config->security_options.plugin_config_count; i++){
-		if(add_plugin_info(j_plugins, db.config->security_options.plugin_configs[i].plugin.identifier)){
+		if(add_plugin_info(j_plugins, db.config->security_options.plugin_configs[i]->plugin.identifier)){
 			goto internal_error;
 		}
 	}
