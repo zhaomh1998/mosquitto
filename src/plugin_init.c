@@ -207,14 +207,3 @@ int mosquitto_security_init(bool reload)
 	}
 	return mosquitto_security_init_default(reload);
 }
-
-/* Apply security settings after a reload.
- * Includes:
- * - Disconnecting anonymous users if appropriate
- * - Disconnecting users with invalid passwords
- * - Reapplying ACLs
- */
-int mosquitto_security_apply(void)
-{
-	return mosquitto_security_apply_default();
-}

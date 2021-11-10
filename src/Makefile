@@ -65,13 +65,13 @@ OBJS=	mosquitto.o \
 		plugin_connect.o \
 		plugin_disconnect.o \
 		plugin_extended_auth.o \
+		plugin_init.o \
 		plugin_message.o \
 		plugin_psk_key.o \
 		plugin_public.o \
 		plugin_tick.o \
 		read_handle.o \
 		retain.o \
-		security.o \
 		security_default.o \
 		send_auth.o \
 		send_connack.o \
@@ -293,6 +293,9 @@ plugin_disconnect.o : plugin_disconnect.c ../include/mosquitto_plugin.h mosquitt
 plugin_extended_auth.o : plugin_extended_auth.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
+plugin_init.o : plugin_init.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
 plugin_message.o : plugin_message.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
@@ -309,9 +312,6 @@ read_handle.o : read_handle.c mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 retain.o : retain.c mosquitto_broker_internal.h
-	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
-
-security.o : security.c mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 security_default.o : security_default.c mosquitto_broker_internal.h

@@ -107,7 +107,7 @@ void signal__flag_check(void)
 		listeners__reload_all_certificates();
 		mosquitto_security_cleanup(true);
 		mosquitto_security_init(true);
-		mosquitto_security_apply();
+		mosquitto_security_apply_default();
 		log__close(db.config);
 		log__init(db.config);
 		keepalive__cleanup();

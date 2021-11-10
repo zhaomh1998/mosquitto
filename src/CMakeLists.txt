@@ -44,7 +44,7 @@ set (MOSQ_SRCS
 	persist_write_v5.c persist_write.c
 	persist.h
 	plugin.c plugin_v4.c plugin_v3.c plugin_v2.c
-	plugin_cleanup.c
+	plugin_init.c plugin_cleanup.c
 	plugin_acl_check.c plugin_basic_auth.c plugin_connect.c plugin_disconnect.c
 	plugin_extended_auth.c plugin_message.c plugin_psk_key.c plugin_public.c
 	plugin_tick.c
@@ -53,7 +53,7 @@ set (MOSQ_SRCS
 	read_handle.c
 	../lib/read_handle.h
 	retain.c
-	security.c security_default.c
+	security_default.c
 	../lib/send_mosq.c ../lib/send_mosq.h
 	send_auth.c
 	send_connack.c

@@ -875,7 +875,6 @@ int mosquitto_security_module_init(void);
 int mosquitto_security_module_cleanup(void);
 
 int mosquitto_security_init(bool reload);
-int mosquitto_security_apply(void);
 int mosquitto_security_cleanup(bool reload);
 int mosquitto_acl_check(struct mosquitto *context, const char *topic, uint32_t payloadlen, void* payload, uint8_t qos, bool retain, int access);
 int mosquitto_unpwd_check(struct mosquitto *context);
