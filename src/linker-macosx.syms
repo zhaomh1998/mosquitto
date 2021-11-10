@@ -1,4 +1,4 @@
-t_mosquitto_broker_publish
+_mosquitto_broker_publish
 _mosquitto_broker_publish_copy
 _mosquitto_callback_register
 _mosquitto_callback_unregister
