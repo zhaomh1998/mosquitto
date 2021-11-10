@@ -70,6 +70,7 @@ tests = [
     (1, './03-publish-qos1.py'),
     (1, './03-publish-qos2-max-inflight-exceeded.py'),
     (1, './03-publish-qos2-max-inflight.py'),
+    (1, './03-publish-qos2-reuse-mid.py'),
     (1, './03-publish-qos2.py'),
 
     (1, './04-retain-check-source-persist.py'),

@@ -90,6 +90,7 @@ msg_sequence_test:
 	./03-publish-qos1.py
 	./03-publish-qos2-max-inflight-exceeded.py
 	./03-publish-qos2-max-inflight.py
+	./03-publish-qos2-reuse-mid.py
 	./03-publish-qos2.py
 
 04 :
