@@ -31,8 +31,6 @@ Contributors:
 typedef int (*FUNC_auth_plugin_version)(void);
 typedef int (*FUNC_plugin_version)(int, const int *);
 
-static int security__cleanup_single(struct mosquitto__security_options *opts, bool reload);
-
 void LIB_ERROR(void)
 {
 #ifdef WIN32
@@ -141,78 +139,6 @@ int mosquitto_security_module_init(void)
 }
 
 
-static void security__module_cleanup_single(struct mosquitto__security_options *opts)
-{
-	int i;
-	struct control_endpoint *ep, *tmp;
-	struct mosquitto__plugin_config *conf;
-
-	for(i=0; i<opts->plugin_config_count; i++){
-		conf = opts->plugin_configs[i];
-
-		/* Run plugin cleanup function */
-		if(conf->plugin.version == 5){
-			if(conf->plugin.plugin_cleanup_v5){
-				conf->plugin.plugin_cleanup_v5(
-						conf->plugin.user_data,
-						conf->options,
-						conf->option_count);
-			}
-		}else if(conf->plugin.version == 4){
-			conf->plugin.plugin_cleanup_v4(
-					conf->plugin.user_data,
-					conf->options,
-					conf->option_count);
-
-		}else if(conf->plugin.version == 3){
-			conf->plugin.plugin_cleanup_v3(
-					conf->plugin.user_data,
-					conf->options,
-					conf->option_count);
-
-		}else if(conf->plugin.version == 2){
-			conf->plugin.plugin_cleanup_v2(
-					conf->plugin.user_data,
-					(struct mosquitto_auth_opt *)conf->options,
-					conf->option_count);
-		}
-
-		plugin__callback_unregister_all(conf->plugin.identifier);
-		if(conf->plugin.identifier){
-			mosquitto__free(conf->plugin.identifier->plugin_name);
-			mosquitto__free(conf->plugin.identifier->plugin_version);
-			DL_FOREACH_SAFE(conf->plugin.identifier->control_endpoints, ep, tmp){
-				DL_DELETE(conf->plugin.identifier->control_endpoints, ep);
-				mosquitto__free(ep);
-			}
-			mosquitto__free(conf->plugin.identifier);
-			conf->plugin.identifier = NULL;
-		}
-
-		if(conf->plugin.lib){
-			LIB_CLOSE(conf->plugin.lib);
-		}
-		memset(&conf->plugin, 0, sizeof(struct mosquitto__plugin));
-	}
-}
-
-
-int mosquitto_security_module_cleanup(void)
-{
-	int i;
-
-	mosquitto_security_cleanup(false);
-
-	security__module_cleanup_single(&db.config->security_options);
-
-	for(i=0; i<db.config->listener_count; i++){
-		security__module_cleanup_single(&db.config->listeners[i].security_options);
-	}
-
-	return MOSQ_ERR_SUCCESS;
-}
-
-
 static int security__init_single(struct mosquitto__security_options *opts, bool reload)
 {
 	int i;
@@ -291,60 +217,4 @@ int mosquitto_security_init(bool reload)
 int mosquitto_security_apply(void)
 {
 	return mosquitto_security_apply_default();
-}
-
-
-static int security__cleanup_single(struct mosquitto__security_options *opts, bool reload)
-{
-	int i;
-	int rc;
-
-	for(i=0; i<opts->plugin_config_count; i++){
-		if(opts->plugin_configs[i]->plugin.version == 5){
-			rc = MOSQ_ERR_SUCCESS;
-		}else if(opts->plugin_configs[i]->plugin.version == 4){
-			rc = opts->plugin_configs[i]->plugin.security_cleanup_v4(
-					opts->plugin_configs[i]->plugin.user_data,
-					opts->plugin_configs[i]->options,
-					opts->plugin_configs[i]->option_count,
-					reload);
-
-		}else if(opts->plugin_configs[i]->plugin.version == 3){
-			rc = opts->plugin_configs[i]->plugin.security_cleanup_v3(
-					opts->plugin_configs[i]->plugin.user_data,
-					opts->plugin_configs[i]->options,
-					opts->plugin_configs[i]->option_count,
-					reload);
-
-		}else if(opts->plugin_configs[i]->plugin.version == 2){
-			rc = opts->plugin_configs[i]->plugin.security_cleanup_v2(
-					opts->plugin_configs[i]->plugin.user_data,
-					(struct mosquitto_auth_opt *)opts->plugin_configs[i]->options,
-					opts->plugin_configs[i]->option_count,
-					reload);
-		}else{
-			rc = MOSQ_ERR_INVAL;
-		}
-		if(rc != MOSQ_ERR_SUCCESS){
-			return rc;
-		}
-	}
-
-	return MOSQ_ERR_SUCCESS;
-}
-
-
-int mosquitto_security_cleanup(bool reload)
-{
-	int i;
-	int rc;
-
-	rc = security__cleanup_single(&db.config->security_options, reload);
-	if(rc != MOSQ_ERR_SUCCESS) return rc;
-
-	for(i=0; i<db.config->listener_count; i++){
-		rc = security__cleanup_single(&db.config->listeners[i].security_options, reload);
-		if(rc != MOSQ_ERR_SUCCESS) return rc;
-	}
-	return mosquitto_security_cleanup_default(reload);
 }
