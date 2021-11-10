@@ -44,7 +44,8 @@ set (MOSQ_SRCS
 	persist_write_v5.c persist_write.c
 	persist.h
 	plugin.c plugin_v4.c plugin_v3.c plugin_v2.c
-	plugin_connect.c plugin_disconnect.c plugin_extended_auth.c plugin_message.c plugin_public.c plugin_tick.c
+	plugin_connect.c plugin_disconnect.c plugin_extended_auth.c plugin_message.c
+	plugin_psk_key.c plugin_public.c plugin_tick.c
 	property_broker.c
 	../lib/property_mosq.c ../lib/property_mosq.h
 	read_handle.c

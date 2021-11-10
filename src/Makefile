@@ -63,6 +63,7 @@ OBJS=	mosquitto.o \
 		plugin_disconnect.o \
 		plugin_extended_auth.o \
 		plugin_message.o \
+		plugin_psk_key.o \
 		plugin_public.o \
 		plugin_tick.o \
 		read_handle.o \
@@ -281,6 +282,9 @@ plugin_extended_auth.o : plugin_extended_auth.c ../include/mosquitto_plugin.h mo
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 plugin_message.o : plugin_message.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
+	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+
+plugin_psk_key.o : plugin_psk_key.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
 	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
 
 plugin_public.o : plugin_public.c ../include/mosquitto_plugin.h mosquitto_broker_internal.h
