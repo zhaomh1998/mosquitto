@@ -99,8 +99,8 @@ static int generate_password(int iterations, char **password, char **password_ha
 
 	if(base64__encode(pw.salt, (unsigned int)pw.salt_len, salt)
 			|| base64__encode(pw.password_hash, sizeof(pw.password_hash), password_hash)
-			){	
-	
+			){
+
 		free(*password);
 		free(*password_hash);
 		free(*salt);

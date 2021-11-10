@@ -84,6 +84,7 @@ Broker:
   Closes #2337.
 - Allow multiple instances of mosquitto to run as services on Windows. See
   README-windows.txt.
+- Add ability to deny wildcard subscriptions for a role to the dynsec plugin.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

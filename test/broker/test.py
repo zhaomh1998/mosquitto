@@ -195,6 +195,7 @@ tests = [
     (1, './13-malformed-unsubscribe-v5.py'),
 
     (1, './14-dynsec-acl.py'),
+    (1, './14-dynsec-allow-wildcard.py'),
     (1, './14-dynsec-anon-group.py'),
     (1, './14-dynsec-auth.py'),
     (1, './14-dynsec-client.py'),

@@ -104,13 +104,18 @@ static int acl_check_subscribe(struct mosquitto_evt_acl_check *ed, struct dynsec
 	size_t len;
 	bool result;
 	const char *clientid, *username;
+	bool has_wildcard;
 
 	len = strlen(ed->topic);
+	has_wildcard = (strpbrk(ed->topic, "+#") != NULL);
 
 	clientid = mosquitto_client_id(ed->client);
 	username = mosquitto_client_username(ed->client);
 
 	HASH_ITER(hh, base_rolelist, rolelist, rolelist_tmp){
+		if(rolelist->role->allow_wildcard_subs == false && has_wildcard == true){
+			return MOSQ_ERR_ACL_DENIED;
+		}
 		HASH_FIND(hh, rolelist->role->acls.subscribe_literal, ed->topic, len, acl);
 		if(acl){
 			if(acl->allow){

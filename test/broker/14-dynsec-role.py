@@ -80,7 +80,7 @@ list_roles_verbose_command1 = { "commands": [{
 }
 list_roles_verbose_response1 = {'responses': [{'command': 'listRoles', 'data':
     {'totalCount':3, 'roles': [
-    {"rolename":"admin","acls":[
+    {"rolename":"admin","allowwildcardsubs": True, "acls":[
     {"acltype": "publishClientSend", "topic": "$CONTROL/dynamic-security/#", "priority":0, "allow": True },
     {"acltype": "publishClientReceive", "topic": "$CONTROL/dynamic-security/#", "priority":0, "allow": True },
     {"acltype": "publishClientReceive", "topic": "$SYS/#", "priority":0, "allow": True },
@@ -89,9 +89,9 @@ list_roles_verbose_response1 = {'responses': [{'command': 'listRoles', 'data':
     {"acltype": "subscribePattern", "topic": "$SYS/#", "priority":0, "allow": True },
     {"acltype": "subscribePattern", "topic": "#", "priority":0, "allow": True},
     {"acltype": "unsubscribePattern", "topic": "#", "priority":0, "allow": True}]},
-    {'rolename': 'basic', "textname": "name", "textdescription": "desc",
+    {'rolename': 'basic', "textname": "name", "textdescription": "desc", "allowwildcardsubs": True,
     'acls': [{'acltype':'publishClientSend', 'topic': 'out/#', 'priority': 3, 'allow': True}]},
-    {'rolename': 'basic2', "textname": "name", "textdescription": "desc",
+    {'rolename': 'basic2', "textname": "name", "textdescription": "desc", "allowwildcardsubs": True,
     'acls': [{'acltype':'publishClientSend', 'topic': 'out/#', 'priority': 3, 'allow': True}]
     }]}, 'correlationData': '21'}]}
 
@@ -107,7 +107,7 @@ list_roles_verbose_command2 = { "commands": [{
     "command": "listRoles", "verbose": True, "correlationData": "22"}]
 }
 list_roles_verbose_response2 = {'responses': [{'command': 'listRoles', 'data': {'totalCount':3, 'roles':
-    [{"rolename":"admin","acls":[
+    [{"rolename":"admin",'allowwildcardsubs': True, "acls":[
     {"acltype": "publishClientSend", "topic": "$CONTROL/dynamic-security/#", "priority":0, "allow": True },
     {"acltype": "publishClientReceive", "topic": "$CONTROL/dynamic-security/#", "priority":0, "allow": True },
     {"acltype": "publishClientReceive", "topic": "$SYS/#", "priority":0, "allow": True },
@@ -116,16 +116,16 @@ list_roles_verbose_response2 = {'responses': [{'command': 'listRoles', 'data': {
     {"acltype": "subscribePattern", "topic": "$SYS/#", "priority":0, "allow": True },
     {"acltype": "subscribePattern", "topic": "#", "priority":0, "allow": True},
     {"acltype": "unsubscribePattern", "topic": "#", "priority":0, "allow": True}]},
-    {'rolename': 'basic', 'textname': 'name', 'textdescription': 'desc', 'acls':
+    {'rolename': 'basic', 'textname': 'name', 'textdescription': 'desc', 'allowwildcardsubs': True, 'acls':
     [{'acltype':'publishClientSend', 'topic': 'out/#', 'priority': 3, 'allow': True},
     {'acltype':'subscribeLiteral', 'topic': 'basic/out', 'priority': 1, 'allow': True}]},
-    {'rolename': 'basic2', "textname": "name", "textdescription": "desc",
+    {'rolename': 'basic2', "textname": "name", "textdescription": "desc", 'allowwildcardsubs': True,
     'acls': [{'acltype':'publishClientSend', 'topic': 'out/#', 'priority': 3, 'allow': True}]
     }]}, 'correlationData': '22'}]}
 
 get_role_command = {"commands": [{'command': "getRole", "rolename":"basic"}]}
 get_role_response = {'responses': [{'command': 'getRole', 'data': {'role':
-    {'rolename': 'basic', 'textname': 'name', 'textdescription': 'desc', 'acls':
+    {'rolename': 'basic', 'textname': 'name', 'textdescription': 'desc', 'allowwildcardsubs': True, 'acls':
     [{'acltype':'publishClientSend', 'topic': 'out/#', 'priority': 3, 'allow': True},
     {'acltype':'subscribeLiteral', 'topic': 'basic/out', 'priority': 1, 'allow': True}],
     }}}]}

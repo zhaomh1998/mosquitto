@@ -305,6 +305,14 @@ int dynsec_roles__config_load(cJSON *tree)
 				}
 			}
 
+			/* Allow wildcard subs */
+			jtmp = cJSON_GetObjectItem(j_role, "allowwildcardsubs");
+			if(jtmp != NULL && cJSON_IsBool(jtmp)){
+				role->allow_wildcard_subs = cJSON_IsTrue(jtmp);
+			}else{
+				role->allow_wildcard_subs = true;
+			}
+
 			/* ACLs */
 			j_acls = cJSON_GetObjectItem(j_role, "acls");
 			if(j_acls && cJSON_IsArray(j_acls)){
@@ -335,6 +343,7 @@ int dynsec_roles__process_create(cJSON *j_responses, struct mosquitto *context, 
 {
 	char *rolename;
 	char *text_name, *text_description;
+	bool allow_wildcard_subs;
 	struct dynsec__role *role;
 	int rc = MOSQ_ERR_SUCCESS;
 	cJSON *j_acls;
@@ -356,6 +365,11 @@ int dynsec_roles__process_create(cJSON *j_responses, struct mosquitto *context, 
 
 	if(json_get_string(command, "textdescription", &text_description, true) != MOSQ_ERR_SUCCESS){
 		dynsec__command_reply(j_responses, context, "createRole", "Invalid/missing textdescription", correlation_data);
+		return MOSQ_ERR_INVAL;
+	}
+
+	if(json_get_bool(command, "allowwildcardsubs", &allow_wildcard_subs, true, true) != MOSQ_ERR_SUCCESS){
+		dynsec__command_reply(j_responses, context, "createRole", "Invalid allowwildcardsubs", correlation_data);
 		return MOSQ_ERR_INVAL;
 	}
 
@@ -392,6 +406,7 @@ int dynsec_roles__process_create(cJSON *j_responses, struct mosquitto *context, 
 			goto error;
 		}
 	}
+	role->allow_wildcard_subs = allow_wildcard_subs;
 
 	/* ACLs */
 	j_acls = cJSON_GetObjectItem(command, "acls");
@@ -505,6 +520,7 @@ static cJSON *add_role_to_json(struct dynsec__role *role, bool verbose)
 		if(cJSON_AddStringToObject(j_role, "rolename", role->rolename) == NULL
 				|| (role->text_name && cJSON_AddStringToObject(j_role, "textname", role->text_name) == NULL)
 				|| (role->text_description && cJSON_AddStringToObject(j_role, "textdescription", role->text_description) == NULL)
+				|| cJSON_AddBoolToObject(j_role, "allowwildcardsubs", role->allow_wildcard_subs) == NULL
 				){
 
 			cJSON_Delete(j_role);
@@ -825,6 +841,8 @@ int dynsec_roles__process_modify(cJSON *j_responses, struct mosquitto *context, 
 	struct dynsec__role *role;
 	char *str;
 	cJSON *j_acls;
+	bool allow_wildcard_subs;
+	bool do_kick = false;
 	struct dynsec__acl *tmp_publish_c_send = NULL, *tmp_publish_c_recv = NULL;
 	struct dynsec__acl *tmp_subscribe_literal = NULL, *tmp_subscribe_pattern = NULL;
 	struct dynsec__acl *tmp_unsubscribe_literal = NULL, *tmp_unsubscribe_pattern = NULL;
@@ -865,6 +883,13 @@ int dynsec_roles__process_modify(cJSON *j_responses, struct mosquitto *context, 
 		role->text_description = str;
 	}
 
+	if(json_get_bool(command, "allowwildcardsubs", &allow_wildcard_subs, false, true) == MOSQ_ERR_SUCCESS){
+		if(role->allow_wildcard_subs != allow_wildcard_subs){
+			role->allow_wildcard_subs = allow_wildcard_subs;
+			do_kick = true;
+		}
+	}
+
 	j_acls = cJSON_GetObjectItem(command, "acls");
 	if(j_acls && cJSON_IsArray(j_acls)){
 		if(dynsec_roles__acl_load(j_acls, ACL_TYPE_PUB_C_SEND, &tmp_publish_c_send) != 0
@@ -900,8 +925,12 @@ int dynsec_roles__process_modify(cJSON *j_responses, struct mosquitto *context, 
 		role->acls.subscribe_pattern = tmp_subscribe_pattern;
 		role->acls.unsubscribe_literal = tmp_unsubscribe_literal;
 		role->acls.unsubscribe_pattern = tmp_unsubscribe_pattern;
+		do_kick = true;
 	}
 
+	if(do_kick){
+		role__kick_all(role);
+	}
 	dynsec__config_save();
 
 	dynsec__command_reply(j_responses, context, "modifyRole", NULL, correlation_data);

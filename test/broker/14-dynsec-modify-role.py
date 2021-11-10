@@ -48,7 +48,7 @@ create_role_response = {'responses': [{'command': 'createRole', 'correlationData
 
 modify_role_command = { "commands": [{
     "command": "modifyRole", "rolename": "role_one",
-    "textname": "Modified name", "textdescription": "Modified description",
+    "textname": "Modified name", "textdescription": "Modified description", 'allowwildcardsubs': False,
     "acls":[
         {
             "acltype": "publishClientReceive",
@@ -70,7 +70,7 @@ modify_role_response = {'responses': [{'command': 'modifyRole', 'correlationData
 
 get_role_command1 = { "commands": [{"command": "getRole", "rolename": "role_one"}]}
 get_role_response1 = {'responses':[{'command': 'getRole', 'data': {'role': {'rolename': 'role_one',
-    'textname': 'Name', 'textdescription': 'Description',
+    'textname': 'Name', 'textdescription': 'Description', 'allowwildcardsubs': True,
     'acls': [
         {
             "acltype": "publishClientSend",
@@ -89,7 +89,7 @@ get_role_response1 = {'responses':[{'command': 'getRole', 'data': {'role': {'rol
 get_role_command2 = { "commands": [{
     "command": "getRole", "rolename": "role_one"}]}
 get_role_response2 = {'responses':[{'command': 'getRole', 'data': {'role': {'rolename': 'role_one',
-    'textname': 'Modified name', 'textdescription': 'Modified description',
+    'textname': 'Modified name', 'textdescription': 'Modified description', 'allowwildcardsubs': False,
     'acls': [
         {
             "acltype": "publishClientReceive",

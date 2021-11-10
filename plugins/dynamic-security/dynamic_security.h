@@ -120,6 +120,7 @@ struct dynsec__role{
 	char *rolename;
 	char *text_name;
 	char *text_description;
+	bool allow_wildcard_subs;
 };
 
 struct dynsec__acl_default_access{

@@ -232,6 +232,7 @@ endif
 ifeq ($(WITH_TLS),yes)
 ifeq ($(WITH_CJSON),yes)
 	./14-dynsec-acl.py
+	./14-dynsec-allow-wildcard.py
 	./14-dynsec-anon-group.py
 	./14-dynsec-auth.py
 	./14-dynsec-client.py
