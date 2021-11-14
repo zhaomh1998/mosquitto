@@ -582,6 +582,7 @@ struct mosquitto__bridge{
 	int threshold;
 	uint32_t maximum_packet_size;
 	uint32_t session_expiry_interval;
+	uint16_t receive_maximum;
 	bool lazy_reconnect;
 	bool attempt_unsubscribe;
 	bool initial_notification_done;

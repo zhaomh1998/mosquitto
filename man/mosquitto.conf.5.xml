@@ -1829,6 +1829,19 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
+				<term><option>bridge_receive_maximum</option> <replaceable>count</replaceable></term>
+				<listitem>
+					<para>
+						If the bridge is using MQTT v5.0 then use
+						<option>bridge_receive_maximum</option>
+						to limit the number QoS 1 or 2 messages that can be
+						in-flight at once. Must be 1-65535. Defaults to
+						<option>max_inflight_messages</options>, which defaults
+						to 20.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
 				<term><option>bridge_session_expiry_interval</option> <replaceable>interval</replaceable></term>
 				<listitem>
 					<para>
