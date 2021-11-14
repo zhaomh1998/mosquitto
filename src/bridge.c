@@ -162,7 +162,7 @@ void bridge__start_all(void)
 		ret = bridge__connect(context);
 #endif
 
-		if (ret){
+		if (ret && ret != MOSQ_ERR_CONN_PENDING){
 			log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Unable to connect bridge %s.",
 					context->bridge->name);
 		}
