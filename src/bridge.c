@@ -366,7 +366,9 @@ static int bridge__connect_step2(struct mosquitto *context)
 int bridge__connect_step3(struct mosquitto *context)
 {
 	int rc;
-	mosquitto_property topic_alias_max, *topic_alias_max_prop = NULL;
+	mosquitto_property topic_alias_max;
+	mosquitto_property session_expiry_interval;
+	mosquitto_property *properties = NULL;
 
 	rc = net__socket_connect_step3(context, context->bridge->addresses[context->bridge->cur_address].address);
 	if(rc > 0){
@@ -394,14 +396,21 @@ int bridge__connect_step3(struct mosquitto *context)
 #endif
 
 	if(context->bridge->max_topic_alias != 0){
-		topic_alias_max.next = NULL;
 		topic_alias_max.value.i16 = context->bridge->max_topic_alias;
 		topic_alias_max.identifier = MQTT_PROP_TOPIC_ALIAS_MAXIMUM;
 		topic_alias_max.client_generated = false;
-		topic_alias_max_prop = &topic_alias_max;
+		topic_alias_max.next = properties;
+		properties = &topic_alias_max;
+	}
+	if(context->bridge->session_expiry_interval != 0){
+		session_expiry_interval.value.i32 = context->bridge->session_expiry_interval;
+		session_expiry_interval.identifier = MQTT_PROP_SESSION_EXPIRY_INTERVAL;
+		session_expiry_interval.client_generated = false;
+		session_expiry_interval.next = properties;
+		properties = &session_expiry_interval;
 	}
 
-	rc = send__connect(context, context->keepalive, context->clean_start, topic_alias_max_prop);
+	rc = send__connect(context, context->keepalive, context->clean_start, properties);
 	if(rc == MOSQ_ERR_SUCCESS){
 		return MOSQ_ERR_SUCCESS;
 	}else if(rc == MOSQ_ERR_ERRNO && errno == ENOTCONN){
@@ -429,7 +438,9 @@ int bridge__connect(struct mosquitto *context)
 	uint8_t notification_payload;
 	struct mosquitto__bridge_topic *cur_topic;
 	uint8_t qos;
-	mosquitto_property topic_alias_max, *topic_alias_max_prop = NULL;
+	mosquitto_property topic_alias_max;
+	mosquitto_property session_expiry_interval;
+	mosquitto_property *properties = NULL;
 
 	if(!context || !context->bridge) return MOSQ_ERR_INVAL;
 
@@ -550,14 +561,21 @@ int bridge__connect(struct mosquitto *context)
 #endif
 
 	if(context->bridge->max_topic_alias){
-		topic_alias_max.next = NULL;
 		topic_alias_max.value.i16 = context->bridge->max_topic_alias;
 		topic_alias_max.identifier = MQTT_PROP_TOPIC_ALIAS_MAXIMUM;
 		topic_alias_max.client_generated = false;
-		topic_alias_max_prop = &topic_alias_max;
+		topic_alias_max.next = properties;
+		properties = &topic_alias_max;
+	}
+	if(context->bridge->session_expiry_interval != 0){
+		session_expiry_interval.value.i32 = context->bridge->session_expiry_interval;
+		session_expiry_interval.identifier = MQTT_PROP_SESSION_EXPIRY_INTERVAL;
+		session_expiry_interval.client_generated = false;
+		session_expiry_interval.next = properties;
+		properties = &session_expiry_interval;
 	}
 
-	rc2 = send__connect(context, context->keepalive, context->clean_start, topic_alias_max_prop);
+	rc2 = send__connect(context, context->keepalive, context->clean_start, properties);
 	if(rc2 == MOSQ_ERR_SUCCESS){
 		return rc;
 	}else if(rc2 == MOSQ_ERR_ERRNO && errno == ENOTCONN){

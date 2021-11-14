@@ -85,6 +85,7 @@ Broker:
 - Allow multiple instances of mosquitto to run as services on Windows. See
   README-windows.txt.
 - Add ability to deny wildcard subscriptions for a role to the dynsec plugin.
+- Add bridge_session_expiry_interval option for MQTT v5.0 bridges.
 
 Client library:
 - Add MOSQ_OPT_DISABLE_SOCKETPAIR to allow the disabling of the socketpair

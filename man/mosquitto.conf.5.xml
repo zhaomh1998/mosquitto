@@ -1829,6 +1829,21 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
+				<term><option>bridge_session_expiry_interval</option> <replaceable>interval</replaceable></term>
+				<listitem>
+					<para>
+						If the bridge is using MQTT v5.0 then use
+						<option>bridge_session_expiry_interval</option>
+						to set the session expiry interval. Set to
+						<replaceable>0</replaceable> to have the session expire
+						immediately when the connection drops. Set to
+						<replaceable>0xFFFFFFFF</replaceable> to have an infinite
+						expiry interval. Otherwise the expiry interval is set to
+						the number of seconds that you specify. Defaults to 0.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
 				<term><option>bridge_tcp_keepalive</option> <replaceable>idle</replaceable> <replaceable>interval</replaceable> <replaceable>counter</replaceable></term>
 				<listitem>
                     <para>
