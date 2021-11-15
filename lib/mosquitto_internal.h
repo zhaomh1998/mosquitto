@@ -72,6 +72,8 @@ typedef SOCKET mosq_sock_t;
 typedef int mosq_sock_t;
 #endif
 
+#define SAFE_PRINT(A) (A)?(A):"null"
+
 enum mosquitto_msg_direction {
 	mosq_md_in = 0,
 	mosq_md_out = 1
