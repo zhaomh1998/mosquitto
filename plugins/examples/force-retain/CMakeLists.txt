@@ -1,8 +1,10 @@
-add_library(mosquitto_force_retain MODULE
-	mosquitto_force_retain.c
+set (PLUGIN_NAME mosquitto_force_retain)
+
+add_library(${PLUGIN_NAME} MODULE
+	${PLUGIN_NAME}.c
 )
 
-target_include_directories(mosquitto_force_retain PRIVATE
+target_include_directories(${PLUGIN_NAME} PRIVATE
 	"${OPENSSL_INCLUDE_DIR}"
 	"${STDBOOL_H_PATH}"
 	"${STDINT_H_PATH}"
@@ -12,13 +14,13 @@ target_include_directories(mosquitto_force_retain PRIVATE
 
 link_directories(${mosquitto_SOURCE_DIR})
 
-set_target_properties(mosquitto_force_retain PROPERTIES
+set_target_properties(${PLUGIN_NAME} PROPERTIES
 	PREFIX ""
 	POSITION_INDEPENDENT_CODE 1
 )
 if(WIN32)
-	target_link_libraries(mosquitto_force_retain mosquitto)
+	target_link_libraries(${PLUGIN_NAME} mosquitto)
 endif()
 
 # Don't install, these are example plugins only.
-#install(TARGETS mosquitto_force_retain RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+#install(TARGETS ${PLUGIN_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")

@@ -1,8 +1,10 @@
-add_library(mosquitto_delayed_auth MODULE
-	mosquitto_delayed_auth.c
+set (PLUGIN_NAME mosquitto_delayed_auth)
+
+add_library(${PLUGIN_NAME} MODULE
+	${PLUGIN_NAME}.c
 )
 
-target_include_directories(mosquitto_delayed_auth PRIVATE
+target_include_directories(${PLUGIN_NAME} PRIVATE
 	"${STDBOOL_H_PATH}"
 	"${STDINT_H_PATH}"
 	"${mosquitto_SOURCE_DIR}"
@@ -10,19 +12,19 @@ target_include_directories(mosquitto_delayed_auth PRIVATE
 )
 
 if(WITH_BUNDLED_DEPS)
-	target_include_directories(mosquitto_delayed_auth PRIVATE
-		"${mosquitto_SOURCE_DIR}/deps"
+	target_include_directories(${PLUGIN_NAME} PRIVATE
+		"${${PLUGIN_NAME}}/deps"
 	)
 endif()
 
-set_target_properties(mosquitto_delayed_auth PROPERTIES
+set_target_properties(${PLUGIN_NAME} PROPERTIES
 	PREFIX ""
 	POSITION_INDEPENDENT_CODE 1
 )
 
 if(WIN32)
-	target_link_libraries(mosquitto_delayed_auth mosquitto)
+	target_link_libraries(${PLUGIN_NAME} mosquitto)
 endif()
 
 # Don't install, these are example plugins only.
-#install(TARGETS mosquitto_delayed_auth RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+#install(TARGETS ${PLUGIN_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")

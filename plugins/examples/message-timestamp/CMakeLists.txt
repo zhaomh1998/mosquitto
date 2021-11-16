@@ -1,8 +1,10 @@
-add_library(mosquitto_message_timestamp MODULE
-	mosquitto_message_timestamp.c
+set (PLUGIN_NAME mosquitto_message_timestamp)
+
+add_library(${PLUGIN_NAME} MODULE
+	${PLUGIN_NAME}.c
 )
 
-target_include_directories(mosquitto_message_timestamp PRIVATE
+target_include_directories(${PLUGIN_NAME} PRIVATE
 	"${OPENSSL_INCLUDE_DIR}"
 	"${STDBOOL_H_PATH}"
 	"${STDINT_H_PATH}"
@@ -10,14 +12,14 @@ target_include_directories(mosquitto_message_timestamp PRIVATE
 	"${mosquitto_SOURCE_DIR}/include"
 )
 
-set_target_properties(mosquitto_message_timestamp PROPERTIES
+set_target_properties(${PLUGIN_NAME} PROPERTIES
 	PREFIX ""
 	POSITION_INDEPENDENT_CODE 1
 )
 
 if(WIN32)
-	target_link_libraries(mosquitto_message_timestamp mosquitto)
+	target_link_libraries(${PLUGIN_NAME} mosquitto)
 endif()
 
 # Don't install, these are example plugins only.
-#install(TARGETS mosquitto_message_timestamp RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+#install(TARGETS ${PLUGIN_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")

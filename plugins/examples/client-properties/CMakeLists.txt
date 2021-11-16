@@ -1,8 +1,10 @@
-add_library(mosquitto_client_properties MODULE
-	mosquitto_client_properties.c
+set (PLUGIN_NAME mosquitto_client_properties)
+
+add_library(${PLUGIN_NAME} MODULE
+	${PLUGIN_NAME}.c
 )
 
-target_include_directories(mosquitto_client_properties PRIVATE
+target_include_directories(${PLUGIN_NAME} PRIVATE
 	"${STDBOOL_H_PATH}"
 	"${STDINT_H_PATH}"
 	"${mosquitto_SOURCE_DIR}"
@@ -11,14 +13,14 @@ target_include_directories(mosquitto_client_properties PRIVATE
 
 link_directories(${mosquitto_SOURCE_DIR})
 
-set_target_properties(mosquitto_client_properties PROPERTIES
+set_target_properties(${PLUGIN_NAME} PROPERTIES
 	PREFIX ""
 	POSITION_INDEPENDENT_CODE 1
 )
 
 if(WIN32)
-	target_link_libraries(mosquitto_client_properties mosquitto)
+	target_link_libraries(${PLUGIN_NAME} mosquitto)
 endif()
 
 # Don't install, these are example plugins only.
-#install(TARGETS mosquitto_client_properties RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+#install(TARGETS ${PLUGIN_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
