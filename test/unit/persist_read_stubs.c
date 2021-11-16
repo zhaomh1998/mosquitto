@@ -197,3 +197,11 @@ void db__msg_add_to_queued_stats(struct mosquitto_msg_data *msg_data, struct mos
 	UNUSED(msg_data);
 	UNUSED(msg);
 }
+
+void context__add_to_by_id(struct mosquitto *context)
+{
+	if(context->in_by_id == false){
+		context->in_by_id = true;
+		HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, context->id, strlen(context->id), context);
+	}
+}
