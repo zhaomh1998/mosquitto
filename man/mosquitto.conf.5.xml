@@ -1836,7 +1836,7 @@ openssl dhparam -out dhparam.pem 2048</programlisting>
 						<option>bridge_receive_maximum</option>
 						to limit the number QoS 1 or 2 messages that can be
 						in-flight at once. Must be 1-65535. Defaults to
-						<option>max_inflight_messages</options>, which defaults
+						<option>max_inflight_messages</option>, which defaults
 						to 20.
 					</para>
 				</listitem>
