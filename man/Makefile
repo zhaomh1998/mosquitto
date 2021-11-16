@@ -38,7 +38,7 @@ install :
 	$(INSTALL) -m 644 mosquitto_pub.1 "${DESTDIR}${mandir}/man1/mosquitto_pub.1"
 	$(INSTALL) -m 644 mosquitto_sub.1 "${DESTDIR}${mandir}/man1/mosquitto_sub.1"
 	$(INSTALL) -m 644 mosquitto_rr.1 "${DESTDIR}${mandir}/man1/mosquitto_rr.1"
-	$(INSTALL) -m 644 mosquitto_rr.1 "${DESTDIR}${mandir}/man1/mosquitto_bridge.1"
+	$(INSTALL) -m 644 mosquitto_bridge.1 "${DESTDIR}${mandir}/man1/mosquitto_bridge.1"
 	$(INSTALL) -d "${DESTDIR}$(mandir)/man7"
 	$(INSTALL) -m 644 mqtt.7 "${DESTDIR}${mandir}/man7/mqtt.7"
 	$(INSTALL) -m 644 mosquitto-tls.7 "${DESTDIR}${mandir}/man7/mosquitto-tls.7"
