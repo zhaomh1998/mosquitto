@@ -333,11 +333,6 @@ ifeq ($(WITH_WEBSOCKETS),yes)
 	BROKER_LDADD:=$(BROKER_LDADD) -lwebsockets
 endif
 
-ifeq ($(WITH_WEBSOCKETS),static)
-	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_WEBSOCKETS
-	BROKER_LDADD:=$(BROKER_LDADD) -static -lwebsockets
-endif
-
 INSTALL?=install
 prefix?=/usr/local
 incdir?=${prefix}/include
