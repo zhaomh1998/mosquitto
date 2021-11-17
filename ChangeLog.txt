@@ -7,6 +7,7 @@ Broker:
 Client library:
 - Fix mosquitto_topic_matches_sub2() not using the length parameters.
   Closes #2364.
+- Fix incorrect subscribe_callback in mosquittopp.h. Closes #2367.
 
 
 2.0.13 - 2021-10-27
