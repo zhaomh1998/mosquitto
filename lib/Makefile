@@ -186,7 +186,7 @@ password_mosq.o : ../src/password_mosq.c net_mosq.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 picohttpparser.o : ../deps/picohttpparser/picohttpparser.c ../deps/picohttpparser/picohttpparser.h
-	${CROSS_COMPILE}${CC} $(BROKER_CPPFLAGS) $(BROKER_CFLAGS) -c $< -o $@
+	${CROSS_COMPILE}${CC} $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
 
 net_ws.o : net_ws.c net_mosq.h
 	${CROSS_COMPILE}$(CC) $(LIB_CPPFLAGS) $(LIB_CFLAGS) -c $< -o $@
