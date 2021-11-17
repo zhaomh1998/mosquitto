@@ -68,11 +68,9 @@ WITH_SRV:=no
 
 # Build with websockets support on the broker.
 # Set to yes to build with new websockets support
-#    You will need to run `git clone https://github.com/h2o/picohttpparser` in
-#    the `deps/` directory.
 # Set to lws to build with old libwebsockets code
 # Set to no to disable
-WITH_WEBSOCKETS:=no
+WITH_WEBSOCKETS:=yes
 
 # Use elliptic keys in broker
 WITH_EC:=yes
