@@ -258,6 +258,12 @@ struct ws_data{
 };
 #endif
 
+struct client_stats{
+	uint64_t messages_received;
+	uint64_t messages_sent;
+	uint64_t messages_dropped;
+};
+
 struct mosquitto {
 #if defined(WITH_BROKER) && (defined(WITH_EPOLL) || defined(WITH_KQUEUE))
 	/* This *must* be the first element in the struct. */
@@ -420,6 +426,7 @@ struct mosquitto {
 	struct mosquitto *keepalive_next;
 	struct mosquitto *keepalive_prev;
 #  endif
+	struct client_stats stats;
 #endif
 #ifdef WITH_EPOLL
 	uint32_t events;

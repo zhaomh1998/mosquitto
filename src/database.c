@@ -432,6 +432,8 @@ int db__message_insert_incoming(struct mosquitto *context, uint64_t cmsg_id, str
 					context->id);
 		}
 		G_MSGS_DROPPED_INC();
+		context->stats.messages_dropped++;
+
 		return 2;
 	}
 
@@ -492,6 +494,8 @@ int db__message_insert_outgoing(struct mosquitto *context, uint64_t cmsg_id, uin
 	assert(stored);
 	if(!context) return MOSQ_ERR_INVAL;
 	if(!context->id) return MOSQ_ERR_SUCCESS; /* Protect against unlikely "client is disconnected but not entirely freed" scenario */
+
+	context->stats.messages_sent++;
 
 	msg_data = &context->msgs_out;
 

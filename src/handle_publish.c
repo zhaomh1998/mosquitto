@@ -57,6 +57,8 @@ int handle__publish(struct mosquitto *context)
 		return MOSQ_ERR_PROTOCOL;
 	}
 
+	context->stats.messages_received++;
+
 	msg = mosquitto__calloc(1, sizeof(struct mosquitto_msg_store));
 	if(msg == NULL){
 		return MOSQ_ERR_NOMEM;

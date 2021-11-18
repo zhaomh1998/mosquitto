@@ -60,11 +60,15 @@ static void client_cost(FILE *fptr, struct mosquitto *context, int fn_index)
 	if(context->id){
 		tBytes += (long)strlen(context->id);
 	}
-	fprintf(fptr, "%d %ld %lu %lu %lu %lu %d 0 0\n", fn_index,
+	fprintf(fptr, "%d %ld %lu %lu %lu %lu %d 0 0 %" PRIu64 " %" PRIu64 " %" PRIu64 "\n", fn_index,
 			tBytes,
 			pkt_count, cmsg_count,
 			pkt_bytes, cmsg_bytes,
-			context->sock == INVALID_SOCKET?0:context->sock);
+			context->sock == INVALID_SOCKET?0:context->sock,
+			context->stats.messages_sent,
+			context->stats.messages_received,
+			context->stats.messages_dropped
+			);
 }
 
 static void report_subscriptions(FILE *fptr, struct mosquitto *context, int *fn_index_max)
@@ -104,7 +108,7 @@ static void report_subscriptions(FILE *fptr, struct mosquitto *context, int *fn_
 			}
 
 			fprintf(fptr, "calls=1 %d\n", *fn_index_max);
-			fprintf(fptr, "1 0 0 0 0 0 0 1 0\n");
+			fprintf(fptr, "1 0 0 0 0 0 0 1 0 0 0 0\n");
 			(*fn_index_max)++;
 		}
 	}
@@ -141,10 +145,13 @@ void xtreport(void)
 	fprintf(fptr, "event: sock : client socket number\n");
 	fprintf(fptr, "event: sub : client subscriptions\n");
 	fprintf(fptr, "event: refc : message store ref counts\n");
-	fprintf(fptr, "events: tB pkt cmsg pktB cmsgB sock sub refc\n");
+	fprintf(fptr, "event: msgS : client message sent count\n");
+	fprintf(fptr, "event: msgR : client message received count\n");
+	fprintf(fptr, "event: msgD : client message dropped count\n");
+	fprintf(fptr, "events: tB pkt cmsg pktB cmsgB sock sub refc msgS msgR msgD\n");
 
 	fprintf(fptr, "\nfn=(1) clients\n");
-	fprintf(fptr, "1 0 0 0 0 0 0 0 0\n");
+	fprintf(fptr, "1 0 0 0 0 0 0 0 0 0 0 0\n");
 
 	fn_index = 2;
 	HASH_ITER(hh_id, db.contexts_by_id, context, ctxt_tmp){
@@ -169,14 +176,14 @@ void xtreport(void)
 	}
 
 	fprintf(fptr, "\nfn=(%d) messages\n", fn_index_max);
-	fprintf(fptr, "1 0 0 0 0 0 0 0 0\n");
+	fprintf(fptr, "1 0 0 0 0 0 0 0 0 0 0 0\n");
 
 	struct mosquitto_msg_store *msg_store, *msg_store_tmp;
 
 	HASH_ITER(hh, db.msg_store, msg_store, msg_store_tmp){
 		fprintf(fptr, "cfn=(%d) %" PRIu64 "\n", fn_index_max, msg_store->db_id);
 		fprintf(fptr, "calls=%d %d\n", msg_store->ref_count, fn_index_max);
-		fprintf(fptr, "%d 0 0 0 0 0 0 0 %d\n", fn_index_max, msg_store->ref_count);
+		fprintf(fptr, "%d 0 0 0 0 0 0 0 %d 0 0 0\n", fn_index_max, msg_store->ref_count);
 
 		fn_index_max++;
 	}
