@@ -54,10 +54,12 @@ if(CJSON_FOUND AND WITH_TLS)
 	target_link_libraries(mosquitto_dynamic_security ${CJSON_LIBRARIES} ${OPENSSL_LIBRARIES})
 	if(WIN32)
 		target_link_libraries(mosquitto_dynamic_security mosquitto)
+		install(TARGETS mosquitto_dynamic_security
+			DESTINATION "${CMAKE_INSTALL_BINDIR}")
+	else()
+		install(TARGETS mosquitto_dynamic_security
+			RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+			LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 	endif()
 
-	install(TARGETS mosquitto_dynamic_security
-		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-		LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-	)
 endif()

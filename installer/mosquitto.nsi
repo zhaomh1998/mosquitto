@@ -11,7 +11,7 @@ SetCompressor /SOLID lzma
 !define env_hklm 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
 
 Name "Eclipse Mosquitto"
-!define VERSION 2.0.13
+!define VERSION 2.0.14
 OutFile "mosquitto-${VERSION}-install-windows-x86.exe"
 
 InstallDir "$PROGRAMFILES\Mosquitto"

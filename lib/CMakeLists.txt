@@ -114,13 +114,12 @@ set_target_properties(libmosquitto PROPERTIES
 
 install(TARGETS libmosquitto
 	RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+	ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 	LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )
 
 if(WITH_STATIC_LIBRARIES)
-	add_library(libmosquitto_static STATIC
-		${C_SRC}
-	)
+	add_library(libmosquitto_static STATIC ${C_SRC})
 	if(WITH_PIC)
 		set_target_properties(libmosquitto_static PROPERTIES
 			POSITION_INDEPENDENT_CODE 1

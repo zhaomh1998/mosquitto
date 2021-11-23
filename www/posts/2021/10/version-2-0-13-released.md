@@ -9,10 +9,7 @@
 .. type: text
 -->
 
-Versions 2.0.13 of Mosquitto has been released. This is a and bugfix release.
-
-2.0.13 - 2021-10-27
-===================
+Version 2.0.13 of Mosquitto has been released. This is a bugfix release.
 
 # Broker
 - Fix `max_keepalive` option not being able to be set to 0.
