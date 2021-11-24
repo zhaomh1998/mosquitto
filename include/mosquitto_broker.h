@@ -634,7 +634,19 @@ mosq_EXPORT int mosquitto_broker_publish_copy(
  */
 mosq_EXPORT void mosquitto_complete_basic_auth(const char* client_id, int result);
 
-int mosquitto_broker_node_id_set(uint16_t id);
+
+/* Function: mosquitto_broker_node_id_set
+ *
+ * Set a node ID for this broker between 0-1023 inclusive. This is used to help
+ * generate unique client message IDs and hence can be useful for persistence
+ * plugins where brokers are sharing a database. It is down to the plugin to ensure
+ * this ID is unique.
+ *
+ * Result:
+ *  MOSQ_ERR_SUCCESS - on success
+ *  MOSQ_ERR_INVAL - the value was > 1023.
+ */
+mosq_EXPORT int mosquitto_broker_node_id_set(uint16_t id);
 
 #ifdef __cplusplus
 }
