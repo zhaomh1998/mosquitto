@@ -216,6 +216,9 @@ struct mosquitto_evt_persist_client {
 	const char *client_id;
 	const char *username;
 	const struct mosquitto_message_v5 *will;
+	char *plugin_client_id;
+	char *plugin_username;
+	struct mosquitto_message_v5 *plugin_will;
 	time_t will_delay_time; /* update */
 	time_t session_expiry_time; /* update */
 	uint32_t will_delay_interval;
@@ -235,6 +238,8 @@ struct mosquitto_evt_persist_client {
 struct mosquitto_evt_persist_subscription {
 	const char *client_id;
 	const char *topic;
+	char *plugin_client_id;
+	char *plugin_topic;
 	uint32_t subscription_identifier;
 	uint8_t subscription_options;
 	uint8_t padding[3];
@@ -247,6 +252,7 @@ struct mosquitto_evt_persist_subscription {
  * it may change in a future minor release. */
 struct mosquitto_evt_persist_client_msg {
 	const char *client_id;
+	char *plugin_client_id;
 	uint64_t cmsg_id;
 	uint64_t store_id;
 	uint32_t subscription_identifier;
@@ -271,6 +277,10 @@ struct mosquitto_evt_persist_msg {
 	const void *payload;
 	const char *source_id;
 	const char *source_username;
+	char *plugin_topic;
+	void *plugin_payload;
+	char *plugin_source_id;
+	char *plugin_source_username;
 	const mosquitto_property *properties;
 	uint32_t payloadlen;
 	uint16_t source_mid;
@@ -287,6 +297,7 @@ struct mosquitto_evt_persist_msg {
  * it may change in a future minor release. */
 struct mosquitto_evt_persist_retain {
 	const char *topic;
+	char *plugin_topic;
 	uint64_t store_id;
 	void *future[8];
 };

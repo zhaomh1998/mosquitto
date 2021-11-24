@@ -391,10 +391,10 @@ int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *clie
 	struct mosquitto *context;
 	int i;
 
-	if(client == NULL || client->client_id == NULL) return MOSQ_ERR_INVAL;
+	if(client == NULL || client->plugin_client_id == NULL) return MOSQ_ERR_INVAL;
 
 	context = NULL;
-	HASH_FIND(hh_id, db.contexts_by_id, client->client_id, strlen(client->client_id), context);
+	HASH_FIND(hh_id, db.contexts_by_id, client->plugin_client_id, strlen(client->plugin_client_id), context);
 	if(context){
 		return MOSQ_ERR_INVAL;
 	}
@@ -402,9 +402,9 @@ int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *clie
 	context = context__init();
 	if(!context) return MOSQ_ERR_NOMEM;
 
-	context->id = mosquitto__strdup(client->client_id);
-	if(client->username){
-		context->username = mosquitto__strdup(client->username);
+	context->id = mosquitto__strdup(client->plugin_client_id);
+	if(client->plugin_username){
+		context->username = mosquitto__strdup(client->plugin_username);
 		if(!context->username){
 			mosquitto__free(context->id);
 			mosquitto__free(context);
@@ -443,16 +443,16 @@ int mosquitto_persist_client_update(const struct mosquitto_evt_persist_client *c
 	int i;
 	char *username;
 
-	if(client == NULL || client->client_id == NULL) return MOSQ_ERR_INVAL;
+	if(client == NULL || client->plugin_client_id == NULL) return MOSQ_ERR_INVAL;
 
 	context = NULL;
-	HASH_FIND(hh_id, db.contexts_by_id, client->client_id, strlen(client->client_id), context);
+	HASH_FIND(hh_id, db.contexts_by_id, client->plugin_client_id, strlen(client->plugin_client_id), context);
 	if(context == NULL){
 		return MOSQ_ERR_INVAL;
 	}
 
-	if(client->username){
-		username = mosquitto__strdup(client->username);
+	if(client->plugin_username){
+		username = mosquitto__strdup(client->plugin_username);
 		if(!username){
 			return MOSQ_ERR_NOMEM;
 		}
@@ -523,10 +523,10 @@ int mosquitto_persist_client_msg_add(const struct mosquitto_evt_persist_client_m
 	struct mosquitto *context;
 	struct mosquitto_msg_store *stored;
 
-	if(client_msg == NULL || client_msg->client_id == NULL){
+	if(client_msg == NULL || client_msg->plugin_client_id == NULL){
 		return MOSQ_ERR_INVAL;
 	}
-	HASH_FIND(hh_id, db.contexts_by_id, client_msg->client_id, strlen(client_msg->client_id), context);
+	HASH_FIND(hh_id, db.contexts_by_id, client_msg->plugin_client_id, strlen(client_msg->plugin_client_id), context);
 	if(context == NULL){
 		return MOSQ_ERR_NOT_FOUND;
 	}
@@ -553,10 +553,10 @@ int mosquitto_persist_client_msg_remove(const struct mosquitto_evt_persist_clien
 	struct mosquitto *context;
 	struct mosquitto_msg_store *stored;
 
-	if(client_msg == NULL || client_msg->client_id == NULL){
+	if(client_msg == NULL || client_msg->plugin_client_id == NULL){
 		return MOSQ_ERR_INVAL;
 	}
-	HASH_FIND(hh_id, db.contexts_by_id, client_msg->client_id, strlen(client_msg->client_id), context);
+	HASH_FIND(hh_id, db.contexts_by_id, client_msg->plugin_client_id, strlen(client_msg->plugin_client_id), context);
 	if(context == NULL){
 		return MOSQ_ERR_NOT_FOUND;
 	}
@@ -581,10 +581,10 @@ int mosquitto_persist_client_msg_update(const struct mosquitto_evt_persist_clien
 {
 	struct mosquitto *context;
 
-	if(client_msg == NULL || client_msg->client_id == NULL){
+	if(client_msg == NULL || client_msg->plugin_client_id == NULL){
 		return MOSQ_ERR_INVAL;
 	}
-	HASH_FIND(hh_id, db.contexts_by_id, client_msg->client_id, strlen(client_msg->client_id), context);
+	HASH_FIND(hh_id, db.contexts_by_id, client_msg->plugin_client_id, strlen(client_msg->plugin_client_id), context);
 	if(context == NULL){
 		return MOSQ_ERR_NOT_FOUND;
 	}
@@ -644,12 +644,12 @@ int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg)
 	memset(&context, 0, sizeof(context));
 	memset(&stored, 0, sizeof(stored));
 
-	if(msg->source_id){
-		context.id = mosquitto__strdup(msg->source_id);
+	if(msg->plugin_source_id){
+		context.id = mosquitto__strdup(msg->plugin_source_id);
 		if(!context.id) return MOSQ_ERR_NOMEM;
 	}
-	if(msg->source_username){
-		context.username = mosquitto__strdup(msg->source_username);
+	if(msg->plugin_source_username){
+		context.username = mosquitto__strdup(msg->plugin_source_username);
 		if(!context.username) return MOSQ_ERR_NOMEM;
 	}
 
@@ -679,10 +679,10 @@ int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg)
 	if(stored->payload == NULL){
 		goto error;
 	}
-	memcpy(stored->payload, msg->payload, stored->payloadlen);
+	memcpy(stored->payload, msg->plugin_payload, stored->payloadlen);
 	((uint8_t *)stored->payload)[stored->payloadlen] = 0; /* Always zero terminate */
 
-	stored->topic = mosquitto_strdup(msg->topic);
+	stored->topic = mosquitto_strdup(msg->plugin_topic);
 	if(stored->topic == NULL){
 		goto error;
 	}
