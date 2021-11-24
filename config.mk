@@ -128,8 +128,9 @@ WITH_XTREPORT=no
 # check routine. See src/keepalive.c for notes on this.
 WITH_OLD_KEEPALIVE=no
 
-# Use link time optimisation
-WITH_LTO=yes
+# Use link time optimisation - note that enabling this currently prevents
+# broker plugins from working.
+WITH_LTO=no
 
 # =============================================================================
 # End of user configuration
