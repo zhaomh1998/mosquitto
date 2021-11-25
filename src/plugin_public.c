@@ -443,7 +443,8 @@ int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *clie
 		}
 	}
 
-	HASH_ADD_KEYPTR(hh_id, db.contexts_by_id, context->id, strlen(context->id), context);
+	context__add_to_by_id(context);
+
 	return MOSQ_ERR_SUCCESS;
 }
 
