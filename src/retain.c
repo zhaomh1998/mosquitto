@@ -78,13 +78,13 @@ int mosquitto_persist_retain_add(struct mosquitto_evt_persist_retain *msg)
 	char **split_topics = NULL;
 	char *local_topic = NULL;
 
-	if(msg == NULL || msg->topic == NULL) return MOSQ_ERR_INVAL;
+	if(msg == NULL || msg->plugin_topic == NULL) return MOSQ_ERR_INVAL;
 
 	HASH_FIND(hh, db.msg_store, &msg->store_id, sizeof(msg->store_id), stored);
 	if(stored){
-		if(sub__topic_tokenise(msg->topic, &local_topic, &split_topics, NULL)) return MOSQ_ERR_NOMEM;
+		if(sub__topic_tokenise(msg->plugin_topic, &local_topic, &split_topics, NULL)) return MOSQ_ERR_NOMEM;
 
-		rc = retain__store(msg->topic, stored, split_topics, false);
+		rc = retain__store(msg->plugin_topic, stored, split_topics, false);
 		mosquitto__free(split_topics);
 		mosquitto__free(local_topic);
 	}

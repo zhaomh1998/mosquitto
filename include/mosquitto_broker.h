@@ -284,6 +284,7 @@ struct mosquitto_evt_persist_msg {
 	char *plugin_source_id;
 	char *plugin_source_username;
 	const mosquitto_property *properties;
+	mosquitto_property *plugin_properties;
 	uint32_t payloadlen;
 	uint16_t source_mid;
 	uint16_t source_port;
@@ -773,19 +774,304 @@ mosq_EXPORT void mosquitto_complete_basic_auth(const char* client_id, int result
  */
 mosq_EXPORT int mosquitto_broker_node_id_set(uint16_t id);
 
+
+/* =================================================================
+ *
+ * Persistence interface
+ *
+ * ================================================================= */
+
 /* NOTE: The persistence interface is currently marked as unstable, which means
  * it may change in a future minor release. */
-int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *client);
-int mosquitto_persist_client_update(const struct mosquitto_evt_persist_client *client);
+
+
+/* Function: mosquitto_persist_client_add
+ *
+ * Use to add a new client session, in particular when restoring on starting
+ * the broker.
+ *
+ * Parameters:
+ *   client->plugin_client_id - the client id of the client to add
+ *          This must be allocated on the heap and becomes the property of the
+ *          broker immediately this call is made. Must not be NULL.
+ *   client->plugin_username - the username for the client session, or NULL. Must
+ *          be allocated on the heap and becomes the property of the broker
+ *          immediately this call is made.
+ *   client->plugin_auth_method - the MQTT v5 extended authentication method,
+ *          or NULL. Must be allocated on the heap and becomes the property of
+ *          the broker immediately this call is made.
+ *   client->clean_start - the new MQTT clean start parameter
+ *   client->will_delay_time - the actual will delay time for this client
+ *   client->session_expiry_time - the actual session expiry time for this
+ *          client
+ *   client->will_delay_interval - the MQTT v5 will delay interval for this
+ *          client
+ *   client->max_qos - the MQTT v5 maximum QoS parameter for this client
+ *   client->maximum_packet_size - the MQTT v5 maximum packet size parameter
+ *          for this client
+ *   client->retain_available - the MQTT v5 retain available parameter for this
+ *          client
+ *   client->listener_port - the listener port that this client last connected to
+ *
+ *   All other members of struct mosquitto_evt_persist_client are unused.
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client or client->plugin_client_id is NULL, or if a
+ *          client with the same ID already exists.
+ *   MOSQ_ERR_NOMEM - on out of memory
+ */
+int mosquitto_persist_client_add(struct mosquitto_evt_persist_client *client);
+
+
+/* Function: mosquitto_persist_client_update
+ *
+ * Use to update client session parameters
+ *
+ * Parameters:
+ *   client->plugin_client_id - the client id of the client to update
+ *          The broker will *not* modify this string and it remains the
+ *          property of the plugin.
+ *   client->username - the new username for the client session, or NULL. Must
+ *          be allocated on the heap and becomes the property of the broker
+ *          immediately this call is made.
+ *   client->clean_start - the new MQTT clean start parameter
+ *   client->will_delay_time - the actual will delay time for this client
+ *   client->session_expiry_time - the actual session expiry time for this
+ *          client
+ *   client->will_delay_interval - the MQTT v5 will delay interval for this
+ *          client
+ *   client->max_qos - the MQTT v5 maximum QoS parameter for this client
+ *   client->maximum_packet_size - the MQTT v5 maximum packet size parameter
+ *          for this client
+ *   client->retain_available - the MQTT v5 retain available parameter for this
+ *          client
+ *   client->listener_port - the listener port that this client last connected to
+ *
+ *   All other members of struct mosquitto_evt_persist_client are unused.
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client or client->plugin_client_id is NULL
+ *   MOSQ_ERR_NOT_FOUND - the client is not found
+ */
+int mosquitto_persist_client_update(struct mosquitto_evt_persist_client *client);
+
+
+/* Function: mosquitto_persist_client_remove
+ *
+ * Use to remove client session for a client from the broker
+ *
+ * Parameters:
+ *   client_id - the client id of the client to remove
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client_id is NULL
+ *   MOSQ_ERR_NOT_FOUND - the referenced client is not found
+ */
 int mosquitto_persist_client_remove(const char *client_id);
-int mosquitto_persist_client_msg_add(const struct mosquitto_evt_persist_client_msg *client_msg);
-int mosquitto_persist_client_msg_remove(const struct mosquitto_evt_persist_client_msg *client_msg);
-int mosquitto_persist_client_msg_update(const struct mosquitto_evt_persist_client_msg *client_msg);
-int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg);
+
+
+/* Function: mosquitto_persist_client_msg_add
+ *
+ * Use to add a client message for a particular client.
+ *
+ * Parameters:
+ *   client_msg->plugin_client_id - the client id of the client that the
+ *          message belongs to. The broker will *not* modify this string and it
+ *          remains the property of the plugin.
+ *   client_msg->store_id - the store ID of the stored message that this client
+ *          message references.
+ *   client_msg->cmsg_id - the client message id of the new message
+ *   client_msg->mid - the MQTT message id of the new message
+ *   client_msg->qos - the MQTT QoS of the new message
+ *   client_msg->direction - the direction of the new message from the perspective
+ *          of the broker (mosq_md_in / mosq_md_out)
+ *   client_msg->retain - the retain flag of the message
+ *   client_msg->subscription_identifier - the MQTT v5 subscription identifier,
+ *          for outgoing messages only.
+ *
+ *   All other members of struct mosquitto_evt_persist_client_msg are unused.
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client_msg or client_msg->plugin_client_id is NULL
+ *   MOSQ_ERR_NOT_FOUND - the client or stored message is not found
+ */
+int mosquitto_persist_client_msg_add(struct mosquitto_evt_persist_client_msg *client_msg);
+
+
+/* Function: mosquitto_persist_client_msg_remove
+ *
+ * Use to remove a client message for a particular client.
+ *
+ * Parameters:
+ *   client_msg->plugin_client_id - the client id of the client that the
+ *          message belongs to. The broker will *not* modify this string and it
+ *          remains the property of the plugin.
+ *   client_msg->cmsg_id - the client message id of the affected message
+ *   client_msg->mid - the MQTT message id of the affected message
+ *   client_msg->qos - the MQTT QoS of the affected message
+ *   client_msg->direction - the direction of the message from the perspective
+ *          of the broker (mosq_md_in / mosq_md_out)
+ *
+ *   All other members of struct mosquitto_evt_persist_client_msg are unused.
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client_msg or client_msg->plugin_client_id is NULL
+ *   MOSQ_ERR_NOT_FOUND - the client is not found
+ */
+int mosquitto_persist_client_msg_remove(struct mosquitto_evt_persist_client_msg *client_msg);
+
+
+/* Function: mosquitto_persist_client_msg_update
+ *
+ * Use to update the state of a client message for a particular client.
+ *
+ * Parameters:
+ *   client_msg->plugin_client_id - the client id of the client that the
+ *          message belongs to. The broker will *not* modify this string and it
+ *          remains the property of the plugin.
+ *   client_msg->cmsg_id - the client message id of the affected message
+ *   client_msg->mid - the MQTT message id of the affected message
+ *   client_msg->qos - the MQTT QoS of the affected message
+ *   client_msg->direction - the direction of the message from the perspective
+ *          of the broker (mosq_md_in / mosq_md_out)
+ *   client_msg->state - the new state of the message
+ *
+ *   All other members of struct mosquitto_evt_persist_client_msg are unused.
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client_msg or client_msg->plugin_client_id is NULL
+ *   MOSQ_ERR_NOT_FOUND - the client is not found
+ */
+int mosquitto_persist_client_msg_update(struct mosquitto_evt_persist_client_msg *client_msg);
+
+
+/* Function: mosquitto_persist_msg_add
+ *
+ * Use to add a new stored message. Any client messages or retained message
+ * refering to this stored message must be added afterwards.
+ *
+ * Parameters:
+ *   msg->store_id - the stored message ID
+ *   msg->plugin_source_id - the client id of the client that the
+ *          message originated with, or NULL.
+ *          The broker will *not* modify this string and it remains the
+ *          property of the plugin.
+ *   msg->plugin_source_username - the username of the client that the
+ *          message originated with, or NULL.
+ *          The broker will *not* modify this string and it remains the
+ *          property of the plugin.
+ *   msg->topic - the message topic.
+ *          Must be allocated on the heap and becomes the property of the
+ *          broker immediately this call is made.
+ *   msg->payload - the message payload.
+ *          Must be allocated on the heap and becomes the property of the
+ *          broker immediately this call is made.
+ *   msg->payloadlen - the length of the payload, in bytes
+ *   msg->expiry_time - the time at which the message expires, or 0.
+ *   msg->properties - list of MQTT v5 message properties for this message.
+ *          Must be allocated on the heap and becomes the property of the
+ *          broker immediately this call is made.
+ *   msg->retain - the message retain flag as delivered to the broker
+ *   msg->qos - the message QoS as delivered to the broker
+ *   msg->source_port - the network port number that the originating client was
+ *          connected to, or 0.
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_NOMEM - on out of memory
+ */
+int mosquitto_persist_msg_add(struct mosquitto_evt_persist_msg *msg);
+
+
+/* Function: mosquitto_persist_msg_remove
+ *
+ * Use to remove a stored message.
+ *
+ * Parameters:
+ *   store_id - the stored message ID
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ */
 int mosquitto_persist_msg_remove(uint64_t store_id);
+
+
+/* Function: mosquitto_persist_subscription_add
+ *
+ * Use to add a new subscription for a client
+ *
+ * Parameters:
+ *   client_id - the client id of the client the new subscription is for
+ *   topic - the topic filter for the subscription
+ *   subscription_options - the QoS and other flags for this subscription
+ *   subscription_identifier - the MQTT v5 subscription id, or 0
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client_id or topic are NULL, or are zero length
+ *   MOSQ_ERR_NOT_FOUND - the referenced client was not found
+ *   MOSQ_ERR_NOMEM - on out of memory
+ */
 int mosquitto_subscription_add(const char *client_id, const char *topic, uint8_t subscription_options, uint32_t subscription_identifier);
+
+
+/* Function: mosquitto_persist_subscription_remove
+ *
+ * Use to remove a subscription for a client
+ *
+ * Parameters:
+ *   client_id - the client id of the client the new subscription is for
+ *   topic - the topic filter for the subscription
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if client_id or topic are NULL, or are zero length
+ *   MOSQ_ERR_NOT_FOUND - the referenced client was not found
+ *   MOSQ_ERR_NOMEM - on out of memory
+ */
 int mosquitto_subscription_remove(const char *client_id, const char *topic);
+
+
+/* Function: mosquitto_persist_retain_add
+ *
+ * Use to add a retained message. It is not required to remove a retained
+ * message for an existing topic first.
+ *
+ * Parameters:
+ *   msg->plugin_topic - the topic that the message references
+ *          The broker will *not* modify this string and it remains the
+ *          property of the plugin.
+ *   msg->store_id - the store id of the stored message that is to be retained
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if msg or msg->plugin_topic are NULL
+ *   MOSQ_ERR_NOT_FOUND - the referenced stored message was not found
+ *   MOSQ_ERR_NOMEM - on out of memory
+ */
 int mosquitto_persist_retain_add(struct mosquitto_evt_persist_retain *retain);
+
+
+/* Function: mosquitto_persist_retain_remove
+ *
+ * Use to remove a retained message.
+ *
+ * Parameters:
+ *   msg->plugin_topic - the topic that the message references
+ *          The broker will *not* modify this string and it remains the
+ *          property of the plugin.
+ *
+ * Returns:
+ *   MOSQ_ERR_SUCCESS - on success
+ *   MOSQ_ERR_INVAL - if msg or msg->plugin_topic are NULL
+ *   MOSQ_ERR_NOMEM - on out of memory
+ */
 int mosquitto_persist_retain_remove(const char *topic);
 
 #ifdef __cplusplus

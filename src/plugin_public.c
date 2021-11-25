@@ -386,44 +386,40 @@ int mosquitto_kick_client_by_username(const char *username, bool with_will)
 }
 
 
-int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *client)
+int mosquitto_persist_client_add(struct mosquitto_evt_persist_client *client)
 {
 	struct mosquitto *context;
 	int i;
+	int rc;
 
-	if(client == NULL || client->plugin_client_id == NULL) return MOSQ_ERR_INVAL;
+	if(client == NULL){
+		return MOSQ_ERR_INVAL;
+	}
+	if(client->plugin_client_id == NULL){
+		rc = MOSQ_ERR_INVAL;
+		goto error;
+	}
 
 	context = NULL;
 	HASH_FIND(hh_id, db.contexts_by_id, client->plugin_client_id, strlen(client->plugin_client_id), context);
 	if(context){
-		return MOSQ_ERR_INVAL;
+		rc = MOSQ_ERR_INVAL;
+		goto error;
 	}
 
 	context = context__init();
-	if(!context) return MOSQ_ERR_NOMEM;
+	if(!context){
+		rc = MOSQ_ERR_NOMEM;
+		goto error;
+	}
 
-	context->id = mosquitto__strdup(client->plugin_client_id);
-	if(client->plugin_username){
-		context->username = mosquitto__strdup(client->plugin_username);
-		if(!context->username){
-			mosquitto__free(context->id);
-			mosquitto__free(context);
-			return MOSQ_ERR_NOMEM;
-		}
-	}else{
-		context->username = NULL;
-	}
-	if(client->auth_method){
-		context->auth_method = mosquitto__strdup(client->plugin_auth_method);
-		if(!context->auth_method){
-			mosquitto__free(context->username);
-			mosquitto__free(context->id);
-			mosquitto__free(context);
-			return MOSQ_ERR_NOMEM;
-		}
-	}else{
-		context->auth_method = NULL;
-	}
+	context->id = client->plugin_client_id;
+	client->plugin_client_id = NULL;
+	context->username = client->plugin_username;
+	client->plugin_username = NULL;
+	context->auth_method = client->plugin_auth_method;
+	client->plugin_auth_method = NULL;
+
 	context->clean_start = false;
 	context->will_delay_time = client->will_delay_time;
 	context->session_expiry_time = client->session_expiry_time;
@@ -446,34 +442,39 @@ int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *clie
 	context__add_to_by_id(context);
 
 	return MOSQ_ERR_SUCCESS;
+error:
+	free(client->plugin_client_id);
+	free(client->plugin_username);
+	free(client->plugin_auth_method);
+	return rc;
 }
 
 
-int mosquitto_persist_client_update(const struct mosquitto_evt_persist_client *client)
+int mosquitto_persist_client_update(struct mosquitto_evt_persist_client *client)
 {
 	struct mosquitto *context;
 	int i;
-	char *username;
+	int rc;
 
-	if(client == NULL || client->plugin_client_id == NULL) return MOSQ_ERR_INVAL;
+	if(client == NULL){
+		return MOSQ_ERR_INVAL;
+	}
+	if(client->plugin_client_id == NULL){
+		rc = MOSQ_ERR_INVAL;
+		goto error;
+	}
 
 	context = NULL;
 	HASH_FIND(hh_id, db.contexts_by_id, client->plugin_client_id, strlen(client->plugin_client_id), context);
 	if(context == NULL){
-		return MOSQ_ERR_INVAL;
+		rc = MOSQ_ERR_NOT_FOUND;
+		goto error;
 	}
 
-	if(client->plugin_username){
-		username = mosquitto__strdup(client->plugin_username);
-		if(!username){
-			return MOSQ_ERR_NOMEM;
-		}
-		mosquitto_free(context->username);
-		context->username = username;
-	}else{
-		mosquitto_free(context->username);
-		context->username = NULL;
-	}
+	mosquitto_free(context->username);
+	context->username = client->plugin_username;
+	client->plugin_username = NULL;
+
 	context->clean_start = false;
 	context->will_delay_time = client->will_delay_time;
 	context->session_expiry_time = client->session_expiry_time;
@@ -494,6 +495,9 @@ int mosquitto_persist_client_update(const struct mosquitto_evt_persist_client *c
 	}
 
 	return MOSQ_ERR_SUCCESS;
+error:
+	free(client->plugin_username);
+	return rc;
 }
 
 
@@ -530,14 +534,13 @@ struct mosquitto_msg_store *find_store_msg(uint64_t store_id)
 	return stored;
 }
 
-int mosquitto_persist_client_msg_add(const struct mosquitto_evt_persist_client_msg *client_msg)
+int mosquitto_persist_client_msg_add(struct mosquitto_evt_persist_client_msg *client_msg)
 {
 	struct mosquitto *context;
 	struct mosquitto_msg_store *stored;
 
-	if(client_msg == NULL || client_msg->plugin_client_id == NULL){
-		return MOSQ_ERR_INVAL;
-	}
+	if(client_msg == NULL || client_msg->plugin_client_id == NULL) return MOSQ_ERR_INVAL;
+
 	HASH_FIND(hh_id, db.contexts_by_id, client_msg->plugin_client_id, strlen(client_msg->plugin_client_id), context);
 	if(context == NULL){
 		return MOSQ_ERR_NOT_FOUND;
@@ -560,27 +563,18 @@ int mosquitto_persist_client_msg_add(const struct mosquitto_evt_persist_client_m
 }
 
 
-int mosquitto_persist_client_msg_remove(const struct mosquitto_evt_persist_client_msg *client_msg)
+int mosquitto_persist_client_msg_remove(struct mosquitto_evt_persist_client_msg *client_msg)
 {
 	struct mosquitto *context;
-	struct mosquitto_msg_store *stored;
 
-	if(client_msg == NULL || client_msg->plugin_client_id == NULL){
-		return MOSQ_ERR_INVAL;
-	}
+	if(client_msg == NULL || client_msg->plugin_client_id == NULL) return MOSQ_ERR_INVAL;
+
 	HASH_FIND(hh_id, db.contexts_by_id, client_msg->plugin_client_id, strlen(client_msg->plugin_client_id), context);
 	if(context == NULL){
 		return MOSQ_ERR_NOT_FOUND;
 	}
-	stored = find_store_msg(client_msg->store_id);
-	if(stored == NULL){
-		return MOSQ_ERR_NOT_FOUND;
-	}
 
 	if(client_msg->direction == mosq_md_out){
-		if(client_msg->qos > 0){
-			context->last_mid = client_msg->mid;
-		}
 		return db__message_delete_outgoing(context, client_msg->mid, client_msg->state, client_msg->qos);
 	}else{
 		return db__message_remove_incoming(context, client_msg->mid);
@@ -589,13 +583,12 @@ int mosquitto_persist_client_msg_remove(const struct mosquitto_evt_persist_clien
 }
 
 
-int mosquitto_persist_client_msg_update(const struct mosquitto_evt_persist_client_msg *client_msg)
+int mosquitto_persist_client_msg_update(struct mosquitto_evt_persist_client_msg *client_msg)
 {
 	struct mosquitto *context;
 
-	if(client_msg == NULL || client_msg->plugin_client_id == NULL){
-		return MOSQ_ERR_INVAL;
-	}
+	if(client_msg == NULL || client_msg->plugin_client_id == NULL) return MOSQ_ERR_INVAL;
+
 	HASH_FIND(hh_id, db.contexts_by_id, client_msg->plugin_client_id, strlen(client_msg->plugin_client_id), context);
 	if(context == NULL){
 		return MOSQ_ERR_NOT_FOUND;
@@ -603,6 +596,8 @@ int mosquitto_persist_client_msg_update(const struct mosquitto_evt_persist_clien
 
 	if(client_msg->direction == mosq_md_out){
 		db__message_update_outgoing(context, client_msg->mid, client_msg->state, client_msg->qos, false);
+	}else{
+		// FIXME db__message_update_incoming(context, client_msg->mid, client_msg->state, client_msg->qos, false);
 	}
 	return MOSQ_ERR_SUCCESS;
 }
@@ -621,7 +616,7 @@ int mosquitto_subscription_add(const char *client_id, const char *topic, uint8_t
 	if(context){
 		return sub__add(context, topic, subscription_options&0x03, subscription_identifier, subscription_options, &db.subs);
 	}else{
-		return MOSQ_ERR_INVAL;
+		return MOSQ_ERR_NOT_FOUND;
 	}
 }
 
@@ -640,12 +635,12 @@ int mosquitto_subscription_remove(const char *client_id, const char *topic)
 	if(context){
 		return sub__remove(context, topic, db.subs, &reason);
 	}else{
-		return MOSQ_ERR_INVAL;
+		return MOSQ_ERR_NOT_FOUND;
 	}
 }
 
 
-int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg)
+int mosquitto_persist_msg_add(struct mosquitto_evt_persist_msg *msg)
 {
 	struct mosquitto context;
 	struct mosquitto_msg_store *stored;
@@ -654,16 +649,9 @@ int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg)
 	int i;
 
 	memset(&context, 0, sizeof(context));
-	memset(&stored, 0, sizeof(stored));
 
-	if(msg->plugin_source_id){
-		context.id = mosquitto__strdup(msg->plugin_source_id);
-		if(!context.id) return MOSQ_ERR_NOMEM;
-	}
-	if(msg->plugin_source_username){
-		context.username = mosquitto__strdup(msg->plugin_source_username);
-		if(!context.username) return MOSQ_ERR_NOMEM;
-	}
+	context.id = msg->plugin_source_id;
+	context.username = msg->plugin_source_username;
 
 	if(msg->expiry_time == 0){
 		message_expiry_interval = 0;
@@ -687,18 +675,12 @@ int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg)
 	stored->qos = msg->qos;
 	stored->retain = msg->retain;
 
-	stored->payload = mosquitto_malloc(stored->payloadlen+1);
-	if(stored->payload == NULL){
-		goto error;
-	}
-	memcpy(stored->payload, msg->plugin_payload, stored->payloadlen);
-	((uint8_t *)stored->payload)[stored->payloadlen] = 0; /* Always zero terminate */
-
-	stored->topic = mosquitto_strdup(msg->plugin_topic);
-	if(stored->topic == NULL){
-		goto error;
-	}
-	stored->properties = NULL; /* FIXME */
+	stored->payload = msg->plugin_payload;
+	msg->plugin_payload = NULL;
+	stored->topic = msg->plugin_topic;
+	msg->plugin_topic = NULL;
+	stored->properties = msg->plugin_properties;
+	msg->plugin_properties = NULL;
 
 	if(msg->source_port){
 		for(i=0; i<db.config->listener_count; i++){
@@ -711,12 +693,11 @@ int mosquitto_persist_msg_add(const struct mosquitto_evt_persist_msg *msg)
 	return db__message_store(&context, stored, message_expiry_interval, msg->store_id, mosq_mo_broker);
 
 error:
-	if(stored){
-		mosquitto_property_free_all(&stored->properties);
-		mosquitto_free(stored->topic);
-		mosquitto_free(stored->payload);
-		mosquitto_free(stored);
-	}
+	mosquitto_property_free_all(&msg->plugin_properties);
+	mosquitto_free(msg->plugin_topic);
+	mosquitto_free(msg->plugin_payload);
+	mosquitto_free(stored);
+
 	return MOSQ_ERR_NOMEM;
 }
 
