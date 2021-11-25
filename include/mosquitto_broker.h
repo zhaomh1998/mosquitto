@@ -215,9 +215,11 @@ struct mosquitto_evt_persist_restore {
 struct mosquitto_evt_persist_client {
 	const char *client_id;
 	const char *username;
+	const char *auth_method;
 	const struct mosquitto_message_v5 *will;
 	char *plugin_client_id;
 	char *plugin_username;
+	char *plugin_auth_method;
 	struct mosquitto_message_v5 *plugin_will;
 	time_t will_delay_time; /* update */
 	time_t session_expiry_time; /* update */

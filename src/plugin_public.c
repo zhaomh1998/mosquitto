@@ -413,6 +413,17 @@ int mosquitto_persist_client_add(const struct mosquitto_evt_persist_client *clie
 	}else{
 		context->username = NULL;
 	}
+	if(client->auth_method){
+		context->auth_method = mosquitto__strdup(client->plugin_auth_method);
+		if(!context->auth_method){
+			mosquitto__free(context->username);
+			mosquitto__free(context->id);
+			mosquitto__free(context);
+			return MOSQ_ERR_NOMEM;
+		}
+	}else{
+		context->auth_method = NULL;
+	}
 	context->clean_start = false;
 	context->will_delay_time = client->will_delay_time;
 	context->session_expiry_time = client->session_expiry_time;

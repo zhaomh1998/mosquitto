@@ -57,6 +57,7 @@ void plugin_persist__handle_client_add(struct mosquitto *context)
 	memset(&event_data, 0, sizeof(event_data));
 	event_data.client_id = context->id;
 	event_data.username = context->username;
+	event_data.auth_method = context->auth_method;
 	event_data.will_delay_time = context->will_delay_time;
 	event_data.session_expiry_time = context->session_expiry_time;
 	event_data.will_delay_interval = context->will_delay_interval;
@@ -88,6 +89,7 @@ void plugin_persist__handle_client_update(struct mosquitto *context)
 	memset(&event_data, 0, sizeof(event_data));
 	event_data.client_id = context->id;
 	event_data.username = context->username;
+	event_data.auth_method = context->auth_method;
 	event_data.will_delay_time = context->will_delay_time;
 	event_data.session_expiry_time = context->session_expiry_time;
 	event_data.will_delay_interval = context->will_delay_interval;
