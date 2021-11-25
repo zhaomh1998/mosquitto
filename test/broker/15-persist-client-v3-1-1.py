@@ -32,6 +32,11 @@ try:
     mosq_test.do_ping(sock)
     sock.close()
 
+    # Connect client again, it should have a session
+    sock = mosq_test.do_client_connect(connect_packet, connack_packet2, timeout=5, port=port, connack_error="connack 2")
+    mosq_test.do_ping(sock)
+    sock.close()
+
     # Kill broker
     broker.terminate()
     broker.wait()
@@ -40,17 +45,17 @@ try:
     broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
 
     # Connect client again, it should have a session
-    sock = mosq_test.do_client_connect(connect_packet, connack_packet2, timeout=5, port=port, connack_error="connack 2")
+    sock = mosq_test.do_client_connect(connect_packet, connack_packet2, timeout=5, port=port, connack_error="connack 3")
     mosq_test.do_ping(sock)
     sock.close()
 
     # Clear the client
-    sock = mosq_test.do_client_connect(connect_packet_clean, connack_packet1, timeout=5, port=port, connack_error="connack 3")
+    sock = mosq_test.do_client_connect(connect_packet_clean, connack_packet1, timeout=5, port=port, connack_error="connack 4")
     mosq_test.do_ping(sock)
     sock.close()
 
     # Connect client, it should not have a session
-    sock = mosq_test.do_client_connect(connect_packet_clean, connack_packet1, timeout=5, port=port, connack_error="connack 4")
+    sock = mosq_test.do_client_connect(connect_packet_clean, connack_packet1, timeout=5, port=port, connack_error="connack 5")
     mosq_test.do_ping(sock)
     sock.close()
 
@@ -62,7 +67,7 @@ try:
     broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
 
     # Connect client, it should not have a session
-    sock = mosq_test.do_client_connect(connect_packet_clean, connack_packet1, timeout=5, port=port, connack_error="connack 5")
+    sock = mosq_test.do_client_connect(connect_packet_clean, connack_packet1, timeout=5, port=port, connack_error="connack 6")
     mosq_test.do_ping(sock)
     sock.close()
 
