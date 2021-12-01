@@ -92,7 +92,6 @@ CMakeCache.txt
 CMakeFiles
 CMakeScripts
 Testing
-Makefile
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
@@ -107,3 +106,6 @@ Makefile
 
 # IDE
 .idea
+
+# Test binaries
+test/cbmc/pub_client/test_pub
