@@ -36,6 +36,7 @@ Contributors:
 #include <mosquitto.h>
 #include "client_shared.h"
 #include "pub_shared.h"
+#include <assert.h>
 
 /* Global variables for use in callbacks. See sub_client.c for an example of
  * using a struct to hold variables for use in callbacks. */
@@ -102,6 +103,7 @@ static int check_repeat_time(void)
 
 void my_disconnect_callback(struct mosquitto *mosq, void *obj, int rc, const mosquitto_property *properties)
 {
+    printf(">> my_disconnect_callback\n");
 	UNUSED(mosq);
 	UNUSED(obj);
 	UNUSED(rc);
@@ -110,10 +112,12 @@ void my_disconnect_callback(struct mosquitto *mosq, void *obj, int rc, const mos
 	if(rc == 0){
 		status = STATUS_DISCONNECTED;
 	}
+    printf("<< my_disconnect_callback\n");
 }
 
 int my_publish(struct mosquitto *mosq, int *mid, const char *topic, int payloadlen, void *payload, int qos, bool retain)
 {
+//	printf("mid: %d\ntopic: %s\npayloadlen: %d\npayload: %s\nqos: %d\nretain: %d\n", *mid, topic, payloadlen, (char *) payload, qos, retain);
 	ready_for_repeat = false;
 	if(cfg.protocol_version == MQTT_PROTOCOL_V5 && cfg.have_topic_alias && first_publish == false){
 		return mosquitto_publish_v5(mosq, mid, NULL, payloadlen, payload, qos, retain, cfg.publish_props);
@@ -126,7 +130,9 @@ int my_publish(struct mosquitto *mosq, int *mid, const char *topic, int payloadl
 
 void my_connect_callback(struct mosquitto *mosq, void *obj, int result, int flags, const mosquitto_property *properties)
 {
-	int rc = MOSQ_ERR_SUCCESS;
+    printf(">> my_connect_callback\n");
+//    printf("mid: %d\ntopic: %s\npayloadlen: %d\npayload: %s\nqos: %d\nretain: %d\n", mid_sent, cfg.topic, cfg.msglen, (char *) cfg.message, cfg.qos, cfg.retain);
+    int rc = MOSQ_ERR_SUCCESS;
 
 	UNUSED(obj);
 	UNUSED(flags);
@@ -186,11 +192,13 @@ void my_connect_callback(struct mosquitto *mosq, void *obj, int result, int flag
 			status = STATUS_NOHOPE;
 		}
 	}
+    printf("<< my_connect_callback\n");
 }
 
 
 void my_publish_callback(struct mosquitto *mosq, void *obj, int mid, int reason_code, const mosquitto_property *properties)
 {
+    printf(">> my_publish_callback\n");
 	char *reason_string = NULL;
 	UNUSED(obj);
 	UNUSED(properties);
@@ -218,6 +226,7 @@ void my_publish_callback(struct mosquitto *mosq, void *obj, int mid, int reason_
 		mosquitto_disconnect_v5(mosq, 0, cfg.disconnect_props);
 		disconnect_sent = true;
 	}
+    printf("<< my_publish_callback\n");
 }
 
 
@@ -343,7 +352,8 @@ static int pub_other_loop(struct mosquitto *mosq)
 
 	do{
 		rc = mosquitto_loop(mosq, loop_delay, 1);
-		if(ready_for_repeat && check_repeat_time()){
+        printf("... loop rc=%d\n", rc);
+        if(ready_for_repeat && check_repeat_time()){
 			rc = MOSQ_ERR_SUCCESS;
 			switch(cfg.pub_mode){
 				case MSGMODE_CMD:
@@ -511,8 +521,115 @@ static void print_usage(void)
 	printf("\nSee https://mosquitto.org/ for more information.\n\n");
 }
 
+static void init_config(struct mosq_config *cfg, int pub_or_sub)
+{
+    memset(cfg, 0, sizeof(*cfg));
+    cfg->port = PORT_UNDEFINED;
+    cfg->max_inflight = 20;
+    cfg->keepalive = 60;
+    cfg->clean_session = true;
+    cfg->eol = true;
+    cfg->repeat_count = 1;
+    cfg->repeat_delay.tv_sec = 0;
+    cfg->repeat_delay.tv_usec = 0;
+    cfg->random_filter = 10000;
+    if(pub_or_sub == CLIENT_RR){
+        cfg->protocol_version = MQTT_PROTOCOL_V5;
+        cfg->msg_count = 1;
+    }else{
+        cfg->protocol_version = MQTT_PROTOCOL_V311;
+    }
+    cfg->session_expiry_interval = -1; /* -1 means unset here, the user can't set it to -1. */
+}
+
+static int cfg_add_topic(struct mosq_config *cfg, int type, char *topic, const char *arg)
+{
+	if(mosquitto_validate_utf8(topic, (int )strlen(topic))){
+		fprintf(stderr, "Error: Malformed UTF-8 in %s argument.\n\n", arg);
+		return 1;
+	}
+	if(type == CLIENT_PUB || type == CLIENT_RR){
+		if(mosquitto_pub_topic_check(topic) == MOSQ_ERR_INVAL){
+			fprintf(stderr, "Error: Invalid publish topic '%s', does it contain '+' or '#'?\n", topic);
+			return 1;
+		}
+		cfg->topic = strdup(topic);
+	}else if(type == CLIENT_RESPONSE_TOPIC){
+		if(mosquitto_pub_topic_check(topic) == MOSQ_ERR_INVAL){
+			fprintf(stderr, "Error: Invalid response topic '%s', does it contain '+' or '#'?\n", topic);
+			return 1;
+		}
+		cfg->response_topic = strdup(topic);
+	}else{
+		if(mosquitto_sub_topic_check(topic) == MOSQ_ERR_INVAL){
+			fprintf(stderr, "Error: Invalid subscription topic '%s', are all '+' and '#' wildcards correct?\n", topic);
+			return 1;
+		}
+		cfg->topic_count++;
+		cfg->topics = realloc(cfg->topics, (size_t )cfg->topic_count*sizeof(char *));
+		if(!cfg->topics){
+			err_printf(cfg, "Error: Out of memory.\n");
+			return 1;
+		}
+		cfg->topics[cfg->topic_count-1] = strdup(topic);
+    }
+	return 0;
+}
+
+void test_cbmc() {
+	struct mosquitto *mosq = NULL;
+//	struct mosq_config test_cfg;
+	char host[] = "207.148.29.214";
+	char message[] = "hello";
+	int port = 1883;
+	size_t szt;
+	char topic[] = "test/topic";
+
+	mosquitto_lib_init();
+	assert(!pub_shared_init());
+    init_config(&cfg, CLIENT_PUB);
+
+	// ------------ Make Config ------------
+	// client/client_shared.c:661 --> -h host
+	cfg.host = (host);
+	// client/client_shared.c:801 --> -m message
+	cfg.message = strdup(message);
+	// szt = strlen(test_cfg.message);
+	szt = 5;
+	assert(szt <= MQTT_MAX_PAYLOAD);
+	cfg.msglen = (int) szt;
+	cfg.pub_mode = MSGMODE_CMD;
+	// client/client_shared.c:850 --> -p port
+	cfg.port = port;
+	// client/client_shared.c:1007 --> -t topic
+	cfg_add_topic(&cfg, CLIENT_PUB, topic, "-t");
+
+    // ------------ Create mosquitto ------------
+	mosq = mosquitto_new(cfg.id, cfg.clean_session, NULL);
+	assert(mosq);
+
+    mosquitto_connect_v5_callback_set(mosq, my_connect_callback);
+    mosquitto_disconnect_v5_callback_set(mosq, my_disconnect_callback);
+    mosquitto_publish_v5_callback_set(mosq, my_publish_callback);
+    assert(!client_opts_set(mosq, &cfg));
+
+	client_connect(mosq, &cfg);
+    printf(">> shared_loop\n");
+	pub_shared_loop(mosq);
+    printf("<< shared_loop\n");
+
+	// ------------ Cleanup ------------
+	mosquitto_destroy(mosq);
+	mosquitto_lib_cleanup();
+	client_config_cleanup(&cfg);
+	pub_shared_cleanup();
+}
+
 int main(int argc, char *argv[])
 {
+	test_cbmc();
+	return 0;
+
 	struct mosquitto *mosq = NULL;
 	int rc;
 
@@ -564,6 +681,8 @@ int main(int argc, char *argv[])
 	}
 
 	mosq = mosquitto_new(cfg.id, cfg.clean_session, NULL);
+	printf("Starting new mosq");
+	printf("cfg.id=%s\nclean_start=%d\n", cfg.id, cfg.clean_session);
 	if(!mosq){
 		switch(errno){
 			case ENOMEM:
