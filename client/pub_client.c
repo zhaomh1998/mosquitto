@@ -37,6 +37,7 @@ Contributors:
 #include "client_shared.h"
 #include "pub_shared.h"
 #include <assert.h>
+#include <limits.h>
 
 /* Global variables for use in callbacks. See sub_client.c for an example of
  * using a struct to hold variables for use in callbacks. */
@@ -80,21 +81,29 @@ static void set_repeat_time(void)
 	next_publish_tv.tv_sec += cfg.repeat_delay.tv_sec;
 	next_publish_tv.tv_usec += cfg.repeat_delay.tv_usec;
 
-	next_publish_tv.tv_sec += next_publish_tv.tv_usec/1000000;
-	next_publish_tv.tv_usec = next_publish_tv.tv_usec%1000000;
+	next_publish_tv.tv_sec += next_publish_tv.tv_usec/1000000;	
+	next_publish_tv.tv_usec = next_publish_tv.tv_usec%1000000;	
 }
 
 static int check_repeat_time(void)
 {
 	struct timeval tv;
-
+	//int x = INT_MAX + 1;
+	//x = x + 1;
+	
 	gettimeofday(&tv, NULL);
+	__CPROVER_assume(tv.tv_sec >= 0);
+	assert(next_publish_tv.tv_sec == 0);
+        //tv.tv_sec++;
+	//assert(tv.tv_sec > INT_MAX);
+	//assert (tv.tv_sec < LONG_MAX);
 
 	if(tv.tv_sec > next_publish_tv.tv_sec){
+		//assert(false);
 		return 1;
 	}else if(tv.tv_sec == next_publish_tv.tv_sec
 			&& tv.tv_usec > next_publish_tv.tv_usec){
-
+		//assert(false);
 		return 1;
 	}
 	return 0;
@@ -575,7 +584,7 @@ static int cfg_add_topic(struct mosq_config *cfg, int type, char *topic, const c
     }
 	return 0;
 }
-
+/*
 void test_cbmc() {
 	struct mosquitto *mosq = NULL;
 //	struct mosq_config test_cfg;
@@ -625,15 +634,24 @@ void test_cbmc() {
 	pub_shared_cleanup();
 }
 
+*/
+
 int main(int argc, char *argv[])
 {
-	test_cbmc();
-	return 0;
+	//test_cbmc();
+	//return 0;
+
+	//assert(false);
 
 	struct mosquitto *mosq = NULL;
+
+	//assert(mosq);
+	//return 1;
 	int rc;
 
 	mosquitto_lib_init();
+	
+	//return 1;
 
 	if(pub_shared_init()) return 1;
 
