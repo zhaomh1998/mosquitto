@@ -38,6 +38,7 @@ Contributors:
 #include "pub_shared.h"
 #include <assert.h>
 #include <limits.h>
+#include <stdbool.h>
 
 /* Global variables for use in callbacks. See sub_client.c for an example of
  * using a struct to hold variables for use in callbacks. */
@@ -45,7 +46,7 @@ static bool first_publish = true;
 static int last_mid = -1;
 static int last_mid_sent = -1;
 static char *line_buf = NULL;
-static int line_buf_len = 1024;
+static int line_buf_len = 1024;	//TODO: 1KB hard coded. can this be broken somewhere?
 static bool disconnect_sent = false;
 static int publish_count = 0;
 static bool ready_for_repeat = false;
@@ -238,15 +239,29 @@ void my_publish_callback(struct mosquitto *mosq, void *obj, int mid, int reason_
     printf("<< my_publish_callback\n");
 }
 
+//TODO: Predicate for well formed line_buf struct
+bool line_buf_isvalid(char* line_buf){
+
+	if (line_buf == NULL) return false;
+
+	return true;
+
+}
 
 int pub_shared_init(void)
 {
-	line_buf = malloc((size_t )line_buf_len);
+	//assert(line_buf);
+	line_buf = malloc((size_t )line_buf_len);	//TODO: it is a char pointer defined at beginning of code
+
+	
+	//__CPROVER_assume(line_buf_isvalid(line_buf));
+	__CPROVER_assert(line_buf_isvalid(line_buf),"line_buf is valid");
+
 	if(!line_buf){
 		err_printf(&cfg, "Error: Out of memory.\n");
 		return 1;
 	}
-	return 0;
+        	return 0;
 }
 
 
@@ -397,9 +412,11 @@ int pub_shared_loop(struct mosquitto *mosq)
 	}
 }
 
-
+//TODO: check for line_buf assert. prevent free of a NULL pointer
 void pub_shared_cleanup(void)
 {
+//	__CPROVER_assume(line_buf = NULL);
+	__CPROVER_assert(line_buf,"free line_buf assertion error");  //prevent an invalid free
 	free(line_buf);
 }
 
@@ -532,9 +549,13 @@ static void print_usage(void)
 
 static void init_config(struct mosq_config *cfg, int pub_or_sub)
 {
+    //TODO: where is the cfg struct defined?
+    assert(cfg);
+    // __CPROVER_assert(cfg,"assert cfg is not a NULL pointer");
+      
     memset(cfg, 0, sizeof(*cfg));
     cfg->port = PORT_UNDEFINED;
-    cfg->max_inflight = 20;
+    cfg->max_inflight = 20;		//TODO: are these the pre-defined timings of the protocol?
     cfg->keepalive = 60;
     cfg->clean_session = true;
     cfg->eol = true;
