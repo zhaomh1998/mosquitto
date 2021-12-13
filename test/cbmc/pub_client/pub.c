@@ -1,4 +1,4 @@
-#include "../../config.h"
+#include "config.h"
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -367,4 +367,9 @@ int main(int argc, char *argv[])
     mosquitto_lib_cleanup();
 //	return run;
     return 0;
+}
+
+void bar(void) {
+    int i;
+    assert(false);
 }
