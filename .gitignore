@@ -99,7 +99,6 @@ CTestTestfile.cmake
 _deps
 *.pc
 *.cbp
-Makefile
 
 # Other outputs
 *.dylib
