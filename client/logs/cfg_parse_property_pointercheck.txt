@@ -1,0 +1,621 @@
+CBMC version 5.46.0 (cbmc-5.46.0) 64-bit x86_64 linux
+Reading GOTO program from file
+Reading: client_props_replaced.gb
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 8 object bits, 56 offset bits (default)
+Starting Bounded Model Checking
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Runtime Symex: 3.83423s
+size of program expression: 68368 steps
+simple slicing removed 2043 assignments
+Generated 1818 VCC(s), 990 remaining after simplification
+Runtime Postprocess Equation: 0.0213761s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 1.27689s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 0.0476217s
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 3020237 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 6.07191s
+Runtime decision procedure: 7.35715s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154829 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0493923s
+Runtime decision procedure: 0.049605s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154811 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0498231s
+Runtime decision procedure: 0.0500694s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154811 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.062313s
+Runtime decision procedure: 0.0626074s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154811 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0531884s
+Runtime decision procedure: 0.0534789s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0507239s
+Runtime decision procedure: 0.050984s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0846479s
+Runtime decision procedure: 0.0848444s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154804 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0823659s
+Runtime decision procedure: 0.0825798s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154804 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0847372s
+Runtime decision procedure: 0.0849473s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0849655s
+Runtime decision procedure: 0.0851796s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0516357s
+Runtime decision procedure: 0.0518564s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154804 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0499467s
+Runtime decision procedure: 0.0501451s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.050022s
+Runtime decision procedure: 0.0503955s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0505916s
+Runtime decision procedure: 0.0508085s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0509195s
+Runtime decision procedure: 0.0511079s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154803 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 2.52017s
+Runtime decision procedure: 2.52038s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154787 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0611017s
+Runtime decision procedure: 0.0613662s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0739364s
+Runtime decision procedure: 0.074144s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0528083s
+Runtime decision procedure: 0.0530136s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0526393s
+Runtime decision procedure: 0.0528273s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0526623s
+Runtime decision procedure: 0.0528506s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0528344s
+Runtime decision procedure: 0.0530217s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0519979s
+Runtime decision procedure: 0.0522039s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.051916s
+Runtime decision procedure: 0.0521065s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0546272s
+Runtime decision procedure: 0.0548105s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0511071s
+Runtime decision procedure: 0.0512904s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0516614s
+Runtime decision procedure: 0.0518451s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0523707s
+Runtime decision procedure: 0.0525516s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0534132s
+Runtime decision procedure: 0.0535966s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0519475s
+Runtime decision procedure: 0.0521318s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0525301s
+Runtime decision procedure: 0.052717s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0521709s
+Runtime decision procedure: 0.0524443s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0528997s
+Runtime decision procedure: 0.0531054s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0520409s
+Runtime decision procedure: 0.0522502s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 3.93651s
+Runtime decision procedure: 3.93675s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154575 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0582194s
+Runtime decision procedure: 0.0584877s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154176 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0547297s
+Runtime decision procedure: 0.0549234s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154176 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 4.02262s
+Runtime decision procedure: 4.0228s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154176 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0560913s
+Runtime decision procedure: 0.0562899s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154176 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.120946s
+Runtime decision procedure: 0.121123s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+843823 variables, 1154176 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 0.0112721s
+Runtime decision procedure: 0.0113476s
+
+** Results:
+[pointer_dereference.25] file ../include/mosquitto.h line 2314 dereference failure: pointer NULL in *cmd: SUCCESS
+[pointer_dereference.26] file ../include/mosquitto.h line 2314 dereference failure: pointer invalid in *cmd: SUCCESS
+[pointer_dereference.27] file ../include/mosquitto.h line 2314 dereference failure: deallocated dynamic object in *cmd: SUCCESS
+[pointer_dereference.28] file ../include/mosquitto.h line 2314 dereference failure: dead object in *cmd: SUCCESS
+[pointer_dereference.29] file ../include/mosquitto.h line 2314 dereference failure: pointer outside object bounds in *cmd: SUCCESS
+[pointer_dereference.30] file ../include/mosquitto.h line 2314 dereference failure: invalid integer address in *cmd: SUCCESS
+[pointer_dereference.79] file ../include/mosquitto.h line 2733 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.80] file ../include/mosquitto.h line 2733 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.81] file ../include/mosquitto.h line 2733 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.82] file ../include/mosquitto.h line 2733 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.83] file ../include/mosquitto.h line 2733 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.84] file ../include/mosquitto.h line 2733 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.85] file ../include/mosquitto.h line 2733 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.86] file ../include/mosquitto.h line 2733 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.87] file ../include/mosquitto.h line 2733 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.88] file ../include/mosquitto.h line 2733 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.89] file ../include/mosquitto.h line 2733 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.90] file ../include/mosquitto.h line 2733 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.67] file ../include/mosquitto.h line 2757 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.68] file ../include/mosquitto.h line 2757 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.69] file ../include/mosquitto.h line 2757 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.70] file ../include/mosquitto.h line 2757 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.71] file ../include/mosquitto.h line 2757 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.72] file ../include/mosquitto.h line 2757 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.73] file ../include/mosquitto.h line 2757 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.74] file ../include/mosquitto.h line 2757 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.75] file ../include/mosquitto.h line 2757 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.76] file ../include/mosquitto.h line 2757 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.77] file ../include/mosquitto.h line 2757 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.78] file ../include/mosquitto.h line 2757 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.13] file ../include/mosquitto.h line 2781 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.14] file ../include/mosquitto.h line 2781 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.15] file ../include/mosquitto.h line 2781 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.16] file ../include/mosquitto.h line 2781 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.17] file ../include/mosquitto.h line 2781 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.18] file ../include/mosquitto.h line 2781 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.19] file ../include/mosquitto.h line 2781 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.20] file ../include/mosquitto.h line 2781 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.21] file ../include/mosquitto.h line 2781 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.22] file ../include/mosquitto.h line 2781 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.23] file ../include/mosquitto.h line 2781 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.24] file ../include/mosquitto.h line 2781 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.43] file ../include/mosquitto.h line 2805 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.44] file ../include/mosquitto.h line 2805 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.45] file ../include/mosquitto.h line 2805 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.46] file ../include/mosquitto.h line 2805 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.47] file ../include/mosquitto.h line 2805 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.48] file ../include/mosquitto.h line 2805 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.49] file ../include/mosquitto.h line 2805 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.50] file ../include/mosquitto.h line 2805 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.51] file ../include/mosquitto.h line 2805 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.52] file ../include/mosquitto.h line 2805 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.53] file ../include/mosquitto.h line 2805 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.54] file ../include/mosquitto.h line 2805 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.91] file ../include/mosquitto.h line 2830 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.92] file ../include/mosquitto.h line 2830 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.93] file ../include/mosquitto.h line 2830 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.94] file ../include/mosquitto.h line 2830 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.95] file ../include/mosquitto.h line 2830 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.96] file ../include/mosquitto.h line 2830 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.97] file ../include/mosquitto.h line 2830 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.98] file ../include/mosquitto.h line 2830 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.99] file ../include/mosquitto.h line 2830 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.100] file ../include/mosquitto.h line 2830 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.101] file ../include/mosquitto.h line 2830 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.102] file ../include/mosquitto.h line 2830 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.31] file ../include/mosquitto.h line 2855 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.32] file ../include/mosquitto.h line 2855 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.33] file ../include/mosquitto.h line 2855 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.34] file ../include/mosquitto.h line 2855 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.35] file ../include/mosquitto.h line 2855 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.36] file ../include/mosquitto.h line 2855 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.37] file ../include/mosquitto.h line 2855 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.38] file ../include/mosquitto.h line 2855 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.39] file ../include/mosquitto.h line 2855 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.40] file ../include/mosquitto.h line 2855 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.41] file ../include/mosquitto.h line 2855 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.42] file ../include/mosquitto.h line 2855 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.1] file ../include/mosquitto.h line 2881 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.2] file ../include/mosquitto.h line 2881 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.3] file ../include/mosquitto.h line 2881 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.4] file ../include/mosquitto.h line 2881 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.5] file ../include/mosquitto.h line 2881 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.6] file ../include/mosquitto.h line 2881 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.7] file ../include/mosquitto.h line 2881 dereference failure: pointer NULL in *proplist: FAILURE
+[pointer_dereference.8] file ../include/mosquitto.h line 2881 dereference failure: pointer invalid in *proplist: SUCCESS
+[pointer_dereference.9] file ../include/mosquitto.h line 2881 dereference failure: deallocated dynamic object in *proplist: FAILURE
+[pointer_dereference.10] file ../include/mosquitto.h line 2881 dereference failure: dead object in *proplist: FAILURE
+[pointer_dereference.11] file ../include/mosquitto.h line 2881 dereference failure: pointer outside object bounds in *proplist: FAILURE
+[pointer_dereference.12] file ../include/mosquitto.h line 2881 dereference failure: invalid integer address in *proplist: FAILURE
+[pointer_dereference.55] file ../include/mosquitto.h line 3236 dereference failure: pointer NULL in *identifier: SUCCESS
+[pointer_dereference.56] file ../include/mosquitto.h line 3236 dereference failure: pointer invalid in *identifier: SUCCESS
+[pointer_dereference.57] file ../include/mosquitto.h line 3236 dereference failure: deallocated dynamic object in *identifier: SUCCESS
+[pointer_dereference.58] file ../include/mosquitto.h line 3236 dereference failure: dead object in *identifier: SUCCESS
+[pointer_dereference.59] file ../include/mosquitto.h line 3236 dereference failure: pointer outside object bounds in *identifier: SUCCESS
+[pointer_dereference.60] file ../include/mosquitto.h line 3236 dereference failure: invalid integer address in *identifier: SUCCESS
+[pointer_dereference.61] file ../include/mosquitto.h line 3236 dereference failure: pointer NULL in *type: SUCCESS
+[pointer_dereference.62] file ../include/mosquitto.h line 3236 dereference failure: pointer invalid in *type: SUCCESS
+[pointer_dereference.63] file ../include/mosquitto.h line 3236 dereference failure: deallocated dynamic object in *type: SUCCESS
+[pointer_dereference.64] file ../include/mosquitto.h line 3236 dereference failure: dead object in *type: SUCCESS
+[pointer_dereference.65] file ../include/mosquitto.h line 3236 dereference failure: pointer outside object bounds in *type: SUCCESS
+[pointer_dereference.66] file ../include/mosquitto.h line 3236 dereference failure: invalid integer address in *type: SUCCESS
+<builtin-library-strtol> function strtol
+[strtol.pointer_dereference.1] line 29 dereference failure: pointer NULL in *return_value___errno_location: SUCCESS
+[strtol.pointer_dereference.2] line 29 dereference failure: pointer invalid in *return_value___errno_location: SUCCESS
+[strtol.pointer_dereference.3] line 29 dereference failure: deallocated dynamic object in *return_value___errno_location: SUCCESS
+[strtol.pointer_dereference.4] line 29 dereference failure: dead object in *return_value___errno_location: SUCCESS
+[strtol.pointer_dereference.5] line 29 dereference failure: pointer outside object bounds in *return_value___errno_location: SUCCESS
+[strtol.pointer_dereference.6] line 29 dereference failure: invalid integer address in *return_value___errno_location: SUCCESS
+[strtol.pointer_dereference.7] line 41 dereference failure: pointer NULL in nptr[(signed long int)i]: FAILURE
+[strtol.pointer_dereference.8] line 41 dereference failure: pointer invalid in nptr[(signed long int)i]: FAILURE
+[strtol.pointer_dereference.9] line 41 dereference failure: deallocated dynamic object in nptr[(signed long int)i]: FAILURE
+[strtol.pointer_dereference.10] line 41 dereference failure: dead object in nptr[(signed long int)i]: FAILURE
+[strtol.pointer_dereference.11] line 41 dereference failure: pointer outside object bounds in nptr[(signed long int)i]: FAILURE
+[strtol.pointer_dereference.12] line 41 dereference failure: invalid integer address in nptr[(signed long int)i]: FAILURE
+[strtol.pointer_dereference.13] line 46 dereference failure: pointer NULL in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.14] line 46 dereference failure: pointer invalid in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.15] line 46 dereference failure: deallocated dynamic object in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.16] line 46 dereference failure: dead object in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.17] line 46 dereference failure: pointer outside object bounds in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.18] line 46 dereference failure: invalid integer address in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.19] line 46 dereference failure: pointer NULL in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.20] line 46 dereference failure: pointer invalid in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.21] line 46 dereference failure: deallocated dynamic object in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.22] line 46 dereference failure: dead object in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.23] line 46 dereference failure: pointer outside object bounds in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.24] line 46 dereference failure: invalid integer address in nptr[(signed long int)(i + 1)]: SUCCESS
+[strtol.pointer_dereference.25] line 89 dereference failure: pointer NULL in *return_value___errno_location$0: SUCCESS
+[strtol.pointer_dereference.26] line 89 dereference failure: pointer invalid in *return_value___errno_location$0: SUCCESS
+[strtol.pointer_dereference.27] line 89 dereference failure: deallocated dynamic object in *return_value___errno_location$0: SUCCESS
+[strtol.pointer_dereference.28] line 89 dereference failure: dead object in *return_value___errno_location$0: SUCCESS
+[strtol.pointer_dereference.29] line 89 dereference failure: pointer outside object bounds in *return_value___errno_location$0: SUCCESS
+[strtol.pointer_dereference.30] line 89 dereference failure: invalid integer address in *return_value___errno_location$0: SUCCESS
+[strtol.pointer_dereference.31] line 99 dereference failure: pointer NULL in *endptr: SUCCESS
+[strtol.pointer_dereference.32] line 99 dereference failure: pointer invalid in *endptr: SUCCESS
+[strtol.pointer_dereference.33] line 99 dereference failure: deallocated dynamic object in *endptr: SUCCESS
+[strtol.pointer_dereference.34] line 99 dereference failure: dead object in *endptr: SUCCESS
+[strtol.pointer_dereference.35] line 99 dereference failure: pointer outside object bounds in *endptr: SUCCESS
+[strtol.pointer_dereference.36] line 99 dereference failure: invalid integer address in *endptr: SUCCESS
+
+<builtin-library-vfprintf> function vfprintf
+[vfprintf.pointer_dereference.1] line 23 dereference failure: pointer NULL in *stream: SUCCESS
+[vfprintf.pointer_dereference.2] line 23 dereference failure: pointer invalid in *stream: SUCCESS
+[vfprintf.pointer_dereference.3] line 23 dereference failure: deallocated dynamic object in *stream: SUCCESS
+[vfprintf.pointer_dereference.4] line 23 dereference failure: dead object in *stream: SUCCESS
+[vfprintf.pointer_dereference.5] line 23 dereference failure: pointer outside object bounds in *stream: SUCCESS
+[vfprintf.pointer_dereference.6] line 23 dereference failure: invalid integer address in *stream: SUCCESS
+[vfprintf.pointer_dereference.7] line 29 dereference failure: pointer NULL in *format: SUCCESS
+[vfprintf.pointer_dereference.8] line 29 dereference failure: pointer invalid in *format: SUCCESS
+[vfprintf.pointer_dereference.9] line 29 dereference failure: deallocated dynamic object in *format: SUCCESS
+[vfprintf.pointer_dereference.10] line 29 dereference failure: dead object in *format: SUCCESS
+[vfprintf.pointer_dereference.11] line 29 dereference failure: pointer outside object bounds in *format: SUCCESS
+[vfprintf.pointer_dereference.12] line 29 dereference failure: invalid integer address in *format: SUCCESS
+
+client_props.c function cfg_parse_property
+[cfg_parse_property.pointer_dereference.1] line 74 dereference failure: pointer NULL in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.2] line 74 dereference failure: pointer invalid in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.3] line 74 dereference failure: deallocated dynamic object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.4] line 74 dereference failure: dead object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.5] line 74 dereference failure: pointer outside object bounds in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.6] line 74 dereference failure: invalid integer address in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.7] line 80 dereference failure: pointer NULL in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.8] line 80 dereference failure: pointer invalid in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.9] line 80 dereference failure: deallocated dynamic object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.10] line 80 dereference failure: dead object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.11] line 80 dereference failure: pointer outside object bounds in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.12] line 80 dereference failure: invalid integer address in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.13] line 80 dereference failure: pointer NULL in argv[(signed long int)*idx]: FAILURE
+[cfg_parse_property.pointer_dereference.14] line 80 dereference failure: pointer invalid in argv[(signed long int)*idx]: SUCCESS
+[cfg_parse_property.pointer_dereference.15] line 80 dereference failure: deallocated dynamic object in argv[(signed long int)*idx]: FAILURE
+[cfg_parse_property.pointer_dereference.16] line 80 dereference failure: dead object in argv[(signed long int)*idx]: FAILURE
+[cfg_parse_property.pointer_dereference.17] line 80 dereference failure: pointer outside object bounds in argv[(signed long int)*idx]: FAILURE
+[cfg_parse_property.pointer_dereference.18] line 80 dereference failure: invalid integer address in argv[(signed long int)*idx]: FAILURE
+[cfg_parse_property.pointer_dereference.19] line 86 dereference failure: pointer NULL in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.20] line 86 dereference failure: pointer invalid in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.21] line 86 dereference failure: deallocated dynamic object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.22] line 86 dereference failure: dead object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.23] line 86 dereference failure: pointer outside object bounds in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.24] line 86 dereference failure: invalid integer address in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.25] line 86 dereference failure: pointer NULL in argv[(signed long int)(*idx + 1)]: FAILURE
+[cfg_parse_property.pointer_dereference.26] line 86 dereference failure: pointer invalid in argv[(signed long int)(*idx + 1)]: SUCCESS
+[cfg_parse_property.pointer_dereference.27] line 86 dereference failure: deallocated dynamic object in argv[(signed long int)(*idx + 1)]: FAILURE
+[cfg_parse_property.pointer_dereference.28] line 86 dereference failure: dead object in argv[(signed long int)(*idx + 1)]: FAILURE
+[cfg_parse_property.pointer_dereference.29] line 86 dereference failure: pointer outside object bounds in argv[(signed long int)(*idx + 1)]: FAILURE
+[cfg_parse_property.pointer_dereference.30] line 86 dereference failure: invalid integer address in argv[(signed long int)(*idx + 1)]: FAILURE
+[cfg_parse_property.pointer_dereference.31] line 98 dereference failure: pointer NULL in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.32] line 98 dereference failure: pointer invalid in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.33] line 98 dereference failure: deallocated dynamic object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.34] line 98 dereference failure: dead object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.35] line 98 dereference failure: pointer outside object bounds in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.36] line 98 dereference failure: invalid integer address in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.37] line 104 dereference failure: pointer NULL in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.38] line 104 dereference failure: pointer invalid in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.39] line 104 dereference failure: deallocated dynamic object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.40] line 104 dereference failure: dead object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.41] line 104 dereference failure: pointer outside object bounds in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.42] line 104 dereference failure: invalid integer address in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.43] line 104 dereference failure: pointer NULL in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.44] line 104 dereference failure: pointer invalid in argv[(signed long int)(*idx + 2)]: SUCCESS
+[cfg_parse_property.pointer_dereference.45] line 104 dereference failure: deallocated dynamic object in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.46] line 104 dereference failure: dead object in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.47] line 104 dereference failure: pointer outside object bounds in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.48] line 104 dereference failure: invalid integer address in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.49] line 105 dereference failure: pointer NULL in argv[(signed long int)(*idx + 3)]: FAILURE
+[cfg_parse_property.pointer_dereference.50] line 105 dereference failure: pointer invalid in argv[(signed long int)(*idx + 3)]: SUCCESS
+[cfg_parse_property.pointer_dereference.51] line 105 dereference failure: deallocated dynamic object in argv[(signed long int)(*idx + 3)]: FAILURE
+[cfg_parse_property.pointer_dereference.52] line 105 dereference failure: dead object in argv[(signed long int)(*idx + 3)]: FAILURE
+[cfg_parse_property.pointer_dereference.53] line 105 dereference failure: pointer outside object bounds in argv[(signed long int)(*idx + 3)]: FAILURE
+[cfg_parse_property.pointer_dereference.54] line 105 dereference failure: invalid integer address in argv[(signed long int)(*idx + 3)]: FAILURE
+[cfg_parse_property.pointer_dereference.55] line 108 dereference failure: pointer NULL in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.56] line 108 dereference failure: pointer invalid in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.57] line 108 dereference failure: deallocated dynamic object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.58] line 108 dereference failure: dead object in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.59] line 108 dereference failure: pointer outside object bounds in *idx: FAILURE
+[cfg_parse_property.pointer_dereference.60] line 108 dereference failure: invalid integer address in *idx: SUCCESS
+[cfg_parse_property.pointer_dereference.61] line 108 dereference failure: pointer NULL in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.62] line 108 dereference failure: pointer invalid in argv[(signed long int)(*idx + 2)]: SUCCESS
+[cfg_parse_property.pointer_dereference.63] line 108 dereference failure: deallocated dynamic object in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.64] line 108 dereference failure: dead object in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.65] line 108 dereference failure: pointer outside object bounds in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.66] line 108 dereference failure: invalid integer address in argv[(signed long int)(*idx + 2)]: FAILURE
+[cfg_parse_property.pointer_dereference.67] line 119 dereference failure: pointer NULL in cfg->have_topic_alias: FAILURE
+[cfg_parse_property.pointer_dereference.68] line 119 dereference failure: pointer invalid in cfg->have_topic_alias: SUCCESS
+[cfg_parse_property.pointer_dereference.69] line 119 dereference failure: deallocated dynamic object in cfg->have_topic_alias: FAILURE
+[cfg_parse_property.pointer_dereference.70] line 119 dereference failure: dead object in cfg->have_topic_alias: FAILURE
+[cfg_parse_property.pointer_dereference.71] line 119 dereference failure: pointer outside object bounds in cfg->have_topic_alias: FAILURE
+[cfg_parse_property.pointer_dereference.72] line 119 dereference failure: invalid integer address in cfg->have_topic_alias: FAILURE
+
+** 130 of 222 failed (41 iterations)
+VERIFICATION FAILED
