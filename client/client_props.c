@@ -216,6 +216,14 @@ int cfg_parse_property(struct mosq_config *cfg, int argc, char *argv[], int *idx
 		fprintf(stderr, "Error adding property %s %d\n", propname, type);
 		return rc;
 	}
+
+	//TODO: ensure rc = MOSQ_ERR_SUCCESS here before returning
+	__CPROVER_assert(rc==0,"check MOSQ_ERR true");
+	__CPROVER_assert(cmdname!=NULL,"cmdname deref");
+	__CPROVER_assert(propname!=NULL,"propname deref");
+	__CPROVER_assert(key!=NULL,"key deref");
+	__CPROVER_assert(value!=NULL,"value deref");
+
 	return MOSQ_ERR_SUCCESS;
 }
 
