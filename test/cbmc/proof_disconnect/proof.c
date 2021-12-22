@@ -34,7 +34,7 @@ void harness()
     byte_1_reference = 0xE0; // disconnect (11100000)
     byte_2_reference = 0x01; // remaining length (00000001)
     byte_3_reference = 0x82; // Protocol error (10000010) with wrong mosq->state
-    int ret = handle__packet(mosq);;
+    int ret = handle__packet(mosq);
     assert(ret == MOSQ_ERR_PROTOCOL);
 
 }
