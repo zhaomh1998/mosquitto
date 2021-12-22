@@ -79,21 +79,10 @@ ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 	return count;
 }
 
+extern void verify_buffer(const void *buf);
 ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 {
-#ifdef VERIFY_OUTPUT_PACKET
-#if VERIFY_OUTPUT_PACKET == CMD_PINGRESP
-	char b1 = ((char *)buf)[0];
-	char b2 = ((char *)buf)[1];
-	assert(b1 == (char) 0xD0);
-	assert(b2 == (char) 0x00);
-#else VERIFY_OUTPUT_PACKET == CMD_DISCONNECT
-	char b1 = ((char *)buf)[0];
-	char b2 = ((char *)buf)[1];
-	assert(b1 == (char) 0xE0);
-	assert(b2 == (char) 0x00);
-#endif
-#endif
+	verify_buffer(buf);
 	UNUSED(mosq);
 	UNUSED(buf);
 	UNUSED(count);
