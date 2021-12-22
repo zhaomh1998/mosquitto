@@ -26,7 +26,9 @@ void harness()
 
     // Set up mosquitto context
     mosq = (struct mosquitto *)mosquitto__calloc(1, sizeof(struct mosquitto));
-    // mosq->state = mosq_cs_active;
+    
+    // Set a wrong client state so handle__packet produces a ERR_PROTOCOL
+    mosq->state = mosq_cs_disconnected;
 
     mosq->protocol = mosq_p_mqtt5;
     mosq->in_packet.command = CMD_PINGREQ;
@@ -37,4 +39,5 @@ void harness()
     int ret = handle__packet(mosq);
     assert(ret == MOSQ_ERR_PROTOCOL);
 
+    free(mosq);
 }
