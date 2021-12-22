@@ -17,12 +17,12 @@ void harness()
     mosq->state = mosq_cs_active;
 
 
-    // mosq->in_packet.command = CMD_CONNECT;
-    // int ret = handle__pingreq(mosq);
-    // assert(ret == MOSQ_ERR_MALFORMED_PACKET);
+    mosq->in_packet.command = CMD_CONNECT;
+    int ret = handle__pingreq(mosq);
+    assert(ret == MOSQ_ERR_MALFORMED_PACKET);
 
     mosq->in_packet.command = CMD_PINGREQ;
     int ret = handle__pingreq(mosq);
-    assert(ret != MOSQ_ERR_MALFORMED_PACKET);
+    assert(ret == MOSQ_ERR_SUCCESS);
 
 }

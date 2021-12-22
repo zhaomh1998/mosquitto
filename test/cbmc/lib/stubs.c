@@ -76,15 +76,28 @@ ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 	UNUSED(mosq);
 	UNUSED(buf);
 	UNUSED(count);
-	return 0;
+	return count;
 }
 
 ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 {
+#ifdef VERIFY_OUTPUT_PACKET
+#if VERIFY_OUTPUT_PACKET == CMD_PINGRESP
+	char b1 = ((char *)buf)[0];
+	char b2 = ((char *)buf)[1];
+	assert(b1 == (char) 0xD0);
+	assert(b2 == (char) 0x00);
+#else VERIFY_OUTPUT_PACKET == CMD_DISCONNECT
+	char b1 = ((char *)buf)[0];
+	char b2 = ((char *)buf)[1];
+	assert(b1 == (char) 0xE0);
+	assert(b2 == (char) 0x00);
+#endif
+#endif
 	UNUSED(mosq);
 	UNUSED(buf);
 	UNUSED(count);
-	return 0;
+	return count;
 }
 
 // int retain__store(const char *topic, struct mosquitto_msg_store *stored, char **split_topics)
