@@ -1,0 +1,10 @@
+To run the CBMC verification
+
+./cbmc.sh <filename> <function_name>
+
+For example:
+./cbmc.sh packet_datatypes packet__write_byte > packet__write_byte.txt 2>&1
+
+
+The above command with output the CBMC log to file "packet__write_byte.txt"
+

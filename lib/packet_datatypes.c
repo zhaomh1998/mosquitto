@@ -17,7 +17,7 @@ Contributors:
 */
 
 #include "config.h"
-
+#include<limits.h>
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
@@ -46,8 +46,9 @@ Contributors:
 #endif
 
 
+// DONE
 int packet__read_byte(struct mosquitto__packet *packet, uint8_t *byte)
-{
+{      // __CPROVER_assume(packet != NULL);
 	assert(packet);
 	if(packet->pos+1 > packet->remaining_length) return MOSQ_ERR_MALFORMED_PACKET;
 
@@ -58,9 +59,18 @@ int packet__read_byte(struct mosquitto__packet *packet, uint8_t *byte)
 }
 
 
+// FIXME
 void packet__write_byte(struct mosquitto__packet *packet, uint8_t byte)
-{
-	assert(packet);
+
+{       
+       __CPROVER_assume(packet != NULL);
+       __CPROVER_assume(packet->packet_length>0);
+       __CPROVER_assume(packet->pos>0 && packet->pos+1 <= packet->packet_length);
+       __CPROVER_assume(packet->payload != NULL);
+       __CPROVER_assume(packet->payload == nondet_char() );
+
+        
+        assert(packet);
 	assert(packet->pos+1 <= packet->packet_length);
 
 	packet->payload[packet->pos] = byte;
@@ -68,8 +78,10 @@ void packet__write_byte(struct mosquitto__packet *packet, uint8_t byte)
 }
 
 
+// DONE
 int packet__read_bytes(struct mosquitto__packet *packet, void *bytes, uint32_t count)
 {
+        //__CPROVER_assume(packet != NULL);
 	assert(packet);
 	if(packet->pos+count > packet->remaining_length) return MOSQ_ERR_MALFORMED_PACKET;
 
@@ -80,8 +92,10 @@ int packet__read_bytes(struct mosquitto__packet *packet, void *bytes, uint32_t c
 }
 
 
+// DONE
 void packet__write_bytes(struct mosquitto__packet *packet, const void *bytes, uint32_t count)
 {
+        //__CPROVER_assume(packet != NULL);
 	assert(packet);
 	assert(packet->pos+count <= packet->packet_length);
 
@@ -89,10 +103,13 @@ void packet__write_bytes(struct mosquitto__packet *packet, const void *bytes, ui
 	packet->pos += count;
 }
 
-
+// DONE 
 int packet__read_binary(struct mosquitto__packet *packet, uint8_t **data, uint16_t *length)
 {
-	uint16_t slen;
+        //__CPROVER_assume(packet != NULL);
+        //__CPROVER_assume(data != NULL);
+        //__CPROVER_assume(length >=0 && length <= UINT_MAX);
+        uint16_t slen;
 	int rc;
 
 	assert(packet);
@@ -139,17 +156,25 @@ int packet__read_string(struct mosquitto__packet *packet, char **str, uint16_t *
 	return MOSQ_ERR_SUCCESS;
 }
 
-
+// DONE
 void packet__write_string(struct mosquitto__packet *packet, const char *str, uint16_t length)
 {
+	//__CPROVER_assume(packet != NULL);
 	assert(packet);
 	packet__write_uint16(packet, length);
 	packet__write_bytes(packet, str, length);
 }
 
 
+// DONE
 int packet__read_uint16(struct mosquitto__packet *packet, uint16_t *word)
 {
+	//__CPROVER_assume(packet != NULL);
+	//__CPROVER_assume(word != NULL);
+        //__CPROVER_assume(packet->packet_length>0 && packet->packet_length <=UINT32_MAX);
+        //__CPROVER_assume(packet->remaining_length > 0 && packet->remaining_length < UINT32_MAX);
+        //__CPROVER_assume(packet->pos>0 && packet->pos < packet->remaining_length-8);
+        //__CPROVER_assume(packet->payload != NULL);
 	uint8_t msb, lsb;
 
 	assert(packet);
@@ -165,16 +190,18 @@ int packet__read_uint16(struct mosquitto__packet *packet, uint16_t *word)
 	return MOSQ_ERR_SUCCESS;
 }
 
-
+// DONE
 void packet__write_uint16(struct mosquitto__packet *packet, uint16_t word)
-{
+{//       __CPROVER_assume(packet != NULL);
 	packet__write_byte(packet, MOSQ_MSB(word));
 	packet__write_byte(packet, MOSQ_LSB(word));
 }
 
 
+// DONE
 int packet__read_uint32(struct mosquitto__packet *packet, uint32_t *word)
 {
+//	__CPROVER_assume(packet != NULL);
 	uint32_t val = 0;
 	int i;
 
@@ -191,9 +218,10 @@ int packet__read_uint32(struct mosquitto__packet *packet, uint32_t *word)
 	return MOSQ_ERR_SUCCESS;
 }
 
-
+// DONE
 void packet__write_uint32(struct mosquitto__packet *packet, uint32_t word)
 {
+        //__CPROVER_assume(packet != NULL);
 	packet__write_byte(packet, (uint8_t)((word & 0xFF000000) >> 24));
 	packet__write_byte(packet, (uint8_t)((word & 0x00FF0000) >> 16));
 	packet__write_byte(packet, (uint8_t)((word & 0x0000FF00) >> 8));
