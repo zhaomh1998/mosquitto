@@ -1,0 +1,259 @@
+CBMC version 5.46.0 (cbmc-5.46.0) 64-bit x86_64 linux
+Reading GOTO program from file
+Reading: client_props_replaced.gb
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 8 object bits, 56 offset bits (default)
+Starting Bounded Model Checking
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Runtime Symex: 3.48225s
+size of program expression: 67969 steps
+simple slicing removed 16649 assignments
+Generated 774 VCC(s), 774 remaining after simplification
+Runtime Postprocess Equation: 0.0248651s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.915604s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 0.0081969s
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 2199412 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 6.43154s
+Runtime decision procedure: 7.35563s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119513 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0590269s
+Runtime decision procedure: 0.0591467s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119486 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.05087s
+Runtime decision procedure: 0.0509751s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119486 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 2.42597s
+Runtime decision procedure: 2.42606s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119486 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0465796s
+Runtime decision procedure: 0.0466834s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119459 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0459941s
+Runtime decision procedure: 0.0460898s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119459 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.289184s
+Runtime decision procedure: 0.289277s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119458 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 7.28267s
+Runtime decision procedure: 7.28277s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+587323 variables, 1119141 clauses
+SAT checker inconsistent: instance is UNSATISFIABLE
+Runtime Solver: 8.1e-06s
+Runtime decision procedure: 5.05e-05s
+
+** Results:
+<builtin-library-strtol> function strtol
+[strtol.pointer_arithmetic.1] line 41 pointer arithmetic: pointer NULL in nptr + (signed long int)i: FAILURE
+[strtol.pointer_arithmetic.2] line 41 pointer arithmetic: pointer invalid in nptr + (signed long int)i: FAILURE
+[strtol.pointer_arithmetic.3] line 41 pointer arithmetic: deallocated dynamic object in nptr + (signed long int)i: FAILURE
+[strtol.pointer_arithmetic.4] line 41 pointer arithmetic: dead object in nptr + (signed long int)i: FAILURE
+[strtol.pointer_arithmetic.5] line 41 pointer arithmetic: pointer outside object bounds in nptr + (signed long int)i: FAILURE
+[strtol.pointer_arithmetic.6] line 41 pointer arithmetic: invalid integer address in nptr + (signed long int)i: FAILURE
+[strtol.pointer_arithmetic.7] line 46 pointer arithmetic: pointer NULL in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.8] line 46 pointer arithmetic: pointer invalid in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.9] line 46 pointer arithmetic: deallocated dynamic object in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.10] line 46 pointer arithmetic: dead object in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.11] line 46 pointer arithmetic: pointer outside object bounds in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.12] line 46 pointer arithmetic: invalid integer address in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.13] line 46 pointer arithmetic: pointer NULL in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.14] line 46 pointer arithmetic: pointer invalid in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.15] line 46 pointer arithmetic: deallocated dynamic object in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.16] line 46 pointer arithmetic: dead object in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.17] line 46 pointer arithmetic: pointer outside object bounds in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.18] line 46 pointer arithmetic: invalid integer address in nptr + (signed long int)(i + 1): SUCCESS
+[strtol.pointer_arithmetic.19] line 99 pointer arithmetic: pointer NULL in (char *)nptr + (signed long int)i: SUCCESS
+[strtol.pointer_arithmetic.20] line 99 pointer arithmetic: pointer invalid in (char *)nptr + (signed long int)i: SUCCESS
+[strtol.pointer_arithmetic.21] line 99 pointer arithmetic: deallocated dynamic object in (char *)nptr + (signed long int)i: SUCCESS
+[strtol.pointer_arithmetic.22] line 99 pointer arithmetic: dead object in (char *)nptr + (signed long int)i: SUCCESS
+[strtol.pointer_arithmetic.23] line 99 pointer arithmetic: pointer outside object bounds in (char *)nptr + (signed long int)i: SUCCESS
+[strtol.pointer_arithmetic.24] line 99 pointer arithmetic: invalid integer address in (char *)nptr + (signed long int)i: SUCCESS
+
+client_props.c function cfg_parse_property
+[cfg_parse_property.pointer_arithmetic.1] line 80 pointer arithmetic: pointer NULL in argv + (signed long int)*idx: FAILURE
+[cfg_parse_property.pointer_arithmetic.2] line 80 pointer arithmetic: pointer invalid in argv + (signed long int)*idx: SUCCESS
+[cfg_parse_property.pointer_arithmetic.3] line 80 pointer arithmetic: deallocated dynamic object in argv + (signed long int)*idx: FAILURE
+[cfg_parse_property.pointer_arithmetic.4] line 80 pointer arithmetic: dead object in argv + (signed long int)*idx: FAILURE
+[cfg_parse_property.pointer_arithmetic.5] line 80 pointer arithmetic: pointer outside object bounds in argv + (signed long int)*idx: FAILURE
+[cfg_parse_property.pointer_arithmetic.6] line 80 pointer arithmetic: invalid integer address in argv + (signed long int)*idx: FAILURE
+[cfg_parse_property.pointer_arithmetic.7] line 86 pointer arithmetic: pointer NULL in argv + (signed long int)(*idx + 1): FAILURE
+[cfg_parse_property.pointer_arithmetic.8] line 86 pointer arithmetic: pointer invalid in argv + (signed long int)(*idx + 1): SUCCESS
+[cfg_parse_property.pointer_arithmetic.9] line 86 pointer arithmetic: deallocated dynamic object in argv + (signed long int)(*idx + 1): FAILURE
+[cfg_parse_property.pointer_arithmetic.10] line 86 pointer arithmetic: dead object in argv + (signed long int)(*idx + 1): FAILURE
+[cfg_parse_property.pointer_arithmetic.11] line 86 pointer arithmetic: pointer outside object bounds in argv + (signed long int)(*idx + 1): FAILURE
+[cfg_parse_property.pointer_arithmetic.12] line 86 pointer arithmetic: invalid integer address in argv + (signed long int)(*idx + 1): FAILURE
+[cfg_parse_property.pointer_arithmetic.13] line 104 pointer arithmetic: pointer NULL in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.14] line 104 pointer arithmetic: pointer invalid in argv + (signed long int)(*idx + 2): SUCCESS
+[cfg_parse_property.pointer_arithmetic.15] line 104 pointer arithmetic: deallocated dynamic object in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.16] line 104 pointer arithmetic: dead object in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.17] line 104 pointer arithmetic: pointer outside object bounds in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.18] line 104 pointer arithmetic: invalid integer address in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.19] line 105 pointer arithmetic: pointer NULL in argv + (signed long int)(*idx + 3): FAILURE
+[cfg_parse_property.pointer_arithmetic.20] line 105 pointer arithmetic: pointer invalid in argv + (signed long int)(*idx + 3): SUCCESS
+[cfg_parse_property.pointer_arithmetic.21] line 105 pointer arithmetic: deallocated dynamic object in argv + (signed long int)(*idx + 3): FAILURE
+[cfg_parse_property.pointer_arithmetic.22] line 105 pointer arithmetic: dead object in argv + (signed long int)(*idx + 3): FAILURE
+[cfg_parse_property.pointer_arithmetic.23] line 105 pointer arithmetic: pointer outside object bounds in argv + (signed long int)(*idx + 3): FAILURE
+[cfg_parse_property.pointer_arithmetic.24] line 105 pointer arithmetic: invalid integer address in argv + (signed long int)(*idx + 3): FAILURE
+[cfg_parse_property.pointer_arithmetic.25] line 108 pointer arithmetic: pointer NULL in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.26] line 108 pointer arithmetic: pointer invalid in argv + (signed long int)(*idx + 2): SUCCESS
+[cfg_parse_property.pointer_arithmetic.27] line 108 pointer arithmetic: deallocated dynamic object in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.28] line 108 pointer arithmetic: dead object in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.29] line 108 pointer arithmetic: pointer outside object bounds in argv + (signed long int)(*idx + 2): FAILURE
+[cfg_parse_property.pointer_arithmetic.30] line 108 pointer arithmetic: invalid integer address in argv + (signed long int)(*idx + 2): FAILURE
+
+** 31 of 54 failed (9 iterations)
+VERIFICATION FAILED

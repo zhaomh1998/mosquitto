@@ -1,0 +1,2722 @@
+CBMC version 5.46.0 (cbmc-5.46.0) 64-bit x86_64 linux
+Reading GOTO program from file
+Reading: client_props_replaced.gb
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 8 object bits, 56 offset bits (default)
+Starting Bounded Model Checking
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Runtime Symex: 3.41866s
+size of program expression: 67199 steps
+simple slicing removed 1948 assignments
+Generated 5 VCC(s), 4 remaining after simplification
+Runtime Postprocess Equation: 0.0224424s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 1.0661s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 7.67e-05s
+Solving with MiniSAT 2.2.1 with simplifier
+755021 variables, 2512054 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 18.58s
+Runtime decision procedure: 19.6528s
+Building error trace
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+755021 variables, 869900 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0505386s
+Runtime decision procedure: 0.0506236s
+Building error trace
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+755021 variables, 869483 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0430306s
+Runtime decision procedure: 0.0430999s
+Building error trace
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+755021 variables, 869482 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.116893s
+Runtime decision procedure: 0.117039s
+Building error trace
+
+** Results:
+client_props.c function cfg_parse_property
+[cfg_parse_property.assertion.1] line 220 check MOSQ_ERR true: SUCCESS
+[cfg_parse_property.assertion.2] line 221 cmdname deref: FAILURE
+[cfg_parse_property.assertion.3] line 222 propname deref: FAILURE
+[cfg_parse_property.assertion.4] line 223 key deref: FAILURE
+[cfg_parse_property.assertion.5] line 224 value deref: FAILURE
+
+Trace for cfg_parse_property.assertion.2:
+
+State 164 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp: { .id=((char *)NULL), .id_prefix=&tmp$1!0@1, .protocol_version=0,
+    .keepalive=0, .host=&tmp$2!0@1, .port=0,
+    .qos=0, .retain=FALSE, .$pad8=0, .pub_mode=0,
+    .file_input=&tmp$3!0@1, .message=&tmp$4!0@1,
+    .msglen=0, .$pad13=0u, .topic=((char *)NULL),
+    .bind_address=&tmp$6!0@1, .repeat_count=0,
+    .$pad17=0u, .repeat_delay={ .tv_sec=0l, .tv_usec=0l }, .debug=FALSE,
+    .quiet=FALSE, .$pad21=0, .max_inflight=0u,
+    .username=&tmp$7!0@1, .password=((char *)NULL),
+    .will_topic=&tmp$9!0@1, .will_payload=((char *)NULL),
+    .will_payloadlen=0, .will_qos=0,
+    .will_retain=FALSE, .clean_session=FALSE, .$pad31=0,
+    .topics=((char **)NULL), .topic_count=0, .exit_after_sub=FALSE,
+    .no_retain=FALSE, .retained_only=FALSE,
+    .remove_retained=FALSE, .filter_outs=&tmp$13!0@1,
+    .filter_out_count=0, .$pad40=0u,
+    .unsub_topics=&tmp$15!0@1, .unsub_topic_count=0,
+    .verbose=FALSE, .eol=FALSE,
+    .$pad45=0, .msg_count=0, .$pad47=0u,
+    .format=&tmp$17!0@1, .pretty=FALSE, .$pad50=0,
+    .timeout=0u, .sub_opts=0, .$pad53=0u,
+    .session_expiry_interval=0l, .random_filter=0,
+    .$pad56=1426063360u, .connect_props=&tmp$18!0@1,
+    .publish_props=&tmp$19!0@1, .subscribe_props=&tmp$20!0@1,
+    .unsubscribe_props=&tmp$21!0@1, .disconnect_props=((mosquitto_property *)NULL),
+    .will_props=((mosquitto_property *)NULL),
+    .have_topic_alias=TRUE,
+    .$pad64=18295873486192640, .response_topic=&tmp$24!0@1,
+    .tcp_nodelay=FALSE, .$pad67=0 } ({ 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, { 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 }, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000, 00000000, 00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 01010101 00000000 00000000 00000000, 00010110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000001, 01000001 00000000 00000000 00000000 00000000 00000000 00000000, 00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 })
+
+State 165 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$0: 0 (00000000)
+
+State 166 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$1: 0 (00000000)
+
+State 167 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$2: 0 (00000000)
+
+State 168 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$3: 0 (00000000)
+
+State 169 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$4: 0 (00000000)
+
+State 170 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$5: 0 (00000000)
+
+State 171 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$6: 0 (00000000)
+
+State 172 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$7: 0 (00000000)
+
+State 173 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$8: 0 (00000000)
+
+State 174 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$9: 0 (00000000)
+
+State 175 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$10: 0 (00000000)
+
+State 176 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$11: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 177 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$12: 0 (00000000)
+
+State 178 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$13: &tmp$14!0@1 (00010010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 179 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$14: 0 (00000000)
+
+State 180 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$15: &tmp$16!0@1 (00010100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 181 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$16: 0 (00000000)
+
+State 182 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$17: 0 (00000000)
+
+State 183 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$18: {  } ({  })
+
+State 184 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$19: {  } ({  })
+
+State 185 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$20: {  } ({  })
+
+State 186 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$21: {  } ({  })
+
+State 187 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$22: {  } ({  })
+
+State 188 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$23: {  } ({  })
+
+State 189 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$24: 0 (00000000)
+
+State 190 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT cfg: &tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 193 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argc: 66181 (00000000 00000001 00000010 10000101)
+
+State 200 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$25: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 201 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$26: '&' (00100110)
+
+State 202 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argv: ((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 208 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$27: 65537 (00000000 00000001 00000000 00000001)
+
+State 209 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT idx: &tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 212 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  cfg=&tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 213 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argc=66181 (00000000 00000001 00000010 10000101)
+
+State 214 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argv=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 215 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  idx=&tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 216 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 217 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 218 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 219 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 220 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 221 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 222 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 223 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 224 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  cmd=0 (00000000 00000000 00000000 00000000)
+
+State 225 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  identifier=0 (00000000 00000000 00000000 00000000)
+
+State 226 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  type=0 (00000000 00000000 00000000 00000000)
+
+State 227 file client_props.c function cfg_parse_property line 68 thread 0
+----------------------------------------------------
+  proplist=((mosquitto_property **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 228 file client_props.c function cfg_parse_property line 69 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+State 229 file client_props.c function cfg_parse_property line 70 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 230 file client_props.c function cfg_parse_property line 71 thread 0
+----------------------------------------------------
+  szt=0ul (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 233 file client_props.c function cfg_parse_property line 80 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 237 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  str=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 238 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  cmd=&cmd!0@1 (00100001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 240 file ../include/mosquitto.h function mosquitto_string_to_command line 2314 thread 0
+----------------------------------------------------
+  cmd=16 (00000000 00000000 00000000 00010000)
+
+State 248 file client_props.c function cfg_parse_property line 86 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) + 4503599627370496l (00000000 00010000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 252 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) + 4503599627370496l (00000000 00010000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 253 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  identifier=&identifier!0@1 (00100100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 254 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  type=&type!0@1 (00100101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 256 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 258 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  type=2 (00000000 00000000 00000000 00000010)
+
+State 268 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  command=16 (00000000 00000000 00000000 00010000)
+
+State 269 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 279 file client_props.c function cfg_parse_property line 104 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 281 file client_props.c function cfg_parse_property line 105 thread 0
+----------------------------------------------------
+  value=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 286 file client_props.c function cfg_parse_property line 114 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 293 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  nptr=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 297 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  nptr=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 298 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  endptr=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 299 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  base=10 (00000000 00000000 00000000 00001010)
+
+State 325 file <builtin-library-strtol> function strtol line 59 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 338 file <builtin-library-strtol> function strtol line 70 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 351 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 355 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 356 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 357 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  value=0 (00000000 00000000)
+
+State 361 function mosquitto_property_add_int16 thread 0
+----------------------------------------------------
+  dynamic_object2={  } ({  })
+
+State 364 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 365 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id_prefix=&tmp$1!0@1 (00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 366 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.protocol_version=0 (00000000 00000000 00000000 00000000)
+
+State 367 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.keepalive=0 (00000000 00000000 00000000 00000000)
+
+State 368 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.host=&tmp$2!0@1 (00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 369 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.port=0 (00000000 00000000 00000000 00000000)
+
+State 370 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.qos=0 (00000000 00000000 00000000 00000000)
+
+State 371 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retain=FALSE (00000000)
+
+State 372 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad8=0 (00000000 00000000 00000000)
+
+State 373 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pub_mode=0 (00000000 00000000 00000000 00000000)
+
+State 374 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.file_input=&tmp$3!0@1 (00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 375 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.message=&tmp$4!0@1 (00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 376 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msglen=0 (00000000 00000000 00000000 00000000)
+
+State 377 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad13=0u (00000000 00000000 00000000 00000000)
+
+State 378 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 379 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.bind_address=&tmp$6!0@1 (00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 380 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_count=0 (00000000 00000000 00000000 00000000)
+
+State 381 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad17=0u (00000000 00000000 00000000 00000000)
+
+State 382 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_sec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 383 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_usec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 384 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.debug=FALSE (00000000)
+
+State 385 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.quiet=FALSE (00000000)
+
+State 386 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad21=0 (00000000 00000000)
+
+State 387 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.max_inflight=0u (00000000 00000000 00000000 00000000)
+
+State 388 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.username=&tmp$7!0@1 (00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 389 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.password=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 390 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_topic=&tmp$9!0@1 (00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 391 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payload=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 392 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payloadlen=0 (00000000 00000000 00000000 00000000)
+
+State 393 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_qos=0 (00000000 00000000 00000000 00000000)
+
+State 394 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_retain=FALSE (00000000)
+
+State 395 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.clean_session=FALSE (00000000)
+
+State 396 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad31=0 (00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 397 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topics=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 398 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 399 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.exit_after_sub=FALSE (00000000)
+
+State 400 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.no_retain=FALSE (00000000)
+
+State 401 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retained_only=FALSE (00000000)
+
+State 402 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.remove_retained=FALSE (00000000)
+
+State 403 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_outs=&tmp$13!0@1 (00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 404 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_out_count=0 (00000000 00000000 00000000 00000000)
+
+State 405 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad40=0u (00000000 00000000 00000000 00000000)
+
+State 406 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topics=&tmp$15!0@1 (00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 407 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 408 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.verbose=FALSE (00000000)
+
+State 409 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.eol=FALSE (00000000)
+
+State 410 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad45=0 (00000000 00000000)
+
+State 411 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msg_count=0 (00000000 00000000 00000000 00000000)
+
+State 412 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad47=0u (00000000 00000000 00000000 00000000)
+
+State 413 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.format=&tmp$17!0@1 (00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 414 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pretty=FALSE (00000000)
+
+State 415 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad50=0 (00000000 00000000 00000000)
+
+State 416 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.timeout=0u (00000000 00000000 00000000 00000000)
+
+State 417 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.sub_opts=0 (00000000 00000000 00000000 00000000)
+
+State 418 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad53=0u (00000000 00000000 00000000 00000000)
+
+State 419 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.session_expiry_interval=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 420 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.random_filter=0 (00000000 00000000 00000000 00000000)
+
+State 421 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad56=1426063360u (01010101 00000000 00000000 00000000)
+
+State 422 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.connect_props=&dynamic_object2 (01000100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 423 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.publish_props=&tmp$19!0@1 (00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 424 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.subscribe_props=&tmp$20!0@1 (00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 425 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsubscribe_props=&tmp$21!0@1 (00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 426 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.disconnect_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 427 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 428 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.have_topic_alias=TRUE (00000001)
+
+State 429 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad64=18295873486192640 (01000001 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 430 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.response_topic=&tmp$24!0@1 (00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 431 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.tcp_nodelay=FALSE (00000000)
+
+State 432 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad67=0 (00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 437 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+Violated property:
+  file client_props.c function cfg_parse_property line 221 thread 0
+  cmdname deref
+  cmdname != ((char *)NULL)
+
+
+
+Trace for cfg_parse_property.assertion.3:
+
+State 164 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp: { .id=((char *)NULL), .id_prefix=&tmp$1!0@1, .protocol_version=0,
+    .keepalive=0, .host=&tmp$2!0@1, .port=0,
+    .qos=0, .retain=FALSE, .$pad8=0, .pub_mode=0,
+    .file_input=&tmp$3!0@1, .message=&tmp$4!0@1,
+    .msglen=0, .$pad13=0u, .topic=((char *)NULL),
+    .bind_address=&tmp$6!0@1, .repeat_count=0,
+    .$pad17=0u, .repeat_delay={ .tv_sec=0l, .tv_usec=0l }, .debug=FALSE,
+    .quiet=FALSE, .$pad21=0, .max_inflight=0u,
+    .username=&tmp$7!0@1, .password=((char *)NULL),
+    .will_topic=&tmp$9!0@1, .will_payload=((char *)NULL),
+    .will_payloadlen=0, .will_qos=0,
+    .will_retain=FALSE, .clean_session=FALSE, .$pad31=0,
+    .topics=((char **)NULL), .topic_count=0, .exit_after_sub=FALSE,
+    .no_retain=FALSE, .retained_only=FALSE,
+    .remove_retained=FALSE, .filter_outs=&tmp$13!0@1,
+    .filter_out_count=0, .$pad40=0u,
+    .unsub_topics=&tmp$15!0@1, .unsub_topic_count=0,
+    .verbose=FALSE, .eol=FALSE,
+    .$pad45=0, .msg_count=0, .$pad47=0u,
+    .format=&tmp$17!0@1, .pretty=FALSE, .$pad50=0,
+    .timeout=0u, .sub_opts=0, .$pad53=0u,
+    .session_expiry_interval=0l, .random_filter=0,
+    .$pad56=1426063360u, .connect_props=&tmp$18!0@1,
+    .publish_props=&tmp$19!0@1, .subscribe_props=&tmp$20!0@1,
+    .unsubscribe_props=&tmp$21!0@1, .disconnect_props=((mosquitto_property *)NULL),
+    .will_props=((mosquitto_property *)NULL),
+    .have_topic_alias=TRUE,
+    .$pad64=18295873486192640, .response_topic=&tmp$24!0@1,
+    .tcp_nodelay=FALSE, .$pad67=0 } ({ 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, { 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 }, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000, 00000000, 00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 01010101 00000000 00000000 00000000, 00010110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000001, 01000001 00000000 00000000 00000000 00000000 00000000 00000000, 00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 })
+
+State 165 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$0: 0 (00000000)
+
+State 166 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$1: 0 (00000000)
+
+State 167 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$2: 0 (00000000)
+
+State 168 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$3: 0 (00000000)
+
+State 169 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$4: 0 (00000000)
+
+State 170 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$5: 0 (00000000)
+
+State 171 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$6: 0 (00000000)
+
+State 172 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$7: 0 (00000000)
+
+State 173 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$8: 0 (00000000)
+
+State 174 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$9: 0 (00000000)
+
+State 175 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$10: 0 (00000000)
+
+State 176 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$11: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 177 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$12: 0 (00000000)
+
+State 178 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$13: &tmp$14!0@1 (00010010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 179 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$14: 0 (00000000)
+
+State 180 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$15: &tmp$16!0@1 (00010100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 181 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$16: 0 (00000000)
+
+State 182 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$17: 0 (00000000)
+
+State 183 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$18: {  } ({  })
+
+State 184 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$19: {  } ({  })
+
+State 185 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$20: {  } ({  })
+
+State 186 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$21: {  } ({  })
+
+State 187 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$22: {  } ({  })
+
+State 188 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$23: {  } ({  })
+
+State 189 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$24: 0 (00000000)
+
+State 190 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT cfg: &tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 193 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argc: 66181 (00000000 00000001 00000010 10000101)
+
+State 200 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$25: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 201 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$26: '&' (00100110)
+
+State 202 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argv: ((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 208 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$27: 65537 (00000000 00000001 00000000 00000001)
+
+State 209 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT idx: &tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 212 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  cfg=&tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 213 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argc=66181 (00000000 00000001 00000010 10000101)
+
+State 214 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argv=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 215 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  idx=&tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 216 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 217 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 218 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 219 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 220 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 221 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 222 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 223 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 224 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  cmd=0 (00000000 00000000 00000000 00000000)
+
+State 225 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  identifier=0 (00000000 00000000 00000000 00000000)
+
+State 226 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  type=0 (00000000 00000000 00000000 00000000)
+
+State 227 file client_props.c function cfg_parse_property line 68 thread 0
+----------------------------------------------------
+  proplist=((mosquitto_property **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 228 file client_props.c function cfg_parse_property line 69 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+State 229 file client_props.c function cfg_parse_property line 70 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 230 file client_props.c function cfg_parse_property line 71 thread 0
+----------------------------------------------------
+  szt=0ul (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 233 file client_props.c function cfg_parse_property line 80 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 237 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  str=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 238 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  cmd=&cmd!0@1 (00100001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 240 file ../include/mosquitto.h function mosquitto_string_to_command line 2314 thread 0
+----------------------------------------------------
+  cmd=16 (00000000 00000000 00000000 00010000)
+
+State 248 file client_props.c function cfg_parse_property line 86 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 252 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 253 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  identifier=&identifier!0@1 (00100100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 254 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  type=&type!0@1 (00100101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 256 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 258 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  type=2 (00000000 00000000 00000000 00000010)
+
+State 268 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  command=16 (00000000 00000000 00000000 00010000)
+
+State 269 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 279 file client_props.c function cfg_parse_property line 104 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 281 file client_props.c function cfg_parse_property line 105 thread 0
+----------------------------------------------------
+  value=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 286 file client_props.c function cfg_parse_property line 114 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 293 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  nptr=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 297 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  nptr=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 298 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  endptr=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 299 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  base=10 (00000000 00000000 00000000 00001010)
+
+State 325 file <builtin-library-strtol> function strtol line 59 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 338 file <builtin-library-strtol> function strtol line 70 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 351 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 355 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 356 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 357 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  value=0 (00000000 00000000)
+
+State 361 function mosquitto_property_add_int16 thread 0
+----------------------------------------------------
+  dynamic_object2={  } ({  })
+
+State 364 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 365 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id_prefix=&tmp$1!0@1 (00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 366 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.protocol_version=0 (00000000 00000000 00000000 00000000)
+
+State 367 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.keepalive=0 (00000000 00000000 00000000 00000000)
+
+State 368 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.host=&tmp$2!0@1 (00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 369 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.port=0 (00000000 00000000 00000000 00000000)
+
+State 370 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.qos=0 (00000000 00000000 00000000 00000000)
+
+State 371 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retain=FALSE (00000000)
+
+State 372 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad8=0 (00000000 00000000 00000000)
+
+State 373 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pub_mode=0 (00000000 00000000 00000000 00000000)
+
+State 374 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.file_input=&tmp$3!0@1 (00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 375 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.message=&tmp$4!0@1 (00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 376 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msglen=0 (00000000 00000000 00000000 00000000)
+
+State 377 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad13=0u (00000000 00000000 00000000 00000000)
+
+State 378 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 379 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.bind_address=&tmp$6!0@1 (00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 380 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_count=0 (00000000 00000000 00000000 00000000)
+
+State 381 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad17=0u (00000000 00000000 00000000 00000000)
+
+State 382 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_sec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 383 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_usec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 384 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.debug=FALSE (00000000)
+
+State 385 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.quiet=FALSE (00000000)
+
+State 386 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad21=0 (00000000 00000000)
+
+State 387 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.max_inflight=0u (00000000 00000000 00000000 00000000)
+
+State 388 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.username=&tmp$7!0@1 (00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 389 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.password=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 390 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_topic=&tmp$9!0@1 (00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 391 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payload=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 392 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payloadlen=0 (00000000 00000000 00000000 00000000)
+
+State 393 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_qos=0 (00000000 00000000 00000000 00000000)
+
+State 394 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_retain=FALSE (00000000)
+
+State 395 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.clean_session=FALSE (00000000)
+
+State 396 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad31=0 (00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 397 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topics=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 398 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 399 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.exit_after_sub=FALSE (00000000)
+
+State 400 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.no_retain=FALSE (00000000)
+
+State 401 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retained_only=FALSE (00000000)
+
+State 402 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.remove_retained=FALSE (00000000)
+
+State 403 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_outs=&tmp$13!0@1 (00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 404 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_out_count=0 (00000000 00000000 00000000 00000000)
+
+State 405 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad40=0u (00000000 00000000 00000000 00000000)
+
+State 406 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topics=&tmp$15!0@1 (00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 407 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 408 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.verbose=FALSE (00000000)
+
+State 409 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.eol=FALSE (00000000)
+
+State 410 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad45=0 (00000000 00000000)
+
+State 411 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msg_count=0 (00000000 00000000 00000000 00000000)
+
+State 412 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad47=0u (00000000 00000000 00000000 00000000)
+
+State 413 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.format=&tmp$17!0@1 (00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 414 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pretty=FALSE (00000000)
+
+State 415 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad50=0 (00000000 00000000 00000000)
+
+State 416 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.timeout=0u (00000000 00000000 00000000 00000000)
+
+State 417 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.sub_opts=0 (00000000 00000000 00000000 00000000)
+
+State 418 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad53=0u (00000000 00000000 00000000 00000000)
+
+State 419 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.session_expiry_interval=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 420 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.random_filter=0 (00000000 00000000 00000000 00000000)
+
+State 421 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad56=1426063360u (01010101 00000000 00000000 00000000)
+
+State 422 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.connect_props=&dynamic_object2 (01000100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 423 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.publish_props=&tmp$19!0@1 (00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 424 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.subscribe_props=&tmp$20!0@1 (00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 425 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsubscribe_props=&tmp$21!0@1 (00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 426 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.disconnect_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 427 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 428 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.have_topic_alias=TRUE (00000001)
+
+State 429 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad64=18295873486192640 (01000001 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 430 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.response_topic=&tmp$24!0@1 (00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 431 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.tcp_nodelay=FALSE (00000000)
+
+State 432 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad67=0 (00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 437 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+Violated property:
+  file client_props.c function cfg_parse_property line 221 thread 0
+  cmdname deref
+  cmdname != ((char *)NULL)
+
+
+Violated property:
+  file client_props.c function cfg_parse_property line 222 thread 0
+  propname deref
+  propname != ((char *)NULL)
+
+
+
+Trace for cfg_parse_property.assertion.4:
+
+State 164 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp: { .id=((char *)NULL), .id_prefix=&tmp$1!0@1, .protocol_version=0,
+    .keepalive=0, .host=&tmp$2!0@1, .port=0,
+    .qos=0, .retain=FALSE, .$pad8=0, .pub_mode=0,
+    .file_input=&tmp$3!0@1, .message=&tmp$4!0@1,
+    .msglen=0, .$pad13=0u, .topic=((char *)NULL),
+    .bind_address=&tmp$6!0@1, .repeat_count=0,
+    .$pad17=0u, .repeat_delay={ .tv_sec=0l, .tv_usec=0l }, .debug=FALSE,
+    .quiet=FALSE, .$pad21=0, .max_inflight=0u,
+    .username=&tmp$7!0@1, .password=((char *)NULL),
+    .will_topic=&tmp$9!0@1, .will_payload=((char *)NULL),
+    .will_payloadlen=0, .will_qos=0,
+    .will_retain=FALSE, .clean_session=FALSE, .$pad31=0,
+    .topics=((char **)NULL), .topic_count=0, .exit_after_sub=FALSE,
+    .no_retain=FALSE, .retained_only=FALSE,
+    .remove_retained=FALSE, .filter_outs=&tmp$13!0@1,
+    .filter_out_count=0, .$pad40=0u,
+    .unsub_topics=&tmp$15!0@1, .unsub_topic_count=0,
+    .verbose=FALSE, .eol=FALSE,
+    .$pad45=0, .msg_count=0, .$pad47=0u,
+    .format=&tmp$17!0@1, .pretty=FALSE, .$pad50=0,
+    .timeout=0u, .sub_opts=0, .$pad53=0u,
+    .session_expiry_interval=0l, .random_filter=0,
+    .$pad56=1426063360u, .connect_props=&tmp$18!0@1,
+    .publish_props=&tmp$19!0@1, .subscribe_props=&tmp$20!0@1,
+    .unsubscribe_props=&tmp$21!0@1, .disconnect_props=((mosquitto_property *)NULL),
+    .will_props=((mosquitto_property *)NULL),
+    .have_topic_alias=TRUE,
+    .$pad64=18295873486192640, .response_topic=&tmp$24!0@1,
+    .tcp_nodelay=FALSE, .$pad67=0 } ({ 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, { 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 }, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000, 00000000, 00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 01010101 00000000 00000000 00000000, 00010110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000001, 01000001 00000000 00000000 00000000 00000000 00000000 00000000, 00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 })
+
+State 165 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$0: 0 (00000000)
+
+State 166 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$1: 0 (00000000)
+
+State 167 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$2: 0 (00000000)
+
+State 168 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$3: 0 (00000000)
+
+State 169 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$4: 0 (00000000)
+
+State 170 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$5: 0 (00000000)
+
+State 171 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$6: 0 (00000000)
+
+State 172 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$7: 0 (00000000)
+
+State 173 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$8: 0 (00000000)
+
+State 174 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$9: 0 (00000000)
+
+State 175 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$10: 0 (00000000)
+
+State 176 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$11: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 177 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$12: 0 (00000000)
+
+State 178 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$13: &tmp$14!0@1 (00010010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 179 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$14: 0 (00000000)
+
+State 180 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$15: &tmp$16!0@1 (00010100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 181 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$16: 0 (00000000)
+
+State 182 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$17: 0 (00000000)
+
+State 183 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$18: {  } ({  })
+
+State 184 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$19: {  } ({  })
+
+State 185 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$20: {  } ({  })
+
+State 186 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$21: {  } ({  })
+
+State 187 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$22: {  } ({  })
+
+State 188 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$23: {  } ({  })
+
+State 189 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$24: 0 (00000000)
+
+State 190 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT cfg: &tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 193 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argc: 66181 (00000000 00000001 00000010 10000101)
+
+State 200 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$25: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 201 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$26: '&' (00100110)
+
+State 202 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argv: ((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 208 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$27: 65537 (00000000 00000001 00000000 00000001)
+
+State 209 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT idx: &tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 212 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  cfg=&tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 213 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argc=66181 (00000000 00000001 00000010 10000101)
+
+State 214 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argv=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 215 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  idx=&tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 216 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 217 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 218 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 219 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 220 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 221 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 222 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 223 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 224 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  cmd=0 (00000000 00000000 00000000 00000000)
+
+State 225 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  identifier=0 (00000000 00000000 00000000 00000000)
+
+State 226 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  type=0 (00000000 00000000 00000000 00000000)
+
+State 227 file client_props.c function cfg_parse_property line 68 thread 0
+----------------------------------------------------
+  proplist=((mosquitto_property **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 228 file client_props.c function cfg_parse_property line 69 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+State 229 file client_props.c function cfg_parse_property line 70 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 230 file client_props.c function cfg_parse_property line 71 thread 0
+----------------------------------------------------
+  szt=0ul (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 233 file client_props.c function cfg_parse_property line 80 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) + 262144l (00000000 00000000 00000000 00000000 00000000 00000100 00000000 00000000)
+
+State 237 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  str=((char *)NULL) + 262144l (00000000 00000000 00000000 00000000 00000000 00000100 00000000 00000000)
+
+State 238 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  cmd=&cmd!0@1 (00100001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 240 file ../include/mosquitto.h function mosquitto_string_to_command line 2314 thread 0
+----------------------------------------------------
+  cmd=16 (00000000 00000000 00000000 00010000)
+
+State 248 file client_props.c function cfg_parse_property line 86 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) + 4503599627370496l (00000000 00010000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 252 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) + 4503599627370496l (00000000 00010000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 253 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  identifier=&identifier!0@1 (00100100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 254 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  type=&type!0@1 (00100101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 256 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 258 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  type=2 (00000000 00000000 00000000 00000010)
+
+State 268 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  command=16 (00000000 00000000 00000000 00010000)
+
+State 269 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 279 file client_props.c function cfg_parse_property line 104 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 281 file client_props.c function cfg_parse_property line 105 thread 0
+----------------------------------------------------
+  value=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 286 file client_props.c function cfg_parse_property line 114 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 293 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  nptr=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 297 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  nptr=&tmp$10!0@1 (00001110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 298 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  endptr=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 299 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  base=10 (00000000 00000000 00000000 00001010)
+
+State 325 file <builtin-library-strtol> function strtol line 59 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 338 file <builtin-library-strtol> function strtol line 70 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 351 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 355 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 356 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 357 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  value=0 (00000000 00000000)
+
+State 361 function mosquitto_property_add_int16 thread 0
+----------------------------------------------------
+  dynamic_object2={  } ({  })
+
+State 364 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 365 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id_prefix=&tmp$1!0@1 (00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 366 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.protocol_version=0 (00000000 00000000 00000000 00000000)
+
+State 367 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.keepalive=0 (00000000 00000000 00000000 00000000)
+
+State 368 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.host=&tmp$2!0@1 (00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 369 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.port=0 (00000000 00000000 00000000 00000000)
+
+State 370 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.qos=0 (00000000 00000000 00000000 00000000)
+
+State 371 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retain=FALSE (00000000)
+
+State 372 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad8=0 (00000000 00000000 00000000)
+
+State 373 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pub_mode=0 (00000000 00000000 00000000 00000000)
+
+State 374 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.file_input=&tmp$3!0@1 (00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 375 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.message=&tmp$4!0@1 (00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 376 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msglen=0 (00000000 00000000 00000000 00000000)
+
+State 377 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad13=0u (00000000 00000000 00000000 00000000)
+
+State 378 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 379 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.bind_address=&tmp$6!0@1 (00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 380 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_count=0 (00000000 00000000 00000000 00000000)
+
+State 381 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad17=0u (00000000 00000000 00000000 00000000)
+
+State 382 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_sec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 383 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_usec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 384 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.debug=FALSE (00000000)
+
+State 385 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.quiet=FALSE (00000000)
+
+State 386 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad21=0 (00000000 00000000)
+
+State 387 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.max_inflight=0u (00000000 00000000 00000000 00000000)
+
+State 388 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.username=&tmp$7!0@1 (00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 389 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.password=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 390 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_topic=&tmp$9!0@1 (00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 391 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payload=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 392 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payloadlen=0 (00000000 00000000 00000000 00000000)
+
+State 393 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_qos=0 (00000000 00000000 00000000 00000000)
+
+State 394 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_retain=FALSE (00000000)
+
+State 395 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.clean_session=FALSE (00000000)
+
+State 396 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad31=0 (00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 397 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topics=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 398 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 399 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.exit_after_sub=FALSE (00000000)
+
+State 400 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.no_retain=FALSE (00000000)
+
+State 401 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retained_only=FALSE (00000000)
+
+State 402 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.remove_retained=FALSE (00000000)
+
+State 403 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_outs=&tmp$13!0@1 (00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 404 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_out_count=0 (00000000 00000000 00000000 00000000)
+
+State 405 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad40=0u (00000000 00000000 00000000 00000000)
+
+State 406 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topics=&tmp$15!0@1 (00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 407 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 408 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.verbose=FALSE (00000000)
+
+State 409 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.eol=FALSE (00000000)
+
+State 410 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad45=0 (00000000 00000000)
+
+State 411 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msg_count=0 (00000000 00000000 00000000 00000000)
+
+State 412 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad47=0u (00000000 00000000 00000000 00000000)
+
+State 413 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.format=&tmp$17!0@1 (00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 414 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pretty=FALSE (00000000)
+
+State 415 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad50=0 (00000000 00000000 00000000)
+
+State 416 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.timeout=0u (00000000 00000000 00000000 00000000)
+
+State 417 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.sub_opts=0 (00000000 00000000 00000000 00000000)
+
+State 418 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad53=0u (00000000 00000000 00000000 00000000)
+
+State 419 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.session_expiry_interval=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 420 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.random_filter=0 (00000000 00000000 00000000 00000000)
+
+State 421 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad56=1426063360u (01010101 00000000 00000000 00000000)
+
+State 422 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.connect_props=&dynamic_object2 (01000100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 423 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.publish_props=&tmp$19!0@1 (00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 424 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.subscribe_props=&tmp$20!0@1 (00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 425 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsubscribe_props=&tmp$21!0@1 (00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 426 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.disconnect_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 427 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 428 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.have_topic_alias=TRUE (00000001)
+
+State 429 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad64=18295873486192640 (01000001 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 430 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.response_topic=&tmp$24!0@1 (00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 431 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.tcp_nodelay=FALSE (00000000)
+
+State 432 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad67=0 (00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 437 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+Violated property:
+  file client_props.c function cfg_parse_property line 223 thread 0
+  key deref
+  key != ((char *)NULL)
+
+
+
+Trace for cfg_parse_property.assertion.5:
+
+State 164 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp: { .id=((char *)NULL), .id_prefix=&tmp$1!0@1, .protocol_version=0,
+    .keepalive=0, .host=&tmp$2!0@1, .port=0,
+    .qos=0, .retain=FALSE, .$pad8=0, .pub_mode=0,
+    .file_input=&tmp$3!0@1, .message=&tmp$4!0@1,
+    .msglen=0, .$pad13=0u, .topic=((char *)NULL),
+    .bind_address=&tmp$6!0@1, .repeat_count=0,
+    .$pad17=0u, .repeat_delay={ .tv_sec=0l, .tv_usec=0l }, .debug=FALSE,
+    .quiet=FALSE, .$pad21=0, .max_inflight=0u,
+    .username=&tmp$7!0@1, .password=((char *)NULL),
+    .will_topic=&tmp$9!0@1, .will_payload=((char *)NULL),
+    .will_payloadlen=0, .will_qos=0,
+    .will_retain=FALSE, .clean_session=FALSE, .$pad31=0,
+    .topics=((char **)NULL), .topic_count=0, .exit_after_sub=FALSE,
+    .no_retain=FALSE, .retained_only=FALSE,
+    .remove_retained=FALSE, .filter_outs=&tmp$13!0@1,
+    .filter_out_count=0, .$pad40=0u,
+    .unsub_topics=&tmp$15!0@1, .unsub_topic_count=0,
+    .verbose=FALSE, .eol=FALSE,
+    .$pad45=0, .msg_count=0, .$pad47=0u,
+    .format=&tmp$17!0@1, .pretty=FALSE, .$pad50=0,
+    .timeout=0u, .sub_opts=0, .$pad53=0u,
+    .session_expiry_interval=0l, .random_filter=0,
+    .$pad56=1426063360u, .connect_props=&tmp$18!0@1,
+    .publish_props=&tmp$19!0@1, .subscribe_props=&tmp$20!0@1,
+    .unsubscribe_props=&tmp$21!0@1, .disconnect_props=((mosquitto_property *)NULL),
+    .will_props=((mosquitto_property *)NULL),
+    .have_topic_alias=TRUE,
+    .$pad64=18295873486192640, .response_topic=&tmp$24!0@1,
+    .tcp_nodelay=FALSE, .$pad67=0 } ({ 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, { 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 }, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000, 00000000, 00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000, 00000000, 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000, 01010101 00000000 00000000 00000000, 00010110 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000001, 01000001 00000000 00000000 00000000 00000000 00000000 00000000, 00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000, 00000000, 00000000 00000000 00000000 00000000 00000000 00000000 00000000 })
+
+State 165 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$0: 0 (00000000)
+
+State 166 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$1: 0 (00000000)
+
+State 167 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$2: 0 (00000000)
+
+State 168 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$3: 0 (00000000)
+
+State 169 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$4: 0 (00000000)
+
+State 170 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$5: 0 (00000000)
+
+State 171 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$6: 0 (00000000)
+
+State 172 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$7: 0 (00000000)
+
+State 173 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$8: 0 (00000000)
+
+State 174 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$9: 0 (00000000)
+
+State 175 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$10: 0 (00000000)
+
+State 176 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$11: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 177 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$12: 0 (00000000)
+
+State 178 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$13: &tmp$14!0@1 (00010010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 179 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$14: 0 (00000000)
+
+State 180 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$15: &tmp$16!0@1 (00010100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 181 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$16: 0 (00000000)
+
+State 182 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$17: 0 (00000000)
+
+State 183 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$18: {  } ({  })
+
+State 184 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$19: {  } ({  })
+
+State 185 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$20: {  } ({  })
+
+State 186 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$21: {  } ({  })
+
+State 187 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$22: {  } ({  })
+
+State 188 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$23: {  } ({  })
+
+State 189 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$24: 0 (00000000)
+
+State 190 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT cfg: &tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 193 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argc: 66181 (00000000 00000001 00000010 10000101)
+
+State 200 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$25: ((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 201 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$26: 0 (00000000)
+
+State 202 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT argv: ((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 208 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT tmp$27: 65537 (00000000 00000001 00000000 00000001)
+
+State 209 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  INPUT idx: &tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 212 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  cfg=&tmp!0@1 (00000011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 213 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argc=66181 (00000000 00000001 00000010 10000101)
+
+State 214 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  argv=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 215 file client_props.c function __CPROVER__start line 63 thread 0
+----------------------------------------------------
+  idx=&tmp$27!0@1 (00000010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 216 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 217 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 218 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 219 file client_props.c function cfg_parse_property line 65 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 220 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 221 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 222 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 223 file client_props.c function cfg_parse_property line 66 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 224 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  cmd=0 (00000000 00000000 00000000 00000000)
+
+State 225 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  identifier=0 (00000000 00000000 00000000 00000000)
+
+State 226 file client_props.c function cfg_parse_property line 67 thread 0
+----------------------------------------------------
+  type=0 (00000000 00000000 00000000 00000000)
+
+State 227 file client_props.c function cfg_parse_property line 68 thread 0
+----------------------------------------------------
+  proplist=((mosquitto_property **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 228 file client_props.c function cfg_parse_property line 69 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+State 229 file client_props.c function cfg_parse_property line 70 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 230 file client_props.c function cfg_parse_property line 71 thread 0
+----------------------------------------------------
+  szt=0ul (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 233 file client_props.c function cfg_parse_property line 80 thread 0
+----------------------------------------------------
+  cmdname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 237 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  str=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 238 file client_props.c function cfg_parse_property line 81 thread 0
+----------------------------------------------------
+  cmd=&cmd!0@1 (00100001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 240 file ../include/mosquitto.h function mosquitto_string_to_command line 2314 thread 0
+----------------------------------------------------
+  cmd=16 (00000000 00000000 00000000 00010000)
+
+State 248 file client_props.c function cfg_parse_property line 86 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 252 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  propname=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 253 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  identifier=&identifier!0@1 (00100100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 254 file client_props.c function cfg_parse_property line 87 thread 0
+----------------------------------------------------
+  type=&type!0@1 (00100101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 256 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 258 file ../include/mosquitto.h function mosquitto_string_to_property_info line 3236 thread 0
+----------------------------------------------------
+  type=2 (00000000 00000000 00000000 00000010)
+
+State 268 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  command=16 (00000000 00000000 00000000 00010000)
+
+State 269 file client_props.c function cfg_parse_property line 92 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 279 file client_props.c function cfg_parse_property line 104 thread 0
+----------------------------------------------------
+  key=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 281 file client_props.c function cfg_parse_property line 105 thread 0
+----------------------------------------------------
+  value=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 286 file client_props.c function cfg_parse_property line 114 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 293 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  nptr=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 297 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  nptr=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 298 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  endptr=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 299 file <builtin-library-atol> function atol line 10 thread 0
+----------------------------------------------------
+  base=10 (00000000 00000000 00000000 00001010)
+
+State 325 file <builtin-library-strtol> function strtol line 59 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 338 file <builtin-library-strtol> function strtol line 70 thread 0
+----------------------------------------------------
+  c=41 (00000000 00000000 00000000 00101001)
+
+State 351 file client_props.c function cfg_parse_property line 175 thread 0
+----------------------------------------------------
+  tmpl=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 355 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  proplist=&tmp!0@1.connect_props (00000011 00000000 00000000 00000000 00000000 00000000 00000001 00001000)
+
+State 356 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  identifier=38 (00000000 00000000 00000000 00100110)
+
+State 357 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  value=0 (00000000 00000000)
+
+State 361 function mosquitto_property_add_int16 thread 0
+----------------------------------------------------
+  dynamic_object2={  } ({  })
+
+State 364 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 365 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.id_prefix=&tmp$1!0@1 (00000101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 366 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.protocol_version=0 (00000000 00000000 00000000 00000000)
+
+State 367 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.keepalive=0 (00000000 00000000 00000000 00000000)
+
+State 368 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.host=&tmp$2!0@1 (00000110 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 369 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.port=0 (00000000 00000000 00000000 00000000)
+
+State 370 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.qos=0 (00000000 00000000 00000000 00000000)
+
+State 371 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retain=FALSE (00000000)
+
+State 372 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad8=0 (00000000 00000000 00000000)
+
+State 373 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pub_mode=0 (00000000 00000000 00000000 00000000)
+
+State 374 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.file_input=&tmp$3!0@1 (00000111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 375 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.message=&tmp$4!0@1 (00001000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 376 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msglen=0 (00000000 00000000 00000000 00000000)
+
+State 377 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad13=0u (00000000 00000000 00000000 00000000)
+
+State 378 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 379 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.bind_address=&tmp$6!0@1 (00001010 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 380 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_count=0 (00000000 00000000 00000000 00000000)
+
+State 381 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad17=0u (00000000 00000000 00000000 00000000)
+
+State 382 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_sec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 383 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.repeat_delay.tv_usec=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 384 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.debug=FALSE (00000000)
+
+State 385 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.quiet=FALSE (00000000)
+
+State 386 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad21=0 (00000000 00000000)
+
+State 387 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.max_inflight=0u (00000000 00000000 00000000 00000000)
+
+State 388 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.username=&tmp$7!0@1 (00001011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 389 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.password=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 390 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_topic=&tmp$9!0@1 (00001101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 391 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payload=((char *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 392 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_payloadlen=0 (00000000 00000000 00000000 00000000)
+
+State 393 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_qos=0 (00000000 00000000 00000000 00000000)
+
+State 394 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_retain=FALSE (00000000)
+
+State 395 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.clean_session=FALSE (00000000)
+
+State 396 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad31=0 (00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 397 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topics=((char **)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 398 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 399 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.exit_after_sub=FALSE (00000000)
+
+State 400 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.no_retain=FALSE (00000000)
+
+State 401 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.retained_only=FALSE (00000000)
+
+State 402 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.remove_retained=FALSE (00000000)
+
+State 403 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_outs=&tmp$13!0@1 (00010001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 404 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.filter_out_count=0 (00000000 00000000 00000000 00000000)
+
+State 405 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad40=0u (00000000 00000000 00000000 00000000)
+
+State 406 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topics=&tmp$15!0@1 (00010011 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 407 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsub_topic_count=0 (00000000 00000000 00000000 00000000)
+
+State 408 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.verbose=FALSE (00000000)
+
+State 409 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.eol=FALSE (00000000)
+
+State 410 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad45=0 (00000000 00000000)
+
+State 411 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.msg_count=0 (00000000 00000000 00000000 00000000)
+
+State 412 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad47=0u (00000000 00000000 00000000 00000000)
+
+State 413 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.format=&tmp$17!0@1 (00010101 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 414 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.pretty=FALSE (00000000)
+
+State 415 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad50=0 (00000000 00000000 00000000)
+
+State 416 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.timeout=0u (00000000 00000000 00000000 00000000)
+
+State 417 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.sub_opts=0 (00000000 00000000 00000000 00000000)
+
+State 418 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad53=0u (00000000 00000000 00000000 00000000)
+
+State 419 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.session_expiry_interval=0l (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 420 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.random_filter=0 (00000000 00000000 00000000 00000000)
+
+State 421 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad56=1426063360u (01010101 00000000 00000000 00000000)
+
+State 422 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.connect_props=&dynamic_object2 (01000100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 423 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.publish_props=&tmp$19!0@1 (00010111 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 424 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.subscribe_props=&tmp$20!0@1 (00011000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 425 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.unsubscribe_props=&tmp$21!0@1 (00011001 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 426 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.disconnect_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 427 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.will_props=((mosquitto_property *)NULL) (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 428 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.have_topic_alias=TRUE (00000001)
+
+State 429 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad64=18295873486192640 (01000001 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 430 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.response_topic=&tmp$24!0@1 (00011100 00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 431 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.tcp_nodelay=FALSE (00000000)
+
+State 432 file ../include/mosquitto.h function mosquitto_property_add_int16 line 2757 thread 0
+----------------------------------------------------
+  tmp.$pad67=0 (00000000 00000000 00000000 00000000 00000000 00000000 00000000)
+
+State 437 file client_props.c function cfg_parse_property line 180 thread 0
+----------------------------------------------------
+  rc=0 (00000000 00000000 00000000 00000000)
+
+Violated property:
+  file client_props.c function cfg_parse_property line 221 thread 0
+  cmdname deref
+  cmdname != ((char *)NULL)
+
+
+Violated property:
+  file client_props.c function cfg_parse_property line 222 thread 0
+  propname deref
+  propname != ((char *)NULL)
+
+
+Violated property:
+  file client_props.c function cfg_parse_property line 223 thread 0
+  key deref
+  key != ((char *)NULL)
+
+
+Violated property:
+  file client_props.c function cfg_parse_property line 224 thread 0
+  value deref
+  value != ((char *)NULL)
+
+
+
+** 4 of 5 failed (5 iterations)
+VERIFICATION FAILED

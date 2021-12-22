@@ -89,15 +89,9 @@ static void set_repeat_time(void)
 static int check_repeat_time(void)
 {
 	struct timeval tv;
-	//int x = INT_MAX + 1;
-	//x = x + 1;
 	
 	gettimeofday(&tv, NULL);
-	__CPROVER_assume(tv.tv_sec >= 0);
-	assert(next_publish_tv.tv_sec == 0);
-        //tv.tv_sec++;
-	//assert(tv.tv_sec > INT_MAX);
-	//assert (tv.tv_sec < LONG_MAX);
+	__CPROVER_assert(next_publish_tv.tv_sec == 0);
 
 	if(tv.tv_sec > next_publish_tv.tv_sec){
 		//assert(false);
@@ -124,6 +118,9 @@ void my_disconnect_callback(struct mosquitto *mosq, void *obj, int rc, const mos
 	}
     printf("<< my_disconnect_callback\n");
 }
+
+
+//this is called from pub_stdin_line_loop 
 
 int my_publish(struct mosquitto *mosq, int *mid, const char *topic, int payloadlen, void *payload, int qos, bool retain)
 {
@@ -239,23 +236,13 @@ void my_publish_callback(struct mosquitto *mosq, void *obj, int mid, int reason_
     printf("<< my_publish_callback\n");
 }
 
-//TODO: Predicate for well formed line_buf struct
-bool line_buf_isvalid(char* line_buf){
 
-	if (line_buf == NULL) return false;
-
-	return true;
-
-}
-
+//do a pointer check for this function, to see if NULL pointer is being derefenced
 int pub_shared_init(void)
 {
-	//assert(line_buf);
-	line_buf = malloc((size_t )line_buf_len);	//TODO: it is a char pointer defined at beginning of code
-
+	line_buf = malloc((size_t )line_buf_len);	
 	
-	//__CPROVER_assume(line_buf_isvalid(line_buf));
-	__CPROVER_assert(line_buf_isvalid(line_buf),"line_buf is valid");
+	__CPROVER_assert(line_buf);
 
 	if(!line_buf){
 		err_printf(&cfg, "Error: Out of memory.\n");
@@ -264,7 +251,19 @@ int pub_shared_init(void)
         	return 0;
 }
 
+/*
+properties validated
 
+*/
+
+//create nanosleep stub function
+//run with
+//1. goto-instrument mosquitto_pub.gb mosquitto_pub_replaced.gb --generate-function-body nanosleep --generate-function-body-options 'havoc,params:.*'
+//2. cbmc mosquitto_pub_replaced.gb --function pub_stdin_line_loop --malloc-may-fail --malloc-fail-null --pointer-check 
+//void nanosleep(struct timespec *ts , struct timespec *x);
+
+
+//default status = STATUS_CONNECTING
 static int pub_stdin_line_loop(struct mosquitto *mosq)
 {
 	char *buf2;
@@ -394,6 +393,8 @@ static int pub_other_loop(struct mosquitto *mosq)
 			}
 		}
 	}while(rc == MOSQ_ERR_SUCCESS);
+	
+
 
 	if(status == STATUS_DISCONNECTED){
 		return MOSQ_ERR_SUCCESS;
@@ -412,11 +413,10 @@ int pub_shared_loop(struct mosquitto *mosq)
 	}
 }
 
-//TODO: check for line_buf assert. prevent free of a NULL pointer
+// check for line_buf assert. prevent free of a NULL pointer
 void pub_shared_cleanup(void)
 {
-//	__CPROVER_assume(line_buf = NULL);
-	__CPROVER_assert(line_buf,"free line_buf assertion error");  //prevent an invalid free
+	__CPROVER_assert(line_buf);
 	free(line_buf);
 }
 

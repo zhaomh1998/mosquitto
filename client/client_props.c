@@ -60,10 +60,20 @@ enum prop_type
  * connect user-property key value
  */
 
+
 int cfg_parse_property(struct mosq_config *cfg, int argc, char *argv[], int *idx)
 {
 	char *cmdname = NULL, *propname = NULL;
 	char *key = NULL, *value = NULL;
+
+	cfg = (struct mosq_config *) malloc(sizeof (struct mosq_config));
+	__CPROVER_assume(argc == nondet_int());
+	__CPROVER_assume(*idx == nondet_int());
+	__CPROVER_assume(*argv[1] == "connect");
+	__CPROVER_assume(*argv[2] == "user-property");
+	__CPROVER_assume(*argv[3] == "key");
+	__CPROVER_assume(*argv[4] == "value");
+
 	int cmd, identifier, type;
 	mosquitto_property **proplist;
 	int rc;
@@ -217,7 +227,7 @@ int cfg_parse_property(struct mosq_config *cfg, int argc, char *argv[], int *idx
 		return rc;
 	}
 
-	//TODO: ensure rc = MOSQ_ERR_SUCCESS here before returning
+	//ensure rc = MOSQ_ERR_SUCCESS here and the properties were parsed, before returning
 	__CPROVER_assert(rc==0,"check MOSQ_ERR true");
 	__CPROVER_assert(cmdname!=NULL,"cmdname deref");
 	__CPROVER_assert(propname!=NULL,"propname deref");

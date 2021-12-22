@@ -1,0 +1,197 @@
+CBMC version 5.46.0 (cbmc-5.46.0) 64-bit x86_64 linux
+Reading GOTO program from file
+Reading: client_props_replaced.gb
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 8 object bits, 56 offset bits (default)
+Starting Bounded Model Checking
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 1 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 2 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 3 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 4 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 5 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 6 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 7 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 8 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 9 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 10 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 11 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 12 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 13 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 14 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 15 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 16 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 17 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 18 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 19 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 20 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 21 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 22 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 23 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 24 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 25 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 26 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 27 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 28 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 29 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 30 file <builtin-library-strtol> line 39 function strtol thread 0
+Unwinding loop strtol.0 iteration 31 file <builtin-library-strtol> line 39 function strtol thread 0
+Runtime Symex: 3.48916s
+size of program expression: 67577 steps
+simple slicing removed 12153 assignments
+Generated 1006 VCC(s), 382 remaining after simplification
+Runtime Postprocess Equation: 0.0223319s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.878586s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 7.31e-05s
+Solving with MiniSAT 2.2.1 with simplifier
+533989 variables, 1952441 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 5.82056s
+Runtime decision procedure: 6.70643s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+533989 variables, 862600 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0575674s
+Runtime decision procedure: 0.0576236s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+533989 variables, 861405 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0420611s
+Runtime decision procedure: 0.0421127s
+Running propositional reduction
+Solving with MiniSAT 2.2.1 with simplifier
+533989 variables, 861404 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 9.00497s
+Runtime decision procedure: 9.005s
+
+** Results:
+<builtin-library-strtol> function strtol
+[strtol.overflow.11] line 39 arithmetic overflow on signed + in i + 1: SUCCESS
+[strtol.overflow.1] line 46 arithmetic overflow on signed + in i + 1: SUCCESS
+[strtol.overflow.2] line 46 arithmetic overflow on signed + in i + 1: SUCCESS
+[strtol.overflow.3] line 50 arithmetic overflow on signed + in i + 1: SUCCESS
+[strtol.overflow.4] line 66 arithmetic overflow on signed - in (signed int)ch - 97: SUCCESS
+[strtol.overflow.5] line 66 arithmetic overflow on signed - in base - 10: SUCCESS
+[strtol.overflow.6] line 68 arithmetic overflow on signed - in (signed int)ch - 65: SUCCESS
+[strtol.overflow.7] line 68 arithmetic overflow on signed - in base - 10: SUCCESS
+[strtol.overflow.8] line 87 arithmetic overflow on signed - in (signed int)ch - (signed int)sub: SUCCESS
+[strtol.overflow.9] line 95 arithmetic overflow on signed - in (signed int)ch - (signed int)sub: SUCCESS
+[strtol.overflow.10] line 95 arithmetic overflow on signed + in res + (signed long int)((signed int)ch - (signed int)sub): SUCCESS
+[strtol.overflow.12] line 102 arithmetic overflow on signed * in res * (signed long int)-1: SUCCESS
+
+client_props.c function cfg_parse_property
+[cfg_parse_property.overflow.1] line 74 arithmetic overflow on signed + in *idx + 2: FAILURE
+[cfg_parse_property.overflow.2] line 74 arithmetic overflow on signed - in argc - 1: FAILURE
+[cfg_parse_property.overflow.3] line 86 arithmetic overflow on signed + in *idx + 1: FAILURE
+[cfg_parse_property.overflow.4] line 98 arithmetic overflow on signed + in *idx + 3: FAILURE
+[cfg_parse_property.overflow.5] line 98 arithmetic overflow on signed - in argc - 1: FAILURE
+[cfg_parse_property.overflow.6] line 104 arithmetic overflow on signed + in *idx + 2: FAILURE
+[cfg_parse_property.overflow.7] line 105 arithmetic overflow on signed + in *idx + 3: FAILURE
+[cfg_parse_property.overflow.8] line 106 arithmetic overflow on signed + in *idx + 3: FAILURE
+[cfg_parse_property.overflow.9] line 108 arithmetic overflow on signed + in *idx + 2: FAILURE
+[cfg_parse_property.overflow.10] line 109 arithmetic overflow on signed + in *idx + 2: FAILURE
+
+** 10 of 22 failed (4 iterations)
+VERIFICATION FAILED

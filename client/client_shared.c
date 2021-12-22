@@ -18,6 +18,7 @@ Contributors:
 
 #include "config.h"
 
+
 #include <errno.h>
 #include <fcntl.h>
 #include <stdarg.h>
@@ -38,10 +39,16 @@ Contributors:
 #include <mqtt_protocol.h>
 #include "client_shared.h"
 
+
+int strcmp(char *,char *){
+
+	return nondet_int();
+
+}
+
 #ifdef WITH_SOCKS
 static int mosquitto__parse_socks_url(struct mosq_config *cfg, char *url);
 #endif
-static int client_config_line_proc(struct mosq_config *cfg, int pub_or_sub, int argc, char *argv[]);
 
 
 static int check_format(const char *str)
@@ -267,6 +274,39 @@ void client_config_cleanup(struct mosq_config *cfg)
 	mosquitto_property_free_all(&cfg->will_props);
 }
 
+/*
+char* getenv(char *){
+	
+	char *val;
+	val = malloc(nondet_char());
+	return val;
+}
+
+void* malloc(){
+
+	void* val;
+	val = malloc(nondet_int());
+	return val;
+}
+
+
+
+size_t strlen(const char *){
+	
+	size_t len = nondet_int();
+	return len;
+	
+}
+*/
+
+inline size_t strlen(const char *s){
+ 	
+	__CPROVER_HIDE:
+	__CPROVER_assert( __CPROVER_is_zero_string(s),
+ 			"strlen zero-termination");
+ 	return __CPROVER_zero_string_length(s);
+}
+
 int client_config_load(struct mosq_config *cfg, int pub_or_sub, int argc, char *argv[])
 {
 	int rc;
@@ -288,7 +328,9 @@ int client_config_load(struct mosq_config *cfg, int pub_or_sub, int argc, char *
 
 	/* Default config file */
 #ifndef WIN32
+	
 	env = getenv("XDG_CONFIG_HOME");
+
 	if(env){
 		len = strlen(env) + strlen("/mosquitto_pub") + 1;
 		loc = malloc(len);
