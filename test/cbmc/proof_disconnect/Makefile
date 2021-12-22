@@ -26,7 +26,7 @@ OBJ = proof.o \
 	  $(MOSQ_ROOT)/lib/handle_disconnect.o \
 	  $(MOSQ_ROOT)/lib/handle_ping.o \
 	  $(MOSQ_ROOT)/lib/handle_pubackcomp.o \
-	  $(MOSQ_ROOT)/lib/handle_publish.o \
+	  $(MOSQ_ROOT)/src/handle_publish.o \
 	  $(MOSQ_ROOT)/lib/handle_pubrec.o \
 	  $(MOSQ_ROOT)/lib/handle_pubrel.o \
 	  $(MOSQ_ROOT)/lib/handle_suback.o \

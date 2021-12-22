@@ -31,7 +31,9 @@ void harness()
     mosq->state = mosq_cs_disconnected;
 
     mosq->protocol = mosq_p_mqtt5;
-    mosq->in_packet.command = CMD_PINGREQ;
+    // PINGREQ, but from a disconnected client
+    // Should return ERR_PROTOCOL, and send out disconnect(reason=protocol_error)
+    mosq->in_packet.command = 0xC0;
 
     byte_1_reference = 0xE0; // disconnect (11100000)
     byte_2_reference = 0x01; // remaining length (00000001)
