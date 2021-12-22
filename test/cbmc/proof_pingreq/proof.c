@@ -36,4 +36,5 @@ void harness()
     int ret = handle__pingreq(mosq);
     assert(ret == MOSQ_ERR_SUCCESS);
 
+    free(mosq);
 }

@@ -92,7 +92,7 @@ OBJ = proof.o \
 	$(CC) -c -o $@ $< $(LDADD) $(BROKER_CFLAGS) $(CFLAGS)
 
 proof.gb: $(OBJ)
-	$(CC) -o $@ $^ $(LDADD) $(BROKER_CFLAGS) $(CFLAGS) -DVERIFY_OUTPUT_PACKET=CMD_PINGRESP
+	$(CC) -o $@ $^ $(LDADD) $(BROKER_CFLAGS) $(CFLAGS)
 
 clean :
 	rm -f *.gb *.o
