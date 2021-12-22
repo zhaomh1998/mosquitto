@@ -26,15 +26,18 @@ void harness()
     mosq->state = mosq_cs_active;
 
 
-    mosq->in_packet.command = CMD_CONNECT;
+    // Command: CONNECT. handle__pingreq should return a MALFORMED_PACKET
+    mosq->in_packet.command = 0x10;
     int ret = handle__pingreq(mosq);
     assert(ret == MOSQ_ERR_MALFORMED_PACKET);
 
-    mosq->in_packet.command = CMD_PINGREQ;
+    // Command: PINGREQ. handle__pingreq should send a PINGRESP (D0 00) and return SUCCESS
+    mosq->in_packet.command = 0xC0;
     byte_1_reference = 0xD0;
     byte_2_reference = 0x00;
     int ret = handle__pingreq(mosq);
     assert(ret == MOSQ_ERR_SUCCESS);
 
+    // Clean up
     free(mosq);
 }
